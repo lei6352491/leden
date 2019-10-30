@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.SysUnitTransferMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.SysUnitTransfer" >
+    <id column="TRANSFER_CODE" property="transferCode" jdbcType="VARCHAR" />
+    <result column="LAST_UNIT_CODE" property="lastUnitCode" jdbcType="VARCHAR" />
+    <result column="NEW_UNIT_CODE" property="newUnitCode" jdbcType="VARCHAR" />
+    <result column="LAST_UPPERUNIT_CODE" property="lastUpperunitCode" jdbcType="VARCHAR" />
+    <result column="NEW_UPPERUNIT_CODE" property="newUpperunitCode" jdbcType="VARCHAR" />
+    <result column="TRANSFER_DATE" property="transferDate" jdbcType="TIMESTAMP" />
+    <result column="TRANSFER_REASON" property="transferReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TRANSFER_CODE, LAST_UNIT_CODE, NEW_UNIT_CODE, LAST_UPPERUNIT_CODE, NEW_UPPERUNIT_CODE, 
+    TRANSFER_DATE, TRANSFER_REASON
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_UNIT_TRANSFER
+    where TRANSFER_CODE = #{transferCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_UNIT_TRANSFER
+    where TRANSFER_CODE = #{transferCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.SysUnitTransfer" >
+    insert into SYS_UNIT_TRANSFER (TRANSFER_CODE, LAST_UNIT_CODE, NEW_UNIT_CODE,
+      LAST_UPPERUNIT_CODE, NEW_UPPERUNIT_CODE, TRANSFER_DATE, 
+      TRANSFER_REASON)
+    values (sys_unit_transfer_sequence.nextval, #{lastUnitCode,jdbcType=VARCHAR}, #{newUnitCode,jdbcType=VARCHAR},
+      #{lastUpperunitCode,jdbcType=VARCHAR}, #{newUpperunitCode,jdbcType=VARCHAR}, #{transferDate,jdbcType=TIMESTAMP}, 
+      #{transferReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.SysUnitTransfer" >
+    insert into SYS_UNIT_TRANSFER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        TRANSFER_CODE,
+      <if test="lastUnitCode != null" >
+        LAST_UNIT_CODE,
+      </if>
+      <if test="newUnitCode != null" >
+        NEW_UNIT_CODE,
+      </if>
+      <if test="lastUpperunitCode != null" >
+        LAST_UPPERUNIT_CODE,
+      </if>
+      <if test="newUpperunitCode != null" >
+        NEW_UPPERUNIT_CODE,
+      </if>
+      <if test="transferDate != null" >
+        TRANSFER_DATE,
+      </if>
+      <if test="transferReason != null" >
+        TRANSFER_REASON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      sys_unit_transfer_sequence.nextval,
+      <if test="lastUnitCode != null" >
+        #{lastUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newUnitCode != null" >
+        #{newUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpperunitCode != null" >
+        #{lastUpperunitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newUpperunitCode != null" >
+        #{newUpperunitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transferDate != null" >
+        #{transferDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transferReason != null" >
+        #{transferReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.SysUnitTransfer" >
+    update SYS_UNIT_TRANSFER
+    <set >
+      <if test="lastUnitCode != null" >
+        LAST_UNIT_CODE = #{lastUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newUnitCode != null" >
+        NEW_UNIT_CODE = #{newUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpperunitCode != null" >
+        LAST_UPPERUNIT_CODE = #{lastUpperunitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newUpperunitCode != null" >
+        NEW_UPPERUNIT_CODE = #{newUpperunitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transferDate != null" >
+        TRANSFER_DATE = #{transferDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transferReason != null" >
+        TRANSFER_REASON = #{transferReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TRANSFER_CODE = #{transferCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.SysUnitTransfer" >
+    update SYS_UNIT_TRANSFER
+    set LAST_UNIT_CODE = #{lastUnitCode,jdbcType=VARCHAR},
+      NEW_UNIT_CODE = #{newUnitCode,jdbcType=VARCHAR},
+      LAST_UPPERUNIT_CODE = #{lastUpperunitCode,jdbcType=VARCHAR},
+      NEW_UPPERUNIT_CODE = #{newUpperunitCode,jdbcType=VARCHAR},
+      TRANSFER_DATE = #{transferDate,jdbcType=TIMESTAMP},
+      TRANSFER_REASON = #{transferReason,jdbcType=VARCHAR}
+    where TRANSFER_CODE = #{transferCode,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="listUnitTransfersByConditions" resultMap="BaseResultMap" statementType="PREPARED">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,SYS_UNIT_TRANSFER.*
+
+    FROM  SYS_UNIT_TRANSFER
+
+    where ROWNUM &lt;= #{end}) sysUnitTransfer
+
+    WHERE sysUnitTransfer.rowno >= #{start}
+  </select>
+
+
+  <select id="getUnitTransfersCountByConditions" resultType="int" statementType="PREPARED">
+        select
+            count(1)
+        from SYS_UNIT_TRANSFER
+  </select>
+</mapper>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhouyi.business.core.dao.LedenBbsAttachmentMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenBbsAttachment">
+        <id column="PK_ID" jdbcType="VARCHAR" property="pkId"/>
+        <result column="BBS_ID" jdbcType="VARCHAR" property="bbsId"/>
+        <result column="FILENAME" jdbcType="VARCHAR" property="filename"/>
+        <result column="FILEURL" jdbcType="VARCHAR" property="fileurl"/>
+        <result column="FILESIZE" jdbcType="VARCHAR" property="filesize"/>
+        <result column="FILETYPE" jdbcType="VARCHAR" property="filetype"/>
+        <result column="DELETAG" jdbcType="VARCHAR" property="deletag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, BBS_ID, FILENAME, FILEURL, FILESIZE, FILETYPE, DELETAG
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from LEDEN_BBS_ATTACHMENT
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenBbsAttachment">
+    insert into LEDEN_BBS_ATTACHMENT (PK_ID, BBS_ID, FILENAME, 
+      FILEURL, FILESIZE, FILETYPE, 
+      DELETAG)
+    values (#{pkId,jdbcType=VARCHAR}, #{bbsId,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, 
+      #{fileurl,jdbcType=VARCHAR}, #{filesize,jdbcType=VARCHAR}, #{filetype,jdbcType=VARCHAR}, 
+      #{deletag,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenBbsAttachment">
+        insert into LEDEN_BBS_ATTACHMENT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="bbsId != null">
+                BBS_ID,
+            </if>
+            <if test="filename != null">
+                FILENAME,
+            </if>
+            <if test="fileurl != null">
+                FILEURL,
+            </if>
+            <if test="filesize != null">
+                FILESIZE,
+            </if>
+            <if test="filetype != null">
+                FILETYPE,
+            </if>
+            <if test="deletag != null">
+                DELETAG,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="bbsId != null">
+                #{bbsId,jdbcType=VARCHAR},
+            </if>
+            <if test="filename != null">
+                #{filename,jdbcType=VARCHAR},
+            </if>
+            <if test="fileurl != null">
+                #{fileurl,jdbcType=VARCHAR},
+            </if>
+            <if test="filesize != null">
+                #{filesize,jdbcType=VARCHAR},
+            </if>
+            <if test="filetype != null">
+                #{filetype,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                #{deletag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from LEDEN_BBS_ATTACHMENT
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenBbsAttachment">
+        update LEDEN_BBS_ATTACHMENT
+        <set>
+            <if test="bbsId != null">
+                BBS_ID = #{bbsId,jdbcType=VARCHAR},
+            </if>
+            <if test="filename != null">
+                FILENAME = #{filename,jdbcType=VARCHAR},
+            </if>
+            <if test="fileurl != null">
+                FILEURL = #{fileurl,jdbcType=VARCHAR},
+            </if>
+            <if test="filesize != null">
+                FILESIZE = #{filesize,jdbcType=VARCHAR},
+            </if>
+            <if test="filetype != null">
+                FILETYPE = #{filetype,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                DELETAG = #{deletag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenBbsAttachment">
+    update LEDEN_BBS_ATTACHMENT
+    set BBS_ID = #{bbsId,jdbcType=VARCHAR},
+      FILENAME = #{filename,jdbcType=VARCHAR},
+      FILEURL = #{fileurl,jdbcType=VARCHAR},
+      FILESIZE = #{filesize,jdbcType=VARCHAR},
+      FILETYPE = #{filetype,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+    <select id="listBbsAttachmentByConditions" resultMap="BaseResultMap" statementType="PREPARED">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM (
+        SELECT ROWNUM AS rowno,LEDEN_BBS_ATTACHMENT.*
+
+        FROM LEDEN_BBS_ATTACHMENT
+
+        <where>
+            <if test="end!=null">
+                and ROWNUM &lt;= #{end}
+            </if>
+            <if test="bbsId!=null">
+                and bbs_id=#{bbsId}
+            </if>
+        </where>
+        ) ledenBbsAttachment
+
+        <where>
+            <if test="start!=null">
+                and ledenBbsAttachment.rowno &gt;= #{start}
+            </if>
+        </where>
+    </select>
+
+    <select id="getBbsAttachmentCountByConditions" statementType="PREPARED" resultType="int">
+    select count(1) from LEDEN_BBS_ATTACHMENT
+  </select>
+
+    <insert id="insertMulti" parameterType="list" statementType="PREPARED">
+    insert into LEDEN_BBS_ATTACHMENT (PK_ID, BBS_ID, FILENAME,
+      FILEURL, FILESIZE, FILETYPE,
+      DELETAG)
+      <foreach collection="list" item="item" open="(" separator="union all" close=")">
+          select
+          #{item.pkId,jdbcType=VARCHAR}, #{item.bbsId,jdbcType=VARCHAR}, #{item.filename,jdbcType=VARCHAR},
+          #{item.fileurl,jdbcType=VARCHAR}, #{item.filesize,jdbcType=VARCHAR}, #{item.filetype,jdbcType=VARCHAR},
+          #{item.deletag,jdbcType=VARCHAR}
+          from dual
+      </foreach>
+  </insert>
+
+</mapper>

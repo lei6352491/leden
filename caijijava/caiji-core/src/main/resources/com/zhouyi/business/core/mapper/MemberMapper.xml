@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.MemberInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.MemberInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="paswd" property="password" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+		<result column="user_type" property="userType" jdbcType="INTEGER" />
+		<result column="head_image" property="headImage" jdbcType="VARCHAR" />
+		<result column="is_forbidden" property="isForbidden" jdbcType="INTEGER" />
+		<result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="token" property="token" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="MoreResultMap" type="com.zhouyi.business.core.vo.MemberVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" />
+		<result column="update_by" property="updateBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="phone" property="phone" />
+		<result column="is_deleted" property="isDeleted" />
+		<result column="nick_name" property="nickName" />
+		<result column="user_type" property="userType" />
+		<result column="portal_type" property="portalType" />
+		<result column="head_image" property="headImage" />
+		<result column="is_forbidden" property="isForbidden" />
+		<result column="open_id" property="openId" />
+		<result column="union_id" property="unionId" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="total_num" property="cardNum"/>
+		<result column="un_lock" property="unLock"/>
+		<result column="used_num" property="usedNum"/>
+	</resultMap>
+	
+	<sql id="BaseTable">
+		zy_member_info
+	</sql>
+
+	<select id="queryMemberList" statementType="PREPARED" resultMap="MoreResultMap">
+		select * from zy_member_info where is_deleted=0
+		<if test="userType!=null">
+		and user_type=#{userType}
+		</if>
+		<if test="nickName!=null">
+		and nick_name like concat('%',#{nickName},'%')
+		</if>
+		order by create_time limit #{pStart},#{pSize}
+	</select>
+	
+	<select id="getMemberCount" statementType="PREPARED" resultType="Integer">
+		select count(*) as num from zy_member_info where is_deleted=0
+		<if test="userType!=null">
+		and user_type=#{userType}
+		</if>
+		<if test="nickName!=null">
+		and nick_name like concat('%',#{nickName},'%')
+		</if>
+		order by create_time limit #{pStart},#{pSize}
+	</select>
+	
+	<insert id="saveMemberLogin" statementType="PREPARED">
+        insert into zy_member_login_info(user_id, create_time) values
+        (#{userId},now())
+    </insert>
+    
+    <select id="getMemberDetail" statementType="PREPARED" resultMap="MoreResultMap">
+		select mi.*,ai.open_id,ai.union_id,zci.total_num,zci.un_lock,zci.used_num from zy_member_info mi inner join zy_member_auth_info ai 
+		on mi.id=ai.member_id left join zy_user_card_info zci on zci.user_id=mi.id where mi.id=#{userId} and mi.is_deleted=0 limit 1
+	</select>
+	
+	<update id="openMember" statementType="PREPARED" parameterType="java.util.Map">
+		UPDATE zy_member_info SET user_type = #{userType},	update_time=now()
+		WHERE id=#{userId}
+	</update>
+	
+	<select id="isRegisterRequirements" statementType="PREPARED" resultType="Integer">
+		select count(*) as num from zy_order_info zoi inner join zy_forname_requirements fri on zoi.order_no=fri.order_no
+		where zoi.user_id=#{userId}
+	</select>
+	
+	<select id="getMemberInfoByToken" statementType="PREPARED" resultMap="MoreResultMap">
+		select mi.*,ai.open_id,ai.union_id,zci.total_num,zci.un_lock,zci.used_num from zy_member_info mi inner join zy_member_auth_info ai 
+		on mi.id=ai.member_id left join zy_user_card_info zci on zci.user_id=mi.id where mi.token=#{token} and mi.is_deleted=0 limit 1
+	</select>
+</mapper>

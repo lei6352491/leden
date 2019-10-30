@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenMatchPersonMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenMatchPerson" >
+    <id column="BZRYJCXXCJBH" property="bzryjcxxcjbh" jdbcType="VARCHAR" />
+    <result column="JZRYBH" property="jzrybh" jdbcType="VARCHAR" />
+    <result column="CJXXYYDM" property="cjxxyydm" jdbcType="VARCHAR" />
+    <result column="XM" property="xm" jdbcType="VARCHAR" />
+    <result column="XMHYPY" property="xmhypy" jdbcType="VARCHAR" />
+    <result column="GMSFHM" property="gmsfhm" jdbcType="VARCHAR" />
+    <result column="CYZJDM" property="cyzjdm" jdbcType="VARCHAR" />
+    <result column="ZJHM" property="zjhm" jdbcType="VARCHAR" />
+    <result column="XBDM" property="xbdm" jdbcType="VARCHAR" />
+    <result column="CSRQ" property="csrq" jdbcType="TIMESTAMP" />
+    <result column="CYM" property="cym" jdbcType="VARCHAR" />
+    <result column="WWXM" property="wwxm" jdbcType="VARCHAR" />
+    <result column="BMCH" property="bmch" jdbcType="VARCHAR" />
+    <result column="GJDM" property="gjdm" jdbcType="VARCHAR" />
+    <result column="MZDM" property="mzdm" jdbcType="VARCHAR" />
+    <result column="JGSSXDM" property="jgssxdm" jdbcType="VARCHAR" />
+    <result column="CSDSSXDM" property="csdssxdm" jdbcType="VARCHAR" />
+    <result column="CSDXZ" property="csdxz" jdbcType="VARCHAR" />
+    <result column="HJDSSXDM" property="hjdssxdm" jdbcType="VARCHAR" />
+    <result column="HJDXZ" property="hjdxz" jdbcType="VARCHAR" />
+    <result column="ZZMMDM" property="zzmmdm" jdbcType="VARCHAR" />
+    <result column="HYZKDM" property="hyzkdm" jdbcType="VARCHAR" />
+    <result column="XLDM" property="xldm" jdbcType="VARCHAR" />
+    <result column="GRSFDM" property="grsfdm" jdbcType="VARCHAR" />
+    <result column="RYLBDM" property="rylbdm" jdbcType="VARCHAR" />
+    <result column="XZDQHDM" property="xzdqhdm" jdbcType="VARCHAR" />
+    <result column="XZDXZ" property="xzdxz" jdbcType="VARCHAR" />
+    <result column="AJLBDM" property="ajlbdm" jdbcType="VARCHAR" />
+    <result column="CJRXM" property="cjrxm" jdbcType="VARCHAR" />
+    <result column="CJDWDM" property="cjdwdm" jdbcType="VARCHAR" />
+    <result column="CJDWMC" property="cjdwmc" jdbcType="VARCHAR" />
+    <result column="CJSJ" property="cjsj" jdbcType="TIMESTAMP" />
+    <result column="TSSFDM" property="tssfdm" jdbcType="VARCHAR" />
+    <result column="ZJXYDM" property="zjxydm" jdbcType="VARCHAR" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenMatchPersonWithBLOBs" extends="BaseResultMap" >
+    <result column="JDXP" property="jdxp" jdbcType="BLOB" />
+    <result column="RX_TXSJ" property="rxTxsj" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BZRYJCXXCJBH, JZRYBH, CJXXYYDM, XM, XMHYPY, GMSFHM, CYZJDM, ZJHM, XBDM, CSRQ, CYM, 
+    WWXM, BMCH, GJDM, MZDM, JGSSXDM, CSDSSXDM, CSDXZ, HJDSSXDM, HJDXZ, ZZMMDM, HYZKDM, 
+    XLDM, GRSFDM, RYLBDM, XZDQHDM, XZDXZ, AJLBDM, CJRXM, CJDWDM, CJDWMC, CJSJ, TSSFDM, 
+    ZJXYDM, DELETAG, ANNEX
+  </sql>
+  <sql id="Blob_Column_List" >
+    JDXP, RX_TXSJ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from LEDEN_MATCH_PERSON
+    where BZRYJCXXCJBH = #{bzryjcxxcjbh,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_MATCH_PERSON
+    where BZRYJCXXCJBH = #{bzryjcxxcjbh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenMatchPersonWithBLOBs" >
+    insert into LEDEN_MATCH_PERSON (BZRYJCXXCJBH, JZRYBH, CJXXYYDM,
+      XM, XMHYPY, GMSFHM, 
+      CYZJDM, ZJHM, XBDM, 
+      CSRQ, CYM, WWXM, 
+      BMCH, GJDM, MZDM, JGSSXDM, 
+      CSDSSXDM, CSDXZ, HJDSSXDM, 
+      HJDXZ, ZZMMDM, HYZKDM, 
+      XLDM, GRSFDM, RYLBDM, 
+      XZDQHDM, XZDXZ, AJLBDM, 
+      CJRXM, CJDWDM, CJDWMC, 
+      CJSJ, TSSFDM, ZJXYDM, 
+      DELETAG, ANNEX, JDXP, 
+      RX_TXSJ)
+    values (#{bzryjcxxcjbh,jdbcType=VARCHAR}, #{jzrybh,jdbcType=VARCHAR}, #{cjxxyydm,jdbcType=VARCHAR}, 
+      #{xm,jdbcType=VARCHAR}, #{xmhypy,jdbcType=VARCHAR}, #{gmsfhm,jdbcType=VARCHAR}, 
+      #{cyzjdm,jdbcType=VARCHAR}, #{zjhm,jdbcType=VARCHAR}, #{xbdm,jdbcType=VARCHAR}, 
+      #{csrq,jdbcType=TIMESTAMP}, #{cym,jdbcType=VARCHAR}, #{wwxm,jdbcType=VARCHAR}, 
+      #{bmch,jdbcType=VARCHAR}, #{gjdm,jdbcType=VARCHAR}, #{mzdm,jdbcType=VARCHAR}, #{jgssxdm,jdbcType=VARCHAR}, 
+      #{csdssxdm,jdbcType=VARCHAR}, #{csdxz,jdbcType=VARCHAR}, #{hjdssxdm,jdbcType=VARCHAR}, 
+      #{hjdxz,jdbcType=VARCHAR}, #{zzmmdm,jdbcType=VARCHAR}, #{hyzkdm,jdbcType=VARCHAR}, 
+      #{xldm,jdbcType=VARCHAR}, #{grsfdm,jdbcType=VARCHAR}, #{rylbdm,jdbcType=VARCHAR}, 
+      #{xzdqhdm,jdbcType=VARCHAR}, #{xzdxz,jdbcType=VARCHAR}, #{ajlbdm,jdbcType=VARCHAR}, 
+      #{cjrxm,jdbcType=VARCHAR}, #{cjdwdm,jdbcType=VARCHAR}, #{cjdwmc,jdbcType=VARCHAR}, 
+      #{cjsj,jdbcType=TIMESTAMP}, #{tssfdm,jdbcType=VARCHAR}, #{zjxydm,jdbcType=VARCHAR}, 
+      #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, #{jdxp,jdbcType=BLOB}, 
+      #{rxTxsj,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenMatchPersonWithBLOBs" >
+    insert into LEDEN_MATCH_PERSON
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bzryjcxxcjbh != null" >
+        BZRYJCXXCJBH,
+      </if>
+      <if test="jzrybh != null" >
+        JZRYBH,
+      </if>
+      <if test="cjxxyydm != null" >
+        CJXXYYDM,
+      </if>
+      <if test="xm != null" >
+        XM,
+      </if>
+      <if test="xmhypy != null" >
+        XMHYPY,
+      </if>
+      <if test="gmsfhm != null" >
+        GMSFHM,
+      </if>
+      <if test="cyzjdm != null" >
+        CYZJDM,
+      </if>
+      <if test="zjhm != null" >
+        ZJHM,
+      </if>
+      <if test="xbdm != null" >
+        XBDM,
+      </if>
+      <if test="csrq != null" >
+        CSRQ,
+      </if>
+      <if test="cym != null" >
+        CYM,
+      </if>
+      <if test="wwxm != null" >
+        WWXM,
+      </if>
+      <if test="bmch != null" >
+        BMCH,
+      </if>
+      <if test="gjdm != null" >
+        GJDM,
+      </if>
+      <if test="mzdm != null" >
+        MZDM,
+      </if>
+      <if test="jgssxdm != null" >
+        JGSSXDM,
+      </if>
+      <if test="csdssxdm != null" >
+        CSDSSXDM,
+      </if>
+      <if test="csdxz != null" >
+        CSDXZ,
+      </if>
+      <if test="hjdssxdm != null" >
+        HJDSSXDM,
+      </if>
+      <if test="hjdxz != null" >
+        HJDXZ,
+      </if>
+      <if test="zzmmdm != null" >
+        ZZMMDM,
+      </if>
+      <if test="hyzkdm != null" >
+        HYZKDM,
+      </if>
+      <if test="xldm != null" >
+        XLDM,
+      </if>
+      <if test="grsfdm != null" >
+        GRSFDM,
+      </if>
+      <if test="rylbdm != null" >
+        RYLBDM,
+      </if>
+      <if test="xzdqhdm != null" >
+        XZDQHDM,
+      </if>
+      <if test="xzdxz != null" >
+        XZDXZ,
+      </if>
+      <if test="ajlbdm != null" >
+        AJLBDM,
+      </if>
+      <if test="cjrxm != null" >
+        CJRXM,
+      </if>
+      <if test="cjdwdm != null" >
+        CJDWDM,
+      </if>
+      <if test="cjdwmc != null" >
+        CJDWMC,
+      </if>
+      <if test="cjsj != null" >
+        CJSJ,
+      </if>
+      <if test="tssfdm != null" >
+        TSSFDM,
+      </if>
+      <if test="zjxydm != null" >
+        ZJXYDM,
+      </if>
+      <if test="deletag != null" >
+        DELETAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="jdxp != null" >
+        JDXP,
+      </if>
+      <if test="rxTxsj != null" >
+        RX_TXSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bzryjcxxcjbh != null" >
+        #{bzryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="jzrybh != null" >
+        #{jzrybh,jdbcType=VARCHAR},
+      </if>
+      <if test="cjxxyydm != null" >
+        #{cjxxyydm,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null" >
+        #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmhypy != null" >
+        #{xmhypy,jdbcType=VARCHAR},
+      </if>
+      <if test="gmsfhm != null" >
+        #{gmsfhm,jdbcType=VARCHAR},
+      </if>
+      <if test="cyzjdm != null" >
+        #{cyzjdm,jdbcType=VARCHAR},
+      </if>
+      <if test="zjhm != null" >
+        #{zjhm,jdbcType=VARCHAR},
+      </if>
+      <if test="xbdm != null" >
+        #{xbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null" >
+        #{csrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cym != null" >
+        #{cym,jdbcType=VARCHAR},
+      </if>
+      <if test="wwxm != null" >
+        #{wwxm,jdbcType=VARCHAR},
+      </if>
+      <if test="bmch != null" >
+        #{bmch,jdbcType=VARCHAR},
+      </if>
+      <if test="gjdm != null" >
+        #{gjdm,jdbcType=VARCHAR},
+      </if>
+      <if test="mzdm != null" >
+        #{mzdm,jdbcType=VARCHAR},
+      </if>
+      <if test="jgssxdm != null" >
+        #{jgssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csdssxdm != null" >
+        #{csdssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csdxz != null" >
+        #{csdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="hjdssxdm != null" >
+        #{hjdssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="hjdxz != null" >
+        #{hjdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmmdm != null" >
+        #{zzmmdm,jdbcType=VARCHAR},
+      </if>
+      <if test="hyzkdm != null" >
+        #{hyzkdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xldm != null" >
+        #{xldm,jdbcType=VARCHAR},
+      </if>
+      <if test="grsfdm != null" >
+        #{grsfdm,jdbcType=VARCHAR},
+      </if>
+      <if test="rylbdm != null" >
+        #{rylbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xzdqhdm != null" >
+        #{xzdqhdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xzdxz != null" >
+        #{xzdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="ajlbdm != null" >
+        #{ajlbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrxm != null" >
+        #{cjrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjdwdm != null" >
+        #{cjdwdm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjdwmc != null" >
+        #{cjdwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null" >
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tssfdm != null" >
+        #{tssfdm,jdbcType=VARCHAR},
+      </if>
+      <if test="zjxydm != null" >
+        #{zjxydm,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="jdxp != null" >
+        #{jdxp,jdbcType=BLOB},
+      </if>
+      <if test="rxTxsj != null" >
+        #{rxTxsj,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenMatchPersonWithBLOBs" >
+    update LEDEN_MATCH_PERSON
+    <set >
+      <if test="jzrybh != null" >
+        JZRYBH = #{jzrybh,jdbcType=VARCHAR},
+      </if>
+      <if test="cjxxyydm != null" >
+        CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null" >
+        XM = #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmhypy != null" >
+        XMHYPY = #{xmhypy,jdbcType=VARCHAR},
+      </if>
+      <if test="gmsfhm != null" >
+        GMSFHM = #{gmsfhm,jdbcType=VARCHAR},
+      </if>
+      <if test="cyzjdm != null" >
+        CYZJDM = #{cyzjdm,jdbcType=VARCHAR},
+      </if>
+      <if test="zjhm != null" >
+        ZJHM = #{zjhm,jdbcType=VARCHAR},
+      </if>
+      <if test="xbdm != null" >
+        XBDM = #{xbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null" >
+        CSRQ = #{csrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cym != null" >
+        CYM = #{cym,jdbcType=VARCHAR},
+      </if>
+      <if test="wwxm != null" >
+        WWXM = #{wwxm,jdbcType=VARCHAR},
+      </if>
+      <if test="bmch != null" >
+        BMCH = #{bmch,jdbcType=VARCHAR},
+      </if>
+      <if test="gjdm != null" >
+        GJDM = #{gjdm,jdbcType=VARCHAR},
+      </if>
+      <if test="mzdm != null" >
+        MZDM = #{mzdm,jdbcType=VARCHAR},
+      </if>
+      <if test="jgssxdm != null" >
+        JGSSXDM = #{jgssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csdssxdm != null" >
+        CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csdxz != null" >
+        CSDXZ = #{csdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="hjdssxdm != null" >
+        HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="hjdxz != null" >
+        HJDXZ = #{hjdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmmdm != null" >
+        ZZMMDM = #{zzmmdm,jdbcType=VARCHAR},
+      </if>
+      <if test="hyzkdm != null" >
+        HYZKDM = #{hyzkdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xldm != null" >
+        XLDM = #{xldm,jdbcType=VARCHAR},
+      </if>
+      <if test="grsfdm != null" >
+        GRSFDM = #{grsfdm,jdbcType=VARCHAR},
+      </if>
+      <if test="rylbdm != null" >
+        RYLBDM = #{rylbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xzdqhdm != null" >
+        XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xzdxz != null" >
+        XZDXZ = #{xzdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="ajlbdm != null" >
+        AJLBDM = #{ajlbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrxm != null" >
+        CJRXM = #{cjrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjdwdm != null" >
+        CJDWDM = #{cjdwdm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjdwmc != null" >
+        CJDWMC = #{cjdwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null" >
+        CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tssfdm != null" >
+        TSSFDM = #{tssfdm,jdbcType=VARCHAR},
+      </if>
+      <if test="zjxydm != null" >
+        ZJXYDM = #{zjxydm,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        DELETAG = #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="jdxp != null" >
+        JDXP = #{jdxp,jdbcType=BLOB},
+      </if>
+      <if test="rxTxsj != null" >
+        RX_TXSJ = #{rxTxsj,jdbcType=BLOB},
+      </if>
+    </set>
+    where BZRYJCXXCJBH = #{bzryjcxxcjbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenMatchPersonWithBLOBs" >
+    update LEDEN_MATCH_PERSON
+    set JZRYBH = #{jzrybh,jdbcType=VARCHAR},
+      CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR},
+      XM = #{xm,jdbcType=VARCHAR},
+      XMHYPY = #{xmhypy,jdbcType=VARCHAR},
+      GMSFHM = #{gmsfhm,jdbcType=VARCHAR},
+      CYZJDM = #{cyzjdm,jdbcType=VARCHAR},
+      ZJHM = #{zjhm,jdbcType=VARCHAR},
+      XBDM = #{xbdm,jdbcType=VARCHAR},
+      CSRQ = #{csrq,jdbcType=TIMESTAMP},
+      CYM = #{cym,jdbcType=VARCHAR},
+      WWXM = #{wwxm,jdbcType=VARCHAR},
+      BMCH = #{bmch,jdbcType=VARCHAR},
+      GJDM = #{gjdm,jdbcType=VARCHAR},
+      MZDM = #{mzdm,jdbcType=VARCHAR},
+      JGSSXDM = #{jgssxdm,jdbcType=VARCHAR},
+      CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR},
+      CSDXZ = #{csdxz,jdbcType=VARCHAR},
+      HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR},
+      HJDXZ = #{hjdxz,jdbcType=VARCHAR},
+      ZZMMDM = #{zzmmdm,jdbcType=VARCHAR},
+      HYZKDM = #{hyzkdm,jdbcType=VARCHAR},
+      XLDM = #{xldm,jdbcType=VARCHAR},
+      GRSFDM = #{grsfdm,jdbcType=VARCHAR},
+      RYLBDM = #{rylbdm,jdbcType=VARCHAR},
+      XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR},
+      XZDXZ = #{xzdxz,jdbcType=VARCHAR},
+      AJLBDM = #{ajlbdm,jdbcType=VARCHAR},
+      CJRXM = #{cjrxm,jdbcType=VARCHAR},
+      CJDWDM = #{cjdwdm,jdbcType=VARCHAR},
+      CJDWMC = #{cjdwmc,jdbcType=VARCHAR},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      TSSFDM = #{tssfdm,jdbcType=VARCHAR},
+      ZJXYDM = #{zjxydm,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      JDXP = #{jdxp,jdbcType=BLOB},
+      RX_TXSJ = #{rxTxsj,jdbcType=BLOB}
+    where BZRYJCXXCJBH = #{bzryjcxxcjbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenMatchPerson" >
+    update LEDEN_MATCH_PERSON
+    set JZRYBH = #{jzrybh,jdbcType=VARCHAR},
+      CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR},
+      XM = #{xm,jdbcType=VARCHAR},
+      XMHYPY = #{xmhypy,jdbcType=VARCHAR},
+      GMSFHM = #{gmsfhm,jdbcType=VARCHAR},
+      CYZJDM = #{cyzjdm,jdbcType=VARCHAR},
+      ZJHM = #{zjhm,jdbcType=VARCHAR},
+      XBDM = #{xbdm,jdbcType=VARCHAR},
+      CSRQ = #{csrq,jdbcType=TIMESTAMP},
+      CYM = #{cym,jdbcType=VARCHAR},
+      WWXM = #{wwxm,jdbcType=VARCHAR},
+      BMCH = #{bmch,jdbcType=VARCHAR},
+      GJDM = #{gjdm,jdbcType=VARCHAR},
+      MZDM = #{mzdm,jdbcType=VARCHAR},
+      JGSSXDM = #{jgssxdm,jdbcType=VARCHAR},
+      CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR},
+      CSDXZ = #{csdxz,jdbcType=VARCHAR},
+      HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR},
+      HJDXZ = #{hjdxz,jdbcType=VARCHAR},
+      ZZMMDM = #{zzmmdm,jdbcType=VARCHAR},
+      HYZKDM = #{hyzkdm,jdbcType=VARCHAR},
+      XLDM = #{xldm,jdbcType=VARCHAR},
+      GRSFDM = #{grsfdm,jdbcType=VARCHAR},
+      RYLBDM = #{rylbdm,jdbcType=VARCHAR},
+      XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR},
+      XZDXZ = #{xzdxz,jdbcType=VARCHAR},
+      AJLBDM = #{ajlbdm,jdbcType=VARCHAR},
+      CJRXM = #{cjrxm,jdbcType=VARCHAR},
+      CJDWDM = #{cjdwdm,jdbcType=VARCHAR},
+      CJDWMC = #{cjdwmc,jdbcType=VARCHAR},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      TSSFDM = #{tssfdm,jdbcType=VARCHAR},
+      ZJXYDM = #{zjxydm,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR}
+    where BZRYJCXXCJBH = #{bzryjcxxcjbh,jdbcType=VARCHAR}
+  </update>
+</mapper>

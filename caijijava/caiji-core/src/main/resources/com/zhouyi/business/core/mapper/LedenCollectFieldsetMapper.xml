@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectFieldsetMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectFieldset" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="NODE_CODE" property="nodeCode" jdbcType="VARCHAR" />
+    <result column="FIELD_NAME" property="fieldName" jdbcType="VARCHAR" />
+    <result column="FIELD" property="field" jdbcType="VARCHAR" />
+    <result column="RULE" property="rule" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, NODE_CODE, FIELD_NAME, FIELD, RULE
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_FIELDSET
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <sql id="BaseTable">
+		LEDEN_COLLECT_FIELDSET
+  </sql>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectFieldsetVo"
+          resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from LEDEN_COLLECT_FIELDSET order by
+    <if test="overName = null and overName = '' ">
+      PK_ID
+    </if>
+    <if test="overName != null and overName != '' ">
+      #{overName}
+    </if>
+    asc) e
+    <where>
+      <if test="nodeCode != null" >
+        and NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldName != null" >
+        and FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+      </if>
+      <if test="field != null" >
+        and FIELD = #{field,jdbcType=VARCHAR}
+      </if>
+      <if test="rule != null" >
+        and RULE = #{rule,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectFieldsetVo" resultType="int">
+    select count(1) from LEDEN_COLLECT_FIELDSET
+    <where>
+      <if test="nodeCode != null" >
+        and NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="fieldName != null" >
+        and FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+      </if>
+      <if test="field != null" >
+        and FIELD = #{field,jdbcType=VARCHAR}
+      </if>
+      <if test="rule != null" >
+        and RULE = #{rule,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_FIELDSET
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectFieldset" >
+    insert into LEDEN_COLLECT_FIELDSET (PK_ID, NODE_CODE, FIELD_NAME,
+      FIELD, RULE)
+    values (#{pkId,jdbcType=VARCHAR}, #{nodeCode,jdbcType=VARCHAR}, #{fieldName,jdbcType=VARCHAR}, 
+      #{field,jdbcType=VARCHAR}, #{rule,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectFieldset" >
+    insert into LEDEN_COLLECT_FIELDSET
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="nodeCode != null" >
+        NODE_CODE,
+      </if>
+      <if test="fieldName != null" >
+        FIELD_NAME,
+      </if>
+      <if test="field != null" >
+        FIELD,
+      </if>
+      <if test="rule != null" >
+        RULE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeCode != null" >
+        #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldName != null" >
+        #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="field != null" >
+        #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null" >
+        #{rule,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectFieldset" >
+    update LEDEN_COLLECT_FIELDSET
+    <set >
+      <if test="nodeCode != null" >
+        NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldName != null" >
+        FIELD_NAME = #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="field != null" >
+        FIELD = #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null" >
+        RULE = #{rule,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectFieldset" >
+    update LEDEN_COLLECT_FIELDSET
+    set NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      FIELD_NAME = #{fieldName,jdbcType=VARCHAR},
+      FIELD = #{field,jdbcType=VARCHAR},
+      RULE = #{rule,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

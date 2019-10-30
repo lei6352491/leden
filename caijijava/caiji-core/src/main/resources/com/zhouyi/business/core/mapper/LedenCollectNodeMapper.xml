@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectNodeMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectNode" >
+    <id column="NODE_CODE" property="nodeCode" jdbcType="VARCHAR" />
+    <result column="NODE_NAME" property="nodeName" jdbcType="VARCHAR" />
+    <result column="NODE_SIGN" property="nodeSign" jdbcType="VARCHAR" />
+    <result column="NODE_REQUEST" property="nodeRequest" jdbcType="VARCHAR" />
+    <result column="NODE_IMG" property="nodeImg" jdbcType="VARCHAR" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    NODE_CODE, NODE_NAME, NODE_SIGN, NODE_REQUEST, NODE_IMG, DELETE_FLAG, CREATE_USER_ID, 
+    CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+
+  <sql id="BaseTable">
+		LEDEN_COLLECT_NODE
+  </sql>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectNodeVo"
+          resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from LEDEN_COLLECT_NODE order by
+    <if test="overName = null and overName = '' ">
+      NODE_CODE
+    </if>
+    <if test="overName != null and overName != '' ">
+      #{overName}
+    </if>
+    asc) e
+    <where>
+      <if test="nodeCode != null and nodeCode != ''">
+        and NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeName != null and nodeName != ''">
+        and NODE_NAME = #{nodeName,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeSign != null and nodeSign != ''">
+        and NODE_SIGN = #{nodeSign,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeRequest != null and nodeRequest != ''" >
+        and NODE_REQUEST = #{nodeRequest,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeImg != null and nodeImg != ''" >
+        and NODE_IMG = #{nodeImg,jdbcType=VARCHAR}
+      </if>
+      <if test="deleteFlag != null and deleteFlag != ''" >
+        and DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="createDatetime != null" >
+        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDatetime != null" >
+        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectNodeVo" resultType="int">
+    select count(1) from LEDEN_COLLECT_NODE
+    <where>
+      <if test="nodeCode != null and nodeCode != ''">
+        and NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeName != null and nodeName != ''" >
+        and NODE_NAME = #{nodeName,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeSign != null and nodeSign != ''">
+        and NODE_SIGN = #{nodeSign,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeRequest != null and nodeRequest != ''" >
+        and NODE_REQUEST = #{nodeRequest,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeImg != null and nodeImg != ''" >
+        and NODE_IMG = #{nodeImg,jdbcType=VARCHAR}
+      </if>
+      <if test="deleteFlag != null and deleteFlag != ''" >
+        and DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null">
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="createDatetime != null" >
+        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDatetime != null" >
+        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+
+  </select>
+
+
+
+  <resultMap id="selectCollectNodeListByCategoryOrUnitMap" type="com.zhouyi.business.core.model.CollectNodeResult">
+    <result column="collet_category_name" property="collectCateGoryName"/>
+    <result column="node_code" property="nodeCode"/>
+    <result column="node_name" property="nodeName"/>
+    <result column="delete_flag" property="deleteFlag"/>
+    <result column="collect_status" property="collectStatus"/>
+    <result column="collect_date" property="collectDate"/>
+    <result column="is_skip" property="isSkip"/>
+  </resultMap>
+
+  <resultMap id="selectCollectNodeListByCategoryOrUnitMap2" type="com.zhouyi.business.core.model.CollectNodeResult">
+    <id column="PK_ID" property="pkId"/>
+    <result column="node_code" property="nodeCode"/>
+    <result column="node_name" property="nodeName"/>
+    <result column="NODE_ORD" property="nodeOrd"/>
+    <result column="is_skip" property="isSkip"/>
+  </resultMap>
+
+  <select id="selectCollectNodeByUnitAndCategory" parameterType="com.zhouyi.business.core.vo.CollectNodeVo"
+          resultMap="selectCollectNodeListByCategoryOrUnitMap2">
+    select tt.* from
+    (select rownum rn,t.* from
+      (select c.PK_ID,n.NODE_CODE,n.NODE_NAME,c.IS_SKIP,c.NODE_ORD from leden_collect_category_node c inner join leden_collect_node n on c.node_code = n.node_code
+      <where>
+        <if test="collectTypeCode != null and collectTypeCode != ''">
+          and c.CATEGORY_ID = #{collectTypeCode}
+        </if>
+        <if test="collectUnitCode != null and collectUnitCode != ''">
+          and c.UNIT_CODE = #{collectUnitCode}
+        </if>
+      </where>
+    order by c.NODE_ORD asc
+      ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="selectCollectNodeCountByUnitAndCategory" parameterType="com.zhouyi.business.core.vo.CollectNodeVo" resultType="int">
+    select count(1) from leden_collect_category_node c inner join leden_collect_node n on c.node_code = n.node_code
+    <where>
+      <if test="collectTypeCode != null and collectTypeCode != ''">
+        and c.CATEGORY_ID = #{collectTypeCode}
+      </if>
+      <if test="collectUnitCode != null and collectUnitCode != ''">
+        and c.UNIT_CODE = #{collectUnitCode}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectCollectNodeListByCategoryOrUnit" parameterType="com.zhouyi.business.core.vo.CollectNodeVo"
+          resultMap="selectCollectNodeListByCategoryOrUnitMap">
+    select tt.* from
+      (select rownum rn,t.* from
+        (select
+        c.collet_category_name,n.node_code,n.node_name,n.delete_flag,s.collect_status,s.collect_date,d.is_skip
+        from
+        leden_collect_category c left join leden_collect_category_node d on c.pk_id = d.category_id
+        left join leden_collect_node n on d.node_code = n.node_code
+        left join leden_collect_process s on n.node_code = s.collect_node_id
+        left join leden_collect_person p on p.ryjcxxcjbh = s.ryjcxxcjbh
+        <where>
+          <if test="collectTypeCode != null and collectTypeCode != ''">
+            and c.pk_id = #{collectTypeCode}
+          </if>
+          <if test="collectUnitCode != null and collectUnitCode != ''">
+            and p.CJDWDM = #{collectUnitCode}
+          </if>
+        </where>
+        order by s.collect_date desc) t ) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="selectCollectNodeListCount" parameterType="com.zhouyi.business.core.vo.CollectNodeVo" resultType="int">
+    select
+      count(1)
+    from
+    leden_collect_category c left join leden_collect_category_node d on c.pk_id = d.category_id
+    left join leden_collect_node n on d.node_code = n.node_code
+    left join leden_collect_process s on n.node_code = s.collect_node_id
+    left join leden_collect_person p on p.ryjcxxcjbh = s.ryjcxxcjbh
+    <where>
+      <if test="collectTypeCode != null and collectTypeCode != ''">
+        and c.pk_id = #{collectTypeCode}
+      </if>
+      <if test="collectUnitCode != null and collectUnitCode != ''">
+        and p.CJDWDM = #{collectUnitCode}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_NODE
+    where NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_NODE
+    where NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectNode" >
+    insert into LEDEN_COLLECT_NODE (NODE_CODE, NODE_NAME, NODE_SIGN,
+      NODE_REQUEST, NODE_IMG, DELETE_FLAG, 
+      CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, 
+      UPDATE_DATETIME)
+    values (#{nodeCode,jdbcType=VARCHAR}, #{nodeName,jdbcType=VARCHAR}, #{nodeSign,jdbcType=VARCHAR}, 
+      #{nodeRequest,jdbcType=VARCHAR}, #{nodeImg,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{updateDatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectNode" >
+    insert into LEDEN_COLLECT_NODE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nodeCode != null" >
+        NODE_CODE,
+      </if>
+      <if test="nodeName != null" >
+        NODE_NAME,
+      </if>
+      <if test="nodeSign != null" >
+        NODE_SIGN,
+      </if>
+      <if test="nodeRequest != null" >
+        NODE_REQUEST,
+      </if>
+      <if test="nodeImg != null" >
+        NODE_IMG,
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nodeCode != null" >
+        #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeName != null" >
+        #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeSign != null" >
+        #{nodeSign,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeRequest != null" >
+        #{nodeRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeImg != null" >
+        #{nodeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectNode" >
+    update LEDEN_COLLECT_NODE
+    <set >
+      <if test="nodeName != null" >
+        NODE_NAME = #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeSign != null" >
+        NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeRequest != null" >
+        NODE_REQUEST = #{nodeRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeImg != null" >
+        NODE_IMG = #{nodeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectNode" >
+    update LEDEN_COLLECT_NODE
+    set NODE_NAME = #{nodeName,jdbcType=VARCHAR},
+      NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
+      NODE_REQUEST = #{nodeRequest,jdbcType=VARCHAR},
+      NODE_IMG = #{nodeImg,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+  </update>
+
+
+
+  <select id="selectAll" statementType="PREPARED" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from LEDEN_COLLECT_NODE
+  </select>
+</mapper>

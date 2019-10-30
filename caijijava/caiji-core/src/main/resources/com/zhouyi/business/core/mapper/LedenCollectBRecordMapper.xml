@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectBRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectBRecord" >
+    <id column="YHKXXID" property="yhkxxid" jdbcType="VARCHAR" />
+    <result column="YHKKH" property="yhkkh" jdbcType="VARCHAR" />
+    <result column="JYRQ" property="jyrq" jdbcType="TIMESTAMP" />
+    <result column="JYSJ" property="jysj" jdbcType="TIMESTAMP" />
+    <result column="SQJE" property="sqje" jdbcType="DECIMAL" />
+    <result column="QTJE" property="qtje" jdbcType="DECIMAL" />
+    <result column="JYDD_XZQHDM" property="jyddXzqhdm" jdbcType="VARCHAR" />
+    <result column="JYHBDM" property="jyhbdm" jdbcType="VARCHAR" />
+    <result column="SH_DWMC" property="shDwmc" jdbcType="VARCHAR" />
+    <result column="JYLXDM" property="jylxdm" jdbcType="VARCHAR" />
+    <result column="YYJYJSQ" property="yyjyjsq" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    YHKXXID, YHKKH, JYRQ, JYSJ, SQJE, QTJE, JYDD_XZQHDM, JYHBDM, SH_DWMC, JYLXDM, YYJYJSQ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_B_RECORD
+    where YHKXXID = #{yhkxxid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_B_RECORD
+    where YHKXXID = #{yhkxxid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectBRecord" >
+    insert into LEDEN_COLLECT_B_RECORD (YHKXXID, YHKKH, JYRQ,
+      JYSJ, SQJE, QTJE, 
+      JYDD_XZQHDM, JYHBDM, SH_DWMC, 
+      JYLXDM, YYJYJSQ)
+    values (#{yhkxxid,jdbcType=VARCHAR}, #{yhkkh,jdbcType=VARCHAR}, #{jyrq,jdbcType=TIMESTAMP}, 
+      #{jysj,jdbcType=TIMESTAMP}, #{sqje,jdbcType=DECIMAL}, #{qtje,jdbcType=DECIMAL}, 
+      #{jyddXzqhdm,jdbcType=VARCHAR}, #{jyhbdm,jdbcType=VARCHAR}, #{shDwmc,jdbcType=VARCHAR}, 
+      #{jylxdm,jdbcType=VARCHAR}, #{yyjyjsq,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectBRecord" >
+    insert into LEDEN_COLLECT_B_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="yhkxxid != null" >
+        YHKXXID,
+      </if>
+      <if test="yhkkh != null" >
+        YHKKH,
+      </if>
+      <if test="jyrq != null" >
+        JYRQ,
+      </if>
+      <if test="jysj != null" >
+        JYSJ,
+      </if>
+      <if test="sqje != null" >
+        SQJE,
+      </if>
+      <if test="qtje != null" >
+        QTJE,
+      </if>
+      <if test="jyddXzqhdm != null" >
+        JYDD_XZQHDM,
+      </if>
+      <if test="jyhbdm != null" >
+        JYHBDM,
+      </if>
+      <if test="shDwmc != null" >
+        SH_DWMC,
+      </if>
+      <if test="jylxdm != null" >
+        JYLXDM,
+      </if>
+      <if test="yyjyjsq != null" >
+        YYJYJSQ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="yhkxxid != null" >
+        #{yhkxxid,jdbcType=VARCHAR},
+      </if>
+      <if test="yhkkh != null" >
+        #{yhkkh,jdbcType=VARCHAR},
+      </if>
+      <if test="jyrq != null" >
+        #{jyrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jysj != null" >
+        #{jysj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sqje != null" >
+        #{sqje,jdbcType=DECIMAL},
+      </if>
+      <if test="qtje != null" >
+        #{qtje,jdbcType=DECIMAL},
+      </if>
+      <if test="jyddXzqhdm != null" >
+        #{jyddXzqhdm,jdbcType=VARCHAR},
+      </if>
+      <if test="jyhbdm != null" >
+        #{jyhbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="shDwmc != null" >
+        #{shDwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="jylxdm != null" >
+        #{jylxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="yyjyjsq != null" >
+        #{yyjyjsq,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectBRecord" >
+    update LEDEN_COLLECT_B_RECORD
+    <set >
+      <if test="yhkkh != null" >
+        YHKKH = #{yhkkh,jdbcType=VARCHAR},
+      </if>
+      <if test="jyrq != null" >
+        JYRQ = #{jyrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jysj != null" >
+        JYSJ = #{jysj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sqje != null" >
+        SQJE = #{sqje,jdbcType=DECIMAL},
+      </if>
+      <if test="qtje != null" >
+        QTJE = #{qtje,jdbcType=DECIMAL},
+      </if>
+      <if test="jyddXzqhdm != null" >
+        JYDD_XZQHDM = #{jyddXzqhdm,jdbcType=VARCHAR},
+      </if>
+      <if test="jyhbdm != null" >
+        JYHBDM = #{jyhbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="shDwmc != null" >
+        SH_DWMC = #{shDwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="jylxdm != null" >
+        JYLXDM = #{jylxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="yyjyjsq != null" >
+        YYJYJSQ = #{yyjyjsq,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where YHKXXID = #{yhkxxid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectBRecord" >
+    update LEDEN_COLLECT_B_RECORD
+    set YHKKH = #{yhkkh,jdbcType=VARCHAR},
+      JYRQ = #{jyrq,jdbcType=TIMESTAMP},
+      JYSJ = #{jysj,jdbcType=TIMESTAMP},
+      SQJE = #{sqje,jdbcType=DECIMAL},
+      QTJE = #{qtje,jdbcType=DECIMAL},
+      JYDD_XZQHDM = #{jyddXzqhdm,jdbcType=VARCHAR},
+      JYHBDM = #{jyhbdm,jdbcType=VARCHAR},
+      SH_DWMC = #{shDwmc,jdbcType=VARCHAR},
+      JYLXDM = #{jylxdm,jdbcType=VARCHAR},
+      YYJYJSQ = #{yyjyjsq,jdbcType=VARCHAR}
+    where YHKXXID = #{yhkxxid,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="listDataByConditions" statementType="PREPARED" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,LEDEN_COLLECT_B_RECORD.*
+
+    FROM  LEDEN_COLLECT_B_RECORD
+
+    where ROWNUM &lt;= #{end}) collectRecord
+
+    WHERE collectRecord.rowno &gt;= #{start}
+  </select>
+
+  <select id="getDataCountByConditions" statementType="PREPARED" resultType="int">
+        select count(1) from LEDEN_COLLECT_B_RECORD
+  </select>
+
+  <select id="selectBRecordByBankcard" parameterType="string" resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select b.*,d1.name as jyddmc,d2.name as jylxmc from LEDEN_COLLECT_B_RECORD b
+    LEFT JOIN SYS_DICT_LIST d1 on b.JYDD_XZQHDM = d1.code and d1.sign = 'DICT_XZQH'
+    LEFT JOIN SYS_DICT_LIST d2 on b.JYLXDM = d2.code and d2.sign = 'DICT_YHKJYLX'
+    where b.YHKKH = #{id} order by b.JYSJ desc) t) tt
+    where rn &gt;= 1 and rn &lt;= 30
+  </select>
+</mapper>

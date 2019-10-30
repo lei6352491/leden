@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/caiji-core/caiji-core.iml" filepath="$PROJECT_DIR$/caiji-core/caiji-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/caiji-core/caiji-core (1).iml" filepath="$PROJECT_DIR$/caiji-core/caiji-core (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/caiji-web/caiji-web.iml" filepath="$PROJECT_DIR$/caiji-web/caiji-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/caiji-web/caiji-web (1).iml" filepath="$PROJECT_DIR$/caiji-web/caiji-web (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/caijijava.iml" filepath="$PROJECT_DIR$/caijijava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/caijijava (1).iml" filepath="$PROJECT_DIR$/caijijava (1).iml" />
+    </modules>
+  </component>
+</project>

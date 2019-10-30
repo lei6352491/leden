@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectDrugtestMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectDrugtest" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
+    <result column="XDJCYB" property="xdjcyb" jdbcType="VARCHAR" />
+    <result column="XDJCFS" property="xdjcfs" jdbcType="VARCHAR" />
+    <result column="XDJCJG" property="xdjcjg" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectDrugtest" extends="BaseResultMap" >
+    <result column="XDJCTP" property="xdjctp" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, RYJCXXCJBH, XDJCYB, XDJCFS, XDJCJG, ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
+    UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    XDJCTP
+  </sql>
+
+  <sql id="BaseTable">
+		LEDEN_COLLECT_DRUGTEST
+  </sql>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectDrugtestVo"
+          resultMap="ResultMapWithBLOBs">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from LEDEN_COLLECT_DRUGTEST order by
+    <if test="overName != null and overName != ''">
+      #{overName}
+    </if>
+    <if test="overName = null and overName = ''">
+      UPDATE_DATETIME
+    </if>
+    desc) e
+    <where>
+      <if test="ryjcxxcjbh != null" >
+        and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+      </if>
+      <if test="xdjcyb != null" >
+        and XDJCYB = #{xdjcyb,jdbcType=VARCHAR}
+      </if>
+      <if test="xdjcfs != null" >
+        and XDJCFS = #{xdjcfs,jdbcType=VARCHAR}
+      </if>
+      <if test="xdjcjg != null" >
+        and XDJCJG = #{xdjcjg,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="createDatetime != null" >
+        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDatetime != null" >
+        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="xdjctp != null" >
+        and XDJCTP = #{xdjctp,jdbcType=BLOB}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectDrugtestVo"
+          resultType="int">
+    select count(1) from LEDEN_COLLECT_DRUGTEST
+    <where>
+      <if test="ryjcxxcjbh != null" >
+        and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+      </if>
+      <if test="xdjcyb != null" >
+        and XDJCYB = #{xdjcyb,jdbcType=VARCHAR}
+      </if>
+      <if test="xdjcfs != null" >
+        and XDJCFS = #{xdjcfs,jdbcType=VARCHAR}
+      </if>
+      <if test="xdjcjg != null" >
+        and XDJCJG = #{xdjcjg,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="createDatetime != null" >
+        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDatetime != null" >
+        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="xdjctp != null" >
+        and XDJCTP = #{xdjctp,jdbcType=BLOB}
+      </if>
+    </where>
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from LEDEN_COLLECT_DRUGTEST
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_DRUGTEST
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectDrugtest" >
+    insert into LEDEN_COLLECT_DRUGTEST (PK_ID, RYJCXXCJBH, XDJCYB,
+      XDJCFS, XDJCJG, ANNEX, 
+      CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, 
+      UPDATE_DATETIME, XDJCTP)
+    values (#{pkId,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{xdjcyb,jdbcType=VARCHAR}, 
+      #{xdjcfs,jdbcType=VARCHAR}, #{xdjcjg,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{updateDatetime,jdbcType=TIMESTAMP}, #{xdjctp,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectDrugtest" >
+    insert into LEDEN_COLLECT_DRUGTEST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH,
+      </if>
+      <if test="xdjcyb != null" >
+        XDJCYB,
+      </if>
+      <if test="xdjcfs != null" >
+        XDJCFS,
+      </if>
+      <if test="xdjcjg != null" >
+        XDJCJG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+      <if test="xdjctp != null" >
+        XDJCTP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="ryjcxxcjbh != null" >
+        #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="xdjcyb != null" >
+        #{xdjcyb,jdbcType=VARCHAR},
+      </if>
+      <if test="xdjcfs != null" >
+        #{xdjcfs,jdbcType=VARCHAR},
+      </if>
+      <if test="xdjcjg != null" >
+        #{xdjcjg,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xdjctp != null" >
+        #{xdjctp,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectDrugtest" >
+    update LEDEN_COLLECT_DRUGTEST
+    <set >
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="xdjcyb != null" >
+        XDJCYB = #{xdjcyb,jdbcType=VARCHAR},
+      </if>
+      <if test="xdjcfs != null" >
+        XDJCFS = #{xdjcfs,jdbcType=VARCHAR},
+      </if>
+      <if test="xdjcjg != null" >
+        XDJCJG = #{xdjcjg,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xdjctp != null" >
+        XDJCTP = #{xdjctp,jdbcType=BLOB},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenCollectDrugtest" >
+    update LEDEN_COLLECT_DRUGTEST
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      XDJCYB = #{xdjcyb,jdbcType=VARCHAR},
+      XDJCFS = #{xdjcfs,jdbcType=VARCHAR},
+      XDJCJG = #{xdjcjg,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      XDJCTP = #{xdjctp,jdbcType=BLOB}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectDrugtest" >
+    update LEDEN_COLLECT_DRUGTEST
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      XDJCYB = #{xdjcyb,jdbcType=VARCHAR},
+      XDJCFS = #{xdjcfs,jdbcType=VARCHAR},
+      XDJCJG = #{xdjcjg,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <delete id="deleteDrugtestByPersonId" parameterType="string">
+    delete from LEDEN_COLLECT_DRUGTEST where ryjcxxcjbh=#{_parameter}
+  </delete>
+</mapper>

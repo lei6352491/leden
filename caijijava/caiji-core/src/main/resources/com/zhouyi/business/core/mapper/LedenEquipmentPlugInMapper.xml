@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenEquipmentPlugInMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenEquipmentPlugIn" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="NODE_CODE" property="nodeCode" jdbcType="VARCHAR" />
+    <result column="MANUFACTURER_NAME" property="manufacturerName" jdbcType="VARCHAR" />
+    <result column="MANUFACTURER_CODE" property="manufacturerCode" jdbcType="VARCHAR" />
+    <result column="PLUG_IN_CLASSID" property="plugInClassid" jdbcType="VARCHAR" />
+    <result column="PLUG_IN_VERSION" property="plugInVersion" jdbcType="VARCHAR" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, NODE_CODE, MANUFACTURER_NAME, MANUFACTURER_CODE, PLUG_IN_CLASSID, PLUG_IN_VERSION, 
+    DELETE_FLAG, ANNEX, CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_EQUIPMENT_PLUG_IN
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenEquipmentPlugInVo" resultMap="BaseResultMap">
+    select * from
+    (select rownum rn,t.* from
+    (select * from LEDEN_EQUIPMENT_PLUG_IN
+    <where>
+      <if test="nodeCode != null and nodeCode != ''">
+        NODE_CODE = #{nodeCode}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenEquipmentVo2" resultType="int">
+    select count(1) from LEDEN_EQUIPMENT_PLUG_IN
+    <where>
+      <if test="nodeCode != null and nodeCode != ''">
+        NODE_CODE = #{nodeCode}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectDataByNodeCode" parameterType="string" resultMap="BaseResultMap">
+    select * from LEDEN_EQUIPMENT_PLUG_IN where NODE_CODE = #{id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_EQUIPMENT_PLUG_IN
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenEquipmentPlugIn" >
+    insert into LEDEN_EQUIPMENT_PLUG_IN (PK_ID, NODE_CODE, MANUFACTURER_NAME,
+      MANUFACTURER_CODE, PLUG_IN_CLASSID, PLUG_IN_VERSION, 
+      DELETE_FLAG, ANNEX, CREATE_USER_ID, 
+      CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{nodeCode,jdbcType=VARCHAR}, #{manufacturerName,jdbcType=VARCHAR}, 
+      #{manufacturerCode,jdbcType=VARCHAR}, #{plugInClassid,jdbcType=VARCHAR}, #{plugInVersion,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenEquipmentPlugIn" >
+    insert into LEDEN_EQUIPMENT_PLUG_IN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="nodeCode != null" >
+        NODE_CODE,
+      </if>
+      <if test="manufacturerName != null" >
+        MANUFACTURER_NAME,
+      </if>
+      <if test="manufacturerCode != null" >
+        MANUFACTURER_CODE,
+      </if>
+      <if test="plugInClassid != null" >
+        PLUG_IN_CLASSID,
+      </if>
+      <if test="plugInVersion != null" >
+        PLUG_IN_VERSION,
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeCode != null" >
+        #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerName != null" >
+        #{manufacturerName,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerCode != null" >
+        #{manufacturerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="plugInClassid != null" >
+        #{plugInClassid,jdbcType=VARCHAR},
+      </if>
+      <if test="plugInVersion != null" >
+        #{plugInVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenEquipmentPlugIn" >
+    update LEDEN_EQUIPMENT_PLUG_IN
+    <set >
+      <if test="nodeCode != null" >
+        NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerName != null" >
+        MANUFACTURER_NAME = #{manufacturerName,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerCode != null" >
+        MANUFACTURER_CODE = #{manufacturerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="plugInClassid != null" >
+        PLUG_IN_CLASSID = #{plugInClassid,jdbcType=VARCHAR},
+      </if>
+      <if test="plugInVersion != null" >
+        PLUG_IN_VERSION = #{plugInVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenEquipmentPlugIn" >
+    update LEDEN_EQUIPMENT_PLUG_IN
+    set NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      MANUFACTURER_NAME = #{manufacturerName,jdbcType=VARCHAR},
+      MANUFACTURER_CODE = #{manufacturerCode,jdbcType=VARCHAR},
+      PLUG_IN_CLASSID = #{plugInClassid,jdbcType=VARCHAR},
+      PLUG_IN_VERSION = #{plugInVersion,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.SysDictListMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.SysDictList" >
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SIGN" property="sign" jdbcType="VARCHAR" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="ORD" property="ord" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    CODE, NAME, SIGN, DELETE_FLAG,ORD,REMARK
+  </sql>
+
+  <sql id="BaseTable">
+		sys_dict_list
+  </sql>
+
+  <select id="findSysDictListById" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from SYS_DICT_LIST
+    where CODE = #{code,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from SYS_DICT_LIST
+    where CODE = #{code,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_DICT_LIST
+    where CODE = #{code,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.SysDictList" >
+    insert into SYS_DICT_LIST (CODE, NAME, SIGN,
+      DELETE_FLAG, ORD, REMARK
+      )
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=VARCHAR}, #{ord,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.SysDictList" >
+    insert into SYS_DICT_LIST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="sign != null" >
+        SIGN,
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG,
+      </if>
+      <if test="ord != null" >
+        ORD,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="ord != null" >
+        #{ord,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.SysDictList" >
+    update SYS_DICT_LIST
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        SIGN = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="ord != null" >
+        ORD = #{ord,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.SysDictList" >
+    update SYS_DICT_LIST
+    set Name = #{name,jdbcType=VARCHAR},
+      SIGN = #{sign,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      ORD = #{ord,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findDictByBean" parameterType="com.zhouyi.business.core.model.SysDictList"
+          resultType="com.zhouyi.business.core.model.SysDictList">
+    select * from sys_dict_list s where s.code = #{code} and s.sign = #{sign}
+  </select>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.SysDictListVo"
+          resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from sys_dict_list order by
+    <if test="overName != null and overName != ''">
+      #{overName}
+    </if>
+    <if test="overName = null and overName = ''">
+      code
+    </if>
+    asc) e
+    <where>
+      <if test="code != null">
+        and code like concat('%',concat(#{code},'%'))
+      </if>
+      <if test="name != null" >
+        and Name like concat('%',concat(#{name},'%'))
+      </if>
+      <if test="sign != null" >
+        and SIGN = #{sign,jdbcType=VARCHAR}
+      </if>
+      <if test="deleteFlag != null" >
+        and DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="ord != null" >
+        and ORD = #{ord,jdbcType=DECIMAL}
+      </if>
+      <if test="remark != null" >
+        and REMARK = #{remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.SysDictListVo" resultType="int">
+    select count(1) from SYS_DICT_LIST
+    <where>
+      <if test="code != null">
+        and code like concat('%',concat(#{code},'%'))
+      </if>
+      <if test="name != null" >
+        and Name like concat('%',concat(#{name},'%'))
+      </if>
+      <if test="sign != null" >
+        and SIGN = #{sign,jdbcType=VARCHAR}
+      </if>
+      <if test="deleteFlag != null" >
+        and DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="ord != null" >
+        and ORD = #{ord,jdbcType=DECIMAL}
+      </if>
+      <if test="remark != null" >
+        and REMARK = #{remark,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+</mapper>

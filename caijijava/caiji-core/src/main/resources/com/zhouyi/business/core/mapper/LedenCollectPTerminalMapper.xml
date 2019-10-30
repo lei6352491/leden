@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectPTerminalMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectPTerminal" >
+    <id column="CJMBBH" property="cjmbbh" jdbcType="VARCHAR" />
+    <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
+    <result column="DXBH" property="dxbh" jdbcType="VARCHAR" />
+    <result column="WPMC" property="wpmc" jdbcType="VARCHAR" />
+    <result column="IMEI_WPBZH" property="imeiWpbzh" jdbcType="VARCHAR" />
+    <result column="MACDZ" property="macdz" jdbcType="VARCHAR" />
+    <result column="LY_MACDZ" property="lyMacdz" jdbcType="VARCHAR" />
+    <result column="ZZS_DWMC" property="zzsDwmc" jdbcType="VARCHAR" />
+    <result column="WPXH" property="wpxh" jdbcType="VARCHAR" />
+    <result column="WPTZMS" property="wptzms" jdbcType="VARCHAR" />
+    <result column="FJSXID" property="fjsxid" jdbcType="VARCHAR" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CJMBBH, RYJCXXCJBH, DXBH, WPMC, IMEI_WPBZH, MACDZ, LY_MACDZ, ZZS_DWMC, WPXH, WPTZMS, 
+    FJSXID, DELETAG, ANNEX, CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+
+  <sql id="BaseTable">
+		LEDEN_COLLECT_P_TERMINAL
+  </sql>
+
+  <select id="selectMiniDataByPersonCode" parameterType="string" resultMap="BaseResultMap">
+    select CJMBBH,WPMC,WPXH from LEDEN_COLLECT_P_TERMINAL where RYJCXXCJBH = #{id}
+  </select>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectPTerminalVo"
+          resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from LEDEN_COLLECT_P_TERMINAL order by
+    <if test="overName != null and overName != ''">
+      #{overName}
+    </if>
+    <if test="overName = null and overName = ''">
+      UPDATE_DATETIME
+    </if>
+    desc) e
+    <where>
+      <if test="ryjcxxcjbh != null" >
+        and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+      </if>
+      <if test="dxbh != null" >
+        and DXBH = #{dxbh,jdbcType=VARCHAR}
+      </if>
+      <if test="wpmc != null" >
+        and WPMC = #{wpmc,jdbcType=VARCHAR}
+      </if>
+      <if test="imeiWpbzh != null" >
+        and IMEI_WPBZH = #{imeiWpbzh,jdbcType=VARCHAR}
+      </if>
+      <if test="macdz != null" >
+        and MACDZ = #{macdz,jdbcType=VARCHAR}
+      </if>
+      <if test="lyMacdz != null" >
+        and LY_MACDZ = #{lyMacdz,jdbcType=VARCHAR}
+      </if>
+      <if test="zzsDwmc != null" >
+        and ZZS_DWMC = #{zzsDwmc,jdbcType=VARCHAR}
+      </if>
+      <if test="wpxh != null" >
+        and WPXH = #{wpxh,jdbcType=VARCHAR}
+      </if>
+      <if test="wptzms != null" >
+        and WPTZMS = #{wptzms,jdbcType=VARCHAR}
+      </if>
+      <if test="fjsxid != null" >
+        and FJSXID = #{fjsxid,jdbcType=VARCHAR}
+      </if>
+      <if test="deletag != null" >
+        and DELETAG = #{deletag,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="createDatetime != null" >
+        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDatetime != null" >
+        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectPTerminalVo"
+          resultType="int">
+    select count(1) from LEDEN_COLLECT_P_TERMINAL
+    <where>
+      <if test="ryjcxxcjbh != null" >
+        and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+      </if>
+      <if test="dxbh != null" >
+        and DXBH = #{dxbh,jdbcType=VARCHAR}
+      </if>
+      <if test="wpmc != null" >
+        and WPMC = #{wpmc,jdbcType=VARCHAR}
+      </if>
+      <if test="imeiWpbzh != null" >
+        and IMEI_WPBZH = #{imeiWpbzh,jdbcType=VARCHAR}
+      </if>
+      <if test="macdz != null" >
+        and MACDZ = #{macdz,jdbcType=VARCHAR}
+      </if>
+      <if test="lyMacdz != null" >
+        and LY_MACDZ = #{lyMacdz,jdbcType=VARCHAR}
+      </if>
+      <if test="zzsDwmc != null" >
+        and ZZS_DWMC = #{zzsDwmc,jdbcType=VARCHAR}
+      </if>
+      <if test="wpxh != null" >
+        and WPXH = #{wpxh,jdbcType=VARCHAR}
+      </if>
+      <if test="wptzms != null" >
+        and WPTZMS = #{wptzms,jdbcType=VARCHAR}
+      </if>
+      <if test="fjsxid != null" >
+        and FJSXID = #{fjsxid,jdbcType=VARCHAR}
+      </if>
+      <if test="deletag != null" >
+        and DELETAG = #{deletag,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="createDatetime != null" >
+        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDatetime != null" >
+        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_P_TERMINAL
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_P_TERMINAL
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectPTerminal" >
+    insert into LEDEN_COLLECT_P_TERMINAL (CJMBBH, RYJCXXCJBH, DXBH,
+      WPMC, IMEI_WPBZH, MACDZ, 
+      LY_MACDZ, ZZS_DWMC, WPXH, 
+      WPTZMS, FJSXID, DELETAG, 
+      ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
+      UPDATE_USER_ID, UPDATE_DATETIME)
+    values (#{cjmbbh,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{dxbh,jdbcType=VARCHAR}, 
+      #{wpmc,jdbcType=VARCHAR}, #{imeiWpbzh,jdbcType=VARCHAR}, #{macdz,jdbcType=VARCHAR}, 
+      #{lyMacdz,jdbcType=VARCHAR}, #{zzsDwmc,jdbcType=VARCHAR}, #{wpxh,jdbcType=VARCHAR}, 
+      #{wptzms,jdbcType=VARCHAR}, #{fjsxid,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, 
+      #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectPTerminal" >
+    insert into LEDEN_COLLECT_P_TERMINAL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cjmbbh != null" >
+        CJMBBH,
+      </if>
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH,
+      </if>
+      <if test="dxbh != null" >
+        DXBH,
+      </if>
+      <if test="wpmc != null" >
+        WPMC,
+      </if>
+      <if test="imeiWpbzh != null" >
+        IMEI_WPBZH,
+      </if>
+      <if test="macdz != null" >
+        MACDZ,
+      </if>
+      <if test="lyMacdz != null" >
+        LY_MACDZ,
+      </if>
+      <if test="zzsDwmc != null" >
+        ZZS_DWMC,
+      </if>
+      <if test="wpxh != null" >
+        WPXH,
+      </if>
+      <if test="wptzms != null" >
+        WPTZMS,
+      </if>
+      <if test="fjsxid != null" >
+        FJSXID,
+      </if>
+      <if test="deletag != null" >
+        DELETAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cjmbbh != null" >
+        #{cjmbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="ryjcxxcjbh != null" >
+        #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="dxbh != null" >
+        #{dxbh,jdbcType=VARCHAR},
+      </if>
+      <if test="wpmc != null" >
+        #{wpmc,jdbcType=VARCHAR},
+      </if>
+      <if test="imeiWpbzh != null" >
+        #{imeiWpbzh,jdbcType=VARCHAR},
+      </if>
+      <if test="macdz != null" >
+        #{macdz,jdbcType=VARCHAR},
+      </if>
+      <if test="lyMacdz != null" >
+        #{lyMacdz,jdbcType=VARCHAR},
+      </if>
+      <if test="zzsDwmc != null" >
+        #{zzsDwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="wpxh != null" >
+        #{wpxh,jdbcType=VARCHAR},
+      </if>
+      <if test="wptzms != null" >
+        #{wptzms,jdbcType=VARCHAR},
+      </if>
+      <if test="fjsxid != null" >
+        #{fjsxid,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectPTerminal" >
+    update LEDEN_COLLECT_P_TERMINAL
+    <set >
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="dxbh != null" >
+        DXBH = #{dxbh,jdbcType=VARCHAR},
+      </if>
+      <if test="wpmc != null" >
+        WPMC = #{wpmc,jdbcType=VARCHAR},
+      </if>
+      <if test="imeiWpbzh != null" >
+        IMEI_WPBZH = #{imeiWpbzh,jdbcType=VARCHAR},
+      </if>
+      <if test="macdz != null" >
+        MACDZ = #{macdz,jdbcType=VARCHAR},
+      </if>
+      <if test="lyMacdz != null" >
+        LY_MACDZ = #{lyMacdz,jdbcType=VARCHAR},
+      </if>
+      <if test="zzsDwmc != null" >
+        ZZS_DWMC = #{zzsDwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="wpxh != null" >
+        WPXH = #{wpxh,jdbcType=VARCHAR},
+      </if>
+      <if test="wptzms != null" >
+        WPTZMS = #{wptzms,jdbcType=VARCHAR},
+      </if>
+      <if test="fjsxid != null" >
+        FJSXID = #{fjsxid,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        DELETAG = #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectPTerminal" >
+    update LEDEN_COLLECT_P_TERMINAL
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      DXBH = #{dxbh,jdbcType=VARCHAR},
+      WPMC = #{wpmc,jdbcType=VARCHAR},
+      IMEI_WPBZH = #{imeiWpbzh,jdbcType=VARCHAR},
+      MACDZ = #{macdz,jdbcType=VARCHAR},
+      LY_MACDZ = #{lyMacdz,jdbcType=VARCHAR},
+      ZZS_DWMC = #{zzsDwmc,jdbcType=VARCHAR},
+      WPXH = #{wpxh,jdbcType=VARCHAR},
+      WPTZMS = #{wptzms,jdbcType=VARCHAR},
+      FJSXID = #{fjsxid,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteTerminalByPersonId" parameterType="string">
+    delete from LEDEN_COLLECT_P_TERMINAL where ryjcxxcjbh=#{_parameter}
+  </delete>
+</mapper>

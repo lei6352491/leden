@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.SysBaseConfMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.SysBaseConf" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="SYSTEM_NAME" property="systemName" jdbcType="VARCHAR" />
+    <result column="SYSTEM_VERSION" property="systemVersion" jdbcType="VARCHAR" />
+    <result column="LOGO_LOCATION" property="logoLocation" jdbcType="VARCHAR" />
+    <result column="PERSON_NO_PR" property="personNoPr" jdbcType="VARCHAR" />
+    <result column="COPYRIGHT_BELONGS" property="copyrightBelongs" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, SYSTEM_NAME, SYSTEM_VERSION, LOGO_LOCATION, PERSON_NO_PR,COPYRIGHT_BELONGS
+  </sql>
+  <sql id="BaseTable">
+		sys_base_conf
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_BASE_CONF
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.SysBaseConfVo"
+                                         resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from SYS_BASE_CONF order by
+    <if test="overName = null and overName = '' ">
+      PK_ID
+    </if>
+    <if test="overName != null and overName != '' ">
+      #{overName}
+    </if>
+    asc) e
+    <where>
+      <if test="systemName != null" >
+        and SYSTEM_NAME = #{systemName,jdbcType=VARCHAR}
+      </if>
+      <if test="systemVersion != null" >
+        and SYSTEM_VERSION = #{systemVersion,jdbcType=VARCHAR}
+      </if>
+      <if test="logoLocation != null" >
+        and LOGO_LOCATION = #{logoLocation,jdbcType=VARCHAR}
+      </if>
+      <if test="personNoPr != null" >
+        and PERSON_NO_PR = #{personNoPr,jdbcType=VARCHAR}
+      </if>
+      <if test="copyrightBelongs != null">
+        and COPYRIGHT_BELONGS = #{copyrightBelongs,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_BASE_CONF
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.SysBaseConf" >
+    insert into SYS_BASE_CONF (PK_ID, SYSTEM_NAME, SYSTEM_VERSION,
+      LOGO_LOCATION, PERSON_NO_PR,COPYRIGHT_BELONGS)
+    values (#{pkId,jdbcType=VARCHAR}, #{systemName,jdbcType=VARCHAR}, #{systemVersion,jdbcType=VARCHAR}, 
+      #{logoLocation,jdbcType=VARCHAR}, #{personNoPr,jdbcType=VARCHAR},#{copyrightBelongs,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.SysBaseConf" >
+    insert into SYS_BASE_CONF
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="systemName != null" >
+        SYSTEM_NAME,
+      </if>
+      <if test="systemVersion != null" >
+        SYSTEM_VERSION,
+      </if>
+      <if test="logoLocation != null" >
+        LOGO_LOCATION,
+      </if>
+      <if test="personNoPr != null" >
+        PERSON_NO_PR,
+      </if>
+      <if test="copyrightBelongs != null">
+        COPYRIGHT_BELONGS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemName != null" >
+        #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="systemVersion != null" >
+        #{systemVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="logoLocation != null" >
+        #{logoLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="personNoPr != null" >
+        #{personNoPr,jdbcType=VARCHAR},
+      </if>
+      <if test="copyrightBelongs != null">
+        #{copyrightBelongs,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.SysBaseConf" >
+    update SYS_BASE_CONF
+    <set >
+      <if test="systemName != null" >
+        SYSTEM_NAME = #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="systemVersion != null" >
+        SYSTEM_VERSION = #{systemVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="logoLocation != null" >
+        LOGO_LOCATION = #{logoLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="personNoPr != null" >
+        PERSON_NO_PR = #{personNoPr,jdbcType=VARCHAR},
+      </if>
+      <if test="copyrightBelongs != null">
+        COPYRIGHT_BELONGS = #{copyrightBelongs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.SysBaseConf" >
+    update SYS_BASE_CONF
+    set SYSTEM_NAME = #{systemName,jdbcType=VARCHAR},
+      SYSTEM_VERSION = #{systemVersion,jdbcType=VARCHAR},
+      LOGO_LOCATION = #{logoLocation,jdbcType=VARCHAR},
+      PERSON_NO_PR = #{personNoPr,jdbcType=VARCHAR},
+      COPYRIGHT_BELONGS = #{copyrightBelongs,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.SysBaseConfVo" resultType="int">
+    select count(1) from SYS_BASE_CONF
+    <where>
+      <if test="systemName != null" >
+        and SYSTEM_NAME = #{systemName,jdbcType=VARCHAR}
+      </if>
+      <if test="systemVersion != null" >
+        and SYSTEM_VERSION = #{systemVersion,jdbcType=VARCHAR}
+      </if>
+      <if test="logoLocation != null" >
+        and LOGO_LOCATION = #{logoLocation,jdbcType=VARCHAR}
+      </if>
+      <if test="personNoPr != null" >
+        and PERSON_NO_PR = #{personNoPr,jdbcType=VARCHAR}
+      </if>
+      <if test="copyrightBelongs != null">
+        and COPYRIGHT_BELONGS = #{copyrightBelongs,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>

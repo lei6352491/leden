@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="caiji-web (1)" />
+        <module name="caiji-web" />
+        <module name="caiji-core (1)" />
+        <module name="caiji-core" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="caiji-core" target="1.8" />
+      <module name="caiji-core (1)" target="1.8" />
+      <module name="caiji-web" target="1.8" />
+      <module name="caiji-web (1)" target="1.8" />
+      <module name="caijijava" target="1.8" />
+      <module name="caijijava (1)" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

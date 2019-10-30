@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.SysRole">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR"/>
+        <result column="ROLE_DESCRIPTION" property="roleDescription" jdbcType="VARCHAR"/>
+        <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR"/>
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, ROLE_NAME, ROLE_DESCRIPTION, DELETE_FLAG, CREATE_USER_ID, CREATE_DATETIME, 
+    UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+    <sql id="BaseTable">
+		sys_role
+  </sql>
+
+    <resultMap id="getMenuTreeByRoleId" type="com.zhouyi.business.core.model.MenuTreeNode">
+        <id property="menuCode" column="menu_code"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="upperMenuCode" column="upper_menu_code"/>
+        <result property="isLeaf" column="is_leaf"/>
+        <result property="iconLocation" column="icon_location"/>
+        <result property="menuAction" column="menu_action"/>
+    </resultMap>
+
+    <select id="selectMenuTreeByRoleId" parameterType="string" resultMap="getMenuTreeByRoleId">
+        select distinct * from
+        (select m.menu_code,m.upper_menu_code,m.menu_name,m.is_leaf,m.ord,m.menu_action,m.icon_location from
+        sys_role r,sys_role_menu s,sys_menu m
+        where r.pk_id = s.role_id and s.menu_code = m.menu_code and r.pk_id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ) x order by x.ord asc
+    </select>
+
+    <select id="selectMenuTreeNodeByRoleId" parameterType="string" resultMap="getMenuTreeByRoleId">
+    select distinct * from
+    (select m.menu_code,m.upper_menu_code,m.menu_name,m.is_leaf,m.ord,m.menu_action,m.icon_location from
+    sys_role r,sys_role_menu s,sys_menu m
+    where r.pk_id = s.role_id and s.menu_code = m.menu_code and r.pk_id = #{id}
+    ) x order by x.ord asc
+  </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_ROLE
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYS_ROLE
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.SysRole">
+    insert into SYS_ROLE (PK_ID, ROLE_NAME, ROLE_DESCRIPTION,
+      DELETE_FLAG, CREATE_USER_ID, CREATE_DATETIME, 
+      UPDATE_USER_ID, UPDATE_DATETIME)
+    values (#{pkId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{roleDescription,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.SysRole">
+        insert into SYS_ROLE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="roleName != null">
+                ROLE_NAME,
+            </if>
+            <if test="roleDescription != null">
+                ROLE_DESCRIPTION,
+            </if>
+            <if test="deleteFlag != null">
+                DELETE_FLAG,
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID,
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME,
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID,
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleDescription != null">
+                #{roleDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.SysRole">
+        update SYS_ROLE
+        <set>
+            <if test="roleName != null">
+                ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleDescription != null">
+                ROLE_DESCRIPTION = #{roleDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.SysRole">
+    update SYS_ROLE
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      ROLE_DESCRIPTION = #{roleDescription,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+    <resultMap id="listResultMap" type="com.zhouyi.business.core.model.MenuTreeNode" extends="BaseResultMap">
+        <result property="createUserName" column="createUserName"></result>
+        <result property="updateUserName" column="updateUserName"></result>
+    </resultMap>
+    <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.SysRoleVo"
+            resultMap="BaseResultMap">
+
+        select ttt.*,
+        (
+            select user_name from sys_user where sys_user.user_code=ttt.create_user_id
+        ) as createUserName,
+        (
+            select user_name from sys_user where sys_user.user_code=ttt.update_user_id
+        ) as updateUserName
+        from
+        (
+        select tt.* from
+        (select rownum rn,t.* from
+        (select e.* from
+        (select * from SYS_ROLE order by
+        <if test="overName = null and overName = '' ">
+            PK_ID
+        </if>
+        <if test="overName != null and overName != '' ">
+            #{overName}
+        </if>
+        asc) e
+        <where>
+            <if test="roleName != null and roleName != '' ">
+                and ROLE_NAME like concat('%',concat(#{roleName},'%'))
+            </if>
+            <if test="roleDescription != null and roleDescription != '' ">
+                and ROLE_DESCRIPTION = #{roleDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="deleteFlag != null and deleteFlag != '' ">
+                and DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null and createUserId != '' ">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createDatetime != null and createDatetime != '' ">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null and updateUserId != '' ">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null and updateDatetime != '' ">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+        ) t) tt
+        where rn &gt;= #{startNo} and rn &lt; #{endNo}
+        ) ttt
+    </select>
+
+    <select id="findTotal" parameterType="com.zhouyi.business.core.vo.SysRoleVo" resultType="int">
+        select count(1) from SYS_ROLE
+        <where>
+            <if test="roleName != null and roleName != '' ">
+                and ROLE_NAME like concat('%',concat(#{roleName},'%'))
+            </if>
+            <if test="roleDescription != null and roleDescription != '' ">
+                and ROLE_DESCRIPTION = #{roleDescription,jdbcType=VARCHAR}
+            </if>
+            <if test="deleteFlag != null and deleteFlag != '' ">
+                and DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null and createUserId != '' ">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createDatetime != null and createDatetime != '' ">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null and updateUserId != '' ">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null and updateDatetime != '' ">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+</mapper>

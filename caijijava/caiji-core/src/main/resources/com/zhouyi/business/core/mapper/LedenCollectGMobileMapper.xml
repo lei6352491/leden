@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectGMobileMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectGMobile" >
+    <id column="WPBH" property="wpbh" jdbcType="VARCHAR" />
+    <result column="ICCID" property="iccid" jdbcType="VARCHAR" />
+    <result column="IMEI" property="imei" jdbcType="VARCHAR" />
+    <result column="IMSI" property="imsi" jdbcType="VARCHAR" />
+    <result column="DHHM" property="dhhm" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WPBH, ICCID, IMEI, IMSI, DHHM
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_G_MOBILE
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_G_MOBILE
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectGMobile" >
+    insert into LEDEN_COLLECT_G_MOBILE (WPBH, ICCID, IMEI,
+      IMSI, DHHM)
+    values (#{wpbh,jdbcType=VARCHAR}, #{iccid,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR}, 
+      #{imsi,jdbcType=VARCHAR}, #{dhhm,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectGMobile" >
+    insert into LEDEN_COLLECT_G_MOBILE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wpbh != null" >
+        WPBH,
+      </if>
+      <if test="iccid != null" >
+        ICCID,
+      </if>
+      <if test="imei != null" >
+        IMEI,
+      </if>
+      <if test="imsi != null" >
+        IMSI,
+      </if>
+      <if test="dhhm != null" >
+        DHHM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wpbh != null" >
+        #{wpbh,jdbcType=VARCHAR},
+      </if>
+      <if test="iccid != null" >
+        #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="dhhm != null" >
+        #{dhhm,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectGMobile" >
+    update LEDEN_COLLECT_G_MOBILE
+    <set >
+      <if test="iccid != null" >
+        ICCID = #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        IMEI = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        IMSI = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="dhhm != null" >
+        DHHM = #{dhhm,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectGMobile" >
+    update LEDEN_COLLECT_G_MOBILE
+    set ICCID = #{iccid,jdbcType=VARCHAR},
+      IMEI = #{imei,jdbcType=VARCHAR},
+      IMSI = #{imsi,jdbcType=VARCHAR},
+      DHHM = #{dhhm,jdbcType=VARCHAR}
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </update>
+
+  <select id="listDataByConditions" statementType="PREPARED" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,LEDEN_COLLECT_G_MOBILE.*
+
+    FROM  LEDEN_COLLECT_G_MOBILE
+
+    <where>
+      <if test="start!=null">
+        ROWNUM &lt;= #{end}
+      </if>
+      <if test="wpbh!=null">
+        and wpbh=#{wpbh}
+      </if>
+    </where>
+     ) collectGMobile
+
+    <where>
+      <if test="start!=null">
+        collectGMobile.rowno &gt;= #{start}
+      </if>
+    </where>
+  </select>
+
+  <select id="getDataCountByConditions" statementType="PREPARED" resultType="int">
+    select count(1) from LEDEN_COLLECT_G_MOBILE
+
+  </select>
+
+
+  <delete id="deleteGMobileByPersonId" parameterType="string">
+    delete from LEDEN_COLLECT_G_MOBILE where wpbh=#{_parameter}
+  </delete>
+</mapper>

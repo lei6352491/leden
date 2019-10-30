@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.SysLogOperationMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.SysLogOperation" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="ADDRE_IP" property="addreIp" jdbcType="VARCHAR" />
+    <result column="OPERATE_MENU_CODE" property="operateMenuCode" jdbcType="VARCHAR" />
+    <result column="OPERATE_TIME" property="operateTime" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+    <result column="UNIT_NAME" property="unitName" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <resultMap id="listResultMap" type="com.zhouyi.business.core.model.SysLogOperation" extends="BaseResultMap">
+     <result column="USER_NAME" property="userName"/>
+    <result column="UNIT_NAME" property="unitName"/>
+    <result column="MENU_NAME" property="menuName"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, USER_ID, ADDRE_IP, OPERATE_MENU_CODE, OPERATE_TIME, CREATE_DATETIME,USER_NAME,UNIT_NAME
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_LOG_OPERATION
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_LOG_OPERATION
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.SysLogOperation" >
+    insert into SYS_LOG_OPERATION (PK_ID, USER_ID, ADDRE_IP,
+      OPERATE_MENU_CODE, OPERATE_TIME, CREATE_DATETIME
+      )
+    values (sys_log_operation_sequence.nextval, #{userId,jdbcType=VARCHAR}, #{addreIp,jdbcType=VARCHAR},
+      #{operateMenuCode,jdbcType=VARCHAR}, #{operateTime,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.SysLogOperation" >
+    insert into SYS_LOG_OPERATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        PK_ID,
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="addreIp != null" >
+        ADDRE_IP,
+      </if>
+      <if test="operateMenuCode != null" >
+        OPERATE_MENU_CODE,
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      sys_log_operation_sequence.nextval,
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="addreIp != null" >
+        #{addreIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operateMenuCode != null" >
+        #{operateMenuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.SysLogOperation" >
+    update SYS_LOG_OPERATION
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="addreIp != null" >
+        ADDRE_IP = #{addreIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operateMenuCode != null" >
+        OPERATE_MENU_CODE = #{operateMenuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME = #{operateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.SysLogOperation" >
+    update SYS_LOG_OPERATION
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      ADDRE_IP = #{addreIp,jdbcType=VARCHAR},
+      OPERATE_MENU_CODE = #{operateMenuCode,jdbcType=VARCHAR},
+      OPERATE_TIME = #{operateTime,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="listSysLogOperationByConditions" statementType="PREPARED" resultMap="listResultMap">
+    select
+        A.*,SYS_USER.USER_NAME,SYS_UNIT.UNIT_NAME,SYS_MENU.MENU_NAME
+    from
+    (
+        SELECT
+        <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,Sys_Log_Operation.*,SYS_USER.USER_NAME,SYS_UNIT.UNIT_NAME
+
+    FROM  Sys_Log_Operation,SYS_USER,SYS_UNIT
+
+    where ROWNUM &lt;
+    = #{end} and Sys_log_operation.USER_ID=SYS_USER.USER_CODE and SYS_USER.USER_UNIT_CODE=SYS_UNIT.UNIT_CODE
+    <if test="ADDRE_IP!=null and ADDRE_IP!=''">
+      and ADDRE_IP like concat('%',concat(#{ADDRE_IP},'%'))
+    </if>
+    <if test="USER_NAME!=null and USER_NAME!=''">
+      and USER_NAME like concat('%',concat(#{USER_NAME},'%'))
+    </if>
+    ) sysLogOperation
+    WHERE sysLogOperation.rowno >=#{start}
+    ) A,SYS_USER,SYS_UNIT,SYS_MENU
+    where A.user_Id=SYS_USER.USER_CODE(+) and SYS_USER.USER_UNIT_CODE=SYS_UNIT.UNIT_CODE(+) and A.OPERATE_MENU_CODE=SYS_MENU.MENU_CODE(+)
+    <if test="MENU_NAME!=null and MENU_NAME!=''">
+      and MENU_NAME like concat('%',concat(#{MENU_NAME},'%'))
+    </if>
+  </select>
+
+  <select id="getSysLogOperationCountByConditions" resultType="int" statementType="PREPARED">
+    select
+        count(1)
+    from
+    (
+        SELECT
+        <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,Sys_Log_Operation.*,SYS_USER.USER_NAME,SYS_UNIT.UNIT_NAME
+
+    FROM  Sys_Log_Operation,SYS_USER,SYS_UNIT
+
+    where ROWNUM &lt;
+    = #{end} and Sys_log_operation.USER_ID=SYS_USER.USER_CODE and SYS_USER.USER_UNIT_CODE=SYS_UNIT.UNIT_CODE
+    <if test="ADDRE_IP!=null and ADDRE_IP!=''">
+      and ADDRE_IP like concat('%',concat(#{ADDRE_IP},'%'))
+    </if>
+    <if test="USER_NAME!=null and USER_NAME!=''">
+      and USER_NAME like concat('5',concat(#{USER_NAME},'%'))
+    </if>
+    <if test="OPERATE_MENU_CODE!=null and OPERATE_MENU_CODE!=''">
+      and OPERATE_MENU_CODE=#{OPERATE_MENU_CODE}
+    </if>
+    ) sysLogOperation
+    WHERE sysLogOperation.rowno >=#{start}
+    ) A,SYS_USER,SYS_UNIT,SYS_MENU
+    where A.user_Id=SYS_USER.USER_CODE(+) and SYS_USER.USER_UNIT_CODE=SYS_UNIT.UNIT_CODE(+) and A.OPERATE_MENU_CODE=SYS_MENU.MENU_CODE(+)
+    <if test="MENU_NAME!=null and MENU_NAME!=''">
+      and MENU_NAME like concat('%',concat(#{MENU_NAME},'%'))
+    </if>
+  </select>
+</mapper>

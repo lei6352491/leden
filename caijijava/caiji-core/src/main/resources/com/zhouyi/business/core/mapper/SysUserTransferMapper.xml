@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.SysUserTransferMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.SysUserTransfer" >
+    <id column="TRANSFER_CODE" property="transferCode" jdbcType="VARCHAR" />
+    <result column="USER_CODE" property="userCode" jdbcType="VARCHAR" />
+    <result column="LAST_USER_CODE" property="lastUserCode" jdbcType="VARCHAR" />
+    <result column="NEW_USER_CODE" property="newUserCode" jdbcType="VARCHAR" />
+    <result column="TRANSFER_DATE" property="transferDate" jdbcType="TIMESTAMP" />
+    <result column="TRANSFER_REASON" property="transferReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TRANSFER_CODE, USER_CODE, LAST_USER_CODE, NEW_USER_CODE, TRANSFER_DATE, TRANSFER_REASON
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_USER_TRANSFER
+    where TRANSFER_CODE = #{transferCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_USER_TRANSFER
+    where TRANSFER_CODE = #{transferCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.SysUserTransfer" >
+    insert into SYS_USER_TRANSFER (TRANSFER_CODE, USER_CODE, LAST_USER_CODE,
+      NEW_USER_CODE, TRANSFER_DATE, TRANSFER_REASON
+      )
+    values (sys_user_transfer_sequences.nextval, #{userCode,jdbcType=VARCHAR}, #{lastUserCode,jdbcType=VARCHAR},
+      #{newUserCode,jdbcType=VARCHAR}, #{transferDate,jdbcType=TIMESTAMP}, #{transferReason,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.SysUserTransfer" >
+    insert into SYS_USER_TRANSFER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        TRANSFER_CODE,
+      <if test="userCode != null" >
+        USER_CODE,
+      </if>
+      <if test="lastUserCode != null" >
+        LAST_USER_CODE,
+      </if>
+      <if test="newUserCode != null" >
+        NEW_USER_CODE,
+      </if>
+      <if test="transferDate != null" >
+        TRANSFER_DATE,
+      </if>
+      <if test="transferReason != null" >
+        TRANSFER_REASON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      sys_user_transfer_sequences.nextval,
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUserCode != null" >
+        #{lastUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newUserCode != null" >
+        #{newUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transferDate != null" >
+        #{transferDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transferReason != null" >
+        #{transferReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.SysUserTransfer" >
+    update SYS_USER_TRANSFER
+    <set >
+      <if test="userCode != null" >
+        USER_CODE = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUserCode != null" >
+        LAST_USER_CODE = #{lastUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newUserCode != null" >
+        NEW_USER_CODE = #{newUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transferDate != null" >
+        TRANSFER_DATE = #{transferDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transferReason != null" >
+        TRANSFER_REASON = #{transferReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TRANSFER_CODE = #{transferCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.SysUserTransfer" >
+    update SYS_USER_TRANSFER
+    set USER_CODE = #{userCode,jdbcType=VARCHAR},
+      LAST_USER_CODE = #{lastUserCode,jdbcType=VARCHAR},
+      NEW_USER_CODE = #{newUserCode,jdbcType=VARCHAR},
+      TRANSFER_DATE = #{transferDate,jdbcType=TIMESTAMP},
+      TRANSFER_REASON = #{transferReason,jdbcType=VARCHAR}
+    where TRANSFER_CODE = #{transferCode,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="listSysUserTransfersByConditions" resultMap="BaseResultMap" statementType="PREPARED">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,Sys_User_Transfer.*
+
+    FROM  Sys_User_Transfer
+
+    where ROWNUM &lt;= #{end}) sysUserTransfer
+
+    WHERE sysUserTransfer.rowno >= #{start}
+  </select>
+
+  <select id="getSysUserTransferCountByConditions" statementType="PREPARED" resultType="int">
+    select
+    count(1)
+    from
+    Sys_User_Transfer
+  </select>
+</mapper>

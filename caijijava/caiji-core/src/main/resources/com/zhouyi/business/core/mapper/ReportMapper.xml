@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhouyi.business.core.dao.ReportMapper">
+
+    <resultMap id="reportMap" type="com.zhouyi.business.core.model.ReportDto">
+        <result column="collectSum" property="collectSum"/>
+        <result column="unit_code" property="unitCode"/>
+        <result column="unit_name" property="unitName"/>
+        <result column="UPPER_UNIT_CODE" property="upperUnitCode"/>
+        <collection property="collectInfos" ofType="com.zhouyi.business.core.model.ReportDto.CollectInfo"
+                    select="getNodeCollectByUnit" column="{unitCode=UNIT_CODE,startDate=Start_Date,endDate=End_Date}">
+
+        </collection>
+    </resultMap>
+
+    <select id="listReportInfoByConditions" resultMap="reportMap">
+
+        select u.unit_code,u.unit_name,a.collectSum,u.UPPER_UNIT_CODE
+        <if test="startDate!=null">
+            ,(select #{startDate} from dual) as Start_Date
+        </if>
+        <if test="startDate==null">
+            ,(select null from dual) as Start_Date
+        </if>
+        <if test="endDate!=null">
+            ,(select #{endDate} from dual) as End_Date
+        </if>
+        <if test="endDate==null">
+            ,(select null from dual) as End_Date
+        </if>
+        from sys_unit u
+        left join (
+
+        select count(1) collectSum,a.unit_code,a.unit_name from (
+
+        select count(1) as collectSum,u.unit_code,u.unit_name
+        from sys_unit u
+        left join leden_collect_person p on p.cjdwdm=u.unit_code
+        right join leden_collect_process pc on p.ryjcxxcjbh=pc.ryjcxxcjbh
+        <where>
+            <if test="upper">
+                u.unit_code=#{unitCode}
+            </if>
+            <if test="upper==false">
+                u.UPPER_UNIT_CODE=#{unitCode}
+            </if>
+            <if test="startDate!=null and endDate!=null">
+                and pc.collect_date>=#{startDate} and pc.collect_date&lt;=#{endDate}
+            </if>
+        </where>
+        group by u.unit_code,unit_code,unit_name,p.ryjcxxcjbh
+
+
+        ) a
+        group by a.unit_code,a.unit_name
+        ) a on a.unit_code=u.unit_code
+        where
+        <if test="upper">
+            u.unit_code=#{unitCode}
+        </if>
+        <if test="upper==false">
+            u.UPPER_UNIT_CODE=#{unitCode}
+        </if>
+
+    </select>
+
+
+    <resultMap id="nodeResultMap" type="com.zhouyi.business.core.model.CollectInfo">
+        <result column="collectNum" property="collectNum"/>
+        <result column="node_name" property="nodeName"/>
+        <result column="node_code" property="nodeCode"/>
+        <result column="node_sign" property="nodeSign"/>
+    </resultMap>
+    <select id="getNodeCollectByUnit" resultMap="nodeResultMap" parameterType="java.util.HashMap">
+        select snd.ct collectNum,snd.node_name nodeName,snd.node_sign nodeSign,snd.node_code nodeCode
+        from (
+        select * from leden_collect_node n
+        left join (
+        select count(1) ct,pc.collect_node_id from sys_unit u
+        left join leden_collect_person p on p.cjdwdm=u.unit_code
+        right join leden_collect_process pc on pc.ryjcxxcjbh=p.ryjcxxcjbh
+        where u.unit_code=#{unitCode}
+        and pc.collect_status='1'
+        <if test="startDate!=null and endDate!=null">
+            and pc.collect_date>=#{startDate} and pc.collect_date&lt;=#{endDate}
+        </if>
+        group by pc.collect_node_id
+
+
+        ) info
+        on info.collect_node_id=n.node_code) snd order by nodecode
+
+    </select>
+
+</mapper>

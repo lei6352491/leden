@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenEquipmentEmpowerMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenEquipmentEmpower" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_ID" property="equipmentId" jdbcType="VARCHAR" />
+    <result column="NODE_SIGN" property="nodeSign" jdbcType="VARCHAR" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, EQUIPMENT_ID, NODE_SIGN, DELETAG, ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
+    UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_EQUIPMENT_EMPOWER
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEquipmentEmpowerByEquipmentCode" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from LEDEN_EQUIPMENT_EMPOWER
+    where EQUIPMENT_ID = #{code,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_EQUIPMENT_EMPOWER
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenEquipmentEmpower" >
+    insert into LEDEN_EQUIPMENT_EMPOWER (PK_ID, EQUIPMENT_ID, NODE_SIGN,
+      DELETAG, ANNEX, CREATE_USER_ID, 
+      CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}, #{nodeSign,jdbcType=VARCHAR}, 
+      #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenEquipmentEmpower" >
+    insert into LEDEN_EQUIPMENT_EMPOWER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="equipmentId != null" >
+        EQUIPMENT_ID,
+      </if>
+      <if test="nodeSign != null" >
+        NODE_SIGN,
+      </if>
+      <if test="deletag != null" >
+        DELETAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null" >
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeSign != null" >
+        #{nodeSign,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenEquipmentEmpower" >
+    update LEDEN_EQUIPMENT_EMPOWER
+    <set >
+      <if test="equipmentId != null" >
+        EQUIPMENT_ID = #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeSign != null" >
+        NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        DELETAG = #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenEquipmentEmpower" >
+    update LEDEN_EQUIPMENT_EMPOWER
+    set EQUIPMENT_ID = #{equipmentId,jdbcType=VARCHAR},
+      NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getEquipmentEmpowerByEquipmnetCode" parameterType="string" resultMap="BaseResultMap" statementType="PREPARED">
+    select
+    <include refid="Base_Column_List"/>
+    from LEDEN_EQUIPMENT_EMPOWER
+    where EQUIPMENT_ID=#{_parameter}
+  </select>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.model.LedenEquipmentEmpower"
+          resultMap="BaseResultMap">
+        select * from LEDEN_EQUIPMENT_EMPOWER
+        <where>
+          <if test="equipmentId != null and equipmentId != ''" >
+            and EQUIPMENT_ID = #{equipmentId,jdbcType=VARCHAR}
+          </if>
+          <if test="nodeSign != null and nodeSign != ''" >
+            and NODE_SIGN = #{nodeSign,jdbcType=VARCHAR}
+          </if>
+          <if test="deletag != null and deletag != ''" >
+            and DELETAG = #{deletag,jdbcType=VARCHAR}
+          </if>
+          <if test="createUserId != null and createUserId != ''" >
+            and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+          </if>
+          <if test="createDatetime != null" >
+            and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+          </if>
+          <if test="updateUserId != null and updateUserId != ''" >
+            and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+          </if>
+          <if test="updateDatetime != null" >
+            and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+          </if>
+        </where>
+  </select>
+
+</mapper>

@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenAdvancedQueryMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenAdvancedQuery">
+        <result column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="COLLET_CATEGORY_NAME" property="colletCategoryName" jdbcType="VARCHAR"/>
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
+        <result column="XM" property="xm" jdbcType="VARCHAR"/>
+        <result column="GMSFHM" property="gmsfhm" jdbcType="VARCHAR"/>
+        <result column="XBDM" property="xbdm" jdbcType="VARCHAR"/>
+        <result column="RYDNABH" property="rydnabh" jdbcType="VARCHAR"/>
+        <result column="XDJCJG" property="xdjcjg" jdbcType="VARCHAR"/>
+        <result column="AJLBDM" property="ajlbdm" jdbcType="VARCHAR"/>
+        <result column="CJDWDM" property="cjdwdm" jdbcType="VARCHAR"/>
+        <result column="CJDWMC" property="cjdwmc" jdbcType="VARCHAR"/>
+        <result column="CJSJ" property="cjsj" jdbcType="TIMESTAMP"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="SCHEDULE" property="schedule" jdbcType="VARCHAR"/>
+        <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    PK_ID, COLLET_CATEGORY_NAME, RYJCXXCJBH,
+      XM, GMSFHM, XBDM, RYDNABH,
+      XDJCJG, AJLBDM, CJDWDM,
+      CJDWMC, CJSJ, STATUS,
+      SCHEDULE, DELETAG
+  </sql>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenAdvancedQuery">
+    insert into LEDEN_ADVANCED_QUERY (PK_ID, COLLET_CATEGORY_NAME, RYJCXXCJBH, 
+      XM, GMSFHM, XBDM, RYDNABH, 
+      XDJCJG, AJLBDM, CJDWDM, 
+      CJDWMC, CJSJ, STATUS, 
+      SCHEDULE, DELETAG)
+    values (#{pkId,jdbcType=VARCHAR}, #{colletCategoryName,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, 
+      #{xm,jdbcType=VARCHAR}, #{gmsfhm,jdbcType=VARCHAR}, #{xbdm,jdbcType=VARCHAR}, #{rydnabh,jdbcType=VARCHAR}, 
+      #{xdjcjg,jdbcType=VARCHAR}, #{ajlbdm,jdbcType=VARCHAR}, #{cjdwdm,jdbcType=VARCHAR}, 
+      #{cjdwmc,jdbcType=VARCHAR}, #{cjsj,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{schedule,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenAdvancedQuery">
+        insert into LEDEN_ADVANCED_QUERY
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="colletCategoryName != null">
+                COLLET_CATEGORY_NAME,
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH,
+            </if>
+            <if test="xm != null">
+                XM,
+            </if>
+            <if test="gmsfhm != null">
+                GMSFHM,
+            </if>
+            <if test="xbdm != null">
+                XBDM,
+            </if>
+            <if test="rydnabh != null">
+                RYDNABH,
+            </if>
+            <if test="xdjcjg != null">
+                XDJCJG,
+            </if>
+            <if test="ajlbdm != null">
+                AJLBDM,
+            </if>
+            <if test="cjdwdm != null">
+                CJDWDM,
+            </if>
+            <if test="cjdwmc != null">
+                CJDWMC,
+            </if>
+            <if test="cjsj != null">
+                CJSJ,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="schedule != null">
+                SCHEDULE,
+            </if>
+            <if test="deletag != null">
+                DELETAG,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="colletCategoryName != null">
+                #{colletCategoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="xm != null">
+                #{xm,jdbcType=VARCHAR},
+            </if>
+            <if test="gmsfhm != null">
+                #{gmsfhm,jdbcType=VARCHAR},
+            </if>
+            <if test="xbdm != null">
+                #{xbdm,jdbcType=VARCHAR},
+            </if>
+            <if test="rydnabh != null">
+                #{rydnabh,jdbcType=VARCHAR},
+            </if>
+            <if test="xdjcjg != null">
+                #{xdjcjg,jdbcType=VARCHAR},
+            </if>
+            <if test="ajlbdm != null">
+                #{ajlbdm,jdbcType=VARCHAR},
+            </if>
+            <if test="cjdwdm != null">
+                #{cjdwdm,jdbcType=VARCHAR},
+            </if>
+            <if test="cjdwmc != null">
+                #{cjdwmc,jdbcType=VARCHAR},
+            </if>
+            <if test="cjsj != null">
+                #{cjsj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="schedule != null">
+                #{schedule,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                #{deletag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenAdvancedQuery"
+            statementType="PREPARED">
+        update leden_advanced_query
+        <set>
+            <if test="collet_category_name!=null">
+                collet_category_name=#{collet_category_name}
+            </if>
+            <if test="ryjcxxcjbh!=null">
+                ryjcxxcjbh=#{ryjcxxcjbh}
+            </if>
+            <if test="xm!=null">
+                xm=#{xm}
+            </if>
+            <if test="gmsfhm!=null">
+                gmsfhm=#{gmsfhm}
+            </if>
+            <if test="xbdm!=null">
+                xbdm=#{xbdm}
+            </if>
+            <if test="rydnabh!=null">
+                rydnabh=#{rydnabh}
+            </if>
+            <if test="xdjcjg!=null">
+                xdjcjg=#{xdjcjg}
+            </if>
+            <if test="ajlbdm!=null">
+                ajlbdm=#{ajlbdm}
+            </if>
+            <if test="cjdwdm!=null">
+                cjdwdm=#{cjdwdm}
+            </if>
+            <if test="cjdwmc!=null">
+                cjdwmc=#{cjdwmc}
+            </if>
+            <if test="cjsj!=null">
+                cjsj=#{cjsj}
+            </if>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+            <if test="schedule!=null">
+                schedule=#{schedule}
+            </if>
+            <if test="deletag!=null">
+                deletag=#{deletag}
+            </if>
+        </set>
+        where PK_ID=#{pkId}
+    </update>
+
+
+    <select id="listDataByConditions" statementType="PREPARED" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM (
+        SELECT ROWNUM AS rowno,leden_advanced_query.*
+
+        FROM leden_advanced_query
+
+        where ROWNUM &lt;= #{end}) ledenAdvancedQuery
+
+        WHERE ledenAdvancedQuery.rowno &gt;= #{start}
+    </select>
+
+    <select id="getDataCountByConditions" resultType="int">
+    select count(1) from
+      (select
+      p.*,d.RYDNABH,x.XDJCJG
+      from
+      LEDEN_COLLECT_PERSON p,LEDEN_COLLECT_DNA d,LEDEN_COLLECT_DRUGTEST x
+      where
+      p.RYJCXXCJBH=d.RYJCXXCJBH(+) and p.RYJCXXCJBH=x.RYJCXXCJBH(+)
+      and ROWNUM &lt;= #{end}
+      <if test="cjdwdm!=null">
+        and p.CJDWDM like '%'||#{cjdwdm}||'%'
+      </if>
+      <if test="idLedenCollectCategory!=null">
+        and COLLECT_CATEGORY_ID like '%'||#{idLedenCollectCategory}||'%'
+      </if>
+      <if test="cjrybh!=null">
+        and RYJCXXCJBH like '%'||#{cjrybh}||'%'
+      </if>
+      <if test="xm!=null">
+        and XM like '%'||#{xm}||'%'
+      </if>
+      <if test="wwxm!=null">
+        and WWXM=#{wwxm}
+      </if>
+      <if test="gmsfhm!=null">
+        and GMSFHM like '%'||#{gmsfhm}||'%'
+      </if>
+      <if test="mzdm!=null">
+        and MZDM like '%'||#{mzdm}||'%'
+      </if>
+      <if test="jgssxdm!=null">
+        and JGSSXDM like '%'||#{jgssxdm}||'%'
+      </if>
+      <if test="hjdssxdm!=null">
+        and HJDSSXDM like '%'||#{hjdssxdm}||'%'
+      </if>
+      <if test="csdssxdm!=null">
+        and CSDSSXDM like '%'||#{csdssxdm}||'%'
+      </if>
+      <if test="ajlbdm!=null">
+        and AJLBDM like '%'||#{ajlbdm}||'%'
+      </if>
+      <if test="rydnabh!=null">
+        and p.RYDNABH like '%'||#{rydnabh}||'$'
+      </if>
+      <if test="xdjcjg!=null">
+        and p.XDJCJG like '%'||#{xdjcjg}||'%'
+      </if>
+      <if test="cjrxm!=null">
+        and CJRXM like '%'||#{cjrxm}||'%'
+      </if>
+      <if test="status!=null">
+        and p.status=#{status}
+      </if>
+      <if test="beginDate!=null">
+        and p.create_datetime &gt;= #{beginDate}
+      </if>
+      <if test="endDate!=null">
+        and p.create_datetime &lt;= #{endDate}
+      </if>
+      )
+  </select>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" statementType="PREPARED">
+        select
+        <include refid="Base_Column_List"/>
+        from leden_advanced_query
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+
+  <resultMap id="ResultMap" type="com.zhouyi.business.dto.AdvanceSearchDto">
+    <result column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+    <result column="COLLET_CATEGORY_NAME" property="idLedenCollectCategory" jdbcType="VARCHAR"/>
+    <result column="RYJCXXCJBH" property="cjrybh" jdbcType="VARCHAR"/>
+    <result column="XM" property="xm" jdbcType="VARCHAR"/>
+    <result column="GMSFHM" property="gmsfhm" jdbcType="VARCHAR"/>
+    <result column="XBDM" property="xbdm" jdbcType="VARCHAR"/>
+    <result column="RYDNABH" property="rydnabh" jdbcType="VARCHAR"/>
+    <result column="XDJCJG" property="xdjcjg" jdbcType="VARCHAR"/>
+    <result column="AJLBDM" property="ajlbdm" jdbcType="VARCHAR"/>
+    <result column="CJDWDM" property="cjdwdm" jdbcType="VARCHAR"/>
+    <result column="CJDWMC" property="cjdwmc" jdbcType="VARCHAR"/>
+    <result column="CJSJ" property="cjsj" jdbcType="TIMESTAMP"/>
+    <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+    <result column="SCHEDULE" property="schedule" jdbcType="VARCHAR"/>
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
+  </resultMap>
+
+    <select id="ledenAdvancedQueryUnionVersion" resultMap="ResultMap" statementType="PREPARED">
+        select
+          *
+        from (
+        select
+        p.*,d.RYDNABH,x.XDJCJG,ROWNUM as rowno
+        from
+        LEDEN_COLLECT_PERSON p,LEDEN_COLLECT_DNA d,LEDEN_COLLECT_DRUGTEST x
+        where
+        p.RYJCXXCJBH=d.RYJCXXCJBH(+) and p.RYJCXXCJBH=x.RYJCXXCJBH(+)
+        and ROWNUM &lt;= #{end}
+        <if test="cjdwdm!=null">
+            and p.CJDWDM like '%'||#{cjdwdm}||'%'
+        </if>
+        <if test="idLedenCollectCategory!=null">
+            and COLLECT_CATEGORY_ID like '%'||#{idLedenCollectCategory}||'%'
+        </if>
+        <if test="cjrybh!=null">
+            and RYJCXXCJBH like '%'||#{cjrybh}||'%'
+        </if>
+        <if test="xm!=null">
+            and XM like '%'||#{xm}||'%'
+        </if>
+        <if test="wwxm!=null">
+            and WWXM=#{wwxm}
+        </if>
+        <if test="gmsfhm!=null">
+            and GMSFHM like '%'||#{gmsfhm}||'%'
+        </if>
+        <if test="mzdm!=null">
+            and MZDM like '%'||#{mzdm}||'%'
+        </if>
+        <if test="jgssxdm!=null">
+            and JGSSXDM like '%'||#{jgssxdm}||'%'
+        </if>
+        <if test="hjdssxdm!=null">
+            and HJDSSXDM like '%'||#{hjdssxdm}||'%'
+        </if>
+        <if test="csdssxdm!=null">
+            and CSDSSXDM like '%'||#{csdssxdm}||'%'
+        </if>
+        <if test="ajlbdm!=null">
+            and AJLBDM like '%'||#{ajlbdm}||'%'
+        </if>
+        <if test="rydnabh!=null">
+            and p.RYDNABH like '%'||#{rydnabh}||'$'
+        </if>
+        <if test="xdjcjg!=null">
+            and p.XDJCJG like '%'||#{xdjcjg}||'%'
+        </if>
+        <if test="cjrxm!=null">
+            and CJRXM like '%'||#{cjrxm}||'%'
+        </if>
+        <if test="status!=null">
+            and p.status=#{status}
+        </if>
+        <!--<if test="beginDate!=null and endDate!=null">
+            and p.create_datetime between to_date(#{beginDate},'yyyy-mm-dd hh24:mi:ss')
+            and to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="minAge!=null and maxAge!=null">
+            and
+            select trunc(
+            months_between(CSRQ,select to_char(sysdate,'yyyy-MM-dd HH24:mi:ss') from dual/12))>=#{minAge}
+            and
+            select trunc(
+            months_between(CSRQ,select to_char(sysdate,'yyyy-MM-dd HH24:mi:ss') from dual/12)) &lt;=#{maxAge}
+        </if>-->
+      <if test="beginDate!=null">
+        and p.create_datetime &gt;= #{beginDate}
+      </if>
+      <if test="endDate!=null">
+        and p.create_datetime &lt;= #{endDate}
+      </if>
+        ) advance
+        where advance.rowno>=#{start}
+    </select>
+
+    <resultMap id="selectAllCollectMap" type="com.zhouyi.business.core.model.AdvancedQueryResult">
+        <result column="COLLECT_CATEGORY_ID" property="collectCategoryId"/>
+        <result column="COLLET_CATEGORY_NAME" property="cateGoryName"/>
+    </resultMap>
+
+    <resultMap id="personResultMap" type="com.zhouyi.business.core.model.PersonResult" >
+        <id column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
+        <result column="JZRYBH" property="jzrybh" jdbcType="VARCHAR" />
+        <result column="CJXXYYDM" property="cjxxyydm" jdbcType="VARCHAR" />
+        <result column="XM" property="xm" jdbcType="VARCHAR" />
+        <result column="XMHYPY" property="xmhypy" jdbcType="VARCHAR" />
+        <result column="GMSFHM" property="gmsfhm" jdbcType="VARCHAR" />
+        <result column="CYZJDM" property="cyzjdm" jdbcType="VARCHAR" />
+        <result column="ZJHM" property="zjhm" jdbcType="VARCHAR" />
+        <result column="XBDM" property="xbdm" jdbcType="VARCHAR" />
+        <result column="CSRQ" property="csrq" jdbcType="TIMESTAMP" />
+        <result column="CYM" property="cym" jdbcType="VARCHAR" />
+        <result column="WWXM" property="wwxm" jdbcType="VARCHAR" />
+        <result column="BMCH" property="bmch" jdbcType="VARCHAR" />
+        <result column="GJDM" property="gjdm" jdbcType="VARCHAR" />
+        <result column="MZDM" property="mzdm" jdbcType="VARCHAR" />
+        <result column="JGSSXDM" property="jgssxdm" jdbcType="VARCHAR" />
+        <result column="CSDSSXDM" property="csdssxdm" jdbcType="VARCHAR" />
+        <result column="CSDXZ" property="csdxz" jdbcType="VARCHAR" />
+        <result column="HJDSSXDM" property="hjdssxdm" jdbcType="VARCHAR" />
+        <result column="HJDXZ" property="hjdxz" jdbcType="VARCHAR" />
+        <result column="ZZMMDM" property="zzmmdm" jdbcType="VARCHAR" />
+        <result column="HYZKDM" property="hyzkdm" jdbcType="VARCHAR" />
+        <result column="XLDM" property="xldm" jdbcType="VARCHAR" />
+        <result column="GRSFDM" property="grsfdm" jdbcType="VARCHAR" />
+        <result column="RYLBDM" property="rylbdm" jdbcType="VARCHAR" />
+        <result column="XZDQHDM" property="xzdqhdm" jdbcType="VARCHAR" />
+        <result column="XZDXZ" property="xzdxz" jdbcType="VARCHAR" />
+        <result column="AJLBDM" property="ajlbdm" jdbcType="VARCHAR" />
+        <result column="CJRXM" property="cjrxm" jdbcType="VARCHAR" />
+        <result column="CJDWDM" property="cjdwdm" jdbcType="VARCHAR" />
+        <result column="CJDWMC" property="cjdwmc" jdbcType="VARCHAR" />
+        <result column="CJSJ" property="cjsj" jdbcType="TIMESTAMP" />
+        <result column="TSSFDM" property="tssfdm" jdbcType="VARCHAR" />
+        <result column="ZJXYDM" property="zjxydm" jdbcType="VARCHAR" />
+        <result column="COLLECT_CATEGORY_ID" property="collectCategoryId" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="SCHEDULE" property="schedule" jdbcType="VARCHAR" />
+        <result column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+        <result column="EQUIPMENT_CODE" property="equipmentCode" jdbcType="VARCHAR" />
+        <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+        <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+        <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+        <result column="NAME" property="name"/>
+        <result column="typeName" property="typeName"/>
+    </resultMap>
+
+    <select id="selectDataByIdList" parameterType="list" resultMap="personResultMap">
+        select
+        p.*,d1.name as cjxxyymc,d2.name as cyzjmc,d3.name as gjmc,d4.name as mzmc,d5.name as jgssxmc,
+        d6.name as csdssxmc,d7.name as hjdssxmc,d8.name as zzmmmc,d9.name as xlmc,d10.name as rylbmc,
+        d11.name as tssfmc,c.collet_category_name as cjlbmc
+        from LEDEN_COLLECT_PERSON p
+        left join SYS_DICT_LIST d1 on p.cjxxyydm = d1.code and d1.sign = 'DICT_RYCJYY'
+        left join SYS_DICT_LIST d2 on p.cyzjdm = d2.code and d2.sign = 'DICT_RYCHYZHJ'
+        left join SYS_DICT_LIST d3 on p.gjdm = d3.code and d3.sign = 'DICT_RYGJ'
+        left join SYS_DICT_LIST d4 on p.mzdm = d4.code and d4.sign = 'DICT_RYMZ'
+        left join SYS_DICT_LIST d5 on p.jgssxdm = d5.code and d5.sign = 'DICT_XZQH'
+        left join SYS_DICT_LIST d6 on p.csdssxdm = d6.code and d6.sign = 'DICT_XZQH'
+        left join SYS_DICT_LIST d7 on p.hjdssxdm = d7.code and d7.sign = 'DICT_XZQH'
+        left join SYS_DICT_LIST d8 on p.zzmmdm = d8.code and d8.sign = 'DICT_RYZHZHMM'
+        left join SYS_DICT_LIST d9 on p.xldm = d9.code and d9.sign = 'DICT_RYXL'
+        left join SYS_DICT_LIST d10 on p.rylbdm = d10.code and d10.sign = 'DICT_RYLB'
+        left join SYS_DICT_LIST d11 on p.tssfdm = d11.code and d11.sign = 'DICT_RYGRSHF'
+        left join LEDEN_COLLECT_CATEGORY c on p.collect_category_id = c.pk_id
+        <where>
+            <if test="list != null and list.size() > 0">
+              <foreach collection="list" item="str" open="p.RYJCXXCJBH in(" separator="," close=")">
+                  #{str}
+              </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAllCollect" parameterType="com.zhouyi.business.core.model.AdvanceSearchVo"
+            resultMap="selectAllCollectMap">
+        select * from
+            (select rownum rn,csl.* from
+                (select
+                p.*,d.rydnabh,d.yblxdm,d.ybbzqk,d.sample_des,d.cjzkbsdm,t.xdjcyb,t.xdjcfs,t.xdjcjg,y.COLLET_CATEGORY_NAME,l.name
+                from
+                leden_collect_person p left join leden_collect_dna d on p.ryjcxxcjbh = d.ryjcxxcjbh left join leden_collect_drugtest t on t.ryjcxxcjbh = d.ryjcxxcjbh left join LEDEN_COLLECT_CATEGORY y on p.COLLECT_CATEGORY_ID = y.PK_ID left join sys_dict_list l on l.code = p.AJLBDM
+                <where>
+                    <if test="cjdwdm != null and cjdwdm != ''">
+                        and p.cjdwdm = #{cjdwdm}
+                    </if>
+                    <if test="idLedenCollectCategory != null  and idLedenCollectCategory != ''">
+                        and p.COLLECT_CATEGORY_ID = #{idLedenCollectCategory}
+                    </if>
+                    <if test="cjrybh != null and cjrybh != ''">
+                        and p.RYJCXXCJBH like '%'||#{cjrybh}||'%'
+                    </if>
+                    <if test="xm != null and xm != ''">
+                        and p.XM like '%'||#{xm}||'%'
+                    </if>
+                    <if test="wwxm != null and wwxm != ''">
+                        and p.WWXM = #{wwxm}
+                    </if>
+                    <if test="gmsfhm != null and gmsfhm != ''">
+                        and p.GMSFHM like '%'||#{gmsfhm}||'%'
+                    </if>
+                    <if test="mzdm != null and mzdm != ''">
+                        and p.MZDM = #{mzdm}
+                    </if>
+                    <if test="jgssxdm != null and jgssxdm != ''">
+                        and p.JGSSXDM = #{jgssxdm}
+                    </if>
+                    <if test="hjdssxdm != null and hjdssxdm != ''">
+                        and p.HJDSSXDM = #{hjdssxdm}
+                    </if>
+                    <if test="csdssxdm != null and csdssxdm != ''">
+                        and p.CSDSSXDM = #{csdssxdm}
+                    </if>
+                    <if test="ajlbdm != null and ajlbdm != ''">
+                        and p.AJLBDM = #{ajlbdm}
+                    </if>
+                    <if test="rydnabh != null and rydnabh != ''">
+                        and d.RYDNABH  = #{rydnabh}
+                    </if>
+                    <if test="xdjcjg != null and xdjcjg != ''">
+                        and t.XDJCJG = #{xdjcjg}
+                    </if>
+                    <if test="cjrxm != null and cjrxm != ''">
+                        and p.CJRXM  = #{cjrxm}
+                    </if>
+                    <if test="status != null and status != ''">
+                        and p.status = #{status}
+                    </if>
+                    <if test="beginDate != null">
+                        and p.cjsj &gt;= #{beginDate}
+                    </if>
+                    <if test="endDate != null">
+                        and p.cjsj &lt;= #{endDate}
+                    </if>
+                    <if test="startDate != null">
+                        and p.csrq &gt;= #{startDate}
+                    </if>
+                    <if test="stopDate != null">
+                        and p.csrq &lt;= #{stopDate}
+                    </if>
+                    <if test="sign != null and sign != null">
+                        and l.sign = #{sign}
+                    </if>
+                </where>
+                order by p.cjsj desc)
+            csl)
+        where rn &gt;= ((#{pNo} - 1) * #{pSize}) + 1 and rn &lt; ((#{pNo} - 1) * #{pSize}) + 1 + #{pSize}
+    </select>
+
+    <select id="selectAllCollectCount" parameterType="com.zhouyi.business.core.model.AdvanceSearchVo" resultType="int">
+        select
+        count(1)
+        from
+        leden_collect_person p left join leden_collect_dna d on p.ryjcxxcjbh = d.ryjcxxcjbh left join leden_collect_drugtest t on t.ryjcxxcjbh = d.ryjcxxcjbh left join LEDEN_COLLECT_CATEGORY y on p.COLLECT_CATEGORY_ID = y.PK_ID left join sys_dict_list l on l.code = p.AJLBDM
+        <where>
+            <if test="cjdwdm != null and cjdwdm != ''">
+                and p.cjdwdm = #{cjdwdm}
+            </if>
+            <if test="idLedenCollectCategory != null  and idLedenCollectCategory != ''">
+                and p.COLLECT_CATEGORY_ID = #{idLedenCollectCategory}
+            </if>
+            <if test="cjrybh != null and cjrybh != ''">
+                and p.RYJCXXCJBH like '%'||#{cjrybh}||'%'
+            </if>
+            <if test="xm != null and xm != ''">
+                and p.XM like '%'||#{xm}||'%'
+            </if>
+            <if test="wwxm != null and wwxm != ''">
+                and p.WWXM = #{wwxm}
+            </if>
+            <if test="gmsfhm != null and gmsfhm != ''">
+                and p.GMSFHM like '%'||#{gmsfhm}||'%'
+            </if>
+            <if test="mzdm != null and mzdm != ''">
+                and p.MZDM = #{mzdm}
+            </if>
+            <if test="jgssxdm != null and jgssxdm != ''">
+                and p.JGSSXDM = #{jgssxdm}
+            </if>
+            <if test="hjdssxdm != null and hjdssxdm != ''">
+                and p.HJDSSXDM = #{hjdssxdm}
+            </if>
+            <if test="csdssxdm != null and csdssxdm != ''">
+                and p.CSDSSXDM = #{csdssxdm}
+            </if>
+            <if test="ajlbdm != null and ajlbdm != ''">
+                and p.AJLBDM = #{ajlbdm}
+            </if>
+            <if test="rydnabh != null and rydnabh != ''">
+                and d.RYDNABH  = #{rydnabh}
+            </if>
+            <if test="xdjcjg != null and xdjcjg != ''">
+                and t.XDJCJG = #{xdjcjg}
+            </if>
+            <if test="cjrxm != null and cjrxm != ''">
+                and p.CJRXM  = #{cjrxm}
+            </if>
+            <if test="status != null and status != ''">
+                and p.status = #{status}
+            </if>
+            <if test="beginDate != null">
+                and p.cjsj &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null">
+                and p.cjsj &lt;= #{endDate}
+            </if>
+            <if test="startDate != null">
+                and p.csrq &gt;= #{startDate}
+            </if>
+            <if test="stopDate != null">
+                and p.csrq &lt;= #{stopDate}
+            </if>
+            <if test="sign != null and sign != null">
+                and l.sign = #{sign}
+            </if>
+        </where>
+    </select>
+</mapper>

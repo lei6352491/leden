@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectSignMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectSign">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="TSTZ_MC" property="tstzMc" jdbcType="VARCHAR"/>
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
+        <result column="TSTZ_BW" property="tstzBw" jdbcType="VARCHAR"/>
+        <result column="TSTZ_FW" property="tstzFw" jdbcType="VARCHAR"/>
+        <result column="TSTZ_SL" property="tstzSl" jdbcType="VARCHAR"/>
+        <result column="TSTZ_CC" property="tstzCc" jdbcType="VARCHAR"/>
+        <result column="TSTZ_YS" property="tstzYs" jdbcType="VARCHAR"/>
+        <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
+        <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectSign" extends="BaseResultMap">
+        <result column="TSTZ_ZP" property="tstzZp" jdbcType="BLOB"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, TSTZ_MC, RYJCXXCJBH, TSTZ_BW, TSTZ_FW, TSTZ_SL, TSTZ_CC, TSTZ_YS, DELETAG, 
+    ANNEX, CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+    <sql id="Blob_Column_List">
+    TSTZ_ZP
+  </sql>
+
+    <sql id="BaseTable">
+		LEDEN_COLLECT_SIGN
+  </sql>
+
+    <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectSignVo"
+            resultMap="ResultMapWithBLOBs">
+        select tt.* from
+        (select rownum rn,t.* from
+        (select e.* from
+        (select s.*,d1.name as tstzmc,d2.name as tstzbwmc,d3.name as tstzfwmc,d4.name as tstzslmc,d5.name as tstzysmc
+        from LEDEN_COLLECT_SIGN s
+        left join sys_dict_list d1 on s.tstz_mc = d1.code and d1.sign = 'DICT_TBTSBJ'
+        left join sys_dict_list d2 on s.tstz_bw = d2.code and d2.sign = 'DICT_RTBW'
+        left join sys_dict_list d3 on s.tstz_fw = d3.code and d3.sign = 'DICT_FW'
+        left join sys_dict_list d4 on s.tstz_sl = d4.code and d4.sign = 'DICT_SL'
+        left join sys_dict_list d5 on s.tstz_ys = d5.code and d5.sign = 'DICT_YS'
+        order by
+        <if test="overName = null and overName = '' ">
+            PK_ID
+        </if>
+        <if test="overName != null and overName != '' ">
+            #{overName}
+        </if>
+        asc) e
+        <where>
+            <if test="tstzMc != null">
+                and TSTZ_MC = #{tstzMc,jdbcType=VARCHAR}
+            </if>
+            <if test="ryjcxxcjbh != null">
+                and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzBw != null">
+                and TSTZ_BW = #{tstzBw,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzFw != null">
+                and TSTZ_FW = #{tstzFw,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzSl != null">
+                and TSTZ_SL = #{tstzSl,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzCc != null">
+                and TSTZ_CC = #{tstzCc,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzYs != null">
+                and TSTZ_YS = #{tstzYs,jdbcType=VARCHAR}
+            </if>
+            <if test="deletag != null">
+                and DELETAG = #{deletag,jdbcType=VARCHAR}
+            </if>
+            <if test="annex != null">
+                and ANNEX = #{annex,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="tstzZp != null">
+                and TSTZ_ZP = #{tstzZp,jdbcType=BLOB}
+            </if>
+        </where>
+        ) t) tt
+        where rn &gt;= #{startNo} and rn &lt; #{endNo}
+    </select>
+
+    <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectSignVo" resultType="int">
+        select count(1) from LEDEN_COLLECT_SIGN
+        <where>
+            <if test="tstzMc != null">
+                and TSTZ_MC = #{tstzMc,jdbcType=VARCHAR}
+            </if>
+            <if test="ryjcxxcjbh != null">
+                and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzBw != null">
+                and TSTZ_BW = #{tstzBw,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzFw != null">
+                and TSTZ_FW = #{tstzFw,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzSl != null">
+                and TSTZ_SL = #{tstzSl,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzCc != null">
+                and TSTZ_CC = #{tstzCc,jdbcType=VARCHAR}
+            </if>
+            <if test="tstzYs != null">
+                and TSTZ_YS = #{tstzYs,jdbcType=VARCHAR}
+            </if>
+            <if test="deletag != null">
+                and DELETAG = #{deletag,jdbcType=VARCHAR}
+            </if>
+            <if test="annex != null">
+                and ANNEX = #{annex,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="tstzZp != null">
+                and TSTZ_ZP = #{tstzZp,jdbcType=BLOB}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from LEDEN_COLLECT_SIGN
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from LEDEN_COLLECT_SIGN
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectSign">
+    insert into LEDEN_COLLECT_SIGN (PK_ID, TSTZ_MC, RYJCXXCJBH,
+      TSTZ_BW, TSTZ_FW, TSTZ_SL, 
+      TSTZ_CC, TSTZ_YS, DELETAG, 
+      ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
+      UPDATE_USER_ID, UPDATE_DATETIME, TSTZ_ZP
+      )
+    values (leden_collect_sign_sequence.nextval, #{tstzMc,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR},
+      #{tstzBw,jdbcType=VARCHAR}, #{tstzFw,jdbcType=VARCHAR}, #{tstzSl,jdbcType=VARCHAR}, 
+      #{tstzCc,jdbcType=VARCHAR}, #{tstzYs,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, 
+      #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}, #{tstzZp,jdbcType=BLOB}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectSign">
+        insert into LEDEN_COLLECT_SIGN
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            leden_collect_sign_sequence.nextval,
+            <if test="tstzMc != null">
+                TSTZ_MC,
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH,
+            </if>
+            <if test="tstzBw != null">
+                TSTZ_BW,
+            </if>
+            <if test="tstzFw != null">
+                TSTZ_FW,
+            </if>
+            <if test="tstzSl != null">
+                TSTZ_SL,
+            </if>
+            <if test="tstzCc != null">
+                TSTZ_CC,
+            </if>
+            <if test="tstzYs != null">
+                TSTZ_YS,
+            </if>
+            <if test="deletag != null">
+                DELETAG,
+            </if>
+            <if test="annex != null">
+                ANNEX,
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID,
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME,
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID,
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME,
+            </if>
+            <if test="tstzZp != null">
+                TSTZ_ZP,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzMc != null">
+                #{tstzMc,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzBw != null">
+                #{tstzBw,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzFw != null">
+                #{tstzFw,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzSl != null">
+                #{tstzSl,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzCc != null">
+                #{tstzCc,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzYs != null">
+                #{tstzYs,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tstzZp != null">
+                #{tstzZp,jdbcType=BLOB},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectSign">
+        update LEDEN_COLLECT_SIGN
+        <set>
+            <if test="tstzMc != null">
+                TSTZ_MC = #{tstzMc,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzBw != null">
+                TSTZ_BW = #{tstzBw,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzFw != null">
+                TSTZ_FW = #{tstzFw,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzSl != null">
+                TSTZ_SL = #{tstzSl,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzCc != null">
+                TSTZ_CC = #{tstzCc,jdbcType=VARCHAR},
+            </if>
+            <if test="tstzYs != null">
+                TSTZ_YS = #{tstzYs,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                DELETAG = #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                ANNEX = #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tstzZp != null">
+                TSTZ_ZP = #{tstzZp,jdbcType=BLOB},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenCollectSign">
+    update LEDEN_COLLECT_SIGN
+    set TSTZ_MC = #{tstzMc,jdbcType=VARCHAR},
+      RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      TSTZ_BW = #{tstzBw,jdbcType=VARCHAR},
+      TSTZ_FW = #{tstzFw,jdbcType=VARCHAR},
+      TSTZ_SL = #{tstzSl,jdbcType=VARCHAR},
+      TSTZ_CC = #{tstzCc,jdbcType=VARCHAR},
+      TSTZ_YS = #{tstzYs,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      TSTZ_ZP = #{tstzZp,jdbcType=BLOB}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectSign">
+    update LEDEN_COLLECT_SIGN
+    set TSTZ_MC = #{tstzMc,jdbcType=VARCHAR},
+      RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      TSTZ_BW = #{tstzBw,jdbcType=VARCHAR},
+      TSTZ_FW = #{tstzFw,jdbcType=VARCHAR},
+      TSTZ_SL = #{tstzSl,jdbcType=VARCHAR},
+      TSTZ_CC = #{tstzCc,jdbcType=VARCHAR},
+      TSTZ_YS = #{tstzYs,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+    <insert id="insertSigns" parameterType="list" statementType="PREPARED">
+        begin
+        <foreach collection="list" item="item" index="index" separator=";">
+            insert into LEDEN_COLLECT_SIGN (PK_ID, TSTZ_MC, RYJCXXCJBH,
+            TSTZ_BW, TSTZ_FW, TSTZ_SL,
+            TSTZ_CC, TSTZ_YS, DELETAG,
+            ANNEX, CREATE_USER_ID, CREATE_DATETIME,
+            UPDATE_USER_ID, UPDATE_DATETIME, TSTZ_ZP
+            )
+            values(
+            #{item.pkId},#{item.tstzMc,jdbcType=VARCHAR}, #{item.ryjcxxcjbh,jdbcType=VARCHAR},
+            #{item.tstzBw,jdbcType=VARCHAR}, #{item.tstzFw,jdbcType=VARCHAR}, #{item.tstzSl,jdbcType=VARCHAR},
+            #{item.tstzCc,jdbcType=VARCHAR}, #{item.tstzYs,jdbcType=VARCHAR}, #{item.deletag,jdbcType=VARCHAR},
+            #{item.annex,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=VARCHAR},
+            #{item.createDatetime,jdbcType=TIMESTAMP},
+            #{item.updateUserId,jdbcType=VARCHAR}, #{item.updateDatetime,jdbcType=TIMESTAMP},
+            #{item.tstzZp,jdbcType=BLOB}
+            )
+        </foreach>
+        ;end;
+    </insert>
+
+
+
+    <delete id="deleteSignByPersonId" parameterType="string">
+        delete from LEDEN_COLLECT_SIGN where ryjcxxcjbh=#{_parameter}
+    </delete>
+</mapper>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.SysLogDataMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.SysLogData">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="OPERATE_TYPE" property="operateType" jdbcType="VARCHAR"/>
+        <result column="OBJECT_ID" property="objectId" jdbcType="VARCHAR"/>
+        <result column="ADDRE_IP" property="addreIp" jdbcType="VARCHAR"/>
+        <result column="USER_ID" property="userId" jdbcType="VARCHAR"/>
+        <result column="MODIFY_BEFORE" property="modifyBefore" jdbcType="VARCHAR"/>
+        <result column="MODIFY_AFTER" property="modifyAfter" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, OPERATE_TYPE, OBJECT_ID, ADDRE_IP, USER_ID, MODIFY_BEFORE, MODIFY_AFTER, CREATE_DATETIME
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_LOG_DATA
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYS_LOG_DATA
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.SysLogData">
+    insert into SYS_LOG_DATA (PK_ID, OPERATE_TYPE, OBJECT_ID,
+      ADDRE_IP, USER_ID, MODIFY_BEFORE, 
+      MODIFY_AFTER, CREATE_DATETIME)
+    values (sys_log_data_sequence.nextval, #{operateType,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR},
+      #{addreIp,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{modifyBefore,jdbcType=VARCHAR}, 
+      #{modifyAfter,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.SysLogData">
+        insert into SYS_LOG_DATA
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            PK_ID,
+            <if test="operateType != null">
+                OPERATE_TYPE,
+            </if>
+            <if test="objectId != null">
+                OBJECT_ID,
+            </if>
+            <if test="addreIp != null">
+                ADDRE_IP,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="modifyBefore != null">
+                MODIFY_BEFORE,
+            </if>
+            <if test="modifyAfter != null">
+                MODIFY_AFTER,
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            sys_log_data_sequence.nextval,
+            <if test="operateType != null">
+                #{operateType,jdbcType=VARCHAR},
+            </if>
+            <if test="objectId != null">
+                #{objectId,jdbcType=VARCHAR},
+            </if>
+            <if test="addreIp != null">
+                #{addreIp,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyBefore != null">
+                #{modifyBefore,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyAfter != null">
+                #{modifyAfter,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.SysLogData">
+        update SYS_LOG_DATA
+        <set>
+            <if test="operateType != null">
+                OPERATE_TYPE = #{operateType,jdbcType=VARCHAR},
+            </if>
+            <if test="objectId != null">
+                OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+            </if>
+            <if test="addreIp != null">
+                ADDRE_IP = #{addreIp,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                USER_ID = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyBefore != null">
+                MODIFY_BEFORE = #{modifyBefore,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyAfter != null">
+                MODIFY_AFTER = #{modifyAfter,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.SysLogData">
+    update SYS_LOG_DATA
+    set OPERATE_TYPE = #{operateType,jdbcType=VARCHAR},
+      OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+      ADDRE_IP = #{addreIp,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      MODIFY_BEFORE = #{modifyBefore,jdbcType=VARCHAR},
+      MODIFY_AFTER = #{modifyAfter,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+    <resultMap id="listBaseMap" type="com.zhouyi.business.core.model.SysLogDataDtoResult">
+        <association property="sysLogData" javaType="com.zhouyi.business.core.model.SysLogData"
+                     resultMap="BaseResultMap">
+
+        </association>
+        <association property="sysLogDataDto" javaType="com.zhouyi.business.core.model.SysLogDataDto">
+            <result property="personName" column="personName"/>
+            <result property="userName" column="userName"/>
+        </association>
+    </resultMap>
+
+
+    <select id="listSysLogDataByConditions" resultMap="listBaseMap" statementType="PREPARED">
+        SELECT
+        <include refid="Base_Column_List"/>,personName,userName
+        FROM (
+        SELECT ROWNUM AS rowno,d.*,p1.XM as personName,u.user_name as userName
+
+        FROM Sys_Log_Data d
+        left join leden_collect_person p1 on d.OBJECT_ID=p1.RYJCXXCJBH
+        left join sys_user u on u.user_code=d.user_id
+
+        where ROWNUM &lt;= #{end}
+        ) sysLogData
+
+        WHERE sysLogData.rowno >= #{start}
+        <if test="personName!=null">
+            and personName like concat('%',concat(#{personName},'%'))
+        </if>
+        <if test="addreIp!=null">
+            and addre_ip like concat('%',concat(#{addreIp},'%'))
+        </if>
+        <if test="userName!=null">
+            and userName like concat('%',concat(#{userName},'%'))
+        </if>
+        order by create_datetime
+        <if test="sort!=null and sort!=''">
+            ${sort}
+        </if>
+
+    </select>
+
+    <select id="getSysLogDataCountByConditions" statementType="PREPARED" resultType="int">
+        select count(1) from
+        (
+        SELECT
+        <include refid="Base_Column_List"/>,personName,userName
+        FROM (
+        SELECT ROWNUM AS rowno,d.*,p1.XM as personName,u.user_name as userName
+
+        FROM Sys_Log_Data d
+        left join leden_collect_person p1 on d.OBJECT_ID=p1.RYJCXXCJBH
+        left join sys_user u on u.user_code=d.user_id
+
+        ) sysLogData
+
+        <where>
+            <if test="personName!=null">
+                and personName like concat('%',concat(#{personName},'%'))
+            </if>
+            <if test="addreIp!=null">
+                and addre_ip like concat('%',concat(#{addreIp},'%'))
+            </if>
+            <if test="userName!=null">
+                and userName like concat('%',concat(#{userName},'%'))
+            </if>
+            )
+        </where>
+    </select>
+</mapper>

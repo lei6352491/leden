@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.FornameRequirementsMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.FornameRequirements">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="operate_type" property="operateType" jdbcType="INTEGER" />
+		<result column="family_name" property="familyName" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="home_place" property="homePlace" jdbcType="VARCHAR" />
+		<result column="middle_name" property="middleName" jdbcType="VARCHAR" />
+		<result column="last_name" property="lastName" jdbcType="VARCHAR" />
+		<result column="limit_name" property="limitName" jdbcType="VARCHAR" />
+		<result column="sys_recommend" property="sysRecommend" jdbcType="INTEGER" />
+		<result column="mid_five_elements" property="midFiveElements" jdbcType="VARCHAR" />
+		<result column="last_five_elements" property="lastFiveElements" jdbcType="VARCHAR" />
+		<result column="three_talents" property="threeTalents" jdbcType="VARCHAR" />
+		<result column="is_taboo" property="isTaboo" jdbcType="INTEGER" />
+		<result column="is_punching" property="isPunching" jdbcType="INTEGER" />
+		<result column="five_lucky_num" property="fiveLuckyNum" jdbcType="INTEGER" />
+		<result column="three_lucky_num" property="threeLuckyNum" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="latitude" property="latitude" jdbcType="DOUBLE" />
+		<result column="longitude" property="longitude" jdbcType="DOUBLE" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="name_type" property="nameType" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	
+	<sql id="BaseTable">
+		zy_forname_requirements
+	</sql>
+
+	<select id="getFornameRequirementsByOrderNo" statementType="PREPARED" resultMap="BaseResultMap">
+		select * from zy_forname_requirements where order_no=#{orderNo} and is_valid=1 limit 1
+	</select>
+	
+	<select id="getRequirementsListByIds" statementType="PREPARED" resultMap="BaseResultMap">
+		select * from zy_forname_requirements where id in
+		<foreach collection="ids" item="id" open="(" close=")"	separator=",">
+			#{id}
+		</foreach>
+		order by create_time desc
+	</select>
+</mapper>

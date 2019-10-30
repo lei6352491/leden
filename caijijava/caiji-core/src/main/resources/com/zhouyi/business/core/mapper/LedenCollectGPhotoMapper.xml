@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectGPhotoMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectGPhoto" >
+    <id column="XXBH" property="xxbh" jdbcType="VARCHAR" />
+    <result column="WPBH" property="wpbh" jdbcType="VARCHAR" />
+    <result column="DZWJMC" property="dzwjmc" jdbcType="VARCHAR" />
+    <result column="DZWJZY" property="dzwjzy" jdbcType="VARCHAR" />
+    <result column="DZWJGS" property="dzwjgs" jdbcType="VARCHAR" />
+    <result column="DZWJDX" property="dzwjdx" jdbcType="VARCHAR" />
+    <result column="DZWJWZ" property="dzwjwz" jdbcType="VARCHAR" />
+    <result column="DZWJCJSJ_RQSJ" property="dzwjcjsjRqsj" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectGPhoto" extends="BaseResultMap" >
+    <result column="DZWJNR" property="dzwjnr" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    XXBH, WPBH, DZWJMC, DZWJZY, DZWJGS, DZWJDX, DZWJWZ, DZWJCJSJ_RQSJ
+  </sql>
+  <sql id="Blob_Column_List" >
+    DZWJNR
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from LEDEN_COLLECT_G_PHOTO
+    where XXBH = #{xxbh,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_G_PHOTO
+    where XXBH = #{xxbh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectGPhoto" >
+    insert into LEDEN_COLLECT_G_PHOTO (XXBH, WPBH, DZWJMC,
+      DZWJZY, DZWJGS, DZWJDX, 
+      DZWJWZ, DZWJCJSJ_RQSJ, DZWJNR
+      )
+    values (#{xxbh,jdbcType=VARCHAR}, #{wpbh,jdbcType=VARCHAR}, #{dzwjmc,jdbcType=VARCHAR}, 
+      #{dzwjzy,jdbcType=VARCHAR}, #{dzwjgs,jdbcType=VARCHAR}, #{dzwjdx,jdbcType=VARCHAR}, 
+      #{dzwjwz,jdbcType=VARCHAR}, #{dzwjcjsjRqsj,jdbcType=TIMESTAMP}, #{dzwjnr,jdbcType=BLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectGPhoto" >
+    insert into LEDEN_COLLECT_G_PHOTO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="xxbh != null" >
+        XXBH,
+      </if>
+      <if test="wpbh != null" >
+        WPBH,
+      </if>
+      <if test="dzwjmc != null" >
+        DZWJMC,
+      </if>
+      <if test="dzwjzy != null" >
+        DZWJZY,
+      </if>
+      <if test="dzwjgs != null" >
+        DZWJGS,
+      </if>
+      <if test="dzwjdx != null" >
+        DZWJDX,
+      </if>
+      <if test="dzwjwz != null" >
+        DZWJWZ,
+      </if>
+      <if test="dzwjcjsjRqsj != null" >
+        DZWJCJSJ_RQSJ,
+      </if>
+      <if test="dzwjnr != null" >
+        DZWJNR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="xxbh != null" >
+        #{xxbh,jdbcType=VARCHAR},
+      </if>
+      <if test="wpbh != null" >
+        #{wpbh,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjmc != null" >
+        #{dzwjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjzy != null" >
+        #{dzwjzy,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjgs != null" >
+        #{dzwjgs,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjdx != null" >
+        #{dzwjdx,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjwz != null" >
+        #{dzwjwz,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjcjsjRqsj != null" >
+        #{dzwjcjsjRqsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dzwjnr != null" >
+        #{dzwjnr,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectGPhoto" >
+    update LEDEN_COLLECT_G_PHOTO
+    <set >
+      <if test="wpbh != null" >
+        WPBH = #{wpbh,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjmc != null" >
+        DZWJMC = #{dzwjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjzy != null" >
+        DZWJZY = #{dzwjzy,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjgs != null" >
+        DZWJGS = #{dzwjgs,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjdx != null" >
+        DZWJDX = #{dzwjdx,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjwz != null" >
+        DZWJWZ = #{dzwjwz,jdbcType=VARCHAR},
+      </if>
+      <if test="dzwjcjsjRqsj != null" >
+        DZWJCJSJ_RQSJ = #{dzwjcjsjRqsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dzwjnr != null" >
+        DZWJNR = #{dzwjnr,jdbcType=BLOB},
+      </if>
+    </set>
+    where XXBH = #{xxbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenCollectGPhoto" >
+    update LEDEN_COLLECT_G_PHOTO
+    set WPBH = #{wpbh,jdbcType=VARCHAR},
+      DZWJMC = #{dzwjmc,jdbcType=VARCHAR},
+      DZWJZY = #{dzwjzy,jdbcType=VARCHAR},
+      DZWJGS = #{dzwjgs,jdbcType=VARCHAR},
+      DZWJDX = #{dzwjdx,jdbcType=VARCHAR},
+      DZWJWZ = #{dzwjwz,jdbcType=VARCHAR},
+      DZWJCJSJ_RQSJ = #{dzwjcjsjRqsj,jdbcType=TIMESTAMP},
+      DZWJNR = #{dzwjnr,jdbcType=BLOB}
+    where XXBH = #{xxbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectGPhoto" >
+    update LEDEN_COLLECT_G_PHOTO
+    set WPBH = #{wpbh,jdbcType=VARCHAR},
+      DZWJMC = #{dzwjmc,jdbcType=VARCHAR},
+      DZWJZY = #{dzwjzy,jdbcType=VARCHAR},
+      DZWJGS = #{dzwjgs,jdbcType=VARCHAR},
+      DZWJDX = #{dzwjdx,jdbcType=VARCHAR},
+      DZWJWZ = #{dzwjwz,jdbcType=VARCHAR},
+      DZWJCJSJ_RQSJ = #{dzwjcjsjRqsj,jdbcType=TIMESTAMP}
+    where XXBH = #{xxbh,jdbcType=VARCHAR}
+  </update>
+
+  <select id="listDataByConditions" statementType="PREPARED" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,LEDEN_COLLECT_G_PHOTO.*
+
+    FROM  LEDEN_COLLECT_G_PHOTO
+
+    where ROWNUM &lt;= #{end}) collectGPhoto
+
+    WHERE collectGPhoto.rowno &gt;= #{start}
+  </select>
+
+  <select id="getDataCountByConditions" statementType="PREPARED" resultType="int">
+    select count(1) from LEDEN_COLLECT_G_PHOTO
+  </select>
+
+
+  <insert id="insertPhotos" statementType="PREPARED" parameterType="list">
+
+
+    begin
+    <foreach collection="list" item="item" index="index" separator=";">
+      insert into LEDEN_COLLECT_G_PHOTO (XXBH, WPBH, DZWJMC,
+      DZWJZY, DZWJGS, DZWJDX,
+      DZWJWZ, DZWJCJSJ_RQSJ, DZWJNR
+      )
+      values(
+      #{item.xxbh},#{item.wpbh,jdbcType=VARCHAR}, #{item.dzwjmc,jdbcType=VARCHAR},
+      #{item.dzwjzy,jdbcType=VARCHAR}, #{item.dzwjgs,jdbcType=VARCHAR}, #{item.dzwjdx,jdbcType=VARCHAR},
+      #{item.dzwjwz,jdbcType=VARCHAR}, #{item.dzwjcjsjRqsj,jdbcType=TIMESTAMP}, #{item.dzwjnr,jdbcType=BLOB}
+
+      )
+    </foreach>
+    ;end;
+  </insert>
+
+  <delete id="deletePhotoByWpbh" parameterType="string">
+    delete from LEDEN_COLLECT_G_PHOTO where wpbh=#{_parameter}
+  </delete>
+</mapper>

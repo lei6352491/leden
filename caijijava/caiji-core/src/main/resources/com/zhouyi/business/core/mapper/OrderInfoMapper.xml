@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.OrderMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.OrderInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="INTEGER" />
+		<result column="actual_amount" property="actualAmount" jdbcType="INTEGER" />
+		<result column="pay_type" property="payType" jdbcType="INTEGER" />
+		<result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="product_id" property="productId" jdbcType="BIGINT" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="channel" property="channel" jdbcType="INTEGER" />
+		<result column="channel_serial_num" property="channelSerialNum" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="MoreResultMap" type="com.zhouyi.business.core.vo.OrderVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="INTEGER" />
+		<result column="actual_amount" property="actualAmount" jdbcType="INTEGER" />
+		<result column="pay_type" property="payType" jdbcType="INTEGER" />
+		<result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="product_id" property="productId" jdbcType="BIGINT" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="head_image" property="headImage" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="BaseTable">
+		zy_order_info
+	</sql>
+
+	<select id="queryOrderList" statementType="PREPARED" resultMap="MoreResultMap">
+		select mif.head_image,pif.product_name,oi.order_status,oi.phone,oi.id,oi.order_no,oi.actual_amount,oi.pay_type,date_format(oi.create_time,'%Y-%m-%d %H:%i') as create_time
+		,oi.amount  from zy_order_info oi inner join zy_product_info pif on oi.product_id=pif.id inner join 
+		zy_member_info mif on oi.user_id=mif.id where 1=1
+		<if test="userId!=null">
+		and oi.user_id=#{userId}
+		</if>
+		order by oi.create_time limit #{pStart},#{pSize}
+	</select>
+	
+	<select id="getOrderCountByOwnerId" statementType="PREPARED" resultType="Integer">
+		select count(*) as num from zy_order_info where user_id=#{ownerId}
+	</select>
+	
+	<select id="queryOrderNameList" statementType="PREPARED" resultType="java.util.Map">
+		select zhn.hanzi as name from zy_order_name_rel onr inner join zy_name_hanzi znh on onr.name_id=znh.id
+		where onr.order_id=#{orderId}
+	</select>
+	
+	<select id="getLastOrderByUser" statementType="PREPARED" resultMap="BaseResultMap">
+		select * from zy_order_info where user_id=#{userId} order by create_time desc limit 1
+	</select>
+	
+	<select id="getLastOrderDetailByUser" statementType="PREPARED" resultType="java.util.Map">
+		select zoi.order_no as orderNo,zoi.phone,date_format(zoi.create_time,'%Y-%m-%d %H:%i') as createTime
+		,date_format(fri.create_time,'%Y-%m-%d %H:%i') as submitTime,fri.family_name as familyName,fri.birthday,
+		fri.sex,fri.name_type as nameType,fri.home_place as homePlace,
+		fri.middle_name as middleName,fri.last_name as lastName,fri.limit_name as limitName 
+		from zy_order_info zoi left join zy_forname_requirements fri on 
+		zoi.order_no=fri.order_no where zoi.user_id=#{userId} order by zoi.create_time desc limit 1
+	</select>
+	
+	<update id="updateOrderUserByPhone" statementType="PREPARED">
+        update zy_order_info set user_id=#{userId} where phone=#{phone} and user_id is null
+    </update>
+    
+    <select id="getObjectByOrderNo" statementType="PREPARED" resultMap="BaseResultMap">
+		select * from zy_order_info where order_no=#{orderNo} limit 1
+	</select>
+</mapper>

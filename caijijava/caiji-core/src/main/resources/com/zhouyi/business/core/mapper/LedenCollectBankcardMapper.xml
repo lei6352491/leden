@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectBankcardMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectBankcard">
+        <id column="PKID" property="pkid" jdbcType="VARCHAR"/>
+        <result column="WPBH" property="wpbh" jdbcType="VARCHAR"/>
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
+        <result column="YHK_WPBZH" property="yhkWpbzh" jdbcType="VARCHAR"/>
+        <result column="XM" property="xm" jdbcType="VARCHAR"/>
+        <result column="YHK_WPMC" property="yhkWpmc" jdbcType="VARCHAR"/>
+        <result column="YHKLXDM" property="yhklxdm" jdbcType="VARCHAR"/>
+        <result column="ZJ_YXQJZRQ" property="zjYxqjzrq" jdbcType="TIMESTAMP"/>
+        <result column="FKDQ" property="fkdq" jdbcType="VARCHAR"/>
+        <result column="KHYHMC" property="khyhmc" jdbcType="VARCHAR"/>
+        <result column="CYZJLXDM" property="cyzjlxdm" jdbcType="VARCHAR"/>
+        <result column="ZJHM" property="zjhm" jdbcType="VARCHAR"/>
+        <result column="BLXX_JYQK" property="blxxJyqk" jdbcType="VARCHAR"/>
+        <result column="KHHHBH" property="khhhbh" jdbcType="VARCHAR"/>
+        <result column="KHRQ" property="khrq" jdbcType="TIMESTAMP"/>
+        <result column="CXRQ" property="cxrq" jdbcType="TIMESTAMP"/>
+        <result column="FJSXID" property="fjsxid" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PKID, WPBH, RYJCXXCJBH, YHK_WPBZH, XM, YHK_WPMC, YHKLXDM, ZJ_YXQJZRQ, FKDQ, KHYHMC,
+    CYZJLXDM, ZJHM, BLXX_JYQK, KHHHBH, KHRQ, CXRQ, FJSXID
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from LEDEN_COLLECT_BANKCARD
+        where PKID = #{pkid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from LEDEN_COLLECT_BANKCARD
+    where PKID = #{pkid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectBankcard">
+    insert into LEDEN_COLLECT_BANKCARD (PKID, WPBH, RYJCXXCJBH,
+      YHK_WPBZH, XM, YHK_WPMC,
+      YHKLXDM, ZJ_YXQJZRQ, FKDQ,
+      KHYHMC, CYZJLXDM, ZJHM,
+      BLXX_JYQK, KHHHBH, KHRQ,
+      CXRQ, FJSXID)
+    values (#{pkid,jdbcType=VARCHAR}, #{wpbh,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR},
+      #{yhkWpbzh,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, #{yhkWpmc,jdbcType=VARCHAR},
+      #{yhklxdm,jdbcType=VARCHAR}, #{zjYxqjzrq,jdbcType=TIMESTAMP}, #{fkdq,jdbcType=VARCHAR},
+      #{khyhmc,jdbcType=VARCHAR}, #{cyzjlxdm,jdbcType=VARCHAR}, #{zjhm,jdbcType=VARCHAR},
+      #{blxxJyqk,jdbcType=VARCHAR}, #{khhhbh,jdbcType=VARCHAR}, #{khrq,jdbcType=TIMESTAMP},
+      #{cxrq,jdbcType=TIMESTAMP}, #{fjsxid,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectBankcard">
+        insert into LEDEN_COLLECT_BANKCARD
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkid != null">
+                PKID,
+            </if>
+            <if test="wpbh != null">
+                WPBH,
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH,
+            </if>
+            <if test="yhkWpbzh != null">
+                YHK_WPBZH,
+            </if>
+            <if test="xm != null">
+                XM,
+            </if>
+            <if test="yhkWpmc != null">
+                YHK_WPMC,
+            </if>
+            <if test="yhklxdm != null">
+                YHKLXDM,
+            </if>
+            <if test="zjYxqjzrq != null">
+                ZJ_YXQJZRQ,
+            </if>
+            <if test="fkdq != null">
+                FKDQ,
+            </if>
+            <if test="khyhmc != null">
+                KHYHMC,
+            </if>
+            <if test="cyzjlxdm != null">
+                CYZJLXDM,
+            </if>
+            <if test="zjhm != null">
+                ZJHM,
+            </if>
+            <if test="blxxJyqk != null">
+                BLXX_JYQK,
+            </if>
+            <if test="khhhbh != null">
+                KHHHBH,
+            </if>
+            <if test="khrq != null">
+                KHRQ,
+            </if>
+            <if test="cxrq != null">
+                CXRQ,
+            </if>
+            <if test="fjsxid != null">
+                FJSXID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkid != null">
+                #{pkid,jdbcType=VARCHAR},
+            </if>
+            <if test="wpbh != null">
+                #{wpbh,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="yhkWpbzh != null">
+                #{yhkWpbzh,jdbcType=VARCHAR},
+            </if>
+            <if test="xm != null">
+                #{xm,jdbcType=VARCHAR},
+            </if>
+            <if test="yhkWpmc != null">
+                #{yhkWpmc,jdbcType=VARCHAR},
+            </if>
+            <if test="yhklxdm != null">
+                #{yhklxdm,jdbcType=VARCHAR},
+            </if>
+            <if test="zjYxqjzrq != null">
+                #{zjYxqjzrq,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fkdq != null">
+                #{fkdq,jdbcType=VARCHAR},
+            </if>
+            <if test="khyhmc != null">
+                #{khyhmc,jdbcType=VARCHAR},
+            </if>
+            <if test="cyzjlxdm != null">
+                #{cyzjlxdm,jdbcType=VARCHAR},
+            </if>
+            <if test="zjhm != null">
+                #{zjhm,jdbcType=VARCHAR},
+            </if>
+            <if test="blxxJyqk != null">
+                #{blxxJyqk,jdbcType=VARCHAR},
+            </if>
+            <if test="khhhbh != null">
+                #{khhhbh,jdbcType=VARCHAR},
+            </if>
+            <if test="khrq != null">
+                #{khrq,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cxrq != null">
+                #{cxrq,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fjsxid != null">
+                #{fjsxid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectBankcard">
+        update LEDEN_COLLECT_BANKCARD
+        <set>
+            <if test="wpbh != null">
+                WPBH = #{wpbh,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="yhkWpbzh != null">
+                YHK_WPBZH = #{yhkWpbzh,jdbcType=VARCHAR},
+            </if>
+            <if test="xm != null">
+                XM = #{xm,jdbcType=VARCHAR},
+            </if>
+            <if test="yhkWpmc != null">
+                YHK_WPMC = #{yhkWpmc,jdbcType=VARCHAR},
+            </if>
+            <if test="yhklxdm != null">
+                YHKLXDM = #{yhklxdm,jdbcType=VARCHAR},
+            </if>
+            <if test="zjYxqjzrq != null">
+                ZJ_YXQJZRQ = #{zjYxqjzrq,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fkdq != null">
+                FKDQ = #{fkdq,jdbcType=VARCHAR},
+            </if>
+            <if test="khyhmc != null">
+                KHYHMC = #{khyhmc,jdbcType=VARCHAR},
+            </if>
+            <if test="cyzjlxdm != null">
+                CYZJLXDM = #{cyzjlxdm,jdbcType=VARCHAR},
+            </if>
+            <if test="zjhm != null">
+                ZJHM = #{zjhm,jdbcType=VARCHAR},
+            </if>
+            <if test="blxxJyqk != null">
+                BLXX_JYQK = #{blxxJyqk,jdbcType=VARCHAR},
+            </if>
+            <if test="khhhbh != null">
+                KHHHBH = #{khhhbh,jdbcType=VARCHAR},
+            </if>
+            <if test="khrq != null">
+                KHRQ = #{khrq,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cxrq != null">
+                CXRQ = #{cxrq,jdbcType=TIMESTAMP},
+            </if>
+            <if test="fjsxid != null">
+                FJSXID = #{fjsxid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PKID = #{pkid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectBankcard">
+    update LEDEN_COLLECT_BANKCARD
+    set WPBH = #{wpbh,jdbcType=VARCHAR},
+      RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      YHK_WPBZH = #{yhkWpbzh,jdbcType=VARCHAR},
+      XM = #{xm,jdbcType=VARCHAR},
+      YHK_WPMC = #{yhkWpmc,jdbcType=VARCHAR},
+      YHKLXDM = #{yhklxdm,jdbcType=VARCHAR},
+      ZJ_YXQJZRQ = #{zjYxqjzrq,jdbcType=TIMESTAMP},
+      FKDQ = #{fkdq,jdbcType=VARCHAR},
+      KHYHMC = #{khyhmc,jdbcType=VARCHAR},
+      CYZJLXDM = #{cyzjlxdm,jdbcType=VARCHAR},
+      ZJHM = #{zjhm,jdbcType=VARCHAR},
+      BLXX_JYQK = #{blxxJyqk,jdbcType=VARCHAR},
+      KHHHBH = #{khhhbh,jdbcType=VARCHAR},
+      KHRQ = #{khrq,jdbcType=TIMESTAMP},
+      CXRQ = #{cxrq,jdbcType=TIMESTAMP},
+      FJSXID = #{fjsxid,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=VARCHAR}
+  </update>
+
+    <sql id="BaseTable">
+		LEDEN_COLLECT_BANKCARD
+  </sql>
+
+    <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectBankcardVo"
+            resultMap="BaseResultMap">
+        select tt.* from
+        (select rownum rn,t.* from
+        (select e.* from
+        (select * from LEDEN_COLLECT_BANKCARD order by
+        <if test="overName != null and overName != ''">
+            #{overName}
+        </if>
+        <if test="overName = null and overName = ''">
+            KHRQ
+        </if>
+        desc) e
+        <where>
+            <if test="wpbh != null">
+                and WPBH = #{wpbh,jdbcType=VARCHAR}
+            </if>
+            <if test="ryjcxxcjbh != null">
+                and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+            </if>
+            <if test="yhkWpbzh != null">
+                and YHK_WPBZH = #{yhkWpbzh,jdbcType=VARCHAR}
+            </if>
+            <if test="xm != null">
+                and XM = #{xm,jdbcType=VARCHAR}
+            </if>
+            <if test="yhkWpmc != null">
+                and YHK_WPMC = #{yhkWpmc,jdbcType=VARCHAR}
+            </if>
+            <if test="yhklxdm != null">
+                and YHKLXDM = #{yhklxdm,jdbcType=VARCHAR}
+            </if>
+            <if test="zjYxqjzrq != null">
+                and ZJ_YXQJZRQ = #{zjYxqjzrq,jdbcType=TIMESTAMP}
+            </if>
+            <if test="fkdq != null">
+                and FKDQ = #{fkdq,jdbcType=VARCHAR}
+            </if>
+            <if test="khyhmc != null">
+                and KHYHMC = #{khyhmc,jdbcType=VARCHAR}
+            </if>
+            <if test="cyzjlxdm != null">
+                and CYZJLXDM = #{cyzjlxdm,jdbcType=VARCHAR}
+            </if>
+            <if test="zjhm != null">
+                and ZJHM = #{zjhm,jdbcType=VARCHAR}
+            </if>
+            <if test="blxxJyqk != null">
+                and BLXX_JYQK = #{blxxJyqk,jdbcType=VARCHAR}
+            </if>
+            <if test="khhhbh != null">
+                and KHHHBH = #{khhhbh,jdbcType=VARCHAR}
+            </if>
+            <if test="khrq != null">
+                and KHRQ = #{khrq,jdbcType=TIMESTAMP}
+            </if>
+            <if test="cxrq != null">
+                and CXRQ = #{cxrq,jdbcType=TIMESTAMP}
+            </if>
+            <if test="fjsxid != null">
+                and FJSXID = #{fjsxid,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ) t) tt
+        <where>
+            <if test="startNo!=null and endNo!=null">
+                rn &gt;= #{startNo} and rn &lt; #{endNo}
+            </if>
+        </where>
+    </select>
+
+    <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectBankcardVo"
+            resultType="int">
+        select count(1) from LEDEN_COLLECT_BANKCARD
+        <where>
+            <if test="wpbh != null">
+                and WPBH = #{wpbh,jdbcType=VARCHAR}
+            </if>
+            <if test="ryjcxxcjbh != null">
+                and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+            </if>
+            <if test="yhkWpbzh != null">
+                and YHK_WPBZH = #{yhkWpbzh,jdbcType=VARCHAR}
+            </if>
+            <if test="xm != null">
+                and XM = #{xm,jdbcType=VARCHAR}
+            </if>
+            <if test="yhkWpmc != null">
+                and YHK_WPMC = #{yhkWpmc,jdbcType=VARCHAR}
+            </if>
+            <if test="yhklxdm != null">
+                and YHKLXDM = #{yhklxdm,jdbcType=VARCHAR}
+            </if>
+            <if test="zjYxqjzrq != null">
+                and ZJ_YXQJZRQ = #{zjYxqjzrq,jdbcType=TIMESTAMP}
+            </if>
+            <if test="fkdq != null">
+                and FKDQ = #{fkdq,jdbcType=VARCHAR}
+            </if>
+            <if test="khyhmc != null">
+                and KHYHMC = #{khyhmc,jdbcType=VARCHAR}
+            </if>
+            <if test="cyzjlxdm != null">
+                and CYZJLXDM = #{cyzjlxdm,jdbcType=VARCHAR}
+            </if>
+            <if test="zjhm != null">
+                and ZJHM = #{zjhm,jdbcType=VARCHAR}
+            </if>
+            <if test="blxxJyqk != null">
+                and BLXX_JYQK = #{blxxJyqk,jdbcType=VARCHAR}
+            </if>
+            <if test="khhhbh != null">
+                and KHHHBH = #{khhhbh,jdbcType=VARCHAR}
+            </if>
+            <if test="khrq != null">
+                and KHRQ = #{khrq,jdbcType=TIMESTAMP}
+            </if>
+            <if test="cxrq != null">
+                and CXRQ = #{cxrq,jdbcType=TIMESTAMP}
+            </if>
+            <if test="fjsxid != null">
+                and FJSXID = #{fjsxid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBankcardByPersonCode" parameterType="string" resultMap="BaseResultMap">
+    select b.*,d.name as yhklxmc from LEDEN_COLLECT_BANKCARD b
+    left join sys_dict_list d on b.yhklxdm = d.code and d.sign = 'DICT_YHKLX'
+    where b.RYJCXXCJBH = #{id}
+  </select>
+
+</mapper>
+

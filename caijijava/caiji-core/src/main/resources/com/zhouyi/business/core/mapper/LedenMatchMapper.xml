@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenMatchMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenMatch" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
+    <result column="BZBH" property="bzbh" jdbcType="VARCHAR" />
+    <result column="QUERYTYPE" property="querytype" jdbcType="DECIMAL" />
+    <result column="MATCH_TIME" property="matchTime" jdbcType="TIMESTAMP" />
+    <result column="MATCH_FGP" property="matchFgp" jdbcType="VARCHAR" />
+    <result column="MATCH_SCORE" property="matchScore" jdbcType="DECIMAL" />
+    <result column="REGIST_USER_ID" property="registUserId" jdbcType="VARCHAR" />
+    <result column="REGIST_USER_NAME" property="registUserName" jdbcType="VARCHAR" />
+    <result column="REGIST_UNIT_CODE" property="registUnitCode" jdbcType="VARCHAR" />
+    <result column="REGIST_UNIT_NAME" property="registUnitName" jdbcType="VARCHAR" />
+    <result column="REVIEW_USER_ID" property="reviewUserId" jdbcType="VARCHAR" />
+    <result column="REVIEW_USER_NAME" property="reviewUserName" jdbcType="VARCHAR" />
+    <result column="REVIEW_UNIT_CODE" property="reviewUnitCode" jdbcType="VARCHAR" />
+    <result column="REVIEW_UNIT_NAME" property="reviewUnitName" jdbcType="VARCHAR" />
+    <result column="CONFIRM_USER_ID" property="confirmUserId" jdbcType="VARCHAR" />
+    <result column="CONFIRM_USER_NAME" property="confirmUserName" jdbcType="VARCHAR" />
+    <result column="CONFIRM_UNIT_CODE" property="confirmUnitCode" jdbcType="VARCHAR" />
+    <result column="CONFIRM_UNIT_NAME" property="confirmUnitName" jdbcType="VARCHAR" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, RYJCXXCJBH, BZBH, QUERYTYPE, MATCH_TIME, MATCH_FGP, MATCH_SCORE, REGIST_USER_ID, 
+    REGIST_USER_NAME, REGIST_UNIT_CODE, REGIST_UNIT_NAME, REVIEW_USER_ID, REVIEW_USER_NAME, 
+    REVIEW_UNIT_CODE, REVIEW_UNIT_NAME, CONFIRM_USER_ID, CONFIRM_USER_NAME, CONFIRM_UNIT_CODE, 
+    CONFIRM_UNIT_NAME, DELETAG, ANNEX
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_MATCH
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_MATCH
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenMatch" >
+    insert into LEDEN_MATCH (PK_ID, RYJCXXCJBH, BZBH,
+      QUERYTYPE, MATCH_TIME, MATCH_FGP, 
+      MATCH_SCORE, REGIST_USER_ID, REGIST_USER_NAME, 
+      REGIST_UNIT_CODE, REGIST_UNIT_NAME, REVIEW_USER_ID, 
+      REVIEW_USER_NAME, REVIEW_UNIT_CODE, REVIEW_UNIT_NAME, 
+      CONFIRM_USER_ID, CONFIRM_USER_NAME, CONFIRM_UNIT_CODE, 
+      CONFIRM_UNIT_NAME, DELETAG, ANNEX
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{bzbh,jdbcType=VARCHAR}, 
+      #{querytype,jdbcType=DECIMAL}, #{matchTime,jdbcType=TIMESTAMP}, #{matchFgp,jdbcType=VARCHAR}, 
+      #{matchScore,jdbcType=DECIMAL}, #{registUserId,jdbcType=VARCHAR}, #{registUserName,jdbcType=VARCHAR}, 
+      #{registUnitCode,jdbcType=VARCHAR}, #{registUnitName,jdbcType=VARCHAR}, #{reviewUserId,jdbcType=VARCHAR}, 
+      #{reviewUserName,jdbcType=VARCHAR}, #{reviewUnitCode,jdbcType=VARCHAR}, #{reviewUnitName,jdbcType=VARCHAR}, 
+      #{confirmUserId,jdbcType=VARCHAR}, #{confirmUserName,jdbcType=VARCHAR}, #{confirmUnitCode,jdbcType=VARCHAR}, 
+      #{confirmUnitName,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenMatch" >
+    insert into LEDEN_MATCH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH,
+      </if>
+      <if test="bzbh != null" >
+        BZBH,
+      </if>
+      <if test="querytype != null" >
+        QUERYTYPE,
+      </if>
+      <if test="matchTime != null" >
+        MATCH_TIME,
+      </if>
+      <if test="matchFgp != null" >
+        MATCH_FGP,
+      </if>
+      <if test="matchScore != null" >
+        MATCH_SCORE,
+      </if>
+      <if test="registUserId != null" >
+        REGIST_USER_ID,
+      </if>
+      <if test="registUserName != null" >
+        REGIST_USER_NAME,
+      </if>
+      <if test="registUnitCode != null" >
+        REGIST_UNIT_CODE,
+      </if>
+      <if test="registUnitName != null" >
+        REGIST_UNIT_NAME,
+      </if>
+      <if test="reviewUserId != null" >
+        REVIEW_USER_ID,
+      </if>
+      <if test="reviewUserName != null" >
+        REVIEW_USER_NAME,
+      </if>
+      <if test="reviewUnitCode != null" >
+        REVIEW_UNIT_CODE,
+      </if>
+      <if test="reviewUnitName != null" >
+        REVIEW_UNIT_NAME,
+      </if>
+      <if test="confirmUserId != null" >
+        CONFIRM_USER_ID,
+      </if>
+      <if test="confirmUserName != null" >
+        CONFIRM_USER_NAME,
+      </if>
+      <if test="confirmUnitCode != null" >
+        CONFIRM_UNIT_CODE,
+      </if>
+      <if test="confirmUnitName != null" >
+        CONFIRM_UNIT_NAME,
+      </if>
+      <if test="deletag != null" >
+        DELETAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="ryjcxxcjbh != null" >
+        #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bzbh != null" >
+        #{bzbh,jdbcType=VARCHAR},
+      </if>
+      <if test="querytype != null" >
+        #{querytype,jdbcType=DECIMAL},
+      </if>
+      <if test="matchTime != null" >
+        #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchFgp != null" >
+        #{matchFgp,jdbcType=VARCHAR},
+      </if>
+      <if test="matchScore != null" >
+        #{matchScore,jdbcType=DECIMAL},
+      </if>
+      <if test="registUserId != null" >
+        #{registUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="registUserName != null" >
+        #{registUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="registUnitCode != null" >
+        #{registUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registUnitName != null" >
+        #{registUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewUserId != null" >
+        #{reviewUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewUserName != null" >
+        #{reviewUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewUnitCode != null" >
+        #{reviewUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewUnitName != null" >
+        #{reviewUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUserId != null" >
+        #{confirmUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUserName != null" >
+        #{confirmUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUnitCode != null" >
+        #{confirmUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUnitName != null" >
+        #{confirmUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenMatch" >
+    update LEDEN_MATCH
+    <set >
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bzbh != null" >
+        BZBH = #{bzbh,jdbcType=VARCHAR},
+      </if>
+      <if test="querytype != null" >
+        QUERYTYPE = #{querytype,jdbcType=DECIMAL},
+      </if>
+      <if test="matchTime != null" >
+        MATCH_TIME = #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchFgp != null" >
+        MATCH_FGP = #{matchFgp,jdbcType=VARCHAR},
+      </if>
+      <if test="matchScore != null" >
+        MATCH_SCORE = #{matchScore,jdbcType=DECIMAL},
+      </if>
+      <if test="registUserId != null" >
+        REGIST_USER_ID = #{registUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="registUserName != null" >
+        REGIST_USER_NAME = #{registUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="registUnitCode != null" >
+        REGIST_UNIT_CODE = #{registUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registUnitName != null" >
+        REGIST_UNIT_NAME = #{registUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewUserId != null" >
+        REVIEW_USER_ID = #{reviewUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewUserName != null" >
+        REVIEW_USER_NAME = #{reviewUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewUnitCode != null" >
+        REVIEW_UNIT_CODE = #{reviewUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewUnitName != null" >
+        REVIEW_UNIT_NAME = #{reviewUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUserId != null" >
+        CONFIRM_USER_ID = #{confirmUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUserName != null" >
+        CONFIRM_USER_NAME = #{confirmUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUnitCode != null" >
+        CONFIRM_UNIT_CODE = #{confirmUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmUnitName != null" >
+        CONFIRM_UNIT_NAME = #{confirmUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        DELETAG = #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenMatch" >
+    update LEDEN_MATCH
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      BZBH = #{bzbh,jdbcType=VARCHAR},
+      QUERYTYPE = #{querytype,jdbcType=DECIMAL},
+      MATCH_TIME = #{matchTime,jdbcType=TIMESTAMP},
+      MATCH_FGP = #{matchFgp,jdbcType=VARCHAR},
+      MATCH_SCORE = #{matchScore,jdbcType=DECIMAL},
+      REGIST_USER_ID = #{registUserId,jdbcType=VARCHAR},
+      REGIST_USER_NAME = #{registUserName,jdbcType=VARCHAR},
+      REGIST_UNIT_CODE = #{registUnitCode,jdbcType=VARCHAR},
+      REGIST_UNIT_NAME = #{registUnitName,jdbcType=VARCHAR},
+      REVIEW_USER_ID = #{reviewUserId,jdbcType=VARCHAR},
+      REVIEW_USER_NAME = #{reviewUserName,jdbcType=VARCHAR},
+      REVIEW_UNIT_CODE = #{reviewUnitCode,jdbcType=VARCHAR},
+      REVIEW_UNIT_NAME = #{reviewUnitName,jdbcType=VARCHAR},
+      CONFIRM_USER_ID = #{confirmUserId,jdbcType=VARCHAR},
+      CONFIRM_USER_NAME = #{confirmUserName,jdbcType=VARCHAR},
+      CONFIRM_UNIT_CODE = #{confirmUnitCode,jdbcType=VARCHAR},
+      CONFIRM_UNIT_NAME = #{confirmUnitName,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

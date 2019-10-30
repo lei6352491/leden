@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status="OFF"，可以去掉，它的含义为是否记录log4j2本身的event信息，默认是OFF -->
+<configuration status="OFF" packages="com.cifmedia.log">
+	<!-- 输出的log都是在ERROR level上的，log4j定义了8个级别的log（除去OFF和ALL，可以说分为6个级别） 优先级从高到低依次为：OFF、FATAL、ERROR、WARN、INFO、DEBUG、TRACE、 
+		ALL。 如果将log level设置在某一个级别上，那么比此级别优先级高的log都能打印出来。 例如，如果设置优先级为WARN，那么OFF、FATAL、ERROR、WARN 
+		4个级别的log能正常输出，而INFO、DEBUG、TRACE、 ALL级别的log则会被忽略。 log4j默认的优先级为ERROR。 -->
+	<!-- 定义下面的引用名 -->
+	<Properties>
+		<!--  <property name="log_pattern">%reqId %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%-5level] %l %reqServletPath %msg%xEx%n</property> -->
+		<property name="log_pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %c{1.}.%M(%L) %reqServletPath %msg%xEx%n</property>
+		<property name="log-path">/data/logs/jar/8050/zhouyi-wx</property><!-- ${web:rootDir}是项目根目录 -->
+		<property name="every_file_size">500M</property><!-- 日志切割的最小单位 -->
+		<property name="output_log_level">info</property><!-- 日志输出级别 -->
+	</Properties>
+
+	<!--先定义所有的appender -->
+	<appenders>
+
+		<!--这个输出控制台的配置 -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+			<ThresholdFilter level="trace" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<!--这个都知道是输出日志的格式 -->
+			<PatternLayout pattern="${log_pattern}" />
+		</Console>
+
+		<!-- debug级别日志文件 -->
+		<!--每次大小超过size，则这size大小的日志会自动进行压缩，作为存档 -->
+		<RollingFile name="app_debug" fileName="${log-path}/debug.log"
+			filePattern="${log-path}/gz/debug-%d{yyyy-MM-dd}-%i.log.gz">
+			<Filters>
+				<ThresholdFilter level="info" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="debug" onMatch="ACCEPT"
+					onMismatch="NEUTRAL" />
+			</Filters>
+			<PatternLayout pattern="${log_pattern}" />
+			<SizeBasedTriggeringPolicy size="${every_file_size}" />
+		</RollingFile>
+
+		<!-- info级别日志文件 -->
+		<RollingFile name="app_info" fileName="${log-path}/info.log"
+			filePattern="${log-path}/gz/info-%d{yyyy-MM-dd}-%i.log.gz">
+			<Filters>
+				<ThresholdFilter level="warn" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="info" onMatch="ACCEPT"
+					onMismatch="DENY" />
+			</Filters>
+			<PatternLayout pattern="${log_pattern}" />
+			<SizeBasedTriggeringPolicy size="${every_file_size}" />
+		</RollingFile>
+
+		<!-- error级别日志文件 -->
+		<RollingFile name="app_error" fileName="${log-path}/error.log"
+			filePattern="${log-path}/gz/error-%d{yyyy-MM-dd}-%i.log.gz">
+			<Filters>
+				<ThresholdFilter level="warn" onMatch="ACCEPT"
+					onMismatch="DENY" />
+			</Filters>
+			<PatternLayout pattern="${log_pattern}" />
+			<SizeBasedTriggeringPolicy size="${every_file_size}" />
+		</RollingFile>
+		
+		<!-- app_all级别日志文件 -->
+		<RollingFile name="app_all" fileName="${log-path}/app.log"
+			filePattern="${log-path}/gz/app-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout pattern="${log_pattern}" />
+			<SizeBasedTriggeringPolicy size="${every_file_size}" />
+		</RollingFile>
+
+	</appenders>
+
+	<!--然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+	<loggers>
+		<logger name="org.springframework" level="info" />
+		<logger name="org.apache.commons" level="info" />
+		<logger name="com.zhouyi.business" level="info" />
+		<logger name="org.apache.ibatis" level="info" />
+		<logger name="org.mybatis" level="info" />
+		<!--建立一个默认的root的logger，需要在root的level中指定输出的级别， -->
+		<root level="${output_log_level}">
+			<appender-ref ref="app_all" />
+			  
+			<appender-ref ref="Console" />
+
+		</root>
+	</loggers>
+
+</configuration>

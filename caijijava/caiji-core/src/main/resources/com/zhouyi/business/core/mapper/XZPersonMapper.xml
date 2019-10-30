@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.XZPersonMapper">
+
+    <resultMap id="firstMap" type="com.zhouyi.business.core.model.xinzhen.XZPerson">
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh"/>
+        <result column="XM" property="xm"/>
+        <result column="XMHYPY" property="xmhypy"/>
+        <result column="GMSFHM" property="gmsfhm"/>
+        <result column="CYZJDM" property="cyzjdm"/>
+        <result column="ZJHM" property="zjhm"/>
+        <result column="XBDM" property="xbdm"/>
+        <result column="CSRQ" property="csrq"/>
+        <result column="CYM" property="cym"/>
+        <result column="WWXM" property="wwxm"/>
+        <result column="BMCH" property="bmch"/>
+        <result column="GJDM" property="gjdm"/>
+        <result column="MZDM" property="mzdm"/>
+        <result column="HJDSSXDM" property="hjdXzqhdm"/>
+        <result column="hjdDzmc" property="hjdDzmc"/>
+        <result column="XZDQHDM" property="xzdDzmc"/>
+        <result column="XZDXZ" property="xzdDzmc"/>
+        <result column="CSDSSXDM" property="csdXzqhdm"/>
+        <result column="CSDXZ" property="csdDzmc"/>
+        <result column="ZZMMDM" property="zzmmdm"/>
+        <result column="HYZKDM" property="hyzkdm"/>
+        <result column="ZJXYDM" property="zjxydm"/>
+        <result column="XLDM" property="xldm"/>
+        <result column="GRSFDM" property="grsfdm"/>
+        <result column="TSSFDM" property="tssfdm"/>
+        <result column="RYLBDM" property="bcjrylbdm"/>
+        <result column="CJRXM" property="cjrXm"/>
+        <result column="CJRXM" property="cjrXm"/>
+<!--        <result column=""-->
+    </resultMap>
+
+    <select id="getXZPersonInfoByRybh" statementType="PREPARED" resultMap="firstMap">
+        select * from LEDEN_COLLECT_PERSON
+        where RYJCXXCJBH=#{rybh}
+    </select>
+</mapper>

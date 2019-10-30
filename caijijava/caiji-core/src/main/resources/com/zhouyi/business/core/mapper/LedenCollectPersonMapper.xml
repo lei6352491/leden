@@ -1,0 +1,1335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectPersonMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectPerson" >
+    <id column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
+    <result column="JZRYBH" property="jzrybh" jdbcType="VARCHAR" />
+    <result column="CJXXYYDM" property="cjxxyydm" jdbcType="VARCHAR" />
+    <result column="XM" property="xm" jdbcType="VARCHAR" />
+    <result column="XMHYPY" property="xmhypy" jdbcType="VARCHAR" />
+    <result column="GMSFHM" property="gmsfhm" jdbcType="VARCHAR" />
+    <result column="CYZJDM" property="cyzjdm" jdbcType="VARCHAR" />
+    <result column="ZJHM" property="zjhm" jdbcType="VARCHAR" />
+    <result column="XBDM" property="xbdm" jdbcType="VARCHAR" />
+    <result column="CSRQ" property="csrq" jdbcType="TIMESTAMP" />
+    <result column="CYM" property="cym" jdbcType="VARCHAR" />
+    <result column="WWXM" property="wwxm" jdbcType="VARCHAR" />
+    <result column="BMCH" property="bmch" jdbcType="VARCHAR" />
+    <result column="GJDM" property="gjdm" jdbcType="VARCHAR" />
+    <result column="MZDM" property="mzdm" jdbcType="VARCHAR" />
+    <result column="JGSSXDM" property="jgssxdm" jdbcType="VARCHAR" />
+    <result column="CSDSSXDM" property="csdssxdm" jdbcType="VARCHAR" />
+    <result column="CSDXZ" property="csdxz" jdbcType="VARCHAR" />
+    <result column="HJDSSXDM" property="hjdssxdm" jdbcType="VARCHAR" />
+    <result column="HJDXZ" property="hjdxz" jdbcType="VARCHAR" />
+    <result column="ZZMMDM" property="zzmmdm" jdbcType="VARCHAR" />
+    <result column="HYZKDM" property="hyzkdm" jdbcType="VARCHAR" />
+    <result column="XLDM" property="xldm" jdbcType="VARCHAR" />
+    <result column="GRSFDM" property="grsfdm" jdbcType="VARCHAR" />
+    <result column="RYLBDM" property="rylbdm" jdbcType="VARCHAR" />
+    <result column="XZDQHDM" property="xzdqhdm" jdbcType="VARCHAR" />
+    <result column="XZDXZ" property="xzdxz" jdbcType="VARCHAR" />
+    <result column="AJLBDM" property="ajlbdm" jdbcType="VARCHAR" />
+    <result column="CJRXM" property="cjrxm" jdbcType="VARCHAR" />
+    <result column="CJDWDM" property="cjdwdm" jdbcType="VARCHAR" />
+    <result column="CJDWMC" property="cjdwmc" jdbcType="VARCHAR" />
+    <result column="CJSJ" property="cjsj" jdbcType="TIMESTAMP" />
+    <result column="TSSFDM" property="tssfdm" jdbcType="VARCHAR" />
+    <result column="ZJXYDM" property="zjxydm" jdbcType="VARCHAR" />
+    <result column="COLLECT_CATEGORY_ID" property="collectCategoryId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SCHEDULE" property="schedule" jdbcType="VARCHAR" />
+    <result column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_CODE" property="equipmentCode" jdbcType="VARCHAR" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectPerson" extends="BaseResultMap" >
+    <result column="JDXP" property="jdxp" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RYJCXXCJBH, JZRYBH, CJXXYYDM, XM, XMHYPY, GMSFHM, CYZJDM, ZJHM, XBDM, CSRQ, CYM, 
+    WWXM, BMCH, GJDM, MZDM, JGSSXDM, CSDSSXDM, CSDXZ, HJDSSXDM, HJDXZ, ZZMMDM, HYZKDM, 
+    XLDM, GRSFDM, RYLBDM, XZDQHDM, XZDXZ, AJLBDM, CJRXM, CJDWDM, CJDWMC, CJSJ, TSSFDM, 
+    ZJXYDM, COLLECT_CATEGORY_ID, STATUS, SCHEDULE, TASK_ID, EQUIPMENT_CODE, DELETAG, 
+    ANNEX, CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+  <sql id="BaseTable">
+		LEDEN_COLLECT_PERSON
+  </sql>
+
+  <select id="selectAllCJRXM" resultMap="BaseResultMap">
+    select CJRXM from LEDEN_COLLECT_PERSON group by CJRXM
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from LEDEN_COLLECT_PERSON
+    where RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+  </select>
+
+
+
+  <select id="selectPersonByPersonCode" parameterType="string" resultMap="personResultMap">
+    select
+      p.*,d1.name as cjxxyymc,d2.name as cyzjmc,d3.name as gjmc,d4.name as mzmc,d5.name as jgssxmc,
+      d6.name as csdssxmc,d7.name as hjdssxmc,d8.name as zzmmmc,d9.name as xlmc,d10.name as rylbmc,
+      d11.name as tssfmc,d12.name as xbmc,d13.name as zjxymc,d14.name as ajlbmc,d15.name as xzdqhmc,
+      d16.name as hyzkmc,d17.name as grsfmc,
+      c.collet_category_name as cjlbmc
+    from LEDEN_COLLECT_PERSON p
+      left join SYS_DICT_LIST d1 on p.cjxxyydm = d1.code and d1.sign = 'DICT_RYCJYY'
+      left join SYS_DICT_LIST d2 on p.cyzjdm = d2.code and d2.sign = 'DICT_RYCHYZHJ'
+      left join SYS_DICT_LIST d3 on p.gjdm = d3.code and d3.sign = 'DICT_RYGJ'
+      left join SYS_DICT_LIST d4 on p.mzdm = d4.code and d4.sign = 'DICT_RYMZ'
+      left join SYS_DICT_LIST d5 on p.jgssxdm = d5.code and d5.sign = 'DICT_XZQH'
+      left join SYS_DICT_LIST d6 on p.csdssxdm = d6.code and d6.sign = 'DICT_XZQH'
+      left join SYS_DICT_LIST d7 on p.hjdssxdm = d7.code and d7.sign = 'DICT_XZQH'
+      left join SYS_DICT_LIST d8 on p.zzmmdm = d8.code and d8.sign = 'DICT_RYZHZHMM'
+      left join SYS_DICT_LIST d9 on p.xldm = d9.code and d9.sign = 'DICT_RYXL'
+      left join SYS_DICT_LIST d10 on p.rylbdm = d10.code and d10.sign = 'DICT_RYLB'
+      left join SYS_DICT_LIST d11 on p.tssfdm = d11.code and d11.sign = 'DICT_RYGRSHF'
+      left join SYS_DICT_LIST d12 on p.xbdm = d12.code and d12.sign = 'DICT_RYXB'
+      left join SYS_DICT_LIST d13 on p.zjxydm = d13.code and d13.sign = 'DICT_RYZJXY'
+      left join SYS_DICT_LIST d14 on p.ajlbdm = d14.code and d14.sign = 'DICT_AJLB'
+      left join SYS_DICT_LIST d15 on p.xzdqhdm = d15.code and d15.sign = 'DICT_XZQH'
+      left join SYS_DICT_LIST d16 on p.hyzkdm = d16.code and d16.sign = 'DICT_RYHYZHK'
+      left join SYS_DICT_LIST d17 on p.grsfdm = d17.code and d17.sign = 'DICT_RYGRSHF'
+      left join LEDEN_COLLECT_CATEGORY c on p.collect_category_id = c.pk_id
+    where p.ryjcxxcjbh = #{id}
+  </select>
+
+  <sql id="Blob_Column_List" >
+    JDXP
+  </sql>
+
+  <resultMap id="personResultMap" type="com.zhouyi.business.core.model.PersonResult" >
+    <id column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
+    <result column="JZRYBH" property="jzrybh" jdbcType="VARCHAR" />
+    <result column="CJXXYYDM" property="cjxxyydm" jdbcType="VARCHAR" />
+    <result column="XM" property="xm" jdbcType="VARCHAR" />
+    <result column="XMHYPY" property="xmhypy" jdbcType="VARCHAR" />
+    <result column="GMSFHM" property="gmsfhm" jdbcType="VARCHAR" />
+    <result column="CYZJDM" property="cyzjdm" jdbcType="VARCHAR" />
+    <result column="ZJHM" property="zjhm" jdbcType="VARCHAR" />
+    <result column="XBDM" property="xbdm" jdbcType="VARCHAR" />
+    <result column="CSRQ" property="csrq" jdbcType="TIMESTAMP" />
+    <result column="CYM" property="cym" jdbcType="VARCHAR" />
+    <result column="WWXM" property="wwxm" jdbcType="VARCHAR" />
+    <result column="BMCH" property="bmch" jdbcType="VARCHAR" />
+    <result column="GJDM" property="gjdm" jdbcType="VARCHAR" />
+    <result column="MZDM" property="mzdm" jdbcType="VARCHAR" />
+    <result column="JGSSXDM" property="jgssxdm" jdbcType="VARCHAR" />
+    <result column="CSDSSXDM" property="csdssxdm" jdbcType="VARCHAR" />
+    <result column="CSDXZ" property="csdxz" jdbcType="VARCHAR" />
+    <result column="HJDSSXDM" property="hjdssxdm" jdbcType="VARCHAR" />
+    <result column="HJDXZ" property="hjdxz" jdbcType="VARCHAR" />
+    <result column="ZZMMDM" property="zzmmdm" jdbcType="VARCHAR" />
+    <result column="HYZKDM" property="hyzkdm" jdbcType="VARCHAR" />
+    <result column="XLDM" property="xldm" jdbcType="VARCHAR" />
+    <result column="GRSFDM" property="grsfdm" jdbcType="VARCHAR" />
+    <result column="RYLBDM" property="rylbdm" jdbcType="VARCHAR" />
+    <result column="XZDQHDM" property="xzdqhdm" jdbcType="VARCHAR" />
+    <result column="XZDXZ" property="xzdxz" jdbcType="VARCHAR" />
+    <result column="AJLBDM" property="ajlbdm" jdbcType="VARCHAR" />
+    <result column="CJRXM" property="cjrxm" jdbcType="VARCHAR" />
+    <result column="CJDWDM" property="cjdwdm" jdbcType="VARCHAR" />
+    <result column="CJDWMC" property="cjdwmc" jdbcType="VARCHAR" />
+    <result column="CJSJ" property="cjsj" jdbcType="TIMESTAMP" />
+    <result column="TSSFDM" property="tssfdm" jdbcType="VARCHAR" />
+    <result column="ZJXYDM" property="zjxydm" jdbcType="VARCHAR" />
+    <result column="COLLECT_CATEGORY_ID" property="collectCategoryId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SCHEDULE" property="schedule" jdbcType="VARCHAR" />
+    <result column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_CODE" property="equipmentCode" jdbcType="VARCHAR" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+    <result column="NAME" property="name"/>
+    <result column="typeName" property="typeName"/>
+  </resultMap>
+  <select id="selectCollectPersonList" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2" resultMap="personResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select p.*,d.NAME,d2.NAME typeName from LEDEN_COLLECT_PERSON p left join SYS_DICT_LIST d on p.AJLBDM = d.code left join SYS_DICT_LIST d2 on d2.code = p.RYLBDM and d2.sign = 'DICT_RYLB'
+    <where>
+      <if test="ryjcxxcjbh">
+        and p.RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+      </if>
+      <if test="jzrybh != null and jzrybh != ''" >
+        and p.JZRYBH = #{jzrybh,jdbcType=VARCHAR}
+      </if>
+      <if test="cjxxyydm != null" >
+        and p.CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR}
+      </if>
+      <if test="xm != null and xm != ''" >
+        and p.XM = #{xm,jdbcType=VARCHAR}
+      </if>
+      <if test="xmhypy != null" >
+        and p.XMHYPY = #{xmhypy,jdbcType=VARCHAR}
+      </if>
+      <if test="gmsfhm != null and gmsfhm != ''" >
+        and p.GMSFHM = #{gmsfhm,jdbcType=VARCHAR}
+      </if>
+      <if test="cyzjdm != null" >
+        and p.CYZJDM = #{cyzjdm,jdbcType=VARCHAR}
+      </if>
+      <if test="zjhm != null" >
+        and p.ZJHM = #{zjhm,jdbcType=VARCHAR}
+      </if>
+      <if test="xbdm != null" >
+        and p.XBDM = #{xbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csrq != null" >
+        and p.CSRQ = #{csrq,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cym != null" >
+        and p.CYM = #{cym,jdbcType=VARCHAR}
+      </if>
+      <if test="wwxm != null" >
+        and p.WWXM = #{wwxm,jdbcType=VARCHAR}
+      </if>
+      <if test="bmch != null" >
+        and p.BMCH = #{bmch,jdbcType=VARCHAR}
+      </if>
+      <if test="gjdm != null" >
+        and p.GJDM = #{gjdm,jdbcType=VARCHAR}
+      </if>
+      <if test="mzdm != null" >
+        and p.MZDM = #{mzdm,jdbcType=VARCHAR}
+      </if>
+      <if test="jgssxdm != null" >
+        and p.JGSSXDM = #{jgssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csdssxdm != null" >
+        and p.CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csdxz != null" >
+        and p.CSDXZ = #{csdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="hjdssxdm != null" >
+        and p.HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="hjdxz != null" >
+        and p.HJDXZ = #{hjdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="zzmmdm != null" >
+        and p.ZZMMDM = #{zzmmdm,jdbcType=VARCHAR}
+      </if>
+      <if test="hyzkdm != null" >
+        and HYZKDM = #{hyzkdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xldm != null" >
+        and XLDM = #{xldm,jdbcType=VARCHAR}
+      </if>
+      <if test="grsfdm != null" >
+        and GRSFDM = #{grsfdm,jdbcType=VARCHAR}
+      </if>
+      <if test="rylbdm != null" >
+        and p.RYLBDM = #{rylbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xzdqhdm != null" >
+        and p.XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xzdxz != null" >
+        and p.XZDXZ = #{xzdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="ajlbdm != null" >
+        and p.AJLBDM = #{ajlbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjrxm != null" >
+        and p.CJRXM = #{cjrxm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjdwdm != null" >
+        and p.CJDWDM = #{cjdwdm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjdwmc != null" >
+        and p.CJDWMC = #{cjdwmc,jdbcType=VARCHAR}
+      </if>
+      <if test="cjsj != null" >
+        and p.CJSJ = #{cjsj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="tssfdm != null" >
+        and p.TSSFDM = #{tssfdm,jdbcType=VARCHAR}
+      </if>
+      <if test="zjxydm != null" >
+        and p.ZJXYDM = #{zjxydm,jdbcType=VARCHAR}
+      </if>
+      <if test="collectCategoryId != null" >
+        and p.COLLECT_CATEGORY_ID = #{collectCategoryId,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and p.STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="schedule != null" >
+        and p.SCHEDULE = #{schedule,jdbcType=VARCHAR}
+      </if>
+      <if test="taskId != null" >
+        and p.TASK_ID = #{taskId,jdbcType=VARCHAR}
+      </if>
+      <if test="equipmentCode != null" >
+        and p.EQUIPMENT_CODE = #{equipmentCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deletag != null" >
+        and p.DELETAG = #{deletag,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and p.ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and p.CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="dateStart != null" >
+        and p.CREATE_DATETIME &gt;= #{dateStart}
+      </if>
+      <if test="dateEnd != null ">
+        and p.CREATE_DATETIME &lt;= #{dateEnd}
+      </if>
+      <if test="updateUserId != null" >
+        and p.UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="jdxp != null" >
+        and p.JDXP = #{jdxp,jdbcType=BLOB}
+      </if>
+      <if test="sign != null and sign != ''">
+        and d.sign = #{sign}
+      </if>
+    </where>
+      order by  CJSJ desc
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="selectCollectPersonListCount" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2" resultType="int">
+    select count(1) from LEDEN_COLLECT_PERSON p left join SYS_DICT_LIST d on p.AJLBDM = d.code left join SYS_DICT_LIST d2 on d2.code = p.RYLBDM and d2.sign = 'DICT_RYLB'
+    <where>
+      <if test="ryjcxxcjbh">
+        and p.RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+      </if>
+      <if test="jzrybh != null and jzrybh != ''" >
+        and p.JZRYBH = #{jzrybh,jdbcType=VARCHAR}
+      </if>
+      <if test="cjxxyydm != null" >
+        and p.CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR}
+      </if>
+      <if test="xm != null and xm != ''" >
+        and p.XM = #{xm,jdbcType=VARCHAR}
+      </if>
+      <if test="xmhypy != null" >
+        and p.XMHYPY = #{xmhypy,jdbcType=VARCHAR}
+      </if>
+      <if test="gmsfhm != null and gmsfhm != ''" >
+        and p.GMSFHM = #{gmsfhm,jdbcType=VARCHAR}
+      </if>
+      <if test="cyzjdm != null" >
+        and p.CYZJDM = #{cyzjdm,jdbcType=VARCHAR}
+      </if>
+      <if test="zjhm != null" >
+        and p.ZJHM = #{zjhm,jdbcType=VARCHAR}
+      </if>
+      <if test="xbdm != null" >
+        and p.XBDM = #{xbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csrq != null" >
+        and p.CSRQ = #{csrq,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cym != null" >
+        and p.CYM = #{cym,jdbcType=VARCHAR}
+      </if>
+      <if test="wwxm != null" >
+        and p.WWXM = #{wwxm,jdbcType=VARCHAR}
+      </if>
+      <if test="bmch != null" >
+        and p.BMCH = #{bmch,jdbcType=VARCHAR}
+      </if>
+      <if test="gjdm != null" >
+        and p.GJDM = #{gjdm,jdbcType=VARCHAR}
+      </if>
+      <if test="mzdm != null" >
+        and p.MZDM = #{mzdm,jdbcType=VARCHAR}
+      </if>
+      <if test="jgssxdm != null" >
+        and p.JGSSXDM = #{jgssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csdssxdm != null" >
+        and p.CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csdxz != null" >
+        and p.CSDXZ = #{csdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="hjdssxdm != null" >
+        and p.HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="hjdxz != null" >
+        and p.HJDXZ = #{hjdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="zzmmdm != null" >
+        and p.ZZMMDM = #{zzmmdm,jdbcType=VARCHAR}
+      </if>
+      <if test="hyzkdm != null" >
+        and HYZKDM = #{hyzkdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xldm != null" >
+        and XLDM = #{xldm,jdbcType=VARCHAR}
+      </if>
+      <if test="grsfdm != null" >
+        and GRSFDM = #{grsfdm,jdbcType=VARCHAR}
+      </if>
+      <if test="rylbdm != null" >
+        and p.RYLBDM = #{rylbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xzdqhdm != null" >
+        and p.XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xzdxz != null" >
+        and p.XZDXZ = #{xzdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="ajlbdm != null" >
+        and p.AJLBDM = #{ajlbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjrxm != null" >
+        and p.CJRXM = #{cjrxm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjdwdm != null" >
+        and p.CJDWDM = #{cjdwdm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjdwmc != null" >
+        and p.CJDWMC = #{cjdwmc,jdbcType=VARCHAR}
+      </if>
+      <if test="cjsj != null" >
+        and p.CJSJ = #{cjsj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="tssfdm != null" >
+        and p.TSSFDM = #{tssfdm,jdbcType=VARCHAR}
+      </if>
+      <if test="zjxydm != null" >
+        and p.ZJXYDM = #{zjxydm,jdbcType=VARCHAR}
+      </if>
+      <if test="collectCategoryId != null" >
+        and p.COLLECT_CATEGORY_ID = #{collectCategoryId,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and p.STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="schedule != null" >
+        and p.SCHEDULE = #{schedule,jdbcType=VARCHAR}
+      </if>
+      <if test="taskId != null" >
+        and p.TASK_ID = #{taskId,jdbcType=VARCHAR}
+      </if>
+      <if test="equipmentCode != null" >
+        and p.EQUIPMENT_CODE = #{equipmentCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deletag != null" >
+        and p.DELETAG = #{deletag,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and p.ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and p.CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="dateStart != null" >
+        and p.CREATE_DATETIME &gt;= #{dateStart}
+      </if>
+      <if test="dateEnd != null ">
+        and p.CREATE_DATETIME &lt;= #{dateEnd}
+      </if>
+      <if test="updateUserId != null" >
+        and p.UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="jdxp != null" >
+        and p.JDXP = #{jdxp,jdbcType=BLOB}
+      </if>
+      <if test="sign != null and sign != ''">
+        and d.sign = #{sign}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
+                                resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from LEDEN_COLLECT_PERSON order by
+    <if test="overName != null and overName != ''">
+      #{overName}
+    </if>
+    <if test="overName = null and overName = ''">
+      UPDATE_DATETIME
+    </if>
+    desc) e
+    <where>
+      <if test="ryjcxxcjbh">
+        and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+      </if>
+      <if test="jzrybh != null and jzrybh != ''" >
+        and JZRYBH = #{jzrybh,jdbcType=VARCHAR}
+      </if>
+      <if test="cjxxyydm != null" >
+        and CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR}
+      </if>
+      <if test="xm != null and xm != ''" >
+        and XM = #{xm,jdbcType=VARCHAR}
+      </if>
+      <if test="xmhypy != null" >
+        and XMHYPY = #{xmhypy,jdbcType=VARCHAR}
+      </if>
+      <if test="gmsfhm != null and gmsfhm != ''" >
+        and GMSFHM = #{gmsfhm,jdbcType=VARCHAR}
+      </if>
+      <if test="cyzjdm != null" >
+        and CYZJDM = #{cyzjdm,jdbcType=VARCHAR}
+      </if>
+      <if test="zjhm != null" >
+        and ZJHM = #{zjhm,jdbcType=VARCHAR}
+      </if>
+      <if test="xbdm != null" >
+        and XBDM = #{xbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csrq != null" >
+        and CSRQ = #{csrq,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cym != null" >
+        and CYM = #{cym,jdbcType=VARCHAR}
+      </if>
+      <if test="wwxm != null" >
+        and WWXM = #{wwxm,jdbcType=VARCHAR}
+      </if>
+      <if test="bmch != null" >
+        and BMCH = #{bmch,jdbcType=VARCHAR}
+      </if>
+      <if test="gjdm != null" >
+        and GJDM = #{gjdm,jdbcType=VARCHAR}
+      </if>
+      <if test="mzdm != null" >
+        and MZDM = #{mzdm,jdbcType=VARCHAR}
+      </if>
+      <if test="jgssxdm != null" >
+        and JGSSXDM = #{jgssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csdssxdm != null" >
+        and CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csdxz != null" >
+        and CSDXZ = #{csdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="hjdssxdm != null" >
+        and HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="hjdxz != null" >
+        and HJDXZ = #{hjdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="zzmmdm != null" >
+        and ZZMMDM = #{zzmmdm,jdbcType=VARCHAR}
+      </if>
+      <if test="hyzkdm != null" >
+        and HYZKDM = #{hyzkdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xldm != null" >
+        and XLDM = #{xldm,jdbcType=VARCHAR}
+      </if>
+      <if test="grsfdm != null" >
+        and GRSFDM = #{grsfdm,jdbcType=VARCHAR}
+      </if>
+      <if test="rylbdm != null" >
+        and RYLBDM = #{rylbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xzdqhdm != null" >
+        and XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xzdxz != null" >
+        and XZDXZ = #{xzdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="ajlbdm != null" >
+        and AJLBDM = #{ajlbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjrxm != null" >
+        and CJRXM = #{cjrxm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjdwdm != null" >
+        and CJDWDM = #{cjdwdm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjdwmc != null" >
+        and CJDWMC = #{cjdwmc,jdbcType=VARCHAR}
+      </if>
+      <if test="cjsj != null" >
+        and CJSJ = #{cjsj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="tssfdm != null" >
+        and TSSFDM = #{tssfdm,jdbcType=VARCHAR}
+      </if>
+      <if test="zjxydm != null" >
+        and ZJXYDM = #{zjxydm,jdbcType=VARCHAR}
+      </if>
+      <if test="collectCategoryId != null" >
+        and COLLECT_CATEGORY_ID = #{collectCategoryId,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="schedule != null" >
+        and SCHEDULE = #{schedule,jdbcType=VARCHAR}
+      </if>
+      <if test="taskId != null" >
+        and TASK_ID = #{taskId,jdbcType=VARCHAR}
+      </if>
+      <if test="equipmentCode != null" >
+        and EQUIPMENT_CODE = #{equipmentCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deletag != null" >
+        and DELETAG = #{deletag,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="dateStart != null" >
+        and CREATE_DATETIME &gt;= #{dateStart}
+      </if>
+      <if test="dateEnd != null ">
+        and CREATE_DATETIME &lt;= #{dateEnd}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="jdxp != null" >
+        and JDXP = #{jdxp,jdbcType=BLOB}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+  <select id="findCountByModel" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
+          resultType="int">
+    select count(1) from LEDEN_COLLECT_PERSON
+    <where>
+      <if test="jzrybh != null and jzrybh != ''" >
+        and JZRYBH = #{jzrybh,jdbcType=VARCHAR}
+      </if>
+      <if test="cjxxyydm != null" >
+        and CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR}
+      </if>
+      <if test="xm != null and xm != ''" >
+        and XM = #{xm,jdbcType=VARCHAR}
+      </if>
+      <if test="xmhypy != null" >
+        and XMHYPY = #{xmhypy,jdbcType=VARCHAR}
+      </if>
+      <if test="gmsfhm != null and gmsfhm != ''" >
+        and GMSFHM = #{gmsfhm,jdbcType=VARCHAR}
+      </if>
+      <if test="cyzjdm != null" >
+        and CYZJDM = #{cyzjdm,jdbcType=VARCHAR}
+      </if>
+      <if test="zjhm != null" >
+        and ZJHM = #{zjhm,jdbcType=VARCHAR}
+      </if>
+      <if test="xbdm != null" >
+        and XBDM = #{xbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csrq != null" >
+        and CSRQ = #{csrq,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cym != null" >
+        and CYM = #{cym,jdbcType=VARCHAR}
+      </if>
+      <if test="wwxm != null" >
+        and WWXM = #{wwxm,jdbcType=VARCHAR}
+      </if>
+      <if test="bmch != null" >
+        and BMCH = #{bmch,jdbcType=VARCHAR}
+      </if>
+      <if test="gjdm != null" >
+        and GJDM = #{gjdm,jdbcType=VARCHAR}
+      </if>
+      <if test="mzdm != null" >
+        and MZDM = #{mzdm,jdbcType=VARCHAR}
+      </if>
+      <if test="jgssxdm != null" >
+        and JGSSXDM = #{jgssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csdssxdm != null" >
+        and CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="csdxz != null" >
+        and CSDXZ = #{csdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="hjdssxdm != null" >
+        and HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="hjdxz != null" >
+        and HJDXZ = #{hjdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="zzmmdm != null" >
+        and ZZMMDM = #{zzmmdm,jdbcType=VARCHAR}
+      </if>
+      <if test="hyzkdm != null" >
+        and HYZKDM = #{hyzkdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xldm != null" >
+        and XLDM = #{xldm,jdbcType=VARCHAR}
+      </if>
+      <if test="grsfdm != null" >
+        and GRSFDM = #{grsfdm,jdbcType=VARCHAR}
+      </if>
+      <if test="rylbdm != null" >
+        and RYLBDM = #{rylbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xzdqhdm != null" >
+        and XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xzdxz != null" >
+        and XZDXZ = #{xzdxz,jdbcType=VARCHAR}
+      </if>
+      <if test="ajlbdm != null" >
+        and AJLBDM = #{ajlbdm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjrxm != null" >
+        and CJRXM = #{cjrxm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjdwdm != null" >
+        and CJDWDM = #{cjdwdm,jdbcType=VARCHAR}
+      </if>
+      <if test="cjdwmc != null" >
+        and CJDWMC = #{cjdwmc,jdbcType=VARCHAR}
+      </if>
+      <if test="cjsj != null" >
+        and CJSJ = #{cjsj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="tssfdm != null" >
+        and TSSFDM = #{tssfdm,jdbcType=VARCHAR}
+      </if>
+      <if test="zjxydm != null" >
+        and ZJXYDM = #{zjxydm,jdbcType=VARCHAR}
+      </if>
+      <if test="collectCategoryId != null" >
+        and COLLECT_CATEGORY_ID = #{collectCategoryId,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="schedule != null" >
+        and SCHEDULE = #{schedule,jdbcType=VARCHAR}
+      </if>
+      <if test="taskId != null" >
+        and TASK_ID = #{taskId,jdbcType=VARCHAR}
+      </if>
+      <if test="equipmentCode != null" >
+        and EQUIPMENT_CODE = #{equipmentCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deletag != null" >
+        and DELETAG = #{deletag,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="dateStart != null" >
+        and CREATE_DATETIME &gt;= #{dateStart}
+      </if>
+      <if test="dateEnd != null">
+        and CREATE_DATETIME &lt;= #{dateEnd}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="jdxp != null" >
+        and JDXP = #{jdxp,jdbcType=BLOB}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_PERSON
+    where RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectPerson" >
+    insert into LEDEN_COLLECT_PERSON (RYJCXXCJBH, JZRYBH, CJXXYYDM,
+      XM, XMHYPY, GMSFHM, 
+      CYZJDM, ZJHM, XBDM, 
+      CSRQ, CYM, WWXM, 
+      BMCH, GJDM, MZDM, JGSSXDM, 
+      CSDSSXDM, CSDXZ, HJDSSXDM, 
+      HJDXZ, ZZMMDM, HYZKDM, 
+      XLDM, GRSFDM, RYLBDM, 
+      XZDQHDM, XZDXZ, AJLBDM, 
+      CJRXM, CJDWDM, CJDWMC, 
+      CJSJ, TSSFDM, ZJXYDM, 
+      COLLECT_CATEGORY_ID, STATUS, SCHEDULE, 
+      TASK_ID, EQUIPMENT_CODE, DELETAG, 
+      ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
+      UPDATE_USER_ID, UPDATE_DATETIME, JDXP
+      )
+    values (#{ryjcxxcjbh,jdbcType=VARCHAR}, #{jzrybh,jdbcType=VARCHAR}, #{cjxxyydm,jdbcType=VARCHAR}, 
+      #{xm,jdbcType=VARCHAR}, #{xmhypy,jdbcType=VARCHAR}, #{gmsfhm,jdbcType=VARCHAR}, 
+      #{cyzjdm,jdbcType=VARCHAR}, #{zjhm,jdbcType=VARCHAR}, #{xbdm,jdbcType=VARCHAR}, 
+      #{csrq,jdbcType=TIMESTAMP}, #{cym,jdbcType=VARCHAR}, #{wwxm,jdbcType=VARCHAR}, 
+      #{bmch,jdbcType=VARCHAR}, #{gjdm,jdbcType=VARCHAR}, #{mzdm,jdbcType=VARCHAR}, #{jgssxdm,jdbcType=VARCHAR}, 
+      #{csdssxdm,jdbcType=VARCHAR}, #{csdxz,jdbcType=VARCHAR}, #{hjdssxdm,jdbcType=VARCHAR}, 
+      #{hjdxz,jdbcType=VARCHAR}, #{zzmmdm,jdbcType=VARCHAR}, #{hyzkdm,jdbcType=VARCHAR}, 
+      #{xldm,jdbcType=VARCHAR}, #{grsfdm,jdbcType=VARCHAR}, #{rylbdm,jdbcType=VARCHAR}, 
+      #{xzdqhdm,jdbcType=VARCHAR}, #{xzdxz,jdbcType=VARCHAR}, #{ajlbdm,jdbcType=VARCHAR}, 
+      #{cjrxm,jdbcType=VARCHAR}, #{cjdwdm,jdbcType=VARCHAR}, #{cjdwmc,jdbcType=VARCHAR}, 
+      #{cjsj,jdbcType=TIMESTAMP}, #{tssfdm,jdbcType=VARCHAR}, #{zjxydm,jdbcType=VARCHAR}, 
+      #{collectCategoryId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{schedule,jdbcType=VARCHAR}, 
+      #{taskId,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, 
+      #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}, #{jdxp,jdbcType=BLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectPerson" >
+    insert into LEDEN_COLLECT_PERSON
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH,
+      </if>
+      <if test="jzrybh != null" >
+        JZRYBH,
+      </if>
+      <if test="cjxxyydm != null" >
+        CJXXYYDM,
+      </if>
+      <if test="xm != null" >
+        XM,
+      </if>
+      <if test="xmhypy != null" >
+        XMHYPY,
+      </if>
+      <if test="gmsfhm != null" >
+        GMSFHM,
+      </if>
+      <if test="cyzjdm != null" >
+        CYZJDM,
+      </if>
+      <if test="zjhm != null" >
+        ZJHM,
+      </if>
+      <if test="xbdm != null" >
+        XBDM,
+      </if>
+      <if test="csrq != null" >
+        CSRQ,
+      </if>
+      <if test="cym != null" >
+        CYM,
+      </if>
+      <if test="wwxm != null" >
+        WWXM,
+      </if>
+      <if test="bmch != null" >
+        BMCH,
+      </if>
+      <if test="gjdm != null" >
+        GJDM,
+      </if>
+      <if test="mzdm != null" >
+        MZDM,
+      </if>
+      <if test="jgssxdm != null" >
+        JGSSXDM,
+      </if>
+      <if test="csdssxdm != null" >
+        CSDSSXDM,
+      </if>
+      <if test="csdxz != null" >
+        CSDXZ,
+      </if>
+      <if test="hjdssxdm != null" >
+        HJDSSXDM,
+      </if>
+      <if test="hjdxz != null" >
+        HJDXZ,
+      </if>
+      <if test="zzmmdm != null" >
+        ZZMMDM,
+      </if>
+      <if test="hyzkdm != null" >
+        HYZKDM,
+      </if>
+      <if test="xldm != null" >
+        XLDM,
+      </if>
+      <if test="grsfdm != null" >
+        GRSFDM,
+      </if>
+      <if test="rylbdm != null" >
+        RYLBDM,
+      </if>
+      <if test="xzdqhdm != null" >
+        XZDQHDM,
+      </if>
+      <if test="xzdxz != null" >
+        XZDXZ,
+      </if>
+      <if test="ajlbdm != null" >
+        AJLBDM,
+      </if>
+      <if test="cjrxm != null" >
+        CJRXM,
+      </if>
+      <if test="cjdwdm != null" >
+        CJDWDM,
+      </if>
+      <if test="cjdwmc != null" >
+        CJDWMC,
+      </if>
+      <if test="cjsj != null" >
+        CJSJ,
+      </if>
+      <if test="tssfdm != null" >
+        TSSFDM,
+      </if>
+      <if test="zjxydm != null" >
+        ZJXYDM,
+      </if>
+      <if test="collectCategoryId != null" >
+        COLLECT_CATEGORY_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="schedule != null" >
+        SCHEDULE,
+      </if>
+      <if test="taskId != null" >
+        TASK_ID,
+      </if>
+      <if test="equipmentCode != null" >
+        EQUIPMENT_CODE,
+      </if>
+      <if test="deletag != null" >
+        DELETAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+      <if test="jdxp != null" >
+        JDXP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ryjcxxcjbh != null" >
+        #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="jzrybh != null" >
+        #{jzrybh,jdbcType=VARCHAR},
+      </if>
+      <if test="cjxxyydm != null" >
+        #{cjxxyydm,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null" >
+        #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmhypy != null" >
+        #{xmhypy,jdbcType=VARCHAR},
+      </if>
+      <if test="gmsfhm != null" >
+        #{gmsfhm,jdbcType=VARCHAR},
+      </if>
+      <if test="cyzjdm != null" >
+        #{cyzjdm,jdbcType=VARCHAR},
+      </if>
+      <if test="zjhm != null" >
+        #{zjhm,jdbcType=VARCHAR},
+      </if>
+      <if test="xbdm != null" >
+        #{xbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null" >
+        #{csrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cym != null" >
+        #{cym,jdbcType=VARCHAR},
+      </if>
+      <if test="wwxm != null" >
+        #{wwxm,jdbcType=VARCHAR},
+      </if>
+      <if test="bmch != null" >
+        #{bmch,jdbcType=VARCHAR},
+      </if>
+      <if test="gjdm != null" >
+        #{gjdm,jdbcType=VARCHAR},
+      </if>
+      <if test="mzdm != null" >
+        #{mzdm,jdbcType=VARCHAR},
+      </if>
+      <if test="jgssxdm != null" >
+        #{jgssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csdssxdm != null" >
+        #{csdssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csdxz != null" >
+        #{csdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="hjdssxdm != null" >
+        #{hjdssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="hjdxz != null" >
+        #{hjdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmmdm != null" >
+        #{zzmmdm,jdbcType=VARCHAR},
+      </if>
+      <if test="hyzkdm != null" >
+        #{hyzkdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xldm != null" >
+        #{xldm,jdbcType=VARCHAR},
+      </if>
+      <if test="grsfdm != null" >
+        #{grsfdm,jdbcType=VARCHAR},
+      </if>
+      <if test="rylbdm != null" >
+        #{rylbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xzdqhdm != null" >
+        #{xzdqhdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xzdxz != null" >
+        #{xzdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="ajlbdm != null" >
+        #{ajlbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrxm != null" >
+        #{cjrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjdwdm != null" >
+        #{cjdwdm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjdwmc != null" >
+        #{cjdwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null" >
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tssfdm != null" >
+        #{tssfdm,jdbcType=VARCHAR},
+      </if>
+      <if test="zjxydm != null" >
+        #{zjxydm,jdbcType=VARCHAR},
+      </if>
+      <if test="collectCategoryId != null" >
+        #{collectCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="schedule != null" >
+        #{schedule,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentCode != null" >
+        #{equipmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jdxp != null" >
+        #{jdxp,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectPerson" >
+    update LEDEN_COLLECT_PERSON
+    <set >
+      <if test="jzrybh != null" >
+        JZRYBH = #{jzrybh,jdbcType=VARCHAR},
+      </if>
+      <if test="cjxxyydm != null" >
+        CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null" >
+        XM = #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmhypy != null" >
+        XMHYPY = #{xmhypy,jdbcType=VARCHAR},
+      </if>
+      <if test="gmsfhm != null" >
+        GMSFHM = #{gmsfhm,jdbcType=VARCHAR},
+      </if>
+      <if test="cyzjdm != null" >
+        CYZJDM = #{cyzjdm,jdbcType=VARCHAR},
+      </if>
+      <if test="zjhm != null" >
+        ZJHM = #{zjhm,jdbcType=VARCHAR},
+      </if>
+      <if test="xbdm != null" >
+        XBDM = #{xbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null" >
+        CSRQ = #{csrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cym != null" >
+        CYM = #{cym,jdbcType=VARCHAR},
+      </if>
+      <if test="wwxm != null" >
+        WWXM = #{wwxm,jdbcType=VARCHAR},
+      </if>
+      <if test="bmch != null" >
+        BMCH = #{bmch,jdbcType=VARCHAR},
+      </if>
+      <if test="gjdm != null" >
+        GJDM = #{gjdm,jdbcType=VARCHAR},
+      </if>
+      <if test="mzdm != null" >
+        MZDM = #{mzdm,jdbcType=VARCHAR},
+      </if>
+      <if test="jgssxdm != null" >
+        JGSSXDM = #{jgssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csdssxdm != null" >
+        CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="csdxz != null" >
+        CSDXZ = #{csdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="hjdssxdm != null" >
+        HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="hjdxz != null" >
+        HJDXZ = #{hjdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmmdm != null" >
+        ZZMMDM = #{zzmmdm,jdbcType=VARCHAR},
+      </if>
+      <if test="hyzkdm != null" >
+        HYZKDM = #{hyzkdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xldm != null" >
+        XLDM = #{xldm,jdbcType=VARCHAR},
+      </if>
+      <if test="grsfdm != null" >
+        GRSFDM = #{grsfdm,jdbcType=VARCHAR},
+      </if>
+      <if test="rylbdm != null" >
+        RYLBDM = #{rylbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xzdqhdm != null" >
+        XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xzdxz != null" >
+        XZDXZ = #{xzdxz,jdbcType=VARCHAR},
+      </if>
+      <if test="ajlbdm != null" >
+        AJLBDM = #{ajlbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjrxm != null" >
+        CJRXM = #{cjrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjdwdm != null" >
+        CJDWDM = #{cjdwdm,jdbcType=VARCHAR},
+      </if>
+      <if test="cjdwmc != null" >
+        CJDWMC = #{cjdwmc,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null" >
+        CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tssfdm != null" >
+        TSSFDM = #{tssfdm,jdbcType=VARCHAR},
+      </if>
+      <if test="zjxydm != null" >
+        ZJXYDM = #{zjxydm,jdbcType=VARCHAR},
+      </if>
+      <if test="collectCategoryId != null" >
+        COLLECT_CATEGORY_ID = #{collectCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="schedule != null" >
+        SCHEDULE = #{schedule,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        TASK_ID = #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentCode != null" >
+        EQUIPMENT_CODE = #{equipmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        DELETAG = #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jdxp != null" >
+        JDXP = #{jdxp,jdbcType=BLOB},
+      </if>
+    </set>
+    where RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenCollectPerson" >
+    update LEDEN_COLLECT_PERSON
+    set JZRYBH = #{jzrybh,jdbcType=VARCHAR},
+      CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR},
+      XM = #{xm,jdbcType=VARCHAR},
+      XMHYPY = #{xmhypy,jdbcType=VARCHAR},
+      GMSFHM = #{gmsfhm,jdbcType=VARCHAR},
+      CYZJDM = #{cyzjdm,jdbcType=VARCHAR},
+      ZJHM = #{zjhm,jdbcType=VARCHAR},
+      XBDM = #{xbdm,jdbcType=VARCHAR},
+      CSRQ = #{csrq,jdbcType=TIMESTAMP},
+      CYM = #{cym,jdbcType=VARCHAR},
+      WWXM = #{wwxm,jdbcType=VARCHAR},
+      BMCH = #{bmch,jdbcType=VARCHAR},
+      GJDM = #{gjdm,jdbcType=VARCHAR},
+      MZDM = #{mzdm,jdbcType=VARCHAR},
+      JGSSXDM = #{jgssxdm,jdbcType=VARCHAR},
+      CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR},
+      CSDXZ = #{csdxz,jdbcType=VARCHAR},
+      HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR},
+      HJDXZ = #{hjdxz,jdbcType=VARCHAR},
+      ZZMMDM = #{zzmmdm,jdbcType=VARCHAR},
+      HYZKDM = #{hyzkdm,jdbcType=VARCHAR},
+      XLDM = #{xldm,jdbcType=VARCHAR},
+      GRSFDM = #{grsfdm,jdbcType=VARCHAR},
+      RYLBDM = #{rylbdm,jdbcType=VARCHAR},
+      XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR},
+      XZDXZ = #{xzdxz,jdbcType=VARCHAR},
+      AJLBDM = #{ajlbdm,jdbcType=VARCHAR},
+      CJRXM = #{cjrxm,jdbcType=VARCHAR},
+      CJDWDM = #{cjdwdm,jdbcType=VARCHAR},
+      CJDWMC = #{cjdwmc,jdbcType=VARCHAR},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      TSSFDM = #{tssfdm,jdbcType=VARCHAR},
+      ZJXYDM = #{zjxydm,jdbcType=VARCHAR},
+      COLLECT_CATEGORY_ID = #{collectCategoryId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      SCHEDULE = #{schedule,jdbcType=VARCHAR},
+      TASK_ID = #{taskId,jdbcType=VARCHAR},
+      EQUIPMENT_CODE = #{equipmentCode,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      JDXP = #{jdxp,jdbcType=BLOB}
+    where RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectPerson" >
+    update LEDEN_COLLECT_PERSON
+    set JZRYBH = #{jzrybh,jdbcType=VARCHAR},
+      CJXXYYDM = #{cjxxyydm,jdbcType=VARCHAR},
+      XM = #{xm,jdbcType=VARCHAR},
+      XMHYPY = #{xmhypy,jdbcType=VARCHAR},
+      GMSFHM = #{gmsfhm,jdbcType=VARCHAR},
+      CYZJDM = #{cyzjdm,jdbcType=VARCHAR},
+      ZJHM = #{zjhm,jdbcType=VARCHAR},
+      XBDM = #{xbdm,jdbcType=VARCHAR},
+      CSRQ = #{csrq,jdbcType=TIMESTAMP},
+      CYM = #{cym,jdbcType=VARCHAR},
+      WWXM = #{wwxm,jdbcType=VARCHAR},
+      BMCH = #{bmch,jdbcType=VARCHAR},
+      GJDM = #{gjdm,jdbcType=VARCHAR},
+      MZDM = #{mzdm,jdbcType=VARCHAR},
+      JGSSXDM = #{jgssxdm,jdbcType=VARCHAR},
+      CSDSSXDM = #{csdssxdm,jdbcType=VARCHAR},
+      CSDXZ = #{csdxz,jdbcType=VARCHAR},
+      HJDSSXDM = #{hjdssxdm,jdbcType=VARCHAR},
+      HJDXZ = #{hjdxz,jdbcType=VARCHAR},
+      ZZMMDM = #{zzmmdm,jdbcType=VARCHAR},
+      HYZKDM = #{hyzkdm,jdbcType=VARCHAR},
+      XLDM = #{xldm,jdbcType=VARCHAR},
+      GRSFDM = #{grsfdm,jdbcType=VARCHAR},
+      RYLBDM = #{rylbdm,jdbcType=VARCHAR},
+      XZDQHDM = #{xzdqhdm,jdbcType=VARCHAR},
+      XZDXZ = #{xzdxz,jdbcType=VARCHAR},
+      AJLBDM = #{ajlbdm,jdbcType=VARCHAR},
+      CJRXM = #{cjrxm,jdbcType=VARCHAR},
+      CJDWDM = #{cjdwdm,jdbcType=VARCHAR},
+      CJDWMC = #{cjdwmc,jdbcType=VARCHAR},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      TSSFDM = #{tssfdm,jdbcType=VARCHAR},
+      ZJXYDM = #{zjxydm,jdbcType=VARCHAR},
+      COLLECT_CATEGORY_ID = #{collectCategoryId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      SCHEDULE = #{schedule,jdbcType=VARCHAR},
+      TASK_ID = #{taskId,jdbcType=VARCHAR},
+      EQUIPMENT_CODE = #{equipmentCode,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+  </update>
+  <select id="listLedenCollectPersonByConditions" statementType="PREPARED" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,LEDEN_COLLECT_PERSON.*
+
+    FROM  LEDEN_COLLECT_PERSON
+
+    where ROWNUM &lt;= #{end}) ledenCollectPerson
+
+    WHERE ledenCollectPerson.rowno &gt;= #{start}
+  </select>
+  <select id="getLedenCollectPersonCountByConditions" statementType="PREPARED" resultType="int">
+    select count(1) from LEDEN_COLLECT_PERSON
+  </select>
+
+
+
+</mapper>

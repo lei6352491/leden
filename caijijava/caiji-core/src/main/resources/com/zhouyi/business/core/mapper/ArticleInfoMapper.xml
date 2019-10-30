@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.ArticleInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.ArticleInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="is_putaway" property="isPutaway" jdbcType="INTEGER" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="MoreResultMap" type="com.zhouyi.business.core.vo.ArticleVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="is_putaway" property="isPutaway" jdbcType="INTEGER" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="BaseTable">
+		zy_article_info
+	</sql>
+
+	<select id="queryArticleList" statementType="PREPARED" resultMap="MoreResultMap">
+		select id,title,summary,content,date_format(create_time,'%Y-%m-%d %H:%i') as create_time,date_format(update_time,'%Y-%m-%d %H:%i') as update_time
+		 ,is_putaway,thumbnail from zy_article_info where 1=1
+		order by create_time limit #{pStart},#{pSize}
+	</select>
+	
+	<select id="getArticleCount" statementType="PREPARED" resultType="Integer">
+		select count(*) from zy_article_info 
+	</select>
+</mapper>

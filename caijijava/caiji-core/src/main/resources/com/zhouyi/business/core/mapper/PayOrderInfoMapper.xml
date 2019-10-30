@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.PayOrderInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.PayOrderInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="check_remark" property="checkRemark" jdbcType="VARCHAR" />
+		<result column="total_balance" property="totalBalance" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="check_status" property="checkStatus" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="wx_openid" property="wxOpenid" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="channel" property="channel" jdbcType="INTEGER" />
+		<result column="ip_address" property="ipAddress" jdbcType="VARCHAR" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="channel_serial_num" property="channelSerialNum" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="BaseTable">
+		zy_pay_order_info
+	</sql>
+
+	<select id="queryPayOrderList" statementType="PREPARED" resultMap="BaseResultMap">
+		select * from zy_pay_order_info oi where user_id=#{userId}
+		<if test="type!=null">
+		and type=#{type}
+		</if>
+		order by oi.create_time desc limit #{pStart},#{pSize}
+	</select>
+	
+	<select id="getPayOrderCount" statementType="PREPARED" resultType="Integer">
+		select count(*) from zy_pay_order_info 
+	</select>
+	
+	<update id="updateStatus" statementType="PREPARED">
+        update zy_pay_order_info set status = #{status}, update_time = now() where id = #{id}
+    </update>
+    
+    <select id="getPayOrderInfoByOrderNo" statementType="PREPARED" resultMap="BaseResultMap">
+		select * from zy_pay_order_info oi where order_no=#{orderNo} limit 1
+	</select>
+</mapper>

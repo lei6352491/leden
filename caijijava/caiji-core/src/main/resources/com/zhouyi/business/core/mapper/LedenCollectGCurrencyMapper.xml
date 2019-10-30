@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectGCurrencyMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectGCurrency">
+        <id column="WPBH" property="wpbh" jdbcType="VARCHAR"/>
+        <result column="HBZLDM" property="hbzldm" jdbcType="VARCHAR"/>
+        <result column="HBMZ" property="hbmz" jdbcType="DECIMAL"/>
+        <result column="JLDW" property="jldw" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    WPBH, HBZLDM, HBMZ, JLDW
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from LEDEN_COLLECT_G_CURRENCY
+        where WPBH = #{wpbh,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from LEDEN_COLLECT_G_CURRENCY
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectGCurrency">
+    insert into LEDEN_COLLECT_G_CURRENCY (WPBH, HBZLDM, HBMZ,
+      JLDW)
+    values (#{wpbh,jdbcType=VARCHAR}, #{hbzldm,jdbcType=VARCHAR}, #{hbmz,jdbcType=DECIMAL}, 
+      #{jldw,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectGCurrency">
+        insert into LEDEN_COLLECT_G_CURRENCY
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="wpbh != null">
+                WPBH,
+            </if>
+            <if test="hbzldm != null">
+                HBZLDM,
+            </if>
+            <if test="hbmz != null">
+                HBMZ,
+            </if>
+            <if test="jldw != null">
+                JLDW,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="wpbh != null">
+                #{wpbh,jdbcType=VARCHAR},
+            </if>
+            <if test="hbzldm != null">
+                #{hbzldm,jdbcType=VARCHAR},
+            </if>
+            <if test="hbmz != null">
+                #{hbmz,jdbcType=DECIMAL},
+            </if>
+            <if test="jldw != null">
+                #{jldw,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectGCurrency">
+        update LEDEN_COLLECT_G_CURRENCY
+        <set>
+            <if test="hbzldm != null">
+                HBZLDM = #{hbzldm,jdbcType=VARCHAR},
+            </if>
+            <if test="hbmz != null">
+                HBMZ = #{hbmz,jdbcType=DECIMAL},
+            </if>
+            <if test="jldw != null">
+                JLDW = #{jldw,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where WPBH = #{wpbh,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectGCurrency">
+    update LEDEN_COLLECT_G_CURRENCY
+    set HBZLDM = #{hbzldm,jdbcType=VARCHAR},
+      HBMZ = #{hbmz,jdbcType=DECIMAL},
+      JLDW = #{jldw,jdbcType=VARCHAR}
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </update>
+
+    <select id="listDataByConditions" statementType="PREPARED" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM (
+        SELECT ROWNUM AS rowno,LEDEN_COLLECT_G_CURRENCY.*
+
+        FROM LEDEN_COLLECT_G_CURRENCY
+        <where>
+
+            <if test="start!=null">
+                ROWNUM &lt;= #{end}
+            </if>
+            <if test="wpbh!=null">
+                and wpbh=#{wpbh}
+            </if>
+        </where>
+        ) collectGCurrency
+        <where>
+            <if test="start!=null">
+                collectGCurrency.rowno &gt;= #{start}
+            </if>
+        </where>
+    </select>
+
+    <select id="getDataCountByConditions" statementType="PREPARED" resultType="int">
+    select count(1) from LEDEN_COLLECT_G_CURRENCY
+  </select>
+</mapper>

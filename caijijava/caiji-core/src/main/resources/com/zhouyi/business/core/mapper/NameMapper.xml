@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.NameMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.NameInfo">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+        <result column="surname" property="surname" jdbcType="VARCHAR" />
+        <result column="combine" property="combine" jdbcType="VARCHAR" />
+        <result column="create_by" property="createBy" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="SurnameResultMap" type="com.zhouyi.business.core.model.SurnameInfo">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="hanzi" property="surname" jdbcType="VARCHAR" />
+        <result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+        <result column="yijie" property="yinjie" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="rank" property="rank" jdbcType="VARCHAR" />
+        <result column="province_top" property="provinceTop" jdbcType="VARCHAR" />
+        <result column="create_by" property="createBy" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="CombineResultMap" type="com.zhouyi.business.core.model.CombineInfo">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="pending_combine_id" property="pendingCombineId" jdbcType="VARCHAR" />
+        <result column="char_combine" property="combine" jdbcType="VARCHAR" />
+        <result column="apply_gender" property="applyGender" jdbcType="INTEGER" />
+        <result column="style" property="style" jdbcType="INTEGER" />
+        <result column="meaning_score" property="meaningScore" jdbcType="INTEGER" />
+        <result column="sound_score" property="soundScore" jdbcType="INTEGER" />
+        <result column="create_by" property="createBy" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="BaseTable">
+        zy_name_external_collection
+    </sql>
+
+    <insert id="addExternalName" parameterType="java.util.List">
+        insert into zy_name_external_collection(full_name, surname, combine) values
+        <foreach collection="externalNames" item="item" index="index" separator=",">
+            (#{item.fullName},#{item.surname},#{item.combine})
+        </foreach>
+    </insert>
+
+    <insert id="allocationCombine" parameterType="java.util.List">
+        insert into zy_char_combine_pending(char_combine, `status`, review_by, create_time) values
+        <foreach collection="combineList" item="item" index="index" separator=",">
+            (#{item.combine},1,#{userId},now())
+        </foreach>
+    </insert>
+
+    <select id="distributableCombineList" resultMap="BaseResultMap">
+        select distinct combine from zy_name_external_collection
+        where combine not in (select char_combine from zy_char_combine_pending where `status` in (0,1,2,3,5,6) or (review_by = #{userId} and `status` = 4))
+        <if test="recordCount != null">
+            limit #{recordCount}
+        </if>
+    </select>
+
+    <select id="pendingCombineList" resultMap="CombineResultMap">
+        select id as pending_combine_id, char_combine as combine from zy_char_combine_pending
+        where review_by = #{userId} and `status` = 1
+    </select>
+
+    <select id="combineReviewedList" resultMap="CombineResultMap">
+        select a.create_time, a.char_combine, a.apply_gender, a.style, a.meaning_score, a.sound_score
+        from zy_char_combine a inner join zy_char_combine_pending b
+        where a.pending_combine_id = b.id and b.review_by = #{userId} and b.`status` = 3
+        <if test="combineInfo.combine != null">
+            and a.char_combine like '%${combineInfo.combine}%'
+        </if>
+        <if test="combineInfo.createTime != null">
+            and date(b.create_time) = date(#{combineInfo.createTime})
+        </if>
+        order by a.id desc
+        limit #{pStart},#{pSize}
+    </select>
+
+    <select id="combineReviewedCount" resultType="java.lang.Integer">
+        select count(*)
+        from zy_char_combine a inner join zy_char_combine_pending b
+        where a.pending_combine_id = b.id and b.review_by = #{userId} and b.`status` = 3
+        <if test="combineInfo.combine != null">
+            and a.char_combine like '%${combineInfo.combine}%'
+        </if>
+        <if test="combineInfo.createTime != null">
+            and date(b.create_time) = date(#{combineInfo.createTime})
+        </if>
+    </select>
+
+    <select id="surnameList" resultMap="SurnameResultMap">
+        select * from zy_name_xing
+        where hanzi != ''
+        <if test="surname != null">
+            and hanzi = #{surname}
+        </if>
+        <if test="yinjie != null">
+            and yinjie like '%${yinjie}%'
+        </if>
+        order by length(hanzi) desc
+    </select>
+
+    <update id="changePendingCombineStatus">
+        update zy_char_combine_pending set `status` = #{status}, update_time = now() where char_combine = #{combine} and review_by = #{userId}
+    </update>
+
+    <insert id="saveCharCombine">
+        insert into zy_char_combine (pending_combine_id,char_combine,apply_gender,style,meaning_score,sound_score,create_by,create_time)
+        values(#{combineInfo.pendingCombineId},#{combineInfo.combine},#{combineInfo.applyGender},#{combineInfo.style},#{combineInfo.meaningScore},#{combineInfo.soundScore},#{userId},now())
+    </insert>
+
+    <update id="updateCombineRejectInfo">
+        update zy_char_combine_pending set sound_reject = #{soundReject}, meaning_reject = #{meaningReject}, write_reject = #{writeReject} where char_combine = #{combine} and review_by = #{userId}
+    </update>
+
+    <select id="charCombineList" resultMap="CombineResultMap">
+        select pending_combine_id,char_combine,apply_gender,style,meaning_score,sound_score,create_by,create_time from zy_char_combine
+        where pending_combine_id > 0
+        <if test="pendingCombineId != null">
+            and pending_combine_id = #{pendingCombineId}
+        </if>
+        <if test="firstChar != null">
+            and char_combine like '${firstChar}%'
+        </if>
+        <if test="lastChar != null">
+            and char_combine like '%${lastChar}'
+        </if>
+    </select>
+
+    <select id="externalNameCount" resultType="java.lang.Integer">
+        select count(distinct full_name) from zy_name_external_collection
+    </select>
+
+    <select id="allCombineCount" resultType="java.lang.Integer">
+        select count(distinct combine) from zy_name_external_collection
+    </select>
+
+    <select id="acceptCombineCount" resultType="java.lang.Integer">
+        select count(distinct char_combine) from zy_char_combine_pending where `status` = 3 or `status` = 5
+    </select>
+</mapper>

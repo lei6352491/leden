@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhouyi.business.core.dao.ProductInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.ProductInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="product_code" property="productCode" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="VARCHAR" />
+		<result column="total_amount" property="totalAmount" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="images" property="images" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="MoreResultMap" type="com.zhouyi.business.core.vo.ProductVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="product_code" property="productCode" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="VARCHAR" />
+		<result column="total_amount" property="totalAmount" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="images" property="images" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="BaseTable">
+		zy_product_info
+	</sql>
+
+	<select id="queryProductList" statementType="PREPARED" resultMap="MoreResultMap">
+		select id,product_name,product_code,amount,total_amount,images,date_format(create_time,'%Y-%m-%d %H:%i') as create_time 
+		,description,status from zy_product_info where 1=1
+		order by create_time limit #{pStart},#{pSize}
+	</select>
+	
+	<select id="getProductCount" statementType="PREPARED" resultType="Integer">
+		select count(*) from zy_product_info 
+	</select>
+</mapper>

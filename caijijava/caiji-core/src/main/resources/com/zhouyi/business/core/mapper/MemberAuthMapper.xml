@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhouyi.business.core.dao.MemberAuthMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.MemberAuth">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="member_id" jdbcType="BIGINT" property="memberId" />
+		<result column="platform_type" jdbcType="INTEGER" property="platformType" />
+		<result column="portal_type" jdbcType="INTEGER" property="portalType" />
+		<result column="open_id" jdbcType="VARCHAR" property="openId" />
+		<result column="nickname" jdbcType="VARCHAR" property="nickname" />
+		<result column="head_image" jdbcType="VARCHAR" property="headImage" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="union_id" jdbcType="VARCHAR" property="unionId" />
+		<result column="is_attention" jdbcType="INTEGER" property="isAttention" />
+	</resultMap>
+	<sql id="BaseTable">
+		zy_member_auth_info
+	</sql>
+	<sql id="Base_Column_List">
+		id, member_id, platform_type, portal_type, open_id, nickname, head_image, city,sex, 
+		create_time,union_id,is_attention,update_time
+	</sql>
+
+	<select id="getAuthInfoByOpenId" statementType="PREPARED" resultMap="BaseResultMap">
+		SELECT id,member_id,nickname,head_image,is_attention FROM 
+		<include refid="BaseTable" />
+		WHERE open_id=#{openId} and portal_type=#{portalType} limit 1
+	</select>
+	
+</mapper>

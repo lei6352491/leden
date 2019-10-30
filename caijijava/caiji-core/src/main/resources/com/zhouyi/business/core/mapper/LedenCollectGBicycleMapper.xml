@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectGBicycleMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectGBicycle">
+        <id column="WPBH" property="wpbh" jdbcType="VARCHAR"/>
+        <result column="DJH" property="djh" jdbcType="VARCHAR"/>
+        <result column="CJH" property="cjh" jdbcType="VARCHAR"/>
+        <result column="CLPZH" property="zxcclpzh" jdbcType="VARCHAR"/>
+        <result column="GYH" property="gyh" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    WPBH, DJH, CJH, CLPZH, GYH
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from LEDEN_COLLECT_G_BICYCLE
+        where WPBH = #{wpbh,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from LEDEN_COLLECT_G_BICYCLE
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectGBicycle">
+    insert into LEDEN_COLLECT_G_BICYCLE (WPBH, DJH, CJH,
+      CLPZH, GYH)
+    values (#{wpbh,jdbcType=VARCHAR}, #{djh,jdbcType=VARCHAR}, #{cjh,jdbcType=VARCHAR}, 
+      #{zxcclpzh,jdbcType=VARCHAR}, #{gyh,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectGBicycle">
+        insert into LEDEN_COLLECT_G_BICYCLE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="wpbh != null">
+                WPBH,
+            </if>
+            <if test="djh != null">
+                DJH,
+            </if>
+            <if test="cjh != null">
+                CJH,
+            </if>
+            <if test="zxcclpzh != null">
+                CLPZH,
+            </if>
+            <if test="gyh != null">
+                GYH,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="wpbh != null">
+                #{wpbh,jdbcType=VARCHAR},
+            </if>
+            <if test="djh != null">
+                #{djh,jdbcType=VARCHAR},
+            </if>
+            <if test="cjh != null">
+                #{cjh,jdbcType=VARCHAR},
+            </if>
+            <if test="zxcclpzh != null">
+                #{zxcclpzh,jdbcType=VARCHAR},
+            </if>
+            <if test="gyh != null">
+                #{gyh,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectGBicycle">
+        update LEDEN_COLLECT_G_BICYCLE
+        <set>
+            <if test="djh != null">
+                DJH = #{djh,jdbcType=VARCHAR},
+            </if>
+            <if test="cjh != null">
+                CJH = #{cjh,jdbcType=VARCHAR},
+            </if>
+            <if test="zxcclpzh != null">
+                CLPZH = #{zxcclpzh,jdbcType=VARCHAR},
+            </if>
+            <if test="gyh != null">
+                GYH = #{gyh,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where WPBH = #{wpbh,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectGBicycle">
+    update LEDEN_COLLECT_G_BICYCLE
+    set DJH = #{djh,jdbcType=VARCHAR},
+      CJH = #{cjh,jdbcType=VARCHAR},
+      CLPZH = #{zxcclpzh,jdbcType=VARCHAR},
+      GYH = #{gyh,jdbcType=VARCHAR}
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </update>
+
+    <select id="listDataByConditions" statementType="PREPARED" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM (
+        SELECT ROWNUM AS rowno,LEDEN_COLLECT_G_BICYCLE.*
+
+        FROM LEDEN_COLLECT_G_BICYCLE
+
+        <where>
+            <if test="start!=null">
+                ROWNUM &lt;= #{end}
+            </if>
+            <if test="wpbh!=null">
+                and wpbh=#{wpbh}
+            </if>
+        </where>
+        ) collectGBicycle
+        <where>
+            <if test="start!=null">
+              collectGBicycle.rowno &gt;= #{start}
+            </if>
+        </where>
+    </select>
+
+    <select id="getDataCountByConditions" statementType="PREPARED" resultType="int">
+    select count(1) from LEDEN_COLLECT_G_BICYCLE
+  </select>
+
+
+    <delete id="deleteBicycleByWpbh" parameterType="string">
+        delete from LEDEN_COLLECT_G_BICYCLE where wpbh=#{_parameter}
+    </delete>
+</mapper>

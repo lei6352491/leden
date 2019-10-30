@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenPersonIndexMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenPersonIndex" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="COUNT" property="count" jdbcType="DECIMAL" />
+    <result column="UNIT_CODE" property="unitCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, CREATE_DATETIME, COUNT, UNIT_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_PERSON_INDEX
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectNextPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+    select rownum,p.* from (select
+    <include refid="Base_Column_List" />
+    from LEDEN_PERSON_INDEX
+    where UNIT_CODE = #{id} order by CREATE_DATETIME desc) p
+    where rownum = 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_PERSON_INDEX
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenPersonIndex" >
+    insert into LEDEN_PERSON_INDEX (PK_ID, CREATE_DATETIME, COUNT,
+      UNIT_CODE)
+    values (#{pkId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{count,jdbcType=DECIMAL}, 
+      #{unitCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenPersonIndex" >
+    insert into LEDEN_PERSON_INDEX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="count != null" >
+        COUNT,
+      </if>
+      <if test="unitCode != null" >
+        UNIT_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="unitCode != null" >
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenPersonIndex" >
+    update LEDEN_PERSON_INDEX
+    <set >
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="count != null" >
+        COUNT = #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="unitCode != null" >
+        UNIT_CODE = #{unitCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenPersonIndex" >
+    update LEDEN_PERSON_INDEX
+    set CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      COUNT = #{count,jdbcType=DECIMAL},
+      UNIT_CODE = #{unitCode,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

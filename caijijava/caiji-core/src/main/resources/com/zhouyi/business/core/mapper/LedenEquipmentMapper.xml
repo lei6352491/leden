@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenEquipmentMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenEquipment" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_CODE" property="equipmentCode" jdbcType="VARCHAR" />
+    <result column="CHAMBER_TYPE" property="chamberType" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_NAME" property="equipmentName" jdbcType="VARCHAR" />
+    <result column="FACTORY_NUM" property="factoryNum" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_VERSION" property="equipmentVersion" jdbcType="VARCHAR" />
+    <result column="MANUFACTURER" property="manufacturer" jdbcType="VARCHAR" />
+    <result column="MANUFACTURER_DATE" property="manufacturerDate" jdbcType="TIMESTAMP" />
+    <result column="EQUIPMENT_IP" property="equipmentIp" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_MAC" property="equipmentMac" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="UNIT_CODE" property="unitCode" jdbcType="VARCHAR" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, EQUIPMENT_CODE, CHAMBER_TYPE, EQUIPMENT_NAME, FACTORY_NUM, EQUIPMENT_VERSION, 
+    MANUFACTURER, MANUFACTURER_DATE, EQUIPMENT_IP, EQUIPMENT_MAC, STATUS, UNIT_CODE, 
+    DELETE_FLAG, ANNEX, CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_EQUIPMENT
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <resultMap id="selectEquipmentListByDataMap" type="com.zhouyi.business.core.model.LedenEquipmentResult">
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_CODE" property="equipmentCode" jdbcType="VARCHAR" />
+    <result column="CHAMBER_TYPE" property="chamberType" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_NAME" property="equipmentName" jdbcType="VARCHAR" />
+    <result column="FACTORY_NUM" property="factoryNum" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_VERSION" property="equipmentVersion" jdbcType="VARCHAR" />
+    <result column="MANUFACTURER" property="manufacturer" jdbcType="VARCHAR" />
+    <result column="MANUFACTURER_DATE" property="manufacturerDate" jdbcType="TIMESTAMP" />
+    <result column="EQUIPMENT_IP" property="equipmentIp" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_MAC" property="equipmentMac" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="UNIT_CODE" property="unitCode" jdbcType="VARCHAR" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+    <result column="NAME" property="name"/>
+    <result column="SIGN" property="sign"/>
+    <result column="UNIT_NAME" property="unitName"/>
+    <result column="UNIT_FULL_NAME" property="unitFullName"/>
+    <result column="UNIT_LEADER" property="unitLeader"/>
+    <result column="UNIT_PHONE" property="unitPhone"/>
+    <result column="UNIT_LONGITUDE" property="unitLongitude"/>
+    <result column="UNIT_LATITUDE" property="unitLatitude"/>
+    <result column="UPPER_UNIT_CODE" property="upperUnitCode"/>
+    <result column="UNIT_LEVEL" property="unitLevel"/>
+    <result column="UNIT_CATEGORY" property="unitCategory"/>
+  </resultMap>
+  <select id="selectEquipmentListByData" parameterType="com.zhouyi.business.core.vo.LedenEquipmentVo2" resultMap="selectEquipmentListByDataMap">
+    select tt.* from
+      (select rownum rn,t.* from
+        (select * from leden_equipment e left join SYS_DICT_LIST d on e.chamber_type = d.code left join sys_unit u on e.unit_code = u.unit_code
+        <where>
+          <if test="equipmentCode != null  and equipmentCode != ''">
+            and e.EQUIPMENT_CODE = #{equipmentCode}
+          </if>
+          <if test="sign != null and sign != ''">
+            and d.sign = #{sign}
+          </if>
+          <if test="chamberType != null and chamberType != ''">
+            and e.CHAMBER_TYPE = #{chamberType}
+          </if>
+          <if test="dateStart != null">
+            and e.CREATE_DATETIME  &gt;= #{dateStart}
+          </if>
+          <if test="dateEnd != null">
+            and e.CREATE_DATETIME &lt;= #{dateEnd}
+          </if>
+        </where>
+        order by e.create_datetime desc) t) tt
+    where tt.rn &gt;= #{startNo} and tt.rn &lt; #{endNo}
+  </select>
+
+  <select id="selectEquipmentByMac" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from leden_equipment where EQUIPMENT_MAC = #{mac}
+  </select>
+
+  <select id="selectEquipmentByEquipmentCode" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from leden_equipment where EQUIPMENT_MAC = #{equipmentCode}
+  </select>
+
+  <select id="selectEquipmentTotal" parameterType="com.zhouyi.business.core.vo.LedenEquipmentVo2" resultType="int">
+    select count(1) from leden_equipment e left join SYS_DICT_LIST d on e.chamber_type = d.code left join sys_unit u on e.unit_code = u.unit_code
+    <where>
+      <if test="equipmentCode != null  and equipmentCode != ''">
+        and e.EQUIPMENT_CODE = #{equipmentCode}
+      </if>
+      <if test="sign != null and sign != ''">
+        and d.sign = #{sign}
+      </if>
+      <if test="chamberType != null and chamberType != ''">
+        and e.CHAMBER_TYPE = #{chamberType}
+      </if>
+      <if test="dateStart != null">
+        and e.CREATE_DATETIME  &gt;= #{dateStart}
+      </if>
+      <if test="dateEnd != null">
+        and e.CREATE_DATETIME &lt; #{dateEnd}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectEquipmentByCodeTotal" parameterType="com.zhouyi.business.core.model.LedenEquipment" resultType="int">
+    select count(1) from leden_equipment e
+    <where>
+      <if test="equipmentCode != null  and equipmentCode != ''">
+        and e.EQUIPMENT_CODE = #{equipmentCode}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_EQUIPMENT
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenEquipment" >
+    insert into LEDEN_EQUIPMENT (PK_ID, EQUIPMENT_CODE, CHAMBER_TYPE,
+      EQUIPMENT_NAME, FACTORY_NUM, EQUIPMENT_VERSION, 
+      MANUFACTURER, MANUFACTURER_DATE, EQUIPMENT_IP, 
+      EQUIPMENT_MAC, STATUS, UNIT_CODE, 
+      DELETE_FLAG, ANNEX, CREATE_USER_ID, 
+      CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+      )
+    values (leden_collect_equipment_seq.nextval, #{equipmentCode,jdbcType=VARCHAR}, #{chamberType,jdbcType=VARCHAR},
+      #{equipmentName,jdbcType=VARCHAR}, #{factoryNum,jdbcType=VARCHAR}, #{equipmentVersion,jdbcType=VARCHAR}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{manufacturerDate,jdbcType=TIMESTAMP}, #{equipmentIp,jdbcType=VARCHAR}, 
+      #{equipmentMac,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenEquipment" >
+    insert into LEDEN_EQUIPMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        PK_ID,
+      <if test="equipmentCode != null" >
+        EQUIPMENT_CODE,
+      </if>
+      <if test="chamberType != null" >
+        CHAMBER_TYPE,
+      </if>
+      <if test="equipmentName != null" >
+        EQUIPMENT_NAME,
+      </if>
+      <if test="factoryNum != null" >
+        FACTORY_NUM,
+      </if>
+      <if test="equipmentVersion != null" >
+        EQUIPMENT_VERSION,
+      </if>
+      <if test="manufacturer != null" >
+        MANUFACTURER,
+      </if>
+      <if test="manufacturerDate != null" >
+        MANUFACTURER_DATE,
+      </if>
+      <if test="equipmentIp != null" >
+        EQUIPMENT_IP,
+      </if>
+      <if test="equipmentMac != null" >
+        EQUIPMENT_MAC,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="unitCode != null" >
+        UNIT_CODE,
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{pkId},
+      <if test="equipmentCode != null" >
+        #{equipmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chamberType != null" >
+        #{chamberType,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentName != null" >
+        #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryNum != null" >
+        #{factoryNum,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentVersion != null" >
+        #{equipmentVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null" >
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerDate != null" >
+        #{manufacturerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentIp != null" >
+        #{equipmentIp,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMac != null" >
+        #{equipmentMac,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenEquipment" >
+    update LEDEN_EQUIPMENT
+    <set >
+      <if test="equipmentCode != null" >
+        EQUIPMENT_CODE = #{equipmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chamberType != null" >
+        CHAMBER_TYPE = #{chamberType,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentName != null" >
+        EQUIPMENT_NAME = #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryNum != null" >
+        FACTORY_NUM = #{factoryNum,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentVersion != null" >
+        EQUIPMENT_VERSION = #{equipmentVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null" >
+        MANUFACTURER = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerDate != null" >
+        MANUFACTURER_DATE = #{manufacturerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentIp != null" >
+        EQUIPMENT_IP = #{equipmentIp,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentMac != null" >
+        EQUIPMENT_MAC = #{equipmentMac,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        UNIT_CODE = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenEquipment" >
+    update LEDEN_EQUIPMENT
+    set EQUIPMENT_CODE = #{equipmentCode,jdbcType=VARCHAR},
+      CHAMBER_TYPE = #{chamberType,jdbcType=VARCHAR},
+      EQUIPMENT_NAME = #{equipmentName,jdbcType=VARCHAR},
+      FACTORY_NUM = #{factoryNum,jdbcType=VARCHAR},
+      EQUIPMENT_VERSION = #{equipmentVersion,jdbcType=VARCHAR},
+      MANUFACTURER = #{manufacturer,jdbcType=VARCHAR},
+      MANUFACTURER_DATE = #{manufacturerDate,jdbcType=TIMESTAMP},
+      EQUIPMENT_IP = #{equipmentIp,jdbcType=VARCHAR},
+      EQUIPMENT_MAC = #{equipmentMac,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      UNIT_CODE = #{unitCode,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <resultMap id="listResultMap" type="com.zhouyi.business.core.model.LedenEquipment" extends="BaseResultMap">
+    <result column="unitName" property="unitName"/>
+  </resultMap>
+  <select id="listLedenEquipmentsByConditios" resultMap="listResultMap" statementType="PREPARED">
+    select E.*,U.UNIT_Name as unitName
+    from
+    (
+        SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,LEDEN_EQUIPMENT.*
+
+    FROM  LEDEN_EQUIPMENT
+
+    where ROWNUM &lt;= #{end}) ledenEquipment
+
+    WHERE ledenEquipment.rowno &gt;= #{start}
+    ) E,SYS_UNIT U
+    where E.UNIT_CODE=U.UNIT_CODE
+    <if test="chamberType!=null">
+      and CHAMBER_TYPE=#{chamberType}
+    </if>
+
+    <if test="beginDate!=null and endDate!=null">
+      and CREATE_DATETIME
+        between
+            to_date(#{beginDate},'yyyy-mm-dd hh24:mi:ss')
+        and
+            to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+    </if>
+  </select>
+
+  <select id="getLedenEquipmentCountByConditions" resultType="int" statementType="PREPARED">
+    select count(1) from LEDEN_EQUIPMENT
+    <where>
+      <if test="chamberType!=null">
+        and CHAMBER_TYPE=#{chamberType}
+      </if>
+
+      <if test="beginDate!=null and endDate!=null">
+        and CREATE_DATETIME
+        between
+        to_date(#{beginDate},'yyyy-mm-dd hh24:mi:ss')
+        and
+        to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+    </where>
+  </select>
+
+
+  <select id="getLedenEquipmentByEquipmentCode" parameterType="string" statementType="PREPARED" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from LEDEN_EQUIPMENT where EQUIPMENT_CODE=#{_parameter}
+  </select>
+
+  <select id="listEqipmentCodebyUnitCode" parameterType="string" resultType="string">
+    select EQUIPMENT_MAC from leden_equipment where unit_code=#{_parameter}
+  </select>
+</mapper>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenShareAppMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenShareApp">
+        <id column="APP_ID" property="appId" jdbcType="VARCHAR"/>
+        <result column="APP_KEY" property="appKey" jdbcType="VARCHAR"/>
+        <result column="APP_SIGN" property="appSign" jdbcType="VARCHAR"/>
+        <result column="APP_NAME" property="appName" jdbcType="VARCHAR"/>
+        <result column="APP_DESC" property="appDesc" jdbcType="VARCHAR"/>
+        <result column="APP_URL" property="appUrl" jdbcType="VARCHAR"/>
+        <result column="APP_IP" property="appIp" jdbcType="VARCHAR"/>
+        <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
+        <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    APP_ID, APP_KEY, APP_SIGN, APP_NAME, APP_DESC, APP_URL, APP_IP, DELETAG, ANNEX, CREATE_USER_ID, 
+    CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from LEDEN_SHARE_APP
+        where APP_ID = #{appId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from LEDEN_SHARE_APP
+    where APP_ID = #{appId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenShareApp">
+    insert into LEDEN_SHARE_APP (APP_ID, APP_KEY, APP_SIGN,
+      APP_NAME, APP_DESC, APP_URL, 
+      APP_IP, DELETAG, ANNEX, 
+      CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, 
+      UPDATE_DATETIME)
+    values (#{appId,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{appSign,jdbcType=VARCHAR}, 
+      #{appName,jdbcType=VARCHAR}, #{appDesc,jdbcType=VARCHAR}, #{appUrl,jdbcType=VARCHAR}, 
+      #{appIp,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{updateDatetime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenShareApp">
+        insert into LEDEN_SHARE_APP
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                APP_ID,
+            </if>
+            <if test="appKey != null">
+                APP_KEY,
+            </if>
+            <if test="appSign != null">
+                APP_SIGN,
+            </if>
+            <if test="appName != null">
+                APP_NAME,
+            </if>
+            <if test="appDesc != null">
+                APP_DESC,
+            </if>
+            <if test="appUrl != null">
+                APP_URL,
+            </if>
+            <if test="appIp != null">
+                APP_IP,
+            </if>
+            <if test="deletag != null">
+                DELETAG,
+            </if>
+            <if test="annex != null">
+                ANNEX,
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID,
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME,
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID,
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="appKey != null">
+                #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appSign != null">
+                #{appSign,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null">
+                #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appDesc != null">
+                #{appDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="appUrl != null">
+                #{appUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="appIp != null">
+                #{appIp,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenShareApp">
+        update LEDEN_SHARE_APP
+        <set>
+            <if test="appKey != null">
+                APP_KEY = #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appSign != null">
+                APP_SIGN = #{appSign,jdbcType=VARCHAR},
+            </if>
+            <if test="appName != null">
+                APP_NAME = #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appDesc != null">
+                APP_DESC = #{appDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="appUrl != null">
+                APP_URL = #{appUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="appIp != null">
+                APP_IP = #{appIp,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                DELETAG = #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                ANNEX = #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where APP_ID = #{appId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenShareApp">
+    update LEDEN_SHARE_APP
+    set APP_KEY = #{appKey,jdbcType=VARCHAR},
+      APP_SIGN = #{appSign,jdbcType=VARCHAR},
+      APP_NAME = #{appName,jdbcType=VARCHAR},
+      APP_DESC = #{appDesc,jdbcType=VARCHAR},
+      APP_URL = #{appUrl,jdbcType=VARCHAR},
+      APP_IP = #{appIp,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where APP_ID = #{appId,jdbcType=VARCHAR}
+  </update>
+
+    <select id="listDataByConditions" resultMap="BaseResultMap" statementType="PREPARED">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        (
+        select
+        rownum as rowno,leden_share_app.*
+        from
+        leden_share_app
+        <where>
+            <if test="end!=null">
+                ROWNUM &lt;=#{end}
+            </if>
+            <if test="appSign!=null">
+                and app_sign like concat('%',concat(#{appSign},'%'))
+            </if>
+            <if test="appName!=null">
+                and app_name like concat('%',concat(#{appName},'%'))
+            </if>
+            <if test="appUrl!=null">
+                and app_url like concat('%',concat(#{appUrl},'%'))
+            </if>
+            <if test="appId!=null">
+                and app_id=#{appId}
+            </if>
+        </where>
+        ) share_app
+        <where>
+            <if test="start!=null">
+                rowno &gt;=#{start}
+            </if>
+        </where>
+        order by create_datetime ${sort}
+    </select>
+
+
+    <select id="getDataCountByConditions" resultType="int" statementType="PREPARED">
+        select count(1) from leden_share_app
+        <where>
+               <if test="appSign!=null">
+                and app_sign like concat('%',concat(#{appSign},'%'))
+            </if>
+            <if test="appName!=null">
+                and app_name like concat('%',concat(#{appName},'%'))
+            </if>
+            <if test="appUrl!=null">
+                and app_url like concat('%',concat(#{appUrl},'%'))
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="shareDetailResultMap" type="com.zhouyi.business.core.model.ShareAppDetailDto" extends="BaseResultMap">
+        <result column="create_user_name" property="createUserName"/>
+        <result column="update_user_name" property="updateUserName"/>
+    </resultMap>
+    <select id="getLedenShareAppById" parameterType="string" statementType="PREPARED" resultMap="shareDetailResultMap">
+       select
+            s.*,
+            (select user_name from sys_user u where s.create_user_id=u.user_code) as create_user_name,
+            (select user_name from sys_user u where s.update_user_id=u.user_code) as update_user_name
+       from
+       LEDEN_SHARE_APP s
+        where s.app_id=#{_parameter}
+    </select>
+</mapper>

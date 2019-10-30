@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.SysUser">
+        <id column="USER_CODE" property="userCode" jdbcType="VARCHAR"/>
+        <result column="USER_ACCOUNT" property="userAccount" jdbcType="VARCHAR"/>
+        <result column="USER_PASSWORD" property="userPassword" jdbcType="VARCHAR"/>
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+        <result column="USER_SEX_CODE" property="userSexCode" jdbcType="VARCHAR"/>
+        <result column="USER_IDCARDNO" property="userIdcardno" jdbcType="VARCHAR"/>
+        <result column="USER_TYPE" property="userType" jdbcType="VARCHAR"/>
+        <result column="USER_POLICENO" property="userPoliceno" jdbcType="VARCHAR"/>
+        <result column="USER_PHONE" property="userPhone" jdbcType="VARCHAR"/>
+        <result column="USER_EMAIL" property="userEmail" jdbcType="VARCHAR"/>
+        <result column="USER_UNIT_CODE" property="userUnitCode" jdbcType="VARCHAR"/>
+        <result column="USER_STATUS" property="userStatus" jdbcType="VARCHAR"/>
+        <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP"/>
+        <result column="USER_SALT" property="salt" jdbcType="VARCHAR"/>
+
+        <result column="UNIT_NAME" property="userUnitName" jdbcType="VARCHAR"/>
+
+        <collection property="roles" ofType="com.zhouyi.business.core.model.SysUserRoleDto">
+            <result column="role_id" property="roleId"/>
+            <result column="rflag" property="deleteFlag"/>
+        </collection>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    USER_CODE, USER_ACCOUNT, USER_PASSWORD, USER_NAME, USER_SEX_CODE, USER_IDCARDNO, 
+    USER_TYPE, USER_POLICENO, USER_PHONE, USER_EMAIL, USER_UNIT_CODE, USER_STATUS, DELETE_FLAG, 
+    REMARK, CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME, USER_SALT
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_USER
+        where USER_CODE = #{userCode,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYS_USER
+    where USER_CODE = #{userCode,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.SysUser">
+    insert into SYS_USER (USER_CODE, USER_ACCOUNT, USER_PASSWORD,
+      USER_NAME, USER_SEX_CODE, USER_IDCARDNO, 
+      USER_TYPE, USER_POLICENO, USER_PHONE, 
+      USER_EMAIL, USER_UNIT_CODE, USER_STATUS, 
+      DELETE_FLAG, REMARK, CREATE_USER_ID, 
+      CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME,USER_SALT
+      )
+    values (Sys_User_Sequences.nextval, #{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR},
+      #{userName,jdbcType=VARCHAR}, #{userSexCode,jdbcType=VARCHAR}, #{userIdcardno,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{userPoliceno,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{userEmail,jdbcType=VARCHAR}, #{userUnitCode,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP},#{salt}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.vo.SysUserVo">
+        insert into SYS_USER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            USER_CODE,
+            <if test="userAccount != null">
+                USER_ACCOUNT,
+            </if>
+            <if test="userPassword != null">
+                USER_PASSWORD,
+            </if>
+            <if test="userName != null">
+                USER_NAME,
+            </if>
+            <if test="userSexCode != null">
+                USER_SEX_CODE,
+            </if>
+            <if test="userIdcardno != null">
+                USER_IDCARDNO,
+            </if>
+            <if test="userType != null">
+                USER_TYPE,
+            </if>
+            <if test="userPoliceno != null">
+                USER_POLICENO,
+            </if>
+            <if test="userPhone != null">
+                USER_PHONE,
+            </if>
+            <if test="userEmail != null">
+                USER_EMAIL,
+            </if>
+            <if test="userUnitCode != null">
+                USER_UNIT_CODE,
+            </if>
+            <if test="userStatus != null">
+                USER_STATUS,
+            </if>
+            <if test="deleteFlag != null">
+                DELETE_FLAG,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID,
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME,
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID,
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME,
+            </if>
+            <if test="salt!=null">
+                USER_SALT
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userCode!=null">
+                #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userAccount != null">
+                #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userSexCode != null">
+                #{userSexCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userIdcardno != null">
+                #{userIdcardno,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="userPoliceno != null">
+                #{userPoliceno,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userUnitCode != null">
+                #{userUnitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="salt!=null">
+                #{salt,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.SysUser">
+        update SYS_USER
+        <set>
+            <if test="userAccount != null">
+                USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                USER_NAME = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userSexCode != null">
+                USER_SEX_CODE = #{userSexCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userIdcardno != null">
+                USER_IDCARDNO = #{userIdcardno,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                USER_TYPE = #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="userPoliceno != null">
+                USER_POLICENO = #{userPoliceno,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userUnitCode != null">
+                USER_UNIT_CODE = #{userUnitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                USER_STATUS = #{userStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteFlag != null">
+                DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="salt!=null">
+                USER_SALT=#{salt}
+            </if>
+        </set>
+        where USER_CODE = #{userCode,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.SysUser">
+    update SYS_USER
+    set USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR},
+      USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      USER_SEX_CODE = #{userSexCode,jdbcType=VARCHAR},
+      USER_IDCARDNO = #{userIdcardno,jdbcType=VARCHAR},
+      USER_TYPE = #{userType,jdbcType=VARCHAR},
+      USER_POLICENO = #{userPoliceno,jdbcType=VARCHAR},
+      USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+      USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      USER_UNIT_CODE = #{userUnitCode,jdbcType=VARCHAR},
+      USER_STATUS = #{userStatus,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where USER_CODE = #{userCode,jdbcType=VARCHAR}
+  </update>
+
+
+    <select id="getSysUserByUserAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+       sys_user.*,u.*,r.role_id,r.delete_flag as rflag
+    from
+        SYS_USER left join sys_unit u on sys_user.user_unit_code=u.unit_code
+        left join SYS_USER_ROLE r on SYS_USER.USER_CODE=r.USER_ID
+    where user_account=#{userAccount}
+  </select>
+
+
+    <resultMap id="listUserMap" type="com.zhouyi.business.core.model.SysUser" extends="BaseResultMap">
+        <result column="createUserName" property="createUserName"/>
+        <result column="updateUserName" property="updateUserName"/>
+        <result column="unit_name" property="unitName"/>
+        <collection property="roles" ofType="com.zhouyi.business.core.model.SysUserRoleDto">
+            <result column="rId" property="pkId"/>
+            <result column="role_id" property="roleId"/>
+            <result column="rflag" property="deleteFlag"/>
+            <result column="rcreateUserId" property="createUserId"/>
+            <result column="rcreateDatetime" property="createDatetime"/>
+            <result column="rupdateDatetime" property="updateDatetime"/>
+            <result column="rupdateUserId" property="updateUserId"/>
+            <association property="sysRole" javaType="com.zhouyi.business.core.model.SysRole" select="getRoleDetails" column="role_id">
+<!--                <result column="pk_id" property="pkId"/>-->
+<!--                <result column="role_name" property="roleName"/>-->
+<!--                <result column="role_description" property="roleDescription"/>-->
+<!--                <result column="delete_flag" property="deleteFlag"/>-->
+<!--                <result column="create_user_id" property="createUserId"/>-->
+<!--                <result column="update_user_id" property="updateUserId"/>-->
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="getRoleDetails" parameterType="string" statementType="PREPARED" resultMap="roleDetailsResultMap">
+        select
+           d.pk_id as did,
+           d.role_name as droleName,
+           d.role_description as droleDescription,
+           d.delete_flag as ddeleteFlag,
+           d.create_user_id as dcreateUserId,
+           d.create_datetime as dcreateDatetime,
+           d.update_user_id as dupdateUserId,
+           d.update_datetime as dupdateDatetime
+        from sys_role d where pk_id=#{role_id}
+    </select>
+
+    <resultMap id="roleDetailsResultMap" type="com.zhouyi.business.core.model.SysRole">
+        <result column="did" property="pkId"/>
+        <result column="droleName" property="roleName"/>
+        <result column="droleDescription" property="roleDescription"/>
+        <result column="ddeleteFlag" property="deleteFlag"/>
+        <result column="dcreateUserId" property="createUserId"/>
+        <result column="dcreateDatetime" property="createDatetime"/>
+        <result column="dupdateUserId" property="updateUserId"/>
+        <result column="dupdateDatetime" property="updateDatetime"/>
+
+    </resultMap>
+
+    <select id="listSysUserByConditions" resultMap="listUserMap" statementType="PREPARED">
+        select t.*,r.pk_id as rId,r.role_id,r.delete_flag rflag,r.create_user_id rcreateUserId,r.update_user_id as rupdateUserId,
+        r.create_datetime as rcreateDatetime,r.update_datetime as rupdateDatetime
+        from
+        (
+        SELECT
+        <include refid="Base_Column_List"/>,unit_name,
+        (
+        select USER_NAME from SYS_USER c where c.USER_CODE=sysUse.CREATE_USER_ID
+        ) as createUserName,
+        (
+        select USER_NAME from SYS_USER u where u.USER_CODE=sysUse.UPDATE_USER_ID
+        )
+        FROM (
+        SELECT ROWNUM AS rowno,SYS_USER.*,sys_unit.unit_name
+
+        FROM SYS_USER,sys_unit
+
+        where ROWNUM &lt;= #{end}
+        <if test="userAccount!=null and userAccount!=''">
+            and USER_ACCOUNT like concat(concat('%',#{userAccount}),'%')
+        </if>
+        <if test="userName!=null and userName!=''">
+            and USER_NAME like concat(concat('%',#{userName}),'%')
+        </if>
+        <if test="userPoliceno!=null and userPoliceno!=''">
+            and USER_POLICENO like concat(concat('%',#{userPoliceno}),'%')
+        </if>
+        <if test="units!=null">
+            and USER_UNIT_CODE in
+            <foreach collection="units" open="(" separator="," close=")" item="it">
+                #{it}
+            </foreach>
+        </if>
+        <if test="unitCode!=null and unitCode!=''">
+            and user_unit_code=#{unitCode}
+        </if>
+        and sys_user.user_unit_code=sys_unit.unit_code
+        ) sysUse
+        WHERE sysUse.rowno >= #{start}
+
+        ) t,sys_user_role r
+        where t.user_code=r.user_id(+)
+         order by t.CREATE_DATETIME desc
+    </select>
+
+
+    <select id="getSysUserCountByConditions" statementType="PREPARED" resultType="int">
+        select
+        count(1)
+        from
+        Sys_User
+        <where>
+            <if test="userAccount!=null and userAccount!=''">
+                and USER_ACCOUNT like concat(concat('%',#{userAccount}),'%')
+            </if>
+            <if test="userName!=null and userName!=''">
+                and USER_NAME like concat(concat('%',#{userName}),'%')
+            </if>
+            <if test="userPoliceno!=null and userPoliceno!=''">
+                and USER_POLICENO like concat(concat('%',#{userPoliceno}),'%')
+            </if>
+            <if test="units!=null and unitCode==null">
+                and USER_UNIT_CODE in
+                <foreach collection="units" open="(" separator="," close=")" item="it">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="unitCode!=null and unitCode!=''">
+                and user_unit_code=#{unitCode}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getSysUserAccountCount" statementType="PREPARED" resultType="int">
+    select count(1) from SYS_USER where user_account=#{userAccount}
+  </select>
+
+
+    <select id="getSysUserByUserCode" statementType="PREPARED" resultMap="BaseResultMap">
+        select * from sys_user where user_code=#{_parameter}
+    </select>
+
+
+</mapper>

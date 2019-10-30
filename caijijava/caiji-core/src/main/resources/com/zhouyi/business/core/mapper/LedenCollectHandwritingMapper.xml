@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectHandwritingMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectHandwriting" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
+    <result column="BJWJGSDM" property="bjwjgsdm" jdbcType="VARCHAR" />
+    <result column="BJFLDM" property="bjfldm" jdbcType="VARCHAR" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectHandwriting" extends="BaseResultMap" >
+    <result column="BJSJ" property="bjsj" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, RYJCXXCJBH, BJWJGSDM, BJFLDM, DELETAG, ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
+    UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    BJSJ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from LEDEN_COLLECT_HANDWRITING
+    where PK_ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectDataByPersonCode" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from LEDEN_COLLECT_HANDWRITING
+    where RYJCXXCJBH = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_HANDWRITING
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectHandwriting" >
+    insert into LEDEN_COLLECT_HANDWRITING (PK_ID, RYJCXXCJBH, BJWJGSDM,
+      BJFLDM, DELETAG, ANNEX, 
+      CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, 
+      UPDATE_DATETIME, BJSJ)
+    values (leden_collect_handwriting_seq.nextval, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{bjwjgsdm,jdbcType=VARCHAR},
+      #{bjfldm,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{updateDatetime,jdbcType=TIMESTAMP}, #{bjsj,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectHandwriting" >
+    insert into LEDEN_COLLECT_HANDWRITING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        PK_ID,
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH,
+      </if>
+      <if test="bjwjgsdm != null" >
+        BJWJGSDM,
+      </if>
+      <if test="bjfldm != null" >
+        BJFLDM,
+      </if>
+      <if test="deletag != null" >
+        DELETAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+      <if test="bjsj != null" >
+        BJSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      leden_collect_handwriting_seq.nextval,
+      <if test="ryjcxxcjbh != null" >
+        #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bjwjgsdm != null" >
+        #{bjwjgsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="bjfldm != null" >
+        #{bjfldm,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bjsj != null" >
+        #{bjsj,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectHandwriting" >
+    update LEDEN_COLLECT_HANDWRITING
+    <set >
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bjwjgsdm != null" >
+        BJWJGSDM = #{bjwjgsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="bjfldm != null" >
+        BJFLDM = #{bjfldm,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        DELETAG = #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bjsj != null" >
+        BJSJ = #{bjsj,jdbcType=BLOB},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenCollectHandwriting" >
+    update LEDEN_COLLECT_HANDWRITING
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      BJWJGSDM = #{bjwjgsdm,jdbcType=VARCHAR},
+      BJFLDM = #{bjfldm,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      BJSJ = #{bjsj,jdbcType=BLOB}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectHandwriting" >
+    update LEDEN_COLLECT_HANDWRITING
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      BJWJGSDM = #{bjwjgsdm,jdbcType=VARCHAR},
+      BJFLDM = #{bjfldm,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="listDataByConditions" statementType="PREPARED" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,LEDEN_COLLECT_HANDWRITING.*
+
+    FROM  LEDEN_COLLECT_HANDWRITING
+
+    where ROWNUM &lt;= #{end}) collectHandWriting
+
+    WHERE collectHandWriting.rowno &gt;= #{start}
+  </select>
+
+  <select id="getDataCountByConditions" statementType="PREPARED" resultType="int">
+    select count(1) from LEDEN_COLLECT_HANDWRITING
+  </select>
+
+
+  <insert id="insertHandwritings" parameterType="list" statementType="PREPARED">
+     insert into LEDEN_COLLECT_HANDWRITING (PK_ID, RYJCXXCJBH, BJWJGSDM,
+      BJFLDM, DELETAG, ANNEX,
+      CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID,
+      UPDATE_DATETIME, BJSJ)
+    select get_seq(leden_collect_handwriting_seq.nextval),A.* from (
+    <foreach collection="list" item="item" separator="union all">
+      select
+      #{item.ryjcxxcjbh,jdbcType=VARCHAR}, #{item.bjwjgsdm,jdbcType=VARCHAR},
+      #{item.bjfldm,jdbcType=VARCHAR}, #{item.deletag,jdbcType=VARCHAR}, #{item.annex,jdbcType=VARCHAR},
+      #{item.createUserId,jdbcType=VARCHAR}, #{item.createDatetime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=VARCHAR},
+      #{item.updateDatetime,jdbcType=TIMESTAMP}, #{item.bjsj,jdbcType=BLOB}
+      from dual
+    </foreach>
+    ) A
+  </insert>
+
+
+  <delete id="deleteHandWritingByPerson" parameterType="string">
+    delete from LEDEN_COLLECT_HANDWRITING where ryjcxxcjbh=#{_parameter}
+  </delete>
+</mapper>

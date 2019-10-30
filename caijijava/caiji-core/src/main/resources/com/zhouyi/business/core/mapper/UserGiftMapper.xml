@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.UserGiftMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.UserGiftInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="from_user" property="fromUser" jdbcType="BIGINT" />
+		<result column="to_user" property="toUser" jdbcType="BIGINT" />
+		<result column="amount" property="amount" jdbcType="INTEGER" />
+		<result column="total_count" property="totalCount" jdbcType="INTEGER" />
+		<result column="product_id" property="productId" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="MoreResultMap" type="com.zhouyi.business.core.vo.UserGiftVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="from_user" property="fromUser" jdbcType="BIGINT" />
+		<result column="to_user" property="toUser" jdbcType="BIGINT" />
+		<result column="amount" property="amount" jdbcType="INTEGER" />
+		<result column="total_count" property="totalCount" jdbcType="INTEGER" />
+		<result column="product_code" property="productCode" jdbcType="BIGINT" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="images" property="images" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" />
+	</resultMap>
+	
+	<sql id="BaseTable">
+		zy_user_gift_info
+	</sql>
+
+	<select id="queryAllUserGiftList" statementType="PREPARED" resultMap="MoreResultMap">
+		select t.*,pif.product_name,pif.product_code,pif.images,pif.description from (
+select t.product_id,t.amount from (select * from zy_user_gift_info where to_user=#{userId} order by create_time desc) as t group by t.product_id,t.amount
+) t inner join zy_product_info pif on t.product_id=pif.id 
+	</select>
+	
+	<select id="getProductUserGiftCount" statementType="PREPARED" resultType="java.util.Map">
+		select product_id as productId,count(*) as num from zy_user_gift_info where to_user=8 group by product_id
+	</select>
+	
+	<select id="queryProductUserGiftList" statementType="PREPARED" resultType="java.util.Map">
+		select t.product_id as productId,t.from_user as fromUser,mif.head_image as headImage,mif.nick_name as nickName from (
+		select a.from_user,a.product_id 
+		     from zy_user_gift_info a 
+		     where (select count(*) from zy_user_gift_info 
+		     where product_id = a.product_id and create_time > a.create_time and to_user=#{userId}  ) &lt; 16 
+		     and to_user=8 
+		     order by a.product_id,a.create_time desc
+		) as t inner join zy_member_info mif on mif.id=t.from_user
+	</select>
+	
+	<select id="getGiftCountByOwnerId" statementType="PREPARED" resultType="Integer">
+		select count(*) as num from zy_user_gift_info where to_user=#{userId}
+	</select>
+</mapper>

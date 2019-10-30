@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectDnaMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectDna" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
+    <result column="RYDNABH" property="rydnabh" jdbcType="VARCHAR" />
+    <result column="YBLXDM" property="yblxdm" jdbcType="VARCHAR" />
+    <result column="YBBZQK" property="ybbzqk" jdbcType="VARCHAR" />
+    <result column="SAMPLE_DES" property="sampleDes" jdbcType="VARCHAR" />
+    <result column="CJZKBSDM" property="cjzkbsdm" jdbcType="VARCHAR" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, RYJCXXCJBH, RYDNABH, YBLXDM, YBBZQK, SAMPLE_DES, CJZKBSDM, DELETAG, ANNEX, 
+    CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_DNA
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectDataByPersonCode" parameterType="string" resultMap="BaseResultMap">
+    select a.*,d.name as yblxmc from LEDEN_COLLECT_DNA a
+    left join sys_dict_list d on a.YBLXDM = d.code and d.sign = 'DICT_DNAYBLX'
+    where a.RYJCXXCJBH = #{id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_DNA
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectDna" >
+    insert into LEDEN_COLLECT_DNA (PK_ID, RYJCXXCJBH, RYDNABH,
+      YBLXDM, YBBZQK, SAMPLE_DES, 
+      CJZKBSDM, DELETAG, ANNEX, 
+      CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, 
+      UPDATE_DATETIME)
+    values leden_collect_dna_sequence.nextval, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{rydnabh,jdbcType=VARCHAR},
+      #{yblxdm,jdbcType=VARCHAR}, #{ybbzqk,jdbcType=VARCHAR}, #{sampleDes,jdbcType=VARCHAR}, 
+      #{cjzkbsdm,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{updateDatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectDna" >
+    insert into LEDEN_COLLECT_DNA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        PK_ID,
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH,
+      </if>
+      <if test="rydnabh != null" >
+        RYDNABH,
+      </if>
+      <if test="yblxdm != null" >
+        YBLXDM,
+      </if>
+      <if test="ybbzqk != null" >
+        YBBZQK,
+      </if>
+      <if test="sampleDes != null" >
+        SAMPLE_DES,
+      </if>
+      <if test="cjzkbsdm != null" >
+        CJZKBSDM,
+      </if>
+      <if test="deletag != null" >
+        DELETAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      leden_collect_dna_sequence.nextval,
+      <if test="ryjcxxcjbh != null" >
+        #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="rydnabh != null" >
+        #{rydnabh,jdbcType=VARCHAR},
+      </if>
+      <if test="yblxdm != null" >
+        #{yblxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="ybbzqk != null" >
+        #{ybbzqk,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleDes != null" >
+        #{sampleDes,jdbcType=VARCHAR},
+      </if>
+      <if test="cjzkbsdm != null" >
+        #{cjzkbsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectDna" >
+    update LEDEN_COLLECT_DNA
+    <set >
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="rydnabh != null" >
+        RYDNABH = #{rydnabh,jdbcType=VARCHAR},
+      </if>
+      <if test="yblxdm != null" >
+        YBLXDM = #{yblxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="ybbzqk != null" >
+        YBBZQK = #{ybbzqk,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleDes != null" >
+        SAMPLE_DES = #{sampleDes,jdbcType=VARCHAR},
+      </if>
+      <if test="cjzkbsdm != null" >
+        CJZKBSDM = #{cjzkbsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        DELETAG = #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectDna" >
+    update LEDEN_COLLECT_DNA
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      RYDNABH = #{rydnabh,jdbcType=VARCHAR},
+      YBLXDM = #{yblxdm,jdbcType=VARCHAR},
+      YBBZQK = #{ybbzqk,jdbcType=VARCHAR},
+      SAMPLE_DES = #{sampleDes,jdbcType=VARCHAR},
+      CJZKBSDM = #{cjzkbsdm,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="listDataByConditions" statementType="PREPARED" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,LEDEN_COLLECT_DNA.*
+
+    FROM  LEDEN_COLLECT_DNA
+
+    where ROWNUM &lt;= #{end}) collectDNA
+
+    WHERE collectDNA.rowno &gt;= #{start}
+  </select>
+
+  <select id="getDataCountByConditions" resultType="int" statementType="PREPARED">
+    select count(1) from LEDEN_COLLECT_DNA
+  </select>
+
+  <delete id="deteteDnaByPersonId" parameterType="string">
+    delete from LEDEN_COLLECT_DNA where ryjcxxcjbh=#{_parameter}
+  </delete>
+</mapper>

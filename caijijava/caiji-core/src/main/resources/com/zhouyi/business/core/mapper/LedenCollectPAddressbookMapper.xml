@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectPAddressbookMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectPAddressbook" >
+    <id column="CJMBBH" property="cjmbbh" jdbcType="VARCHAR" />
+    <id column="ZZXLMC" property="zzxlmc" jdbcType="VARCHAR" />
+    <result column="TXLZDLXDM" property="txlzdlxdm" jdbcType="VARCHAR" />
+    <result column="LXDHLX" property="lxdhlx" jdbcType="VARCHAR" />
+    <result column="GXRLXFS" property="gxrlxfs" jdbcType="VARCHAR" />
+    <result column="XXSC_PDBZ" property="xxscPdbz" jdbcType="VARCHAR" />
+    <result column="XXSC_CLSJ" property="xxscClsj" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CJMBBH, ZZXLMC, TXLZDLXDM, LXDHLX, GXRLXFS, XXSC_PDBZ, XXSC_CLSJ
+  </sql>
+
+  <sql id="BaseTable">
+		LEDEN_COLLECT_P_ADDRESSBOOK
+  </sql>
+
+  <select id="findDataListById" parameterType="com.zhouyi.business.core.vo.LedenCollectPAddressbookVo" resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select a.*,d.name txlxmc from leden_collect_p_addressbook a
+      left join sys_dict_list d on a.txlzdlxdm = d.code and d.sign = 'DICT_TXLZDLX'
+    where a.cjmbbh = #{cjmbbh}
+    order by a.zzxlmc asc) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findDataListByIdCount" parameterType="com.zhouyi.business.core.vo.LedenCollectPAddressbookVo" resultType="int">
+    select count(1) from leden_collect_p_addressbook
+    where cjmbbh = #{cjmbbh}
+  </select>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectPAddressbookVo"
+          resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from LEDEN_COLLECT_P_ADDRESSBOOK order by
+    <if test="overName != null and overName != ''">
+      #{overName}
+    </if>
+    <if test="overName = null and overName = ''">
+      ZZXLMC
+    </if>
+    asc) e
+    <where>
+      <if test="txlzdlxdm != null" >
+        and TXLZDLXDM = #{txlzdlxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="lxdhlx != null" >
+        and LXDHLX = #{lxdhlx,jdbcType=VARCHAR}
+      </if>
+      <if test="gxrlxfs != null" >
+        and GXRLXFS = #{gxrlxfs,jdbcType=VARCHAR}
+      </if>
+      <if test="xxscPdbz != null" >
+        and XXSC_PDBZ = #{xxscPdbz,jdbcType=VARCHAR}
+      </if>
+      <if test="xxscClsj != null" >
+        and XXSC_CLSJ = #{xxscClsj,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectPAddressbookVo"
+          resultType="int">
+    select count(1) from LEDEN_COLLECT_P_ADDRESSBOOK
+    <where>
+      <if test="txlzdlxdm != null" >
+        and TXLZDLXDM = #{txlzdlxdm,jdbcType=VARCHAR}
+      </if>
+      <if test="lxdhlx != null" >
+        and LXDHLX = #{lxdhlx,jdbcType=VARCHAR}
+      </if>
+      <if test="gxrlxfs != null" >
+        and GXRLXFS = #{gxrlxfs,jdbcType=VARCHAR}
+      </if>
+      <if test="xxscPdbz != null" >
+        and XXSC_PDBZ = #{xxscPdbz,jdbcType=VARCHAR}
+      </if>
+      <if test="xxscClsj != null" >
+        and XXSC_CLSJ = #{xxscClsj,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zhouyi.business.core.model.LedenCollectPAddressbookKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_P_ADDRESSBOOK
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+      and ZZXLMC = #{zzxlmc,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectPAddressbookKey" >
+    delete from LEDEN_COLLECT_P_ADDRESSBOOK
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+      and ZZXLMC = #{zzxlmc,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectPAddressbook" >
+    insert into LEDEN_COLLECT_P_ADDRESSBOOK (CJMBBH, ZZXLMC, TXLZDLXDM,
+      LXDHLX, GXRLXFS, XXSC_PDBZ, 
+      XXSC_CLSJ)
+    values (#{cjmbbh,jdbcType=VARCHAR}, #{zzxlmc,jdbcType=VARCHAR}, #{txlzdlxdm,jdbcType=VARCHAR}, 
+      #{lxdhlx,jdbcType=VARCHAR}, #{gxrlxfs,jdbcType=VARCHAR}, #{xxscPdbz,jdbcType=VARCHAR}, 
+      #{xxscClsj,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectPAddressbook" >
+    insert into LEDEN_COLLECT_P_ADDRESSBOOK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cjmbbh != null" >
+        CJMBBH,
+      </if>
+      <if test="zzxlmc != null" >
+        ZZXLMC,
+      </if>
+      <if test="txlzdlxdm != null" >
+        TXLZDLXDM,
+      </if>
+      <if test="lxdhlx != null" >
+        LXDHLX,
+      </if>
+      <if test="gxrlxfs != null" >
+        GXRLXFS,
+      </if>
+      <if test="xxscPdbz != null" >
+        XXSC_PDBZ,
+      </if>
+      <if test="xxscClsj != null" >
+        XXSC_CLSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cjmbbh != null" >
+        #{cjmbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="zzxlmc != null" >
+        #{zzxlmc,jdbcType=VARCHAR},
+      </if>
+      <if test="txlzdlxdm != null" >
+        #{txlzdlxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="lxdhlx != null" >
+        #{lxdhlx,jdbcType=VARCHAR},
+      </if>
+      <if test="gxrlxfs != null" >
+        #{gxrlxfs,jdbcType=VARCHAR},
+      </if>
+      <if test="xxscPdbz != null" >
+        #{xxscPdbz,jdbcType=VARCHAR},
+      </if>
+      <if test="xxscClsj != null" >
+        #{xxscClsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectPAddressbook" >
+    update LEDEN_COLLECT_P_ADDRESSBOOK
+    <set >
+      <if test="txlzdlxdm != null" >
+        TXLZDLXDM = #{txlzdlxdm,jdbcType=VARCHAR},
+      </if>
+      <if test="lxdhlx != null" >
+        LXDHLX = #{lxdhlx,jdbcType=VARCHAR},
+      </if>
+      <if test="gxrlxfs != null" >
+        GXRLXFS = #{gxrlxfs,jdbcType=VARCHAR},
+      </if>
+      <if test="xxscPdbz != null" >
+        XXSC_PDBZ = #{xxscPdbz,jdbcType=VARCHAR},
+      </if>
+      <if test="xxscClsj != null" >
+        XXSC_CLSJ = #{xxscClsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+      and ZZXLMC = #{zzxlmc,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectPAddressbook" >
+    update LEDEN_COLLECT_P_ADDRESSBOOK
+    set TXLZDLXDM = #{txlzdlxdm,jdbcType=VARCHAR},
+      LXDHLX = #{lxdhlx,jdbcType=VARCHAR},
+      GXRLXFS = #{gxrlxfs,jdbcType=VARCHAR},
+      XXSC_PDBZ = #{xxscPdbz,jdbcType=VARCHAR},
+      XXSC_CLSJ = #{xxscClsj,jdbcType=TIMESTAMP}
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+      and ZZXLMC = #{zzxlmc,jdbcType=VARCHAR}
+  </update>
+
+
+  <insert id="insertAddressBooks" statementType="PREPARED" parameterType="list">
+    begin
+    <foreach collection="list" item="item" index="index" separator=";">
+      insert into LEDEN_COLLECT_P_ADDRESSBOOK (CJMBBH, ZZXLMC, TXLZDLXDM,
+      LXDHLX, GXRLXFS, XXSC_PDBZ,
+      XXSC_CLSJ)
+      values(
+      #{item.cjmbbh,jdbcType=VARCHAR}, #{item.zzxlmc,jdbcType=VARCHAR}, #{item.txlzdlxdm,jdbcType=VARCHAR},
+      #{item.lxdhlx,jdbcType=VARCHAR}, #{item.gxrlxfs,jdbcType=VARCHAR}, #{item.xxscPdbz,jdbcType=VARCHAR},
+      #{item.xxscClsj,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+    ;end;
+  </insert>
+
+
+  <delete id="deleteAddressByTargetId" parameterType="string">
+    delete from LEDEN_COLLECT_P_ADDRESSBOOK where cjmbbh=#{_parameter}
+  </delete>
+
+</mapper>

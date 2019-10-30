@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectPCallrecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectPCallrecords" >
+    <result column="CJMBBH" property="cjmbbh" jdbcType="VARCHAR" />
+    <result column="YDDH" property="yddh" jdbcType="VARCHAR" />
+    <result column="GXR_YDDH" property="gxrYddh" jdbcType="VARCHAR" />
+    <result column="GXR_XM" property="gxrXm" jdbcType="VARCHAR" />
+    <result column="THZT" property="thzt" jdbcType="VARCHAR" />
+    <result column="BDSJBS" property="bdsjbs" jdbcType="VARCHAR" />
+    <result column="KSSJ" property="kssj" jdbcType="TIMESTAMP" />
+    <result column="JSSJ" property="jssj" jdbcType="TIMESTAMP" />
+    <result column="THSC" property="thsc" jdbcType="DECIMAL" />
+    <result column="SMXSZ" property="smxsz" jdbcType="VARCHAR" />
+    <result column="LJZT" property="ljzt" jdbcType="VARCHAR" />
+    <result column="FJSXID" property="fjsxid" jdbcType="VARCHAR" />
+    <result column="XXSC_PDBZ" property="xxscPdbz" jdbcType="VARCHAR" />
+    <result column="XXSC_CLSJ" property="xxscClsj" jdbcType="TIMESTAMP" />
+
+
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    CJMBBH, YDDH, GXR_YDDH,
+      GXR_XM, THZT, BDSJBS,
+      KSSJ, JSSJ, THSC,
+      SMXSZ, LJZT, FJSXID,
+      XXSC_PDBZ, XXSC_CLSJ
+  </sql>
+
+  <sql id="BaseTable">
+		LEDEN_COLLECT_P_CALLRECORDS
+  </sql>
+
+  <select id="selectDataById" parameterType="com.zhouyi.business.core.vo.LedenCollectPCallrecordsVo" resultMap="BaseResultMap">
+    select * from
+    (select rownum rn,t.* from
+    (select * from LEDEN_COLLECT_P_CALLRECORDS where CJMBBH = #{cjmbbh}) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="selectDataByIdCount" parameterType="com.zhouyi.business.core.vo.LedenCollectPCallrecordsVo" resultType="int">
+    select count(1) from LEDEN_COLLECT_P_CALLRECORDS where CJMBBH = #{cjmbbh}
+  </select>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectPCallrecordsVo"
+          resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from LEDEN_COLLECT_P_CALLRECORDS order by
+    <if test="overName != null and overName != ''">
+      #{overName}
+    </if>
+    <if test="overName = null and overName = ''">
+      XXSC_CLSJ
+    </if>
+    desc) e
+    <where>
+      <if test="cjmbbh != null" >
+        and CJMBBH = #{cjmbbh}
+      </if>
+      <if test="yddh != null" >
+        and YDDH = #{yddh}
+      </if>
+      <if test="gxrYddh != null" >
+        and GXR_YDDH = {gxrYddh}
+      </if>
+      <if test="gxrXm != null" >
+        and GXR_XM = #{gxrXm}
+      </if>
+      <if test="thzt != null" >
+        and THZT = #{thzt}
+      </if>
+      <if test="bdsjbs != null" >
+        and BDSJBS = #{bdsjbs}
+      </if>
+      <if test="kssj != null" >
+        and KSSJ = #{kssj}
+      </if>
+      <if test="jssj != null" >
+        and JSSJ = #{jssj}
+      </if>
+      <if test="thsc != null" >
+        and THSC = #{thsc}
+      </if>
+      <if test="smxsz != null" >
+        and SMXSZ = #{smxsz}
+      </if>
+      <if test="ljzt != null" >
+        and LJZT = #{ljzt}
+      </if>
+      <if test="fjsxid != null" >
+        and FJSXID = #{fjsxid}
+      </if>
+      <if test="xxscPdbz != null" >
+        and XXSC_PDBZ = #{xxscPdbz}
+      </if>
+      <if test="xxscClsj != null" >
+        and XXSC_CLSJ = #{xxscClsj}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectPCallrecordsVo"
+          resultType="int">
+    select count(1) from LEDEN_COLLECT_P_CALLRECORDS
+    <where>
+      <if test="cjmbbh != null" >
+        and CJMBBH = #{cjmbbh}
+      </if>
+      <if test="yddh != null" >
+        and YDDH = #{yddh}
+      </if>
+      <if test="gxrYddh != null" >
+        and GXR_YDDH = {gxrYddh}
+      </if>
+      <if test="gxrXm != null" >
+        and GXR_XM = #{gxrXm}
+      </if>
+      <if test="thzt != null" >
+        and THZT = #{thzt}
+      </if>
+      <if test="bdsjbs != null" >
+        and BDSJBS = #{bdsjbs}
+      </if>
+      <if test="kssj != null" >
+        and KSSJ = #{kssj}
+      </if>
+      <if test="jssj != null" >
+        and JSSJ = #{jssj}
+      </if>
+      <if test="thsc != null" >
+        and THSC = #{thsc}
+      </if>
+      <if test="smxsz != null" >
+        and SMXSZ = #{smxsz}
+      </if>
+      <if test="ljzt != null" >
+        and LJZT = #{ljzt}
+      </if>
+      <if test="fjsxid != null" >
+        and FJSXID = #{fjsxid}
+      </if>
+      <if test="xxscPdbz != null" >
+        and XXSC_PDBZ = #{xxscPdbz}
+      </if>
+      <if test="xxscClsj != null" >
+        and XXSC_CLSJ = #{xxscClsj}
+      </if>
+    </where>
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zhouyi.business.core.model.LedenCollectPCallrecords" >
+    select
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_P_CALLRECORDS
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectPCallrecords" >
+    delete from LEDEN_COLLECT_P_CALLRECORDS
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectPCallrecords" >
+    insert into LEDEN_COLLECT_P_CALLRECORDS (CJMBBH, YDDH, GXR_YDDH,
+      GXR_XM, THZT, BDSJBS, 
+      KSSJ, JSSJ, THSC, 
+      SMXSZ, LJZT, FJSXID, 
+      XXSC_PDBZ, XXSC_CLSJ)
+    values (#{cjmbbh,jdbcType=VARCHAR}, #{yddh,jdbcType=VARCHAR}, #{gxrYddh,jdbcType=VARCHAR}, 
+      #{gxrXm,jdbcType=VARCHAR}, #{thzt,jdbcType=VARCHAR}, #{bdsjbs,jdbcType=VARCHAR}, 
+      #{kssj,jdbcType=TIMESTAMP}, #{jssj,jdbcType=TIMESTAMP}, #{thsc,jdbcType=DECIMAL}, 
+      #{smxsz,jdbcType=VARCHAR}, #{ljzt,jdbcType=VARCHAR}, #{fjsxid,jdbcType=VARCHAR}, 
+      #{xxscPdbz,jdbcType=VARCHAR}, #{xxscClsj,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectPCallrecords" >
+    insert into LEDEN_COLLECT_P_CALLRECORDS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cjmbbh != null" >
+        CJMBBH,
+      </if>
+      <if test="yddh != null" >
+        YDDH,
+      </if>
+      <if test="gxrYddh != null" >
+        GXR_YDDH,
+      </if>
+      <if test="gxrXm != null" >
+        GXR_XM,
+      </if>
+      <if test="thzt != null" >
+        THZT,
+      </if>
+      <if test="bdsjbs != null" >
+        BDSJBS,
+      </if>
+      <if test="kssj != null" >
+        KSSJ,
+      </if>
+      <if test="jssj != null" >
+        JSSJ,
+      </if>
+      <if test="thsc != null" >
+        THSC,
+      </if>
+      <if test="smxsz != null" >
+        SMXSZ,
+      </if>
+      <if test="ljzt != null" >
+        LJZT,
+      </if>
+      <if test="fjsxid != null" >
+        FJSXID,
+      </if>
+      <if test="xxscPdbz != null" >
+        XXSC_PDBZ,
+      </if>
+      <if test="xxscClsj != null" >
+        XXSC_CLSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cjmbbh != null" >
+        #{cjmbbh,jdbcType=VARCHAR},
+      </if>
+      <if test="yddh != null" >
+        #{yddh,jdbcType=VARCHAR},
+      </if>
+      <if test="gxrYddh != null" >
+        #{gxrYddh,jdbcType=VARCHAR},
+      </if>
+      <if test="gxrXm != null" >
+        #{gxrXm,jdbcType=VARCHAR},
+      </if>
+      <if test="thzt != null" >
+        #{thzt,jdbcType=VARCHAR},
+      </if>
+      <if test="bdsjbs != null" >
+        #{bdsjbs,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        #{kssj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jssj != null" >
+        #{jssj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thsc != null" >
+        #{thsc,jdbcType=DECIMAL},
+      </if>
+      <if test="smxsz != null" >
+        #{smxsz,jdbcType=VARCHAR},
+      </if>
+      <if test="ljzt != null" >
+        #{ljzt,jdbcType=VARCHAR},
+      </if>
+      <if test="fjsxid != null" >
+        #{fjsxid,jdbcType=VARCHAR},
+      </if>
+      <if test="xxscPdbz != null" >
+        #{xxscPdbz,jdbcType=VARCHAR},
+      </if>
+      <if test="xxscClsj != null" >
+        #{xxscClsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectPCallrecords" >
+    update LEDEN_COLLECT_P_CALLRECORDS
+    <set >
+      <if test="yddh != null" >
+        YDDH = #{yddh},
+      </if>
+      <if test="gxrYddh != null" >
+        GXR_YDDH = {gxrYddh},
+      </if>
+      <if test="gxrXm != null" >
+        GXR_XM = #{gxrXm},
+      </if>
+      <if test="thzt != null" >
+        THZT = #{thzt},
+      </if>
+      <if test="bdsjbs != null" >
+        BDSJBS = #{bdsjbs},
+      </if>
+      <if test="kssj != null" >
+        KSSJ = #{kssj},
+      </if>
+      <if test="jssj != null" >
+        JSSJ = #{jssj},
+      </if>
+      <if test="thsc != null" >
+        THSC = #{thsc},
+      </if>
+      <if test="smxsz != null" >
+        SMXSZ = #{smxsz},
+      </if>
+      <if test="ljzt != null" >
+        LJZT = #{ljzt},
+      </if>
+      <if test="fjsxid != null" >
+        FJSXID = #{fjsxid},
+      </if>
+      <if test="xxscPdbz != null" >
+        XXSC_PDBZ = #{xxscPdbz},
+      </if>
+      <if test="xxscClsj != null" >
+        XXSC_CLSJ = #{xxscClsj},
+      </if>
+    </set>
+    where CJMBBH = #{cjmbbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectPCallrecords" >
+
+  </update>
+
+  <insert id="insertCallRecords" statementType="PREPARED" parameterType="list">
+   begin
+   <foreach collection="list" item="item" index="index" separator=";">
+     insert into LEDEN_COLLECT_P_CALLRECORDS (CJMBBH, YDDH, GXR_YDDH,
+     GXR_XM, THZT, BDSJBS,
+     KSSJ, JSSJ, THSC,
+     SMXSZ, LJZT, FJSXID,
+     XXSC_PDBZ, XXSC_CLSJ)
+     values (#{item.cjmbbh,jdbcType=VARCHAR}, #{item.yddh,jdbcType=VARCHAR}, #{item.gxrYddh,jdbcType=VARCHAR},
+     #{item.gxrXm,jdbcType=VARCHAR}, #{item.thzt,jdbcType=VARCHAR}, #{item.bdsjbs,jdbcType=VARCHAR},
+     #{item.kssj,jdbcType=TIMESTAMP}, #{item.jssj,jdbcType=TIMESTAMP}, #{item.thsc,jdbcType=DECIMAL},
+     #{item.smxsz,jdbcType=VARCHAR}, #{item.ljzt,jdbcType=VARCHAR}, #{item.fjsxid,jdbcType=VARCHAR},
+     #{item.xxscPdbz,jdbcType=VARCHAR}, #{item.xxscClsj,jdbcType=TIMESTAMP})
+   </foreach>
+   ;end ;
+  </insert>
+
+  <delete id="deleteCallRecordsByTargetId" parameterType="string">
+    delete from LEDEN_COLLECT_P_CALLRECORDS where cjmbbh=#{_parameter}
+  </delete>
+</mapper>
+
+

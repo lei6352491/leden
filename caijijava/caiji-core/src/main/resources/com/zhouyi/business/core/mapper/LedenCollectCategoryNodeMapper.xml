@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectCategoryNodeMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectCategoryNode" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="NODE_CODE" property="nodeCode" jdbcType="VARCHAR" />
+    <result column="UNIT_CODE" property="unitCode" jdbcType="VARCHAR" />
+    <result column="IS_SKIP" property="isSkip" jdbcType="VARCHAR" />
+    <result column="NODE_ORD" property="nodeOrd" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    PK_ID, CATEGORY_ID, NODE_CODE, UNIT_CODE, IS_SKIP, NODE_ORD
+  </sql>
+
+  <sql id="BaseTable">
+		LEDEN_COLLECT_CATEGORY_NODE
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_CATEGORY_NODE
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectCategoryNodeVo"
+          resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from LEDEN_COLLECT_CATEGORY_NODE order by
+    <if test="overName = null and overName = '' ">
+      NODE_ORD
+    </if>
+    <if test="overName != null and overName != '' ">
+      #{overName}
+    </if>
+    desc) e
+    <where>
+      <if test="categoryId != null" >
+        and CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeCode != null" >
+        and NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="unitCode != null" >
+        and UNIT_CODE = #{unitCode,jdbcType=VARCHAR}
+      </if>
+      <if test="isSkip != null" >
+        and IS_SKIP = #{isSkip,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeOrd != null" >
+        and NODE_ORD = #{nodeOrd,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectCategoryNodeVo" resultType="int">
+    select count(1) from LEDEN_COLLECT_CATEGORY_NODE
+    <where>
+      <if test="categoryId != null" >
+        and CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeCode != null" >
+        and NODE_CODE = #{nodeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="unitCode != null" >
+        and UNIT_CODE = #{unitCode,jdbcType=VARCHAR}
+      </if>
+      <if test="isSkip != null" >
+        and IS_SKIP = #{isSkip,jdbcType=VARCHAR}
+      </if>
+      <if test="nodeOrd != null" >
+        and NODE_ORD = #{nodeOrd,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_CATEGORY_NODE
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectCategoryNode" >
+    insert into LEDEN_COLLECT_CATEGORY_NODE (PK_ID, CATEGORY_ID, NODE_CODE,
+      UNIT_CODE, IS_SKIP, NODE_ORD
+      )
+    values (#{pkId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{nodeCode,jdbcType=VARCHAR}, 
+      #{unitCode,jdbcType=VARCHAR}, #{isSkip,jdbcType=VARCHAR}, #{nodeOrd,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectCategoryNode" >
+    insert into LEDEN_COLLECT_CATEGORY_NODE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="nodeCode != null" >
+        NODE_CODE,
+      </if>
+      <if test="unitCode != null" >
+        UNIT_CODE,
+      </if>
+      <if test="isSkip != null" >
+        IS_SKIP,
+      </if>
+      <if test="nodeOrd != null" >
+        NODE_ORD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeCode != null" >
+        #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isSkip != null" >
+        #{isSkip,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeOrd != null" >
+        #{nodeOrd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectCategoryNode" >
+    update LEDEN_COLLECT_CATEGORY_NODE
+    <set >
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeCode != null" >
+        NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        UNIT_CODE = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isSkip != null" >
+        IS_SKIP = #{isSkip,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeOrd != null" >
+        NODE_ORD = #{nodeOrd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectCategoryNode" >
+    update LEDEN_COLLECT_CATEGORY_NODE
+    set CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      NODE_CODE = #{nodeCode,jdbcType=VARCHAR},
+      UNIT_CODE = #{unitCode,jdbcType=VARCHAR},
+      IS_SKIP = #{isSkip,jdbcType=VARCHAR},
+      NODE_ORD = #{nodeOrd,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

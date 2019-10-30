@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectPhalangeMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectPhalange">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
+        <result column="ZJW_ZWZWDM" property="zjwZwzwdm" jdbcType="VARCHAR"/>
+        <result column="ZJW_ZZHWQSQKDM" property="zjwZzhwqsqkdm" jdbcType="VARCHAR"/>
+        <result column="ZJW_TXYSFSMS" property="zjwTxysfsms" jdbcType="VARCHAR"/>
+        <result column="ZJW_TXZL" property="zjwTxzl" jdbcType="VARCHAR"/>
+        <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
+        <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectPhalange"
+               extends="BaseResultMap">
+        <result column="ZJW_TXSJ" property="zjwTxsj" jdbcType="BLOB"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    PK_ID, RYJCXXCJBH, ZJW_ZWZWDM, ZJW_ZZHWQSQKDM, ZJW_TXYSFSMS, ZJW_TXZL, DELETAG, ANNEX, 
+    CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+    <sql id="Blob_Column_List">
+    ZJW_TXSJ
+  </sql>
+
+    <sql id="BaseTable">
+		LEDEN_COLLECT_PHALANGE
+  </sql>
+
+    <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectPhalangeVo"
+            resultMap="BaseResultMap">
+        select tt.* from
+        (select rownum rn,t.* from
+        (select e.* from
+        (select * from LEDEN_COLLECT_PHALANGE order by
+        <if test="overName != null and overName != ''">
+            #{overName}
+        </if>
+        <if test="overName = null and overName = ''">
+            UPDATE_DATETIME
+        </if>
+        desc) e
+        <where>
+            <if test="ryjcxxcjbh != null">
+                and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+            </if>
+            <if test="zjwZwzwdm != null">
+                and ZJW_ZWZWDM = #{zjwZwzwdm,jdbcType=VARCHAR}
+            </if>
+            <if test="zjwZzhwqsqkdm != null">
+                and ZJW_ZZHWQSQKDM = #{zjwZzhwqsqkdm,jdbcType=VARCHAR}
+            </if>
+            <if test="zjwTxysfsms != null">
+                and ZJW_TXYSFSMS = #{zjwTxysfsms,jdbcType=VARCHAR}
+            </if>
+            <if test="zjwTxzl != null">
+                and ZJW_TXZL = #{zjwTxzl,jdbcType=VARCHAR}
+            </if>
+            <if test="deletag != null">
+                and DELETAG = #{deletag,jdbcType=VARCHAR}
+            </if>
+            <if test="annex != null">
+                and ANNEX = #{annex,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="zjwTxsj != null">
+                and ZJW_TXSJ = #{zjwTxsj,jdbcType=BLOB}
+            </if>
+        </where>
+        ) t) tt
+        where rn &gt;= #{startNo} and rn &lt; #{endNo}
+    </select>
+
+    <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectPhalangeVo"
+            resultType="int">
+        select count(1) from LEDEN_COLLECT_PHALANGE
+        <where>
+            <if test="ryjcxxcjbh != null">
+                and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+            </if>
+            <if test="zjwZwzwdm != null">
+                and ZJW_ZWZWDM = #{zjwZwzwdm,jdbcType=VARCHAR}
+            </if>
+            <if test="zjwZzhwqsqkdm != null">
+                and ZJW_ZZHWQSQKDM = #{zjwZzhwqsqkdm,jdbcType=VARCHAR}
+            </if>
+            <if test="zjwTxysfsms != null">
+                and ZJW_TXYSFSMS = #{zjwTxysfsms,jdbcType=VARCHAR}
+            </if>
+            <if test="zjwTxzl != null">
+                and ZJW_TXZL = #{zjwTxzl,jdbcType=VARCHAR}
+            </if>
+            <if test="deletag != null">
+                and DELETAG = #{deletag,jdbcType=VARCHAR}
+            </if>
+            <if test="annex != null">
+                and ANNEX = #{annex,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="zjwTxsj != null">
+                and ZJW_TXSJ = #{zjwTxsj,jdbcType=BLOB}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from LEDEN_COLLECT_PHALANGE
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from LEDEN_COLLECT_PHALANGE
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectPhalange">
+    insert into LEDEN_COLLECT_PHALANGE (PK_ID, RYJCXXCJBH, ZJW_ZWZWDM,
+      ZJW_ZZHWQSQKDM, ZJW_TXYSFSMS, ZJW_TXZL, 
+      DELETAG, ANNEX, CREATE_USER_ID, 
+      CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME, 
+      ZJW_TXSJ)
+    values (#{pkId,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{zjwZwzwdm,jdbcType=VARCHAR}, 
+      #{zjwZzhwqsqkdm,jdbcType=VARCHAR}, #{zjwTxysfsms,jdbcType=VARCHAR}, #{zjwTxzl,jdbcType=VARCHAR}, 
+      #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}, 
+      #{zjwTxsj,jdbcType=BLOB})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectPhalange">
+        insert into LEDEN_COLLECT_PHALANGE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH,
+            </if>
+            <if test="zjwZwzwdm != null">
+                ZJW_ZWZWDM,
+            </if>
+            <if test="zjwZzhwqsqkdm != null">
+                ZJW_ZZHWQSQKDM,
+            </if>
+            <if test="zjwTxysfsms != null">
+                ZJW_TXYSFSMS,
+            </if>
+            <if test="zjwTxzl != null">
+                ZJW_TXZL,
+            </if>
+            <if test="deletag != null">
+                DELETAG,
+            </if>
+            <if test="annex != null">
+                ANNEX,
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID,
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME,
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID,
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME,
+            </if>
+            <if test="zjwTxsj != null">
+                ZJW_TXSJ,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="zjwZwzwdm != null">
+                #{zjwZwzwdm,jdbcType=VARCHAR},
+            </if>
+            <if test="zjwZzhwqsqkdm != null">
+                #{zjwZzhwqsqkdm,jdbcType=VARCHAR},
+            </if>
+            <if test="zjwTxysfsms != null">
+                #{zjwTxysfsms,jdbcType=VARCHAR},
+            </if>
+            <if test="zjwTxzl != null">
+                #{zjwTxzl,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="zjwTxsj != null">
+                #{zjwTxsj,jdbcType=BLOB},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectPhalange">
+        update LEDEN_COLLECT_PHALANGE
+        <set>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="zjwZwzwdm != null">
+                ZJW_ZWZWDM = #{zjwZwzwdm,jdbcType=VARCHAR},
+            </if>
+            <if test="zjwZzhwqsqkdm != null">
+                ZJW_ZZHWQSQKDM = #{zjwZzhwqsqkdm,jdbcType=VARCHAR},
+            </if>
+            <if test="zjwTxysfsms != null">
+                ZJW_TXYSFSMS = #{zjwTxysfsms,jdbcType=VARCHAR},
+            </if>
+            <if test="zjwTxzl != null">
+                ZJW_TXZL = #{zjwTxzl,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                DELETAG = #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                ANNEX = #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="zjwTxsj != null">
+                ZJW_TXSJ = #{zjwTxsj,jdbcType=BLOB},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenCollectPhalange">
+    update LEDEN_COLLECT_PHALANGE
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      ZJW_ZWZWDM = #{zjwZwzwdm,jdbcType=VARCHAR},
+      ZJW_ZZHWQSQKDM = #{zjwZzhwqsqkdm,jdbcType=VARCHAR},
+      ZJW_TXYSFSMS = #{zjwTxysfsms,jdbcType=VARCHAR},
+      ZJW_TXZL = #{zjwTxzl,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      ZJW_TXSJ = #{zjwTxsj,jdbcType=BLOB}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectPhalange">
+    update LEDEN_COLLECT_PHALANGE
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      ZJW_ZWZWDM = #{zjwZwzwdm,jdbcType=VARCHAR},
+      ZJW_ZZHWQSQKDM = #{zjwZzhwqsqkdm,jdbcType=VARCHAR},
+      ZJW_TXYSFSMS = #{zjwTxysfsms,jdbcType=VARCHAR},
+      ZJW_TXZL = #{zjwTxzl,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+    <delete id="deletePhalangeByPersonId" parameterType="string" statementType="PREPARED">
+    delete from LEDEN_COLLECT_PHALANGE where ryjcxxcjbh=#{_parameter}
+  </delete>
+
+
+    <insert id="insertBatch" parameterType="list" statementType="PREPARED">
+        begin
+        <foreach collection="list" separator=";" item="item">
+            insert into LEDEN_COLLECT_PHALANGE (PK_ID, RYJCXXCJBH, ZJW_ZWZWDM,
+            ZJW_ZZHWQSQKDM, ZJW_TXYSFSMS, ZJW_TXZL,
+            DELETAG, ANNEX, CREATE_USER_ID,
+            CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME,
+            ZJW_TXSJ)
+            values (#{pkId,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{zjwZwzwdm,jdbcType=VARCHAR},
+            #{zjwZzhwqsqkdm,jdbcType=VARCHAR}, #{zjwTxysfsms,jdbcType=VARCHAR}, #{zjwTxzl,jdbcType=VARCHAR},
+            #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR},
+            #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR},
+            #{updateDatetime,jdbcType=TIMESTAMP},
+            #{zjwTxsj,jdbcType=BLOB})
+        </foreach>
+        ;end;
+    </insert>
+
+</mapper>

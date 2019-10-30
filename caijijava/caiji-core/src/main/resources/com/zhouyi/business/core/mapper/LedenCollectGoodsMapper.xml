@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectGoodsMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectGoods">
+        <id column="WPBH" property="wpbh" jdbcType="VARCHAR"/>
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
+        <result column="XDWP_WPMC" property="xdwpWpmc" jdbcType="VARCHAR"/>
+        <result column="XDWP_WPLXDM" property="xdwpWplxdm" jdbcType="VARCHAR"/>
+        <result column="WPBZH" property="wpbzh" jdbcType="VARCHAR"/>
+        <result column="WPTZMS" property="wptzms" jdbcType="VARCHAR"/>
+        <result column="WPJZRMBY" property="wpjzrmby" jdbcType="DECIMAL"/>
+        <result column="WPYSDM" property="wpysdm" jdbcType="VARCHAR"/>
+        <result column="WPYSDMBCMS" property="wpysdmbcms" jdbcType="VARCHAR"/>
+        <result column="WPSL" property="wpsl" jdbcType="DECIMAL"/>
+        <result column="WPZL" property="wpzl" jdbcType="DECIMAL"/>
+        <result column="WPGZSJ_RQSJ" property="wpgzsjRqsj" jdbcType="TIMESTAMP"/>
+        <result column="OBJECT_TYPE" property="objectType" jdbcType="DECIMAL"/>
+        <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
+        <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    WPBH, RYJCXXCJBH, XDWP_WPMC, XDWP_WPLXDM, WPBZH, WPTZMS, WPJZRMBY, WPYSDM, WPYSDMBCMS, 
+    WPSL, WPZL, WPGZSJ_RQSJ, OBJECT_TYPE, DELETAG, ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
+    UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from LEDEN_COLLECT_GOODS
+        where WPBH = #{wpbh,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from LEDEN_COLLECT_GOODS
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectGoods">
+    insert into LEDEN_COLLECT_GOODS (WPBH, RYJCXXCJBH, XDWP_WPMC,
+      XDWP_WPLXDM, WPBZH, WPTZMS, 
+      WPJZRMBY, WPYSDM, WPYSDMBCMS, 
+      WPSL, WPZL, WPGZSJ_RQSJ, 
+      OBJECT_TYPE, DELETAG, ANNEX, 
+      CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, 
+      UPDATE_DATETIME)
+    values (#{wpbh,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{xdwpWpmc,jdbcType=VARCHAR}, 
+      #{xdwpWplxdm,jdbcType=VARCHAR}, #{wpbzh,jdbcType=VARCHAR}, #{wptzms,jdbcType=VARCHAR}, 
+      #{wpjzrmby,jdbcType=DECIMAL}, #{wpysdm,jdbcType=VARCHAR}, #{wpysdmbcms,jdbcType=VARCHAR}, 
+      #{wpsl,jdbcType=DECIMAL}, #{wpzl,jdbcType=DECIMAL}, #{wpgzsjRqsj,jdbcType=TIMESTAMP}, 
+      #{objectType,jdbcType=DECIMAL}, #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{updateDatetime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectGoods">
+        insert into LEDEN_COLLECT_GOODS
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="wpbh != null">
+                WPBH,
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH,
+            </if>
+            <if test="xdwpWpmc != null">
+                XDWP_WPMC,
+            </if>
+            <if test="xdwpWplxdm != null">
+                XDWP_WPLXDM,
+            </if>
+            <if test="wpbzh != null">
+                WPBZH,
+            </if>
+            <if test="wptzms != null">
+                WPTZMS,
+            </if>
+            <if test="wpjzrmby != null">
+                WPJZRMBY,
+            </if>
+            <if test="wpysdm != null">
+                WPYSDM,
+            </if>
+            <if test="wpysdmbcms != null">
+                WPYSDMBCMS,
+            </if>
+            <if test="wpsl != null">
+                WPSL,
+            </if>
+            <if test="wpzl != null">
+                WPZL,
+            </if>
+            <if test="wpgzsjRqsj != null">
+                WPGZSJ_RQSJ,
+            </if>
+            <if test="objectType != null">
+                OBJECT_TYPE,
+            </if>
+            <if test="deletag != null">
+                DELETAG,
+            </if>
+            <if test="annex != null">
+                ANNEX,
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID,
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME,
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID,
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="wpbh != null">
+                #{wpbh,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="xdwpWpmc != null">
+                #{xdwpWpmc,jdbcType=VARCHAR},
+            </if>
+            <if test="xdwpWplxdm != null">
+                #{xdwpWplxdm,jdbcType=VARCHAR},
+            </if>
+            <if test="wpbzh != null">
+                #{wpbzh,jdbcType=VARCHAR},
+            </if>
+            <if test="wptzms != null">
+                #{wptzms,jdbcType=VARCHAR},
+            </if>
+            <if test="wpjzrmby != null">
+                #{wpjzrmby,jdbcType=DECIMAL},
+            </if>
+            <if test="wpysdm != null">
+                #{wpysdm,jdbcType=VARCHAR},
+            </if>
+            <if test="wpysdmbcms != null">
+                #{wpysdmbcms,jdbcType=VARCHAR},
+            </if>
+            <if test="wpsl != null">
+                #{wpsl,jdbcType=DECIMAL},
+            </if>
+            <if test="wpzl != null">
+                #{wpzl,jdbcType=DECIMAL},
+            </if>
+            <if test="wpgzsjRqsj != null">
+                #{wpgzsjRqsj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="objectType != null">
+                #{objectType,jdbcType=DECIMAL},
+            </if>
+            <if test="deletag != null">
+                #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectGoods">
+        update LEDEN_COLLECT_GOODS
+        <set>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="xdwpWpmc != null">
+                XDWP_WPMC = #{xdwpWpmc,jdbcType=VARCHAR},
+            </if>
+            <if test="xdwpWplxdm != null">
+                XDWP_WPLXDM = #{xdwpWplxdm,jdbcType=VARCHAR},
+            </if>
+            <if test="wpbzh != null">
+                WPBZH = #{wpbzh,jdbcType=VARCHAR},
+            </if>
+            <if test="wptzms != null">
+                WPTZMS = #{wptzms,jdbcType=VARCHAR},
+            </if>
+            <if test="wpjzrmby != null">
+                WPJZRMBY = #{wpjzrmby,jdbcType=DECIMAL},
+            </if>
+            <if test="wpysdm != null">
+                WPYSDM = #{wpysdm,jdbcType=VARCHAR},
+            </if>
+            <if test="wpysdmbcms != null">
+                WPYSDMBCMS = #{wpysdmbcms,jdbcType=VARCHAR},
+            </if>
+            <if test="wpsl != null">
+                WPSL = #{wpsl,jdbcType=DECIMAL},
+            </if>
+            <if test="wpzl != null">
+                WPZL = #{wpzl,jdbcType=DECIMAL},
+            </if>
+            <if test="wpgzsjRqsj != null">
+                WPGZSJ_RQSJ = #{wpgzsjRqsj,jdbcType=TIMESTAMP},
+            </if>
+            <if test="objectType != null">
+                OBJECT_TYPE = #{objectType,jdbcType=DECIMAL},
+            </if>
+            <if test="deletag != null">
+                DELETAG = #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                ANNEX = #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where WPBH = #{wpbh,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectGoods">
+    update LEDEN_COLLECT_GOODS
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      XDWP_WPMC = #{xdwpWpmc,jdbcType=VARCHAR},
+      XDWP_WPLXDM = #{xdwpWplxdm,jdbcType=VARCHAR},
+      WPBZH = #{wpbzh,jdbcType=VARCHAR},
+      WPTZMS = #{wptzms,jdbcType=VARCHAR},
+      WPJZRMBY = #{wpjzrmby,jdbcType=DECIMAL},
+      WPYSDM = #{wpysdm,jdbcType=VARCHAR},
+      WPYSDMBCMS = #{wpysdmbcms,jdbcType=VARCHAR},
+      WPSL = #{wpsl,jdbcType=DECIMAL},
+      WPZL = #{wpzl,jdbcType=DECIMAL},
+      WPGZSJ_RQSJ = #{wpgzsjRqsj,jdbcType=TIMESTAMP},
+      OBJECT_TYPE = #{objectType,jdbcType=DECIMAL},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where WPBH = #{wpbh,jdbcType=VARCHAR}
+  </update>
+    <resultMap id="goodsResultMap" type="com.zhouyi.business.core.model.LedenCollectGoods" extends="BaseResultMap">
+        <result column="wplbmc" property="wplbmc"></result>
+        <result column="ysmc" property="wpysmc"/>
+        <collection property="gPhotos" ofType="com.zhouyi.business.core.model.LedenCollectGPhoto">
+            <result column="xxbh" property="xxbh"/>
+            <result column="DZWJMC" property="dzwjmc"/>
+            <result column="DZWJZY" property="dzwjzy"/>
+            <result column="DZWJGS" property="dzwjgs"/>
+            <result column="DZWJNR" property="dzwjnr"/>
+            <result column="DZWJDX" property="dzwjdx"/>
+            <result column="DZWJWZ" property="dzwjwz"/>
+            <result column="DZWJCJSJ_RQSJ" property="dzwjcjsjRqsj"/>
+        </collection>
+    </resultMap>
+
+    <select id="listDataByConditions" statementType="PREPARED" resultMap="goodsResultMap">
+        select
+        good_table.*,p_table.xxbh,DZWJMC,DZWJZY,DZWJGS,DZWJNR,DZWJDX,DZWJWZ,DZWJCJSJ_RQSJ,dic.name as wplbmc
+        from (
+        SELECT
+        collectGoods.*
+        FROM (
+        SELECT ROWNUM AS rowno,g.*,d.name as ysmc
+
+        FROM LEDEN_COLLECT_GOODS g left join
+        SYS_DICT_LIST d on g.WPYSDM = d.code and d.sign = 'DICT_YS'
+
+        <where>
+            <if test="start!=null and start!=''">
+                ROWNUM &lt;= #{end}
+            </if>
+        </where>
+
+        ) collectGoods
+
+        <where>
+            <if test="ryjcxxcjbh!=null and ryjcxxcjbh!=''">
+                and ryjcxxcjbh=#{ryjcxxcjbh}
+            </if>
+            <if test="wpbh!=null and wpbh!=''">
+                and wpbh=#{wpbh}
+            </if>
+            <if test="start!=null and start!=''">
+                and collectGoods.rowno &gt;= #{start}
+            </if>
+        </where>
+        ) good_table,leden_collect_g_photo p_table,SYS_DICT_LIST dic
+        where good_table.WPBH=p_table.wpbh and good_table.XDWP_WPLXDM=dic.code
+    </select>
+
+    <select id="getDataCountByConditions" statementType="PREPARED" resultType="int">
+        select count(1) from leden_collect_goods
+        <where>
+            <if test="ryjcxxcjbh!=null and ryjcxxcjbh!=''">
+                and ryjcxxcjbh=#{ryjcxxcjbh}
+            </if>
+            <if test="wpbh!=null and wpbh!=''">
+                and wpbh=#{wpbh}
+            </if>
+
+        </where>
+    </select>
+
+
+    <insert id="insertGoods" parameterType="list" statementType="PREPARED">
+        begin
+        <foreach collection="list" item="item" index="index" separator=";">
+            insert into LEDEN_COLLECT_GOODS (WPBH, RYJCXXCJBH, XDWP_WPMC,
+            XDWP_WPLXDM, WPBZH, WPTZMS,
+            WPJZRMBY, WPYSDM, WPYSDMBCMS,
+            WPSL, WPZL, WPGZSJ_RQSJ,
+            OBJECT_TYPE, DELETAG, ANNEX,
+            CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID,
+            UPDATE_DATETIME)
+            values(
+            #{item.wpbh},#{item.ryjcxxcjbh,jdbcType=VARCHAR}, #{item.xdwpWpmc,jdbcType=VARCHAR},
+            #{item.xdwpWplxdm,jdbcType=VARCHAR}, #{item.wpbzh,jdbcType=VARCHAR}, #{item.wptzms,jdbcType=VARCHAR},
+            #{item.wpjzrmby,jdbcType=DECIMAL}, #{item.wpysdm,jdbcType=VARCHAR}, #{item.wpysdmbcms,jdbcType=VARCHAR},
+            #{item.wpsl,jdbcType=DECIMAL}, #{item.wpzl,jdbcType=DECIMAL}, #{item.wpgzsjRqsj,jdbcType=TIMESTAMP},
+            #{item.objectType,jdbcType=DECIMAL}, #{item.deletag,jdbcType=VARCHAR}, #{item.annex,jdbcType=VARCHAR},
+            #{item.createUserId,jdbcType=VARCHAR}, #{item.createDatetime,jdbcType=TIMESTAMP},
+            #{item.updateUserId,jdbcType=VARCHAR},
+            #{item.updateDatetime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+        ;end;
+        ) A
+    </insert>
+
+
+    <delete id="deleteGoodsByPersonId" parameterType="string">
+        delete from LEDEN_COLLECT_GOODS where ryjcxxcjbh=#{_parameter}
+    </delete>
+
+
+
+
+
+</mapper>

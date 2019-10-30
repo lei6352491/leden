@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.UserNamesMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.UserNames">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="is_view" property="isView" jdbcType="INTEGER" />
+		<result column="is_share" property="isShare" jdbcType="INTEGER" />
+		<result column="is_favorite" property="isFavorite" jdbcType="INTEGER" />
+		<result column="name_detail" property="nameDetail" jdbcType="VARCHAR" />
+		<result column="surname" property="surname" jdbcType="VARCHAR" />
+		<result column="surname_pinyin" property="surnamePinyin" jdbcType="VARCHAR" />
+		<result column="combine" property="combine" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="combine_pinyin" property="combinePinyin" jdbcType="VARCHAR" />
+		<result column="combine_descript" property="combineDescript" jdbcType="VARCHAR" />
+		<result column="sancai" property="sancai" jdbcType="VARCHAR" />
+		<result column="score" property="score" jdbcType="INTEGER" />
+		<result column="require_id" property="requireId" jdbcType="BIGINT" />
+		<result column="batch_id" property="batchId" jdbcType="BIGINT" />
+		<result column="used_card" property="usedCard" jdbcType="INTEGER" />
+	</resultMap>
+
+	
+	<sql id="BaseTable">
+		zy_user_names
+	</sql>
+
+	<select id="queryNameResultList" statementType="PREPARED" resultMap="BaseResultMap">
+		select id,user_id,is_view,is_share,is_favorite,name_detail,surname,surname_pinyin,surname_pinyin,require_id from zy_user_names where user_id=#{userId} order by create_time desc limit #{pStart},#{pSize}
+	</select>
+	
+	<select id="getUserNamesById" statementType="PREPARED" resultType="java.util.Map">
+		select un.id,un.user_id,fr.sex,fr.birthday,un.surname,un.combine 
+		from zy_user_names un inner join zy_forname_requirements fr on un.require_id=fr.id 
+		where un.id=#{id} limit 1
+	</select>
+	
+	<select id="queryCollectionNameList" statementType="PREPARED" resultMap="BaseResultMap">
+		select id,user_id,is_view,is_share,is_favorite,name_detail,surname,surname_pinyin,surname_pinyin,require_id from zy_user_names 
+		where user_id=#{userId} and is_favorite=1 order by create_time desc limit #{pStart},#{pSize}
+	</select>
+	
+	<select id="getCollectionCountByOwnerId" statementType="PREPARED" resultType="Integer">
+		select count(*) as num from zy_user_names where user_id=#{userId} and is_favorite=1
+	</select>
+	
+	<update id="addTransferNum" statementType="PREPARED" parameterType="java.util.HashMap">
+        UPDATE  zy_user_names SET is_share=ifnull(is_share,1)+1 where id=#{id}
+    </update>
+    
+    <select id="queryNameResultListByRequireId" statementType="PREPARED" resultMap="BaseResultMap">
+		select id,user_id,is_view,is_share,is_favorite,name_detail,surname,surname_pinyin,surname_pinyin,require_id from zy_user_names where user_id=#{userId} and require_id=#{requireId}
+		 order by create_time desc
+	</select>
+	
+	<select id="queryCardRecordList" statementType="PREPARED" resultMap="BaseResultMap">
+		select * from zy_user_names where used_card=1 and user_id=#{userId} order by batch_id desc
+	</select>
+</mapper>

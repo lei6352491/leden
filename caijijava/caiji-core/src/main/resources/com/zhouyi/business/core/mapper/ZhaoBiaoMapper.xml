@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.ZhaoBiaoMapper">
+    <select id="listZhaoBiaoInfoByTitle"  statementType="PREPARED" resultMap="BaseResultMap">
+        select
+            DATE_Z,TITLE,REGION,TEXT,KEYWORD,URL,DOWN_URL,GG_TYPE
+        from zhaobiao
+        where title like '%${title}%' or text like '%${title}%' order by keyword,date_z desc ,gg_type,region
+
+    </select>
+
+
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.ZhaoBiao">
+        <result property="title" column="TITLE"/>
+        <result property="region" column="REGION"/>
+        <result property="dateZ" column="DATE_Z"/>
+        <result property="text" column="TEXT"/>
+        <result property="keyword" column="KEYWORD"/>
+        <result property="url" column="URL"/>
+        <result property="downUrl" column="DOWN_URL"/>
+        <result property="ggType" column="GG_TYPE"/>
+    </resultMap>
+</mapper>

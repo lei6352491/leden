@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectVoiceprintMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectVoiceprint" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
+    <result column="QBYP_SC" property="qbypSc" jdbcType="VARCHAR" />
+    <result column="YXYP_SC" property="yxypSc" jdbcType="VARCHAR" />
+    <result column="XZB" property="xzb" jdbcType="VARCHAR" />
+    <result column="NLZ" property="nlz" jdbcType="VARCHAR" />
+    <result column="XXZLDF" property="xxzldf" jdbcType="VARCHAR" />
+    <result column="LYYZDM" property="lyyzdm" jdbcType="VARCHAR" />
+    <result column="LYSB" property="lysb" jdbcType="VARCHAR" />
+    <result column="FYFSDM" property="fyfsdm" jdbcType="VARCHAR" />
+    <result column="XDDM" property="xddm" jdbcType="VARCHAR" />
+    <result column="HYFYDM" property="hyfydm" jdbcType="VARCHAR" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectVoiceprintWithBLOBs" extends="BaseResultMap" >
+    <result column="YPSJ" property="ypsj" jdbcType="BLOB" />
+    <result column="SWSJ" property="swsj" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, RYJCXXCJBH, QBYP_SC, YXYP_SC, XZB, NLZ, XXZLDF, LYYZDM, LYSB, FYFSDM, XDDM, 
+    HYFYDM, DELETAG, ANNEX, CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    YPSJ, SWSJ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from LEDEN_COLLECT_VOICEPRINT
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_VOICEPRINT
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectVoiceprintWithBLOBs" >
+    insert into LEDEN_COLLECT_VOICEPRINT (PK_ID, RYJCXXCJBH, QBYP_SC,
+      YXYP_SC, XZB, NLZ, XXZLDF, 
+      LYYZDM, LYSB, FYFSDM, 
+      XDDM, HYFYDM, DELETAG, 
+      ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
+      UPDATE_USER_ID, UPDATE_DATETIME, YPSJ, 
+      SWSJ)
+    values (#{pkId,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{qbypSc,jdbcType=VARCHAR}, 
+      #{yxypSc,jdbcType=VARCHAR}, #{xzb,jdbcType=VARCHAR}, #{nlz,jdbcType=VARCHAR}, #{xxzldf,jdbcType=VARCHAR}, 
+      #{lyyzdm,jdbcType=VARCHAR}, #{lysb,jdbcType=VARCHAR}, #{fyfsdm,jdbcType=VARCHAR}, 
+      #{xddm,jdbcType=VARCHAR}, #{hyfydm,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, 
+      #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}, #{ypsj,jdbcType=BLOB}, 
+      #{swsj,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectVoiceprintWithBLOBs" >
+    insert into LEDEN_COLLECT_VOICEPRINT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH,
+      </if>
+      <if test="qbypSc != null" >
+        QBYP_SC,
+      </if>
+      <if test="yxypSc != null" >
+        YXYP_SC,
+      </if>
+      <if test="xzb != null" >
+        XZB,
+      </if>
+      <if test="nlz != null" >
+        NLZ,
+      </if>
+      <if test="xxzldf != null" >
+        XXZLDF,
+      </if>
+      <if test="lyyzdm != null" >
+        LYYZDM,
+      </if>
+      <if test="lysb != null" >
+        LYSB,
+      </if>
+      <if test="fyfsdm != null" >
+        FYFSDM,
+      </if>
+      <if test="xddm != null" >
+        XDDM,
+      </if>
+      <if test="hyfydm != null" >
+        HYFYDM,
+      </if>
+      <if test="deletag != null" >
+        DELETAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME,
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID,
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME,
+      </if>
+      <if test="ypsj != null" >
+        YPSJ,
+      </if>
+      <if test="swsj != null" >
+        SWSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="ryjcxxcjbh != null" >
+        #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="qbypSc != null" >
+        #{qbypSc,jdbcType=VARCHAR},
+      </if>
+      <if test="yxypSc != null" >
+        #{yxypSc,jdbcType=VARCHAR},
+      </if>
+      <if test="xzb != null" >
+        #{xzb,jdbcType=VARCHAR},
+      </if>
+      <if test="nlz != null" >
+        #{nlz,jdbcType=VARCHAR},
+      </if>
+      <if test="xxzldf != null" >
+        #{xxzldf,jdbcType=VARCHAR},
+      </if>
+      <if test="lyyzdm != null" >
+        #{lyyzdm,jdbcType=VARCHAR},
+      </if>
+      <if test="lysb != null" >
+        #{lysb,jdbcType=VARCHAR},
+      </if>
+      <if test="fyfsdm != null" >
+        #{fyfsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xddm != null" >
+        #{xddm,jdbcType=VARCHAR},
+      </if>
+      <if test="hyfydm != null" >
+        #{hyfydm,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ypsj != null" >
+        #{ypsj,jdbcType=BLOB},
+      </if>
+      <if test="swsj != null" >
+        #{swsj,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectVoiceprintWithBLOBs" >
+    update LEDEN_COLLECT_VOICEPRINT
+    <set >
+      <if test="ryjcxxcjbh != null" >
+        RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="qbypSc != null" >
+        QBYP_SC = #{qbypSc,jdbcType=VARCHAR},
+      </if>
+      <if test="yxypSc != null" >
+        YXYP_SC = #{yxypSc,jdbcType=VARCHAR},
+      </if>
+      <if test="xzb != null" >
+        XZB = #{xzb,jdbcType=VARCHAR},
+      </if>
+      <if test="nlz != null" >
+        NLZ = #{nlz,jdbcType=VARCHAR},
+      </if>
+      <if test="xxzldf != null" >
+        XXZLDF = #{xxzldf,jdbcType=VARCHAR},
+      </if>
+      <if test="lyyzdm != null" >
+        LYYZDM = #{lyyzdm,jdbcType=VARCHAR},
+      </if>
+      <if test="lysb != null" >
+        LYSB = #{lysb,jdbcType=VARCHAR},
+      </if>
+      <if test="fyfsdm != null" >
+        FYFSDM = #{fyfsdm,jdbcType=VARCHAR},
+      </if>
+      <if test="xddm != null" >
+        XDDM = #{xddm,jdbcType=VARCHAR},
+      </if>
+      <if test="hyfydm != null" >
+        HYFYDM = #{hyfydm,jdbcType=VARCHAR},
+      </if>
+      <if test="deletag != null" >
+        DELETAG = #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDatetime != null" >
+        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDatetime != null" >
+        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ypsj != null" >
+        YPSJ = #{ypsj,jdbcType=BLOB},
+      </if>
+      <if test="swsj != null" >
+        SWSJ = #{swsj,jdbcType=BLOB},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenCollectVoiceprintWithBLOBs" >
+    update LEDEN_COLLECT_VOICEPRINT
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      QBYP_SC = #{qbypSc,jdbcType=VARCHAR},
+      YXYP_SC = #{yxypSc,jdbcType=VARCHAR},
+      XZB = #{xzb,jdbcType=VARCHAR},
+      NLZ = #{nlz,jdbcType=VARCHAR},
+      XXZLDF = #{xxzldf,jdbcType=VARCHAR},
+      LYYZDM = #{lyyzdm,jdbcType=VARCHAR},
+      LYSB = #{lysb,jdbcType=VARCHAR},
+      FYFSDM = #{fyfsdm,jdbcType=VARCHAR},
+      XDDM = #{xddm,jdbcType=VARCHAR},
+      HYFYDM = #{hyfydm,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      YPSJ = #{ypsj,jdbcType=BLOB},
+      SWSJ = #{swsj,jdbcType=BLOB}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectVoiceprint" >
+    update LEDEN_COLLECT_VOICEPRINT
+    set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+      QBYP_SC = #{qbypSc,jdbcType=VARCHAR},
+      YXYP_SC = #{yxypSc,jdbcType=VARCHAR},
+      XZB = #{xzb,jdbcType=VARCHAR},
+      NLZ = #{nlz,jdbcType=VARCHAR},
+      XXZLDF = #{xxzldf,jdbcType=VARCHAR},
+      LYYZDM = #{lyyzdm,jdbcType=VARCHAR},
+      LYSB = #{lysb,jdbcType=VARCHAR},
+      FYFSDM = #{fyfsdm,jdbcType=VARCHAR},
+      XDDM = #{xddm,jdbcType=VARCHAR},
+      HYFYDM = #{hyfydm,jdbcType=VARCHAR},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="listDataByConditions" resultMap="BaseResultMap" statementType="PREPARED">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM (
+    SELECT ROWNUM AS rowno,LEDEN_COLLECT_VOICEPRINT.*
+
+    FROM  LEDEN_COLLECT_VOICEPRINT
+
+    where ROWNUM &lt;= #{end}) collectVoicePrint
+
+    WHERE collectVoicePrint.rowno &gt;= #{start}
+  </select>
+
+  <select id="getDataCountByConditions" resultType="int" statementType="PREPARED">
+    select count(1) from LEDEN_COLLECT_VOICEPRINT
+  </select>
+
+  <sql id="BaseTable">
+		LEDEN_COLLECT_VOICEPRINT
+  </sql>
+
+  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectVoiceprintVo"
+          resultMap="BaseResultMap">
+    select tt.* from
+    (select rownum rn,t.* from
+    (select e.* from
+    (select * from LEDEN_COLLECT_VOICEPRINT order by
+    <if test="overName = null and overName = '' ">
+      UPDATE_DATETIME
+    </if>
+    <if test="overName != null and overName != '' ">
+      #{overName}
+    </if>
+    desc ) e
+    <where>
+      <if test="ryjcxxcjbh != null" >
+        and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+      </if>
+      <if test="qbypSc != null" >
+        and QBYP_SC = #{qbypSc,jdbcType=VARCHAR}
+      </if>
+      <if test="yxypSc != null" >
+        and YXYP_SC = #{yxypSc,jdbcType=VARCHAR}
+      </if>
+      <if test="xzb != null" >
+        and XZB = #{xzb,jdbcType=VARCHAR}
+      </if>
+      <if test="nlz != null" >
+        and NLZ = #{nlz,jdbcType=VARCHAR}
+      </if>
+      <if test="xxzldf != null" >
+        and XXZLDF = #{xxzldf,jdbcType=VARCHAR}
+      </if>
+      <if test="lyyzdm != null" >
+        and LYYZDM = #{lyyzdm,jdbcType=VARCHAR}
+      </if>
+      <if test="lysb != null" >
+        and LYSB = #{lysb,jdbcType=VARCHAR}
+      </if>
+      <if test="fyfsdm != null" >
+        and FYFSDM = #{fyfsdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xddm != null" >
+        and XDDM = #{xddm,jdbcType=VARCHAR}
+      </if>
+      <if test="hyfydm != null" >
+        and HYFYDM = #{hyfydm,jdbcType=VARCHAR}
+      </if>
+      <if test="deletag != null" >
+        and DELETAG = #{deletag,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="createDatetime != null" >
+        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDatetime != null" >
+        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ypsj != null" >
+        and YPSJ = #{ypsj,jdbcType=BLOB}
+      </if>
+      <if test="swsj != null" >
+        and SWSJ = #{swsj,jdbcType=BLOB}
+      </if>
+    </where>
+    ) t) tt
+    where rn &gt;= #{startNo} and rn &lt; #{endNo}
+  </select>
+
+  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectVoiceprintVo" resultType="int">
+    select count(1) from LEDEN_COLLECT_VOICEPRINT
+    <where>
+      <if test="ryjcxxcjbh != null" >
+        and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+      </if>
+      <if test="qbypSc != null" >
+        and QBYP_SC = #{qbypSc,jdbcType=VARCHAR}
+      </if>
+      <if test="yxypSc != null" >
+        and YXYP_SC = #{yxypSc,jdbcType=VARCHAR}
+      </if>
+      <if test="xzb != null" >
+        and XZB = #{xzb,jdbcType=VARCHAR}
+      </if>
+      <if test="nlz != null" >
+        and NLZ = #{nlz,jdbcType=VARCHAR}
+      </if>
+      <if test="xxzldf != null" >
+        and XXZLDF = #{xxzldf,jdbcType=VARCHAR}
+      </if>
+      <if test="lyyzdm != null" >
+        and LYYZDM = #{lyyzdm,jdbcType=VARCHAR}
+      </if>
+      <if test="lysb != null" >
+        and LYSB = #{lysb,jdbcType=VARCHAR}
+      </if>
+      <if test="fyfsdm != null" >
+        and FYFSDM = #{fyfsdm,jdbcType=VARCHAR}
+      </if>
+      <if test="xddm != null" >
+        and XDDM = #{xddm,jdbcType=VARCHAR}
+      </if>
+      <if test="hyfydm != null" >
+        and HYFYDM = #{hyfydm,jdbcType=VARCHAR}
+      </if>
+      <if test="deletag != null" >
+        and DELETAG = #{deletag,jdbcType=VARCHAR}
+      </if>
+      <if test="annex != null" >
+        and ANNEX = #{annex,jdbcType=VARCHAR}
+      </if>
+      <if test="createUserId != null" >
+        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="createDatetime != null" >
+        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null" >
+        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="updateDatetime != null" >
+        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="ypsj != null" >
+        and YPSJ = #{ypsj,jdbcType=BLOB}
+      </if>
+      <if test="swsj != null" >
+        and SWSJ = #{swsj,jdbcType=BLOB}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectVoicePrintByPersonCode" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>,d1.name as lyyzmc,d2.name as fyfsmc,d3.name as xdmc,d4.name as hyfymc
+     from LEDEN_COLLECT_VOICEPRINT v
+     left join sys_dict_list d1 on  v.lyyzdm = d1.code and d1.sign = 'DICT_LYYZH'
+     left join sys_dict_list d2 on  v.fyfsdm = d2.code and d2.sign = 'DICT_FYFS'
+     left join sys_dict_list d3 on  v.xddm = d3.code and d3.sign = 'DICT_XD'
+     left join sys_dict_list d4 on  v.hyfydm = d4.code and d4.sign = 'DICT_HYFY'
+     where v.RYJCXXCJBH = #{id}
+  </select>
+
+  <select id="selectVoicePrintByPersonCodeBlob" parameterType="string" resultMap="BaseResultMap">
+    select
+    YPSJ
+    from LEDEN_COLLECT_VOICEPRINT
+    where RYJCXXCJBH = #{id}
+  </select>
+
+  <select id="selectVoicePrintByPersonCodeBlobSWSJ" parameterType="string" resultMap="BaseResultMap">
+    select
+    SWSJ
+    from LEDEN_COLLECT_VOICEPRINT
+    where RYJCXXCJBH = #{id}
+  </select>
+
+  <delete id="deleteVoiceprintByPersonId" parameterType="string">
+    delete from LEDEN_COLLECT_VOICEPRINT where ryjcxxcjbh=#{_parameter}
+  </delete>
+</mapper>

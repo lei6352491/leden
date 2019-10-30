@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectPTotalMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectPTotal" >
+    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+    <result column="PERSONID" property="personid" jdbcType="VARCHAR" />
+    <result column="COLLECTTARGET_ID" property="collecttargetId" jdbcType="VARCHAR" />
+    <result column="TOTAL" property="total" jdbcType="DECIMAL" />
+    <result column="TARGET" property="target" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, PERSONID, COLLECTTARGET_ID, TOTAL, TARGET
+  </sql>
+
+  <select id="selectDataByPersonCode" parameterType="string" resultMap="BaseResultMap">
+    select * from LEDEN_COLLECT_P_TOTAL where PERSONID = #{id}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_COLLECT_P_TOTAL
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_COLLECT_P_TOTAL
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectPTotal" >
+    insert into LEDEN_COLLECT_P_TOTAL (PK_ID, PERSONID, COLLECTTARGET_ID,
+      TOTAL, TARGET)
+    values (#{pkId,jdbcType=VARCHAR}, #{personid,jdbcType=VARCHAR}, #{collecttargetId,jdbcType=VARCHAR}, 
+      #{total,jdbcType=DECIMAL}, #{target,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectPTotal" >
+    insert into LEDEN_COLLECT_P_TOTAL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="personid != null" >
+        PERSONID,
+      </if>
+      <if test="collecttargetId != null" >
+        COLLECTTARGET_ID,
+      </if>
+      <if test="total != null" >
+        TOTAL,
+      </if>
+      <if test="target != null" >
+        TARGET,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=VARCHAR},
+      </if>
+      <if test="personid != null" >
+        #{personid,jdbcType=VARCHAR},
+      </if>
+      <if test="collecttargetId != null" >
+        #{collecttargetId,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="target != null" >
+        #{target,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectPTotal" >
+    update LEDEN_COLLECT_P_TOTAL
+    <set >
+      <if test="personid != null" >
+        PERSONID = #{personid,jdbcType=VARCHAR},
+      </if>
+      <if test="collecttargetId != null" >
+        COLLECTTARGET_ID = #{collecttargetId,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        TOTAL = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="target != null" >
+        TARGET = #{target,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectPTotal" >
+    update LEDEN_COLLECT_P_TOTAL
+    set PERSONID = #{personid,jdbcType=VARCHAR},
+      COLLECTTARGET_ID = #{collecttargetId,jdbcType=VARCHAR},
+      TOTAL = #{total,jdbcType=DECIMAL},
+      TARGET = #{target,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </update>
+
+
+  <insert id="insertTotals" statementType="PREPARED" parameterType="list">
+      insert into LEDEN_COLLECT_P_TOTAL (PK_ID,PERSONID, COLLECTTARGET_ID,
+      TOTAL, TARGET)
+      select get_seq(TOTAL_SEQUENCE.nextval),A.* from (
+      <foreach collection="list" item="item" index="index" separator="union all">
+      select #{item.personid,jdbcType=VARCHAR}, #{item.collecttargetId,jdbcType=VARCHAR},
+        #{item.total,jdbcType=DECIMAL}, #{item.target,jdbcType=VARCHAR} from dual
+      </foreach>
+
+    ) A
+
+
+  </insert>
+
+
+  <delete id="deletePtotalByPersonId" parameterType="string">
+    delete from LEDEN_COLLECT_P_TOTAL where personId=#{_parameter}
+  </delete>
+</mapper>

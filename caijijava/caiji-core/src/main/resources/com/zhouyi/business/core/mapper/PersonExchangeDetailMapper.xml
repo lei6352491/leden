@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.PersonExchangeDetailMapper">
+	<resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.PersonExchangeDetail">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="acc_no" property="accNo" jdbcType="VARCHAR" />
+		<result column="operate_type" property="operateType" jdbcType="VARCHAR" />
+		<result column="total_balance" property="totalBalance" jdbcType="DECIMAL" />
+		<result column="old_ava_balance" property="oldAvaBalance" jdbcType="DECIMAL" />
+		<result column="old_fre_balance" property="oldFreBalance" jdbcType="DECIMAL" />
+		<result column="new_ava_balance" property="newAvaBalance" jdbcType="DECIMAL" />
+		<result column="new_fre_balance" property="newFreBalance" jdbcType="DECIMAL" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="serial_no" property="serialNo" jdbcType="BIGINT" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="BaseTable">
+		zy_person_exchange_detail
+	</sql>
+	
+	<select id="getPersonExchangeDetailByNo" statementType="PREPARED" resultMap="BaseResultMap">
+		select * from zy_person_exchange_detail where serial_no=#{serialNo} and operate_type=#{operateType} limit 1
+	</select>
+</mapper>

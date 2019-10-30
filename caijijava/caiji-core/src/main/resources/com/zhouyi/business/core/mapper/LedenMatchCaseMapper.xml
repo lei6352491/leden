@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenMatchCaseMapper" >
+  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenMatchCase" >
+    <id column="ASJBH" property="asjbh" jdbcType="VARCHAR" />
+    <result column="YSXT_ASJBH" property="ysxtAsjbh" jdbcType="VARCHAR" />
+    <result column="XCKYBH" property="xckybh" jdbcType="VARCHAR" />
+    <result column="XCZZHWKBH" property="xczzhwkbh" jdbcType="VARCHAR" />
+    <result column="AJLBDM" property="ajlbdm" jdbcType="VARCHAR" />
+    <result column="SSJZRMBY" property="ssjzrmby" jdbcType="VARCHAR" />
+    <result column="ASJFSDD_XZQHDM" property="asjfsddXzqhdm" jdbcType="VARCHAR" />
+    <result column="ASJFSDD_DZMC" property="asjfsddDzmc" jdbcType="VARCHAR" />
+    <result column="JYAQ" property="jyaq" jdbcType="VARCHAR" />
+    <result column="SFMA_PDBZ" property="sfmaPdbz" jdbcType="VARCHAR" />
+    <result column="ZWBDXTLXMS" property="zwbdxtlxms" jdbcType="VARCHAR" />
+    <result column="TQSJ_GAJGJGDM" property="tqsjGajgjgdm" jdbcType="VARCHAR" />
+    <result column="QUSJ_GAJGMC" property="qusjGajgmc" jdbcType="VARCHAR" />
+    <result column="TQRY_XM" property="tqryXm" jdbcType="VARCHAR" />
+    <result column="TQRY_GMSFHM" property="tqryGmsfhm" jdbcType="VARCHAR" />
+    <result column="TQRY_LXDH" property="tqryLxdh" jdbcType="VARCHAR" />
+    <result column="TQSJ" property="tqsj" jdbcType="TIMESTAMP" />
+    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ASJBH, YSXT_ASJBH, XCKYBH, XCZZHWKBH, AJLBDM, SSJZRMBY, ASJFSDD_XZQHDM, ASJFSDD_DZMC, 
+    JYAQ, SFMA_PDBZ, ZWBDXTLXMS, TQSJ_GAJGJGDM, QUSJ_GAJGMC, TQRY_XM, TQRY_GMSFHM, TQRY_LXDH, 
+    TQSJ, DELETAG, ANNEX
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from LEDEN_MATCH_CASE
+    where ASJBH = #{asjbh,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LEDEN_MATCH_CASE
+    where ASJBH = #{asjbh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenMatchCase" >
+    insert into LEDEN_MATCH_CASE (ASJBH, YSXT_ASJBH, XCKYBH,
+      XCZZHWKBH, AJLBDM, SSJZRMBY, 
+      ASJFSDD_XZQHDM, ASJFSDD_DZMC, JYAQ, 
+      SFMA_PDBZ, ZWBDXTLXMS, TQSJ_GAJGJGDM, 
+      QUSJ_GAJGMC, TQRY_XM, TQRY_GMSFHM, 
+      TQRY_LXDH, TQSJ, DELETAG, 
+      ANNEX)
+    values (#{asjbh,jdbcType=VARCHAR}, #{ysxtAsjbh,jdbcType=VARCHAR}, #{xckybh,jdbcType=VARCHAR}, 
+      #{xczzhwkbh,jdbcType=VARCHAR}, #{ajlbdm,jdbcType=VARCHAR}, #{ssjzrmby,jdbcType=VARCHAR}, 
+      #{asjfsddXzqhdm,jdbcType=VARCHAR}, #{asjfsddDzmc,jdbcType=VARCHAR}, #{jyaq,jdbcType=VARCHAR}, 
+      #{sfmaPdbz,jdbcType=VARCHAR}, #{zwbdxtlxms,jdbcType=VARCHAR}, #{tqsjGajgjgdm,jdbcType=VARCHAR}, 
+      #{qusjGajgmc,jdbcType=VARCHAR}, #{tqryXm,jdbcType=VARCHAR}, #{tqryGmsfhm,jdbcType=VARCHAR}, 
+      #{tqryLxdh,jdbcType=VARCHAR}, #{tqsj,jdbcType=TIMESTAMP}, #{deletag,jdbcType=VARCHAR}, 
+      #{annex,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenMatchCase" >
+    insert into LEDEN_MATCH_CASE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="asjbh != null" >
+        ASJBH,
+      </if>
+      <if test="ysxtAsjbh != null" >
+        YSXT_ASJBH,
+      </if>
+      <if test="xckybh != null" >
+        XCKYBH,
+      </if>
+      <if test="xczzhwkbh != null" >
+        XCZZHWKBH,
+      </if>
+      <if test="ajlbdm != null" >
+        AJLBDM,
+      </if>
+      <if test="ssjzrmby != null" >
+        SSJZRMBY,
+      </if>
+      <if test="asjfsddXzqhdm != null" >
+        ASJFSDD_XZQHDM,
+      </if>
+      <if test="asjfsddDzmc != null" >
+        ASJFSDD_DZMC,
+      </if>
+      <if test="jyaq != null" >
+        JYAQ,
+      </if>
+      <if test="sfmaPdbz != null" >
+        SFMA_PDBZ,
+      </if>
+      <if test="zwbdxtlxms != null" >
+        ZWBDXTLXMS,
+      </if>
+      <if test="tqsjGajgjgdm != null" >
+        TQSJ_GAJGJGDM,
+      </if>
+      <if test="qusjGajgmc != null" >
+        QUSJ_GAJGMC,
+      </if>
+      <if test="tqryXm != null" >
+        TQRY_XM,
+      </if>
+      <if test="tqryGmsfhm != null" >
+        TQRY_GMSFHM,
+      </if>
+      <if test="tqryLxdh != null" >
+        TQRY_LXDH,
+      </if>
+      <if test="tqsj != null" >
+        TQSJ,
+      </if>
+      <if test="deletag != null" >
+        DELETAG,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="asjbh != null" >
+        #{asjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="ysxtAsjbh != null" >
+        #{ysxtAsjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="xckybh != null" >
+        #{xckybh,jdbcType=VARCHAR},
+      </if>
+      <if test="xczzhwkbh != null" >
+        #{xczzhwkbh,jdbcType=VARCHAR},
+      </if>
+      <if test="ajlbdm != null" >
+        #{ajlbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="ssjzrmby != null" >
+        #{ssjzrmby,jdbcType=VARCHAR},
+      </if>
+      <if test="asjfsddXzqhdm != null" >
+        #{asjfsddXzqhdm,jdbcType=VARCHAR},
+      </if>
+      <if test="asjfsddDzmc != null" >
+        #{asjfsddDzmc,jdbcType=VARCHAR},
+      </if>
+      <if test="jyaq != null" >
+        #{jyaq,jdbcType=VARCHAR},
+      </if>
+      <if test="sfmaPdbz != null" >
+        #{sfmaPdbz,jdbcType=VARCHAR},
+      </if>
+      <if test="zwbdxtlxms != null" >
+        #{zwbdxtlxms,jdbcType=VARCHAR},
+      </if>
+      <if test="tqsjGajgjgdm != null" >
+        #{tqsjGajgjgdm,jdbcType=VARCHAR},
+      </if>
+      <if test="qusjGajgmc != null" >
+        #{qusjGajgmc,jdbcType=VARCHAR},
+      </if>
+      <if test="tqryXm != null" >
+        #{tqryXm,jdbcType=VARCHAR},
+      </if>
+      <if test="tqryGmsfhm != null" >
+        #{tqryGmsfhm,jdbcType=VARCHAR},
+      </if>
+      <if test="tqryLxdh != null" >
+        #{tqryLxdh,jdbcType=VARCHAR},
+      </if>
+      <if test="tqsj != null" >
+        #{tqsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletag != null" >
+        #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenMatchCase" >
+    update LEDEN_MATCH_CASE
+    <set >
+      <if test="ysxtAsjbh != null" >
+        YSXT_ASJBH = #{ysxtAsjbh,jdbcType=VARCHAR},
+      </if>
+      <if test="xckybh != null" >
+        XCKYBH = #{xckybh,jdbcType=VARCHAR},
+      </if>
+      <if test="xczzhwkbh != null" >
+        XCZZHWKBH = #{xczzhwkbh,jdbcType=VARCHAR},
+      </if>
+      <if test="ajlbdm != null" >
+        AJLBDM = #{ajlbdm,jdbcType=VARCHAR},
+      </if>
+      <if test="ssjzrmby != null" >
+        SSJZRMBY = #{ssjzrmby,jdbcType=VARCHAR},
+      </if>
+      <if test="asjfsddXzqhdm != null" >
+        ASJFSDD_XZQHDM = #{asjfsddXzqhdm,jdbcType=VARCHAR},
+      </if>
+      <if test="asjfsddDzmc != null" >
+        ASJFSDD_DZMC = #{asjfsddDzmc,jdbcType=VARCHAR},
+      </if>
+      <if test="jyaq != null" >
+        JYAQ = #{jyaq,jdbcType=VARCHAR},
+      </if>
+      <if test="sfmaPdbz != null" >
+        SFMA_PDBZ = #{sfmaPdbz,jdbcType=VARCHAR},
+      </if>
+      <if test="zwbdxtlxms != null" >
+        ZWBDXTLXMS = #{zwbdxtlxms,jdbcType=VARCHAR},
+      </if>
+      <if test="tqsjGajgjgdm != null" >
+        TQSJ_GAJGJGDM = #{tqsjGajgjgdm,jdbcType=VARCHAR},
+      </if>
+      <if test="qusjGajgmc != null" >
+        QUSJ_GAJGMC = #{qusjGajgmc,jdbcType=VARCHAR},
+      </if>
+      <if test="tqryXm != null" >
+        TQRY_XM = #{tqryXm,jdbcType=VARCHAR},
+      </if>
+      <if test="tqryGmsfhm != null" >
+        TQRY_GMSFHM = #{tqryGmsfhm,jdbcType=VARCHAR},
+      </if>
+      <if test="tqryLxdh != null" >
+        TQRY_LXDH = #{tqryLxdh,jdbcType=VARCHAR},
+      </if>
+      <if test="tqsj != null" >
+        TQSJ = #{tqsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletag != null" >
+        DELETAG = #{deletag,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ASJBH = #{asjbh,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenMatchCase" >
+    update LEDEN_MATCH_CASE
+    set YSXT_ASJBH = #{ysxtAsjbh,jdbcType=VARCHAR},
+      XCKYBH = #{xckybh,jdbcType=VARCHAR},
+      XCZZHWKBH = #{xczzhwkbh,jdbcType=VARCHAR},
+      AJLBDM = #{ajlbdm,jdbcType=VARCHAR},
+      SSJZRMBY = #{ssjzrmby,jdbcType=VARCHAR},
+      ASJFSDD_XZQHDM = #{asjfsddXzqhdm,jdbcType=VARCHAR},
+      ASJFSDD_DZMC = #{asjfsddDzmc,jdbcType=VARCHAR},
+      JYAQ = #{jyaq,jdbcType=VARCHAR},
+      SFMA_PDBZ = #{sfmaPdbz,jdbcType=VARCHAR},
+      ZWBDXTLXMS = #{zwbdxtlxms,jdbcType=VARCHAR},
+      TQSJ_GAJGJGDM = #{tqsjGajgjgdm,jdbcType=VARCHAR},
+      QUSJ_GAJGMC = #{qusjGajgmc,jdbcType=VARCHAR},
+      TQRY_XM = #{tqryXm,jdbcType=VARCHAR},
+      TQRY_GMSFHM = #{tqryGmsfhm,jdbcType=VARCHAR},
+      TQRY_LXDH = #{tqryLxdh,jdbcType=VARCHAR},
+      TQSJ = #{tqsj,jdbcType=TIMESTAMP},
+      DELETAG = #{deletag,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=VARCHAR}
+    where ASJBH = #{asjbh,jdbcType=VARCHAR}
+  </update>
+</mapper>
