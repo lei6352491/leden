@@ -146,3 +146,16 @@ finger:
 xmlParse:
     ftp:
       path: ftp://test:123456@192.168.1.152/dist/
+
+
+#山东省综平台的配置
+provinceComprehensive:
+  #山东平台的地址
+  ip: 10.48.21.54
+  port: 58888
+  ftp:
+    ip: 10.48.21.54
+    port: 21
+    targetDir: cjdNo
+    username: zc_sjsb
+    password: zc_sjsb
