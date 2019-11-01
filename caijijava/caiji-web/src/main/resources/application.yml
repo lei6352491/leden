@@ -145,12 +145,23 @@ finger:
 
 xmlParse:
     ftp:
-      path: ftp://test:123456@192.168.1.152
+      path: ftp://test:123456@192.168.1.152/dist/
 
-Script:
-  src:
-    host: 192.168.1.152
-    port: 22
-    user: root
-    password: 123456
-    cmd: sh /root/test.sh
+
+#山东省综平台的配置
+provinceComprehensive:
+  #山东平台的地址
+  ip: 10.48.21.54
+  port: 58888
+  ftp:
+    ip: 10.48.21.54
+    port: 21
+    targetDir: /
+    username: zc_sjsb
+    password: zc_sjsb
+  interfaces:
+    registry: /htmisWebService/register/postRegisterClient
+
+
+temp:
+  unitCode: 111

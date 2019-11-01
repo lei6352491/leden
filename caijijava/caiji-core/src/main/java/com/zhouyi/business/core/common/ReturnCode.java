@@ -88,7 +88,13 @@ public enum ReturnCode {
     ERROR_1042(1042,"数据异常：没有缺少创建时间"),
     ERROR_1043(1043,"图片解码失败"),
     ERROR_1044(1044,"附件不存在"),
-    ERROR_1045(1045,"构建临时文件出错");
+    ERROR_1045(1045,"构建临时文件出错"),
+
+
+
+    //FTP异常
+    ERROR_2000(2000,"FTP服务器操作失败");
+
     private int code;
     private String msg;
 

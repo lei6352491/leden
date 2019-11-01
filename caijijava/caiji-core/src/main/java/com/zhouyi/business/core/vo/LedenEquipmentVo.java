@@ -73,6 +73,16 @@ public class LedenEquipmentVo implements Serializable {
     private Date updateDatetime;
 
 
+    private String provincialEquipmentCode;
+
+    public String getProvincialEquipmentCode() {
+        return provincialEquipmentCode;
+    }
+
+    public void setProvincialEquipmentCode(String provincialEquipmentCode) {
+        this.provincialEquipmentCode = provincialEquipmentCode;
+    }
+
     public String getPkId() {
         return pkId;
     }
