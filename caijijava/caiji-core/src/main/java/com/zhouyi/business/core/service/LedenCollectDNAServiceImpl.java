@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author 李秸康
@@ -56,6 +57,8 @@ public class LedenCollectDNAServiceImpl implements LedenCollectDNAService {
         BeanUtils.copyProperties(DNANo.getData(),ledenCollectDna);
         //清除原有的dna数据
         ledenCollectDnaMapper.deleteByPrimaryKey(ledenCollectDna.getRyjcxxcjbh());
+
+        ledenCollectDna.setPkId(UUID.randomUUID().toString().replace("-",""));
         return ledenCollectDnaMapper.insertSelective(ledenCollectDna)==1?true:false;
     }
 

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Encoder;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author 李秸康
@@ -55,6 +56,7 @@ public class LedenCollectHandWritingServiceImpl implements LedenCollectHandWriti
         BeanUtils.copyProperties(ledenCollectHandWritingVo.getData(),ledenCollectHandwriting);
         //删除原有数据
         ledenCollectHandwritingMapper.deleteHandWritingByPerson(ledenCollectHandwriting.getRyjcxxcjbh());
+        ledenCollectHandwriting.setPkId(UUID.randomUUID().toString().replace("-",""));
         return ledenCollectHandwritingMapper.insertSelective(ledenCollectHandwriting)>0?true:false;
     }
 

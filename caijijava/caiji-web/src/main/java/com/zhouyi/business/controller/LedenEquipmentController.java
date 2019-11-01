@@ -144,7 +144,6 @@ public class LedenEquipmentController {
 
     /**
      * 对象转换方法
-     *
      * @param ledenEquipmentDto
      * @return
      */
@@ -166,14 +165,18 @@ public class LedenEquipmentController {
         ledenEquipmentVo.setPkId(UUID.randomUUID().toString().substring(0, 32));
         //向省厅发起注册
         String provinceNumber = postRegisterClient(ledenEquipmentVo.getUnitCode(), ledenEquipmentVo.getEquipmentIp(), ledenEquipmentVo.getEquipmentMac());
-
-        ledenEquipmentVo.setProvincialEquipmentCode(provinceNumber);
-        String equipmentCode = ledenEquipmentService.collectNodeRegister(ledenEquipmentVo);
-        if (equipmentCode != null && !"".equals(equipmentCode)) {
-            //到省厅ftp上生成目录
-            generaterFtpFolder(provinceNumber);
+        if(provinceNumber!=null&&!"".equals(provinceNumber)){
+            ledenEquipmentVo.setProvincialEquipmentCode(provinceNumber);
+            String equipmentCode = ledenEquipmentService.collectNodeRegister(ledenEquipmentVo);
+            if (equipmentCode != null && !"".equals(equipmentCode)) {
+                //到省厅ftp上生成目录
+                generaterFtpFolder(provinceNumber);
+            }
+            return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, equipmentCode);
+        }else{
+            return ResponseUtil.ntrError("向省厅获取的编号为空");
         }
-        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, equipmentCode);
+
     }
 
     /**

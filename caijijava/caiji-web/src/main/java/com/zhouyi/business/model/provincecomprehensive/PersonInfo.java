@@ -3,6 +3,8 @@ package com.zhouyi.business.model.provincecomprehensive;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.Date;
+
 /**
  * @Author: first
  * @Date: 上午7:00 2019/10/31
@@ -10,9 +12,9 @@ import lombok.ToString;
 **/
 @Data
 @ToString
-public class XmlMappingPojo {
+public class PersonInfo {
 
-    private String personInfo;
+    private String personId;
 
     /**
      * 指纹编号
@@ -25,7 +27,7 @@ public class XmlMappingPojo {
 
     private String personAlias;
 
-    private String birthday;
+    private Date birthday;
 
     private String sexCode;
 
@@ -168,7 +170,7 @@ public class XmlMappingPojo {
     /**
      * 采集日期
      */
-    private String scanDate;
+    private Date scanDate;
 
     /**
      * 采集身份证代码
@@ -185,4 +187,28 @@ public class XmlMappingPojo {
      * 身份证照片
      */
     private String  idCardPhoto;
+
+    /**
+     * 身份证签发机关
+     */
+    private String AGENCY;
+
+
+    /**
+     * 身份证有效期起始日期
+     */
+    private Date EXPIRESTART;
+
+    /**
+     * 身份证有效期截止日期
+     */
+    private Date EXPIREEND;
+
+
+    /**
+     * 个人特长代码
+     */
+    private String specialtyKind;
+
+
 }
