@@ -97,9 +97,13 @@ public class CollectTimingTask{
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000001");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
 
-                }catch (Exception e){
-                    AuthenticationException e1 = (AuthenticationException) e;
-                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
+                }catch (AuthenticationException e){
+                    e.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -116,9 +120,13 @@ public class CollectTimingTask{
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000002");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
 
-                }catch (Exception e){
-                    AuthenticationException e1 = (AuthenticationException) e;
-                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
+                }catch (AuthenticationException e){
+                    e.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
 
@@ -140,6 +148,10 @@ public class CollectTimingTask{
                     e.printStackTrace();
                     ledenUploadPacket.setResolveResultInfo(e.getMessage());
                     updateUploadPacket(ledenUploadPacket);
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
+                    updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
             }
@@ -154,9 +166,13 @@ public class CollectTimingTask{
                     //添加采集过程
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000004");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (Exception e){
-                    AuthenticationException e1 = (AuthenticationException) e;
-                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
+                }catch (AuthenticationException e){
+                    e.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -172,9 +188,13 @@ public class CollectTimingTask{
                     //添加采集过程
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000005");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (Exception e){
-                    AuthenticationException e1 = (AuthenticationException) e;
-                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
+                }catch (AuthenticationException e){
+                    e.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -190,9 +210,13 @@ public class CollectTimingTask{
                     //添加采集过程
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000006");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (Exception e){
-                    AuthenticationException e1 = (AuthenticationException) e;
-                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
+                }catch (AuthenticationException e){
+                    e.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -215,9 +239,9 @@ public class CollectTimingTask{
                         LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000007");
                         ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -233,9 +257,13 @@ public class CollectTimingTask{
                     //添加采集过程
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000007");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (Exception e){
-                    AuthenticationException e1 = (AuthenticationException) e;
-                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
+                }catch (AuthenticationException e){
+                    e.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -259,10 +287,13 @@ public class CollectTimingTask{
                         LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000009");
                         ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                     }
-                }catch (Exception e){
+                }catch (CollectionException e){
                     e.printStackTrace();
-                    CollectionException e1 = (CollectionException) e;
-                    ledenUploadPacket.setResolveResultInfo(e1.getResponse().getMsg());
+                    ledenUploadPacket.setResolveResultInfo(e.getResponse().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -278,9 +309,13 @@ public class CollectTimingTask{
                     //添加采集过程
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000010");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (Exception e){
-                    AuthenticationException e1 = (AuthenticationException) e;
-                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
+                }catch (AuthenticationException e){
+                    e.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -302,9 +337,9 @@ public class CollectTimingTask{
                         LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000011");
                         ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -330,14 +365,12 @@ public class CollectTimingTask{
                         LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000013");
                         ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                }catch (Exception E){
+                    E.printStackTrace();
+                    ledenUploadPacket.setResolveResultInfo(E.toString());
                     updateUploadPacket(ledenUploadPacket);
                 }
-
             }
-
         }
     }
 
