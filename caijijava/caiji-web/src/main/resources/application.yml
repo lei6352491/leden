@@ -145,4 +145,12 @@ finger:
 
 xmlParse:
     ftp:
-      path: ftp://test:123456@192.168.1.152/dist/
+      path: ftp://test:123456@192.168.1.152
+
+Script:
+  src:
+    host: 192.168.1.152
+    port: 22
+    user: root
+    password: 123456
+    cmd: sh /root/test.sh

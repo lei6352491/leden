@@ -51,8 +51,9 @@ public class FileStoreUtils {
         ledenUploadPacket.setNodeSign(nodeCode);
         ledenUploadPacket.setFileLocation(path);
         ledenUploadPacket.setFileSuffix(fileType);
-        URL url = null;
+        ledenUploadPacket.setResolveStatus(status);
         try {
+            URL url = null;
             url = new URL(ledenUploadPacket.getFileLocation());
             FtpURLConnection ftpURLConnection = new FtpURLConnection(url);
             ledenUploadPacket.setFileSize(BigDecimal.valueOf(ftpURLConnection.getContentLengthLong()));
@@ -60,12 +61,11 @@ public class FileStoreUtils {
             e.printStackTrace();
             ledenUploadPacket.setFileSize(BigDecimal.valueOf(0));
         }
-        ledenUploadPacket.setResolveStatus(status);
-        //把数据包信息保存到数据库
+        //把数据信息保存到数据库
         ledenUploadPacketService.saveData(ledenUploadPacket);
     }
 
-    public void automaticSavaPacket(String equipmentCode,String personCode,String packetNamePath,String nodeCode,String status){
+    public void automaticSavaPacket(String equipmentCode,String personCode,String packetNamePath,String nodeCode,String status,String path){
         //补全数据包信息
         LedenUploadLog ledenUploadLog = new LedenUploadLog();
         ledenUploadLog.setPkId(UUID.randomUUID().toString().replace("-", ""));
@@ -83,7 +83,7 @@ public class FileStoreUtils {
         ledenUploadPacket.setUploadLogId(ledenUploadLog.getPkId());
         ledenUploadPacket.setNodeSign(nodeCode);
         ledenUploadPacket.setFileLocation
-                ("ftp://test:123456@192.168.1.152/bak/" + packetNamePath + ".zip");
+                (path+"/bak/" + packetNamePath + ".zip");
         ledenUploadPacket.setFileSuffix("zip");
         URL url = null;
         try {

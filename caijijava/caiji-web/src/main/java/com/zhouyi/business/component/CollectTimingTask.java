@@ -2,6 +2,8 @@ package com.zhouyi.business.component;
 
 import com.zhouyi.business.core.dao.LedenCollectProcessMapper;
 import com.zhouyi.business.core.dao.LedenUploadPacketMapper;
+import com.zhouyi.business.core.exception.AuthenticationException;
+import com.zhouyi.business.core.exception.CollectionException;
 import com.zhouyi.business.core.model.*;
 import com.zhouyi.business.core.service.*;
 import com.zhouyi.business.utils.JsoupParseXmlUtils;
@@ -96,7 +98,9 @@ public class CollectTimingTask{
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
 
                 }catch (Exception e){
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                    AuthenticationException e1 = (AuthenticationException) e;
+                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
             }
@@ -113,7 +117,9 @@ public class CollectTimingTask{
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
 
                 }catch (Exception e){
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                    AuthenticationException e1 = (AuthenticationException) e;
+                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
+                    updateUploadPacket(ledenUploadPacket);
                 }
 
                 continue;
@@ -131,6 +137,7 @@ public class CollectTimingTask{
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
 
                 } catch (XMLParseException e) {
+                    e.printStackTrace();
                     ledenUploadPacket.setResolveResultInfo(e.getMessage());
                     updateUploadPacket(ledenUploadPacket);
                 }
@@ -148,7 +155,8 @@ public class CollectTimingTask{
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000004");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                 }catch (Exception e){
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                    AuthenticationException e1 = (AuthenticationException) e;
+                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -165,7 +173,8 @@ public class CollectTimingTask{
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000005");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                 }catch (Exception e){
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                    AuthenticationException e1 = (AuthenticationException) e;
+                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -182,7 +191,8 @@ public class CollectTimingTask{
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000006");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                 }catch (Exception e){
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                    AuthenticationException e1 = (AuthenticationException) e;
+                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -206,6 +216,7 @@ public class CollectTimingTask{
                         ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                     }
                 }catch (Exception e){
+                    e.printStackTrace();
                     ledenUploadPacket.setResolveResultInfo(e.getMessage());
                     updateUploadPacket(ledenUploadPacket);
                 }
@@ -223,7 +234,8 @@ public class CollectTimingTask{
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000007");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                 }catch (Exception e){
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                    AuthenticationException e1 = (AuthenticationException) e;
+                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -248,7 +260,9 @@ public class CollectTimingTask{
                         ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                     }
                 }catch (Exception e){
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                    e.printStackTrace();
+                    CollectionException e1 = (CollectionException) e;
+                    ledenUploadPacket.setResolveResultInfo(e1.getResponse().getMsg());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -265,7 +279,8 @@ public class CollectTimingTask{
                     LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000010");
                     ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                 }catch (Exception e){
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
+                    AuthenticationException e1 = (AuthenticationException) e;
+                    ledenUploadPacket.setResolveResultInfo(e1.getReturnCode().getMsg());
                     updateUploadPacket(ledenUploadPacket);
                 }
                 continue;
@@ -288,6 +303,7 @@ public class CollectTimingTask{
                         ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                     }
                 }catch (Exception e){
+                    e.printStackTrace();
                     ledenUploadPacket.setResolveResultInfo(e.getMessage());
                     updateUploadPacket(ledenUploadPacket);
                 }
@@ -315,6 +331,7 @@ public class CollectTimingTask{
                         ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                     }
                 }catch (Exception e){
+                    e.printStackTrace();
                     ledenUploadPacket.setResolveResultInfo(e.getMessage());
                     updateUploadPacket(ledenUploadPacket);
                 }
@@ -325,10 +342,11 @@ public class CollectTimingTask{
     }
 
     private void updateUploadPacket(LedenUploadPacket ledenUploadPacket){
-        LedenUploadPacket ledenUploadPacketQuery = ledenUploadPacketMapper.selectByPrimaryKey(ledenUploadPacket.getPkId());
-        ledenUploadPacketQuery.setResolveStatus("1");
-        ledenUploadPacketQuery.setResolveDatetime(new Date());
-        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacketQuery);
+        LedenUploadPacket ledenUploadPacket1 = ledenUploadPacketMapper.selectByPrimaryKey(ledenUploadPacket.getPkId());
+        ledenUploadPacket1.setResolveStatus("1");
+        ledenUploadPacket1.setResolveDatetime(new Date());
+        ledenUploadPacket1.setResolveResultInfo(ledenUploadPacket.getResolveResultInfo());
+        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket1);
     }
 
     private LedenCollectProcess getLedenCollectProcess(LedenUploadPacket ledenUploadPacket,int stauts,String nodeCode){

@@ -1,5 +1,6 @@
 package com.zhouyi.business.controller;
 
+import com.zhouyi.business.common.SshConnection;
 import com.zhouyi.business.core.common.ReturnCode;
 import com.zhouyi.business.core.dao.LedenEquipmentEmpowerMapper;
 import com.zhouyi.business.core.model.*;
@@ -55,6 +56,9 @@ public class XMLParseController {
 
     @Autowired
     private LedenEquipmentEmpowerMapper ledenEquipmentEmpowerMapperMapper;
+
+    @Autowired
+    private SshConnection sshConnection;
 
 
     /**
@@ -173,164 +177,118 @@ public class XMLParseController {
         List<LedenEquipmentEmpower> ledenEquipmentEmpowers =
                 ledenEquipmentEmpowerMapperMapper.selectEquipmentEmpowerByEquipmentCode(uploadFileMessage.getEquipmentCode());
 
-
         if (boo) {
-            //获取数据包名中的人员编号
-            Integer indexOf = uploadFileMessage.getDataBrief().getUploadPacket().indexOf("-");
-            String personCode = uploadFileMessage.getDataBrief().getUploadPacket().substring(0, indexOf);
-            //存储数据包信息
+            //执行ssh脚本文件
+            Integer integer = sshConnection.executionScript();
 
-            fileStoreUtils.automaticSavaPacket(uploadFileMessage.getEquipmentCode(),personCode,uploadFileMessage.getDataBrief().getUploadPacket(),"000000000000","1");
+            if (integer == null){
+                return ResponseUtil.returnError(ReturnCode.ERROR_1127);
+            }else if (integer == 0){
+                //获取数据包名中的人员编号
+                Integer indexOf = uploadFileMessage.getDataBrief().getUploadPacket().indexOf("-");
+                String personCode = uploadFileMessage.getDataBrief().getUploadPacket().substring(0, indexOf);
+                //存储数据包信息
 
-            //2.解析数据
-            //获取文件名，用于拼接文件路劲
-            String uploadPacketFileName = uploadFileMessage.getDataBrief().getUploadPacket();
-            StringBuilder filePathPrefix = new StringBuilder();
-            filePathPrefix.append(path);
-            filePathPrefix.append(uploadPacketFileName);
+                fileStoreUtils.automaticSavaPacket(uploadFileMessage.getEquipmentCode(),personCode,uploadFileMessage.getDataBrief().getUploadPacket(),"000000000000","1",path);
 
-            if (uploadFileMessage.getDataBrief().getPerson()) {
-                String path = filePathPrefix.toString() + "/PERSON-"+personCode+".xml";
-                //获取该设备该节点授权信息
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000001");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
+                //2.解析数据
+                //获取文件名，用于拼接文件路劲
+                String uploadPacketFileName = uploadFileMessage.getDataBrief().getUploadPacket();
+                StringBuilder filePathPrefix = new StringBuilder();
+                filePathPrefix.append(path);
+                filePathPrefix.append("/dist/");
+                filePathPrefix.append(uploadPacketFileName);
+
+                if (uploadFileMessage.getDataBrief().getPerson()) {
+                    String path = filePathPrefix.toString() + "/PERSON-"+personCode+".xml";
+
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000001", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000001", "xml", path,"0","0");
-                }
 
-            }
-            if (uploadFileMessage.getDataBrief().getPortrait()) {
-                String path = filePathPrefix.toString() + "/PORTRAIT-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000002");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
+                }
+                if (uploadFileMessage.getDataBrief().getPortrait()) {
+                    String path = filePathPrefix.toString() + "/PORTRAIT-"+personCode+".xml";
+
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000002", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000002", "xml", path,"0","0");
-                }
 
-            }
-            if (uploadFileMessage.getDataBrief().getFingerplam()) {
-                String path = filePathPrefix.toString() + "/FINGERPLAM-"+personCode+".fptx";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000003");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000003", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000003", "xml", path,"0","0");
                 }
+                if (uploadFileMessage.getDataBrief().getFingerplam()) {
+                    String pathbmp = filePathPrefix.toString() + "/FINGERPLAMBMP-"+personCode+".fptx";
+                    String pathwsq = filePathPrefix.toString() + "/FINGERPLAMWSQ-"+personCode+".fptx";
 
-            }
-            //文件中数据的字段超过数据库的最大长度
-            if (uploadFileMessage.getDataBrief().getSignAlement()) {
-                String path = filePathPrefix.toString() + "/SIGNALEMENT-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000004");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000003", "fptx", pathbmp,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000003", "fptx", pathwsq,"0","1");
+
+                }
+                //文件中数据的字段超过数据库的最大长度
+                if (uploadFileMessage.getDataBrief().getSignAlement()) {
+                    String path = filePathPrefix.toString() + "/SIGNALEMENT-"+personCode+".xml";
+
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000004", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000004", "xml", path,"0","0");
-                }
 
-            }
-            if (uploadFileMessage.getDataBrief().getDnaInfo()) {
-                String path = filePathPrefix.toString() + "/DNAINFO-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000005");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
+                }
+                if (uploadFileMessage.getDataBrief().getDnaInfo()) {
+                    String path = filePathPrefix.toString() + "/DNAINFO-"+personCode+".xml";
+
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000005", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000005", "xml", path,"0","0");
-                }
 
-            }
-            if (uploadFileMessage.getDataBrief().getFootprint()) {
-                String path = filePathPrefix.toString() + "/FOOTPRINT-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000006");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
+                }
+                if (uploadFileMessage.getDataBrief().getFootprint()) {
+                    String path = filePathPrefix.toString() + "/FOOTPRINT-"+personCode+".xml";
+
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000006", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000006", "xml", path,"0","0");
-                }
 
-            }
-            //文件中的值超过表中字段的最大长度
-            if (uploadFileMessage.getDataBrief().getVoiceprint()) {
-                String path = filePathPrefix.toString() + "/VOICEPRINT-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000007");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
+                }
+                //文件中的值超过表中字段的最大长度
+                if (uploadFileMessage.getDataBrief().getVoiceprint()) {
+                    String path = filePathPrefix.toString() + "/VOICEPRINT-"+personCode+".xml";
+
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000007", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000007", "xml", path,"0","0");
-                }
 
-            }
-            //文件中没有数据
-            if (uploadFileMessage.getDataBrief().getHandwriting()) {
-                String path = filePathPrefix.toString() + "/HANDWRITING-" + personCode + ".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000008");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
+                }
+                //文件中没有数据
+                if (uploadFileMessage.getDataBrief().getHandwriting()) {
+                    String path = filePathPrefix.toString() + "/HANDWRITING-" + personCode + ".xml";
+
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000008", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000008", "xml", path,"0","0");
+
                 }
+                if (uploadFileMessage.getDataBrief().getIrisInfo()) {
+                    String path = filePathPrefix.toString() + "/IRISINFO-"+personCode+".xml";
 
-
-            }
-
-            if (uploadFileMessage.getDataBrief().getIrisInfo()) {
-                String path = filePathPrefix.toString() + "/IRISINFO-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000009");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000009", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000009", "xml", path,"0","0");
-                }
 
-            }
-            //文件中的值超过表中字段的最大长度
-            if (uploadFileMessage.getDataBrief().getGoods()) {
-                String path = filePathPrefix.toString() + "/GOODS-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000010");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
+                }
+                //文件中的值超过表中字段的最大长度
+                if (uploadFileMessage.getDataBrief().getGoods()) {
+                    String path = filePathPrefix.toString() + "/GOODS-"+personCode+".xml";
+
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000010", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000010", "xml", path,"0","0");
+
                 }
+                if (uploadFileMessage.getDataBrief().getDrugTest()) {
+                    String path = filePathPrefix.toString() + "/DRUGTEST-"+personCode+".xml";
 
-            }
-
-            if (uploadFileMessage.getDataBrief().getDrugTest()) {
-                String path = filePathPrefix.toString() + "/DRUGTEST-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000011");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000011", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000011", "xml", path,"0","0");
+
                 }
+                if (uploadFileMessage.getDataBrief().getPhoneInfo()){
+                    String path = filePathPrefix.toString() + "/PhoneInfo-"+personCode+".xml";
 
-            }
-
-            if (uploadFileMessage.getDataBrief().getPhoneInfo()){
-                String path = filePathPrefix.toString() + "/PhoneInfo-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000012");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000012", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000012", "xml", path,"0","0");
-                }
-            }
 
-            if (uploadFileMessage.getDataBrief().getBankCard()) {
-                String path = filePathPrefix.toString() + "/BANKCARD-"+personCode+".xml";
-                LedenEquipmentEmpower ledenEquipmentEmpower = getLedenEquipmentEmpower(ledenEquipmentEmpowers, "000000000013");
-                if ("0".equals(ledenEquipmentEmpower.getDeletag())){
+                }
+                if (uploadFileMessage.getDataBrief().getBankCard()) {
+                    String path = filePathPrefix.toString() + "/BANKCARD-"+personCode+".xml";
+
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000013", "xml", path,"0","1");
-                }else {
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000013", "xml", path,"0","0");
-                }
 
+                }
+                return ResponseUtil.returnError(ReturnCode.SUCCESS);
+            }else {
+                return ResponseUtil.returnError(ReturnCode.ERROR_1128);
             }
-            return ResponseUtil.getResponseInfo(true);
         } else {
-            return ResponseUtil.getResponseInfo(false);
+            return ResponseUtil.returnError(ReturnCode.ERROR_1027);
         }
     }
 
