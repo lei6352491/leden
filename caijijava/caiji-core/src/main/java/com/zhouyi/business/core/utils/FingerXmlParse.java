@@ -195,8 +195,6 @@ public class FingerXmlParse {
         private String nyryGmsfhm;
         private String nyryLxdh;
         private String nysj;
-
-
         public FingerXmlParse getOutClass() {
             return FingerXmlParse.this;
         }

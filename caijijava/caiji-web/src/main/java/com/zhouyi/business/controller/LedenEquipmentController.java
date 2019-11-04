@@ -1,5 +1,7 @@
 package com.zhouyi.business.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zhouyi.business.config.ProvinceFtpUtil;
 import com.zhouyi.business.core.common.ReturnCode;
 import com.zhouyi.business.core.exception.BusinessException;
 import com.zhouyi.business.core.model.LedenEquipment;
@@ -7,18 +9,24 @@ import com.zhouyi.business.core.model.LedenEquipmentResult;
 import com.zhouyi.business.core.model.PageData;
 import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.service.LedenEquipmentService;
+import com.zhouyi.business.core.utils.HttpUtil;
 import com.zhouyi.business.core.utils.MapUtils;
 import com.zhouyi.business.core.utils.ResponseUtil;
 import com.zhouyi.business.core.vo.LedenEquipmentVo;
 import com.zhouyi.business.core.vo.LedenEquipmentVo2;
+import com.zhouyi.business.core.vo.ResponseVo;
 import com.zhouyi.business.dto.EquipmentListDto;
 import com.zhouyi.business.dto.LedenEquipmentDto;
+import com.zhouyi.business.model.provincecomprehensive.ResponseData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -38,10 +46,24 @@ import java.util.UUID;
 @Api(description = "接入管理（设备管理）")
 public class LedenEquipmentController {
 
+
+    private static final Logger logger = LoggerFactory.getLogger(LedenEquipmentController.class);
+
     @Autowired
     private LedenEquipmentService ledenEquipmentService;
 
+    @Value("${provinceComprehensive.ip}")
+    private String provinceIp;
+    @Value("${provinceComprehensive.port}")
+    private String provincePort;
+    @Value("${provinceComprehensive.interfaces.registry}")
+    private String registryInterface;
 
+    @Value("${temp.unitCode}")
+    private String tempUnitCode;
+
+    @Autowired
+    private ProvinceFtpUtil provinceFtpUtil;
     /**
      * 分页获取设备信息
      * @param ledenEquipmentDto
@@ -163,5 +185,52 @@ public class LedenEquipmentController {
     }
 
 
+
+    /**
+     * 向省厅注册方法
+     * @param unitCode
+     * @param ip
+     * @param mac
+     */
+    private String postRegisterClient(String unitCode, String ip, String mac) throws Exception {
+        StringBuffer url = new StringBuffer("http://");
+        url.append(provinceIp);
+        url.append(":");
+        url.append(provincePort);
+        url.append(registryInterface);
+
+        Map<String, String> params = new HashMap<>(3);
+        params.put("unitCode", tempUnitCode);
+        params.put("ip", ip);
+        params.put("mac", mac);
+        ResponseVo responseVo = HttpUtil.sendPostByJson(url.toString(), params);
+        if (responseVo.isOk()) {
+            //如果服务调用成功则检测数据
+            ResponseData data = (ResponseData) JSONObject.parse(responseVo.getData());
+            if ("0".equals(data.getStatus())) {
+                //失败
+                logger.info("接口调用失败:" + data.getValue());
+                throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());
+            } else if ("1".equals(data.getStatus())) {
+                //成功
+                logger.info("省厅注册成功：设备编号为" + data.getValue());
+                return data.getValue();
+            }
+        } else {
+            throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());
+        }
+        return null;
+    }
+
+
+
+    /**
+     * 在省综ftp下生成文件夹
+     */
+    private void generaterFtpFolder(String folderName) throws Exception {
+        provinceFtpUtil.connect();
+        provinceFtpUtil.createDir(folderName);
+        provinceFtpUtil.disconnect();
+    }
 
 }
