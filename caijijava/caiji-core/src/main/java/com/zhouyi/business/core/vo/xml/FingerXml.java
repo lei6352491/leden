@@ -2,6 +2,8 @@ package com.zhouyi.business.core.vo.xml;
 
 import com.zhouyi.business.core.model.LedenCollectFinger;
 
+import java.util.Date;
+
 /**
  * @author 李秸康
  * @ClassNmae: FingerXml
@@ -31,6 +33,30 @@ public class FingerXml extends LedenCollectFinger {
 
     private byte[] zwTxsj;
 
+    private String createUserId;
+
+    private Date createDatetime;
+
+
+    @Override
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    @Override
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    @Override
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
+
+    @Override
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
+    }
 
     public String getRyjcxxcjbh() {
         return ryjcxxcjbh;

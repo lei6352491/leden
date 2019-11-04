@@ -138,7 +138,6 @@ public class FingerXmlParse {
             List<LedenCollectPhalange> phalanges = packageDataEntityList(fingerPrintPackageElement.element("knuckleprints"), LedenCollectPhalange.class);
 
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddHHMMss");
             //将需要的信息填入指纹
             //人员编号
             String rybh = desciptiveMsg.getYsxtAsjxgrybh();
