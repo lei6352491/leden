@@ -167,7 +167,7 @@
       ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
       UPDATE_USER_ID, UPDATE_DATETIME, TSTZ_ZP
       )
-    values (leden_collect_sign_sequence.nextval, #{tstzMc,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR},
+    values (#{pkId}, #{tstzMc,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR},
       #{tstzBw,jdbcType=VARCHAR}, #{tstzFw,jdbcType=VARCHAR}, #{tstzSl,jdbcType=VARCHAR}, 
       #{tstzCc,jdbcType=VARCHAR}, #{tstzYs,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, 
       #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, 
@@ -177,7 +177,9 @@
     <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectSign">
         insert into LEDEN_COLLECT_SIGN
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            leden_collect_sign_sequence.nextval,
+            <if test="pkId">
+                #{pkId},
+            </if> ,
             <if test="tstzMc != null">
                 TSTZ_MC,
             </if>

@@ -1,9 +1,11 @@
 package com.zhouyi.business.core.utils;
 
 import com.google.common.base.CaseFormat;
+import com.google.gson.internal.$Gson$Preconditions;
 import com.zhouyi.business.core.common.ReturnCode;
 import com.zhouyi.business.core.exception.BusinessException;
 import com.zhouyi.business.core.exception.XmlParseException;
+import com.zhouyi.business.core.vo.headvo.HeaderVo;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -37,8 +39,9 @@ import java.util.regex.Pattern;
  **/
 public class XmlParseUtil {
 
-    public static ThreadLocal userCodeThreadLocal=new ThreadLocal();
+    public static ThreadLocal<String> userCodeThreadLocal=new ThreadLocal();
 
+    public static ThreadLocal<String> createDatetimeThreadLocal=new ThreadLocal<>();
     //数据结果对象
 
     /**
@@ -140,6 +143,8 @@ public class XmlParseUtil {
                                 field.set(headObject,headerChildrenElement.getStringValue());
                         }
                     }
+                    //使用ThreadLocal存储值
+                    userCodeThreadLocal.set(((HeaderVo)headObject).getUSER_CODE());
                     //将得到的head对象赋值给结果对象
                     clazz.getField("head").set(dataResult,headObject);
                 }else{
@@ -157,12 +162,35 @@ public class XmlParseUtil {
                         //如果不为集合
                         result=dealSingleton(dataField.getType(),childrenElement.element("data"));
                     }
-//                    dataField.set(dataResult,result);
+                    /**
+                     * 11-2
+                     */
+                    //将采集人写入对象
+//                    Field field= null;
+//                    try {
+//                        field = result.getClass().getField("createUserId");
+//                        boolean flag=predicateFiledExistAndIsNull(field,result);
+//                        if(flag){
+//                            field.set(result,userCodeThreadLocal.get());
+//                        }
+//                        //将创建时间写入
+//                        field=result.getClass().getField("createDatetime");
+//                        flag=predicateFiledExistAndIsNull(field,result);
+//                        if(flag){
+//                            field.set(result,new Date());
+//                        }
+//                    } catch (Exception e) {
+//                    }
+
+
+
                     clazz.getField("data").set(dataResult,result);
                 }
 
             }
+
         } catch (DocumentException e) {
+
             e.printStackTrace();
             throw new XmlParseException("文档解析失败:"+e.getMessage());
         } catch (IllegalAccessException e) {
@@ -207,7 +235,8 @@ public class XmlParseUtil {
       * @return 结果对象
      **/
     private static Object dealSingleton(Class clazz,Element element) throws IllegalAccessException, InstantiationException, IOException, NoSuchFieldException, ParseException {
-        Object resultDate=clazz.newInstance(); //实例化结果对象
+        //实例化结果对象
+        Object resultDate=clazz.newInstance();
         Iterator dataElement=element.elementIterator();
 
         /*
@@ -218,7 +247,8 @@ public class XmlParseUtil {
 
         while (dataElement.hasNext()){
             Element valueNode=(Element)dataElement.next();
-            String propertiesName=firstCharToLowerCase(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL,valueNode.getName())); //将节点名称转为属性名称
+            //将节点名称转为属性名称
+            String propertiesName=firstCharToLowerCase(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL,valueNode.getName()));
             Field field=null;
             //修改：直接获取
             if(!propertiesName.equalsIgnoreCase("datalist")){
@@ -256,8 +286,10 @@ public class XmlParseUtil {
                     //普通字段
                     field.set(resultDate,valueNode.getStringValue());
                     //将物品编号存储到属性
-                    if(field.getName().equals("wpbh"))
+                    if(field.getName().equals("wpbh")){
                         wpbh=valueNode.getStringValue();
+                    }
+
                 }
             }else{
                 //如果为datalist则表示是个数据集合、
@@ -280,9 +312,24 @@ public class XmlParseUtil {
             }
 
         }
+
+
+
         return resultDate;
     }
 
+    private static boolean predicateFiledExistAndIsNull(Field field,Object resultDate) throws IllegalAccessException {
+        field.setAccessible(true);
+        if(field!=null){
+            if(field.getType()==String.class){
+                return field.get(resultDate).equals("")||field.get(resultDate)==null;
+            }else if(field.getType()==Date.class){
+                return field.get(resultDate)==null;
+            }
+        }
+        return false;
+
+    }
 
     /**
      * 处理多个数据方法
@@ -433,6 +480,8 @@ public class XmlParseUtil {
 //        System.out.println(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL,"SAMPLE_DES"));
 
         System.out.println("ef74dda7-995a-4092-9b02-1b2d0c4ee5a1".length());
+
+        System.out.println("CREATE_USER_ID".toLowerCase());
     }
 
 
@@ -515,5 +564,6 @@ public class XmlParseUtil {
 //            this.USER_UNIT_CODE = USER_UNIT_CODE;
 //        }
 //    }
+
 
 }

@@ -934,6 +934,15 @@
       <if test="jdxp != null" >
         JDXP,
       </if>
+      <if test="zydm!=null">
+        zydm,
+      </if>
+      <if test="lxdh!=null">
+        lxdh,
+      </if>
+      <if test="gzdw!=null">
+        gzdw,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="ryjcxxcjbh != null" >
@@ -1073,6 +1082,15 @@
       </if>
       <if test="jdxp != null" >
         #{jdxp,jdbcType=BLOB},
+      </if>
+      <if test="zydm!=null">
+        #{zydm},
+      </if>
+      <if test="lxdh!=null">
+        #{lxdh},
+      </if>
+      <if test="gzdw!=null">
+        #{gzdw},
       </if>
     </trim>
   </insert>

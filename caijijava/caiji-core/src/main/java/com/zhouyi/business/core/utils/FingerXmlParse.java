@@ -32,10 +32,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author 李秸康
@@ -143,14 +140,22 @@ public class FingerXmlParse {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddHHMMss");
             //将需要的信息填入指纹
-            String rybh = desciptiveMsg.getYsxtAsjxgrybh();//人员编号
-            String jzrybh = desciptiveMsg.getJzrybh(); //警综编号
-            String nysj = collectInfoMsg.getNysj(); //采集时间
-            for (LedenCollectFinger x : fingers) {
-                x.setRyjcxxcjbh(rybh);
-                x.setCreateUserId(jzrybh);
-                x.setCreateDatetime(dateFormat.parse(nysj));
-            }
+            //人员编号
+            String rybh = desciptiveMsg.getYsxtAsjxgrybh();
+            //警综编号
+            String jzrybh = desciptiveMsg.getJzrybh();
+            //采集时间
+            String nysj = collectInfoMsg.getNysj();
+
+            //采集人
+            String collectPerson=packageHeadVo.getUserCode();
+
+            //给所有数据集合封装公共信息：人员编号、采集人、采集时间、
+            List<List<?>> printList= Arrays.asList(fingers,palmss,fourprintMsgs,fullplams,phalanges);
+            printList.forEach(x->{
+                packageCommonsInfo(x,rybh,collectPerson,nysj);
+            });
+
 
             fingerAndPalm.setFingers(fingers);
             fingerAndPalm.setFourfingers(fourprintMsgs);
@@ -271,8 +276,7 @@ public class FingerXmlParse {
             field.setAccessible(true);
             if (field.getType() == String.class) {
                 //直接封装数据
-                logger.info("字段:" + field.getName() + ":" + node.getStringValue());
-                field.set(resultObject, node.getStringValue());
+                logger.info("字段:" + field.getName() + ":" + node.getStringValue()); field.set(resultObject, node.getStringValue());
             } else if (field.getType() == byte[].class) {
                 //如果是图片数据
                 field.set(resultObject, node.getStringValue().getBytes());
@@ -315,4 +319,62 @@ public class FingerXmlParse {
         return targetDataList;
     }
 
+
+    /**
+     * 封装公共属性
+     * @param list 被封装的数据集合
+     * @param cjrybh 人员编号
+     * @param createUserId 创建人/采集人
+     * @param collectTime 采集时间
+     */
+    private static void packageCommonsInfo(List list,String cjrybh,String createUserId,String collectTime){
+        final Class clazz;
+        if(list.size()>0){
+            clazz=list.get(0).getClass();
+            list.stream().anyMatch(x->{
+                try {
+                    Field personNumberField = extractFieldAndSetAccess(clazz,"ryjcxxcjbh");
+                    personNumberField.set(x,cjrybh);
+
+                    Field createUserIdField=extractFieldAndSetAccess(clazz,"createUserId");
+                    createUserIdField.set(x,createUserId);
+
+                    Field createDateTimeField=extractFieldAndSetAccess(clazz,"createDatetime");
+                    try {
+                        Date date=new SimpleDateFormat("yyyymmddHHMMss").parse(collectTime);
+                        createDateTimeField.set(x,date);
+                    } catch (ParseException e) {
+                        logger.error("奈印时间错误:"+e.getMessage()+",使用系统默认值");
+                        createDateTimeField.set(x,new Date());
+                    }
+                    return false;
+                } catch (IllegalAccessException e) {
+                    logger.error("字段不允许访问:"+e.getMessage());
+                    return true;
+                }
+            });
+        }
+
+    }
+
+
+    /**
+     * 提取字段并设置访问权限
+     * @param clazz 待提取字段的类的类型
+     * @param fieldName 字段的名称
+     * @return 授权后的字段
+     */
+    public static Field extractFieldAndSetAccess(Class clazz,String fieldName){
+        try {
+            Field targetField=clazz.getDeclaredField(fieldName);
+            targetField.setAccessible(true);
+            return targetField;
+        } catch (NoSuchFieldException e) {
+            logger.error(clazz.getSimpleName()+"不存在字段："+fieldName+",封装数据失败");
+            return null;
+        }
+
+    }
+
 }
+

@@ -1,5 +1,7 @@
 package com.zhouyi.business.core.vo.xml;
 
+import java.util.Date;
+
 /**
  * @author 李秸康
  * @ClassNmae: LedenCollectSignXml
@@ -26,6 +28,10 @@ public class LedenCollectSignXml {
     public String annex;
 
     public String tstzBw;
+
+    public String createUserId;
+
+    public Date createDatetime;
 
     public String getTstzBw() {
         return tstzBw;
@@ -95,7 +101,25 @@ public class LedenCollectSignXml {
         return annex;
     }
 
+
     public void setAnnex(String annex) {
         this.annex = annex;
+    }
+
+
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
+
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
     }
 }

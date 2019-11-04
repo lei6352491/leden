@@ -1,5 +1,7 @@
 package com.zhouyi.business.core.vo.xml;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -102,6 +104,20 @@ public class LedenCollectPersonXml {
     public Date updateDatetime;
 
     public byte[] jdxp;
+
+
+    /**
+     *职业代码
+     */
+    public String zydm;
+    /**
+     * 联系电话
+     */
+    public String lxdh;
+    /**
+     * 工作单位
+     */
+    public String gzdw;
 
 
     public String getRyjcxxcjbh() {
@@ -470,5 +486,29 @@ public class LedenCollectPersonXml {
 
     public void setJdxp(byte[] jdxp) {
         this.jdxp = jdxp;
+    }
+
+    public String getZydm() {
+        return zydm;
+    }
+
+    public void setZydm(String zydm) {
+        this.zydm = zydm;
+    }
+
+    public String getLxdh() {
+        return lxdh;
+    }
+
+    public void setLxdh(String lxdh) {
+        this.lxdh = lxdh;
+    }
+
+    public String getGzdw() {
+        return gzdw;
+    }
+
+    public void setGzdw(String gzdw) {
+        this.gzdw = gzdw;
     }
 }

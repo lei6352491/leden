@@ -43,7 +43,7 @@
       CJZKBSDM, DELETAG, ANNEX, 
       CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, 
       UPDATE_DATETIME)
-    values leden_collect_dna_sequence.nextval, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{rydnabh,jdbcType=VARCHAR},
+    values (#{pkId}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{rydnabh,jdbcType=VARCHAR},
       #{yblxdm,jdbcType=VARCHAR}, #{ybbzqk,jdbcType=VARCHAR}, #{sampleDes,jdbcType=VARCHAR}, 
       #{cjzkbsdm,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, 
@@ -91,7 +91,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      leden_collect_dna_sequence.nextval,
+      #{pkId},
       <if test="ryjcxxcjbh != null" >
         #{ryjcxxcjbh,jdbcType=VARCHAR},
       </if>

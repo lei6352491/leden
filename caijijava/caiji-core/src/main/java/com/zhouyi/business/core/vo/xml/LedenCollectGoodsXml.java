@@ -84,6 +84,21 @@ public class LedenCollectGoodsXml {
     public List<LedenCollectGPhotoXml> dataSon;
 
 
+    public String createUserId;
+
+    public Date createDatetime;
+
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
     public String getRyjcxxcjbh() {
         return ryjcxxcjbh;
     }

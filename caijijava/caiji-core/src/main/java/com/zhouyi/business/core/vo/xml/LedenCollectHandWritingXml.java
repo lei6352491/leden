@@ -1,5 +1,7 @@
 package com.zhouyi.business.core.vo.xml;
 
+import java.util.Date;
+
 /**
  * @author 李秸康
  * @ClassNmae: LedenCollectHandWritingXml
@@ -20,6 +22,21 @@ public class LedenCollectHandWritingXml {
     public String annex;
 
 
+    public String createUserId;
+
+    public Date createDatetime;
+
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
     public String getRyjcxxcjbh() {
         return ryjcxxcjbh;
     }

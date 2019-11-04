@@ -34,6 +34,7 @@ public class LedenCollectPortraitXml {
     public byte[] rxtxsj;
 
 
+
     public String getPkId() {
         return pkId;
     }

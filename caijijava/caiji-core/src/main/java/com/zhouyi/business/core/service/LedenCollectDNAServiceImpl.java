@@ -18,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author 李秸康
@@ -45,17 +47,22 @@ public class LedenCollectDNAServiceImpl implements LedenCollectDNAService {
     @Override
     @Transactional
     public Boolean inputDNSByXml(String path) throws AuthenticationException, XmlParseException {
-        LedenCollectDNAVo DNANo= (LedenCollectDNAVo) XmlParseUtil.parseXml(path,LedenCollectDNAVo.class);
+        LedenCollectDNAVo dNANo= (LedenCollectDNAVo) XmlParseUtil.parseXml(path,LedenCollectDNAVo.class);
         //进行头部数据校验
-        boolean flag=securityUtil.repairpermissions(DNANo.head, AuthoirtyEnum.DNAINFO);
+        boolean flag=securityUtil.repairpermissions(dNANo.head, AuthoirtyEnum.DNAINFO);
         if(!flag)
             throw new AuthenticationException(ReturnCode.ERROR_1037);
 
         //数据转换
         LedenCollectDna ledenCollectDna=new LedenCollectDna();
-        BeanUtils.copyProperties(DNANo.getData(),ledenCollectDna);
+        //添加其他数据
+        ledenCollectDna.setCreateUserId(dNANo.head.getUSER_CODE());
+        ledenCollectDna.setCreateDatetime(new Date());
+        BeanUtils.copyProperties(dNANo.getData(),ledenCollectDna);
         //清除原有的dna数据
         ledenCollectDnaMapper.deleteByPrimaryKey(ledenCollectDna.getRyjcxxcjbh());
+
+        ledenCollectDna.setPkId(UUID.randomUUID().toString().replace("-",""));
         return ledenCollectDnaMapper.insertSelective(ledenCollectDna)==1?true:false;
     }
 

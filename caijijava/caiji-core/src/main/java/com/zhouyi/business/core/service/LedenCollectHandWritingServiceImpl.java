@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Encoder;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author 李秸康
@@ -40,7 +42,7 @@ public class LedenCollectHandWritingServiceImpl implements LedenCollectHandWriti
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean inputHandWirtingXml(String path) throws XmlParseException,AuthenticationException {
         LedenCollectHandWritingVo ledenCollectHandWritingVo=(LedenCollectHandWritingVo) XmlParseUtil.parseXml(path,LedenCollectHandWritingVo.class);
 
@@ -53,8 +55,11 @@ public class LedenCollectHandWritingServiceImpl implements LedenCollectHandWriti
         LedenCollectHandwriting ledenCollectHandwriting=new LedenCollectHandwriting();
 
         BeanUtils.copyProperties(ledenCollectHandWritingVo.getData(),ledenCollectHandwriting);
+        ledenCollectHandwriting.setCreateUserId(ledenCollectHandWritingVo.head.getUSER_CODE());
+        ledenCollectHandwriting.setCreateDatetime(new Date());
         //删除原有数据
         ledenCollectHandwritingMapper.deleteHandWritingByPerson(ledenCollectHandwriting.getRyjcxxcjbh());
+        ledenCollectHandwriting.setPkId(UUID.randomUUID().toString().replace("-",""));
         return ledenCollectHandwritingMapper.insertSelective(ledenCollectHandwriting)>0?true:false;
     }
 

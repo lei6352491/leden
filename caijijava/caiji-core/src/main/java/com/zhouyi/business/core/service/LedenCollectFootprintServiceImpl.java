@@ -58,6 +58,8 @@ public class LedenCollectFootprintServiceImpl implements LedenCollectFootprintSe
         for (LedenCollectFootprintXml data:ledenCollectFootprintVo.getData()){
             LedenCollectFootprint ledenCollectFootprint=new LedenCollectFootprint();
             BeanUtils.copyProperties(data,ledenCollectFootprint);
+            ledenCollectFootprint.setCreateUserId(ledenCollectFootprintVo.head.getUSER_CODE());
+            ledenCollectFootprint.setCreateDatetime(new Date());
             ledenCollectFootprint.setPkId(UUID.randomUUID().toString().substring(0,32));
             ledenCollectFootprints.add(ledenCollectFootprint);
             ledenCollectFootprint.setCreateDatetime(new Date());

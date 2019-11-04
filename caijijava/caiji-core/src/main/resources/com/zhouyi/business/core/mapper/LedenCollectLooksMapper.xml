@@ -122,7 +122,7 @@
       TMTZ_MS, QTFM_MS, DELETAG, 
       ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
       UPDATE_USER_ID, UPDATE_DATETIME)
-    values (leden_collect_looks_sequence.nextval, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{tbtzMs,jdbcType=VARCHAR},
+    values (#{pkId}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{tbtzMs,jdbcType=VARCHAR},
       #{tmtzMs,jdbcType=VARCHAR}, #{qtfmMs,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, 
       #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP})
@@ -163,7 +163,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      leden_collect_looks_sequence.nextval,
+        <if test="pkId!=null">
+          #{pkId},
+        </if>
       <if test="ryjcxxcjbh != null" >
         #{ryjcxxcjbh,jdbcType=VARCHAR},
       </if>

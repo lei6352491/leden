@@ -50,7 +50,7 @@
       BJFLDM, DELETAG, ANNEX, 
       CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, 
       UPDATE_DATETIME, BJSJ)
-    values (leden_collect_handwriting_seq.nextval, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{bjwjgsdm,jdbcType=VARCHAR},
+    values (#{pkId}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{bjwjgsdm,jdbcType=VARCHAR},
       #{bjfldm,jdbcType=VARCHAR}, #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, 
       #{updateDatetime,jdbcType=TIMESTAMP}, #{bjsj,jdbcType=BLOB})
@@ -91,7 +91,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      leden_collect_handwriting_seq.nextval,
+      #{pkId},
       <if test="ryjcxxcjbh != null" >
         #{ryjcxxcjbh,jdbcType=VARCHAR},
       </if>
@@ -207,20 +207,21 @@
 
 
   <insert id="insertHandwritings" parameterType="list" statementType="PREPARED">
-     insert into LEDEN_COLLECT_HANDWRITING (PK_ID, RYJCXXCJBH, BJWJGSDM,
+    begin
+    <foreach collection="list" item="item" index="index" separator=";">
+      insert into LEDEN_COLLECT_HANDWRITING (PK_ID, RYJCXXCJBH, BJWJGSDM,
       BJFLDM, DELETAG, ANNEX,
       CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID,
       UPDATE_DATETIME, BJSJ)
-    select get_seq(leden_collect_handwriting_seq.nextval),A.* from (
-    <foreach collection="list" item="item" separator="union all">
-      select
-      #{item.ryjcxxcjbh,jdbcType=VARCHAR}, #{item.bjwjgsdm,jdbcType=VARCHAR},
+      values(
+      #{pkId},#{item.ryjcxxcjbh,jdbcType=VARCHAR}, #{item.bjwjgsdm,jdbcType=VARCHAR},
       #{item.bjfldm,jdbcType=VARCHAR}, #{item.deletag,jdbcType=VARCHAR}, #{item.annex,jdbcType=VARCHAR},
       #{item.createUserId,jdbcType=VARCHAR}, #{item.createDatetime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=VARCHAR},
       #{item.updateDatetime,jdbcType=TIMESTAMP}, #{item.bjsj,jdbcType=BLOB}
-      from dual
+      )
     </foreach>
-    ) A
+    ;end;
+
   </insert>
 
 
