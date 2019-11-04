@@ -1,6 +1,7 @@
 package com.zhouyi.business.core.vo.headvo;
 
 import com.zhouyi.business.core.vo.FPTHeaderVo;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  * @date 2019/7/6 10:06
  * @Version 1.0
  **/
+@ToString
 public class PackageHeadVo extends FPTHeaderVo {
 
     private String version;

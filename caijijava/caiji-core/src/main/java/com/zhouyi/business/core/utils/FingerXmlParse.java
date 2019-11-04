@@ -83,6 +83,7 @@ public class FingerXmlParse {
             //获取packageHead节点
             Element packageHeadElement = packageElement.element("packageHead");
             Iterator iterator = packageHeadElement.elementIterator();
+
             while (iterator.hasNext()) {
                 Element node = (Element) iterator.next();
 
@@ -105,6 +106,7 @@ public class FingerXmlParse {
             }
 
 
+            logger.info(packageHeadVo.toString());
             //校验头部信息
 //            boolean flag=securityUtil.repairpermissions(packageHeadVo,AuthoirtyEnum.FINGERPLAM);
 //            if(!flag){
