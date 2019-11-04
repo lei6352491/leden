@@ -332,7 +332,7 @@
             DELETAG, ANNEX, CREATE_USER_ID,
             CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME,
             ZHW_TXSJ)
-            values(
+            values
             (#{item.pkId,jdbcType=VARCHAR}, #{item.ryjcxxcjbh,jdbcType=VARCHAR}, #{item.zhwzhwdm,jdbcType=VARCHAR},
             #{item.zhwZzhwqsqkdm,jdbcType=VARCHAR}, #{item.zhwTxysfsms,jdbcType=VARCHAR}, #{item.zhwTxzl,jdbcType=VARCHAR},
             #{item.deletag,jdbcType=VARCHAR}, #{item.annex,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=VARCHAR},
