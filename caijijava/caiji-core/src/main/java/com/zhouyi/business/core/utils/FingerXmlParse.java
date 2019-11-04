@@ -158,7 +158,10 @@ public class FingerXmlParse {
 
 
             fingerAndPalm.setFingers(fingers);
+            fingerAndPalm.setPalms(palmss);
             fingerAndPalm.setFourfingers(fourprintMsgs);
+            fingerAndPalm.setFullpalms(fullplams);
+            fingerAndPalm.setPhalanges(phalanges);
             return fingerAndPalm;
 
         } catch (DocumentException e) {
