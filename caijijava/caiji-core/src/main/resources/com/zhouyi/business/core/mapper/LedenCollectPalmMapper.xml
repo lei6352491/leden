@@ -339,7 +339,7 @@
             #{item.createDatetime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=VARCHAR},
             #{item.updateDatetime,jdbcType=TIMESTAMP},
             #{item.zhwTxsj,jdbcType=BLOB})
-            )
+        
         </foreach>
         ;end;
     </insert>
