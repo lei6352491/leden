@@ -213,10 +213,10 @@ public class XMLParseController {
                 }
                 if (uploadFileMessage.getDataBrief().getFingerplam()) {
                     String pathbmp = filePathPrefix.toString() + "/FINGERPLAMBMP-"+personCode+".fptx";
-                    String pathwsq = filePathPrefix.toString() + "/FINGERPLAMWSQ-"+personCode+".fptx";
+                    //String pathwsq = filePathPrefix.toString() + "/FINGERPLAMWSQ-"+personCode+".fptx";
 
                     fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000003", "fptx", pathbmp,"0","1");
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000003", "fptx", pathwsq,"0","1");
+                    //fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000003", "fptx", pathwsq,"0","1");
 
                 }
                 //文件中数据的字段超过数据库的最大长度

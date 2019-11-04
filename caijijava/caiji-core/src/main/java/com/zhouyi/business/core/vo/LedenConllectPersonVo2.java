@@ -28,6 +28,8 @@ public class LedenConllectPersonVo2 extends LedenCollectPerson implements Serial
 
     private Integer total;
 
+    private String fileSuffix;
+
     private Date dateStart;
 
     private Date dateEnd;
@@ -103,5 +105,15 @@ public class LedenConllectPersonVo2 extends LedenCollectPerson implements Serial
     public void setSign(String sign) {
         this.sign = sign;
     }
+
+    public String getFileSuffix() {
+        return fileSuffix;
+    }
+
+    public void setFileSuffix(String fileSuffix) {
+        this.fileSuffix = fileSuffix;
+    }
+
+
 }
 

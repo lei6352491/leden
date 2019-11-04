@@ -104,8 +104,10 @@ public class LedenCollectPersonServiceImpl implements LedenCollectPersonService 
     public Response<PersonResult> selectPersonByPersonCode(String id) {
         PersonResult personResult = ledenCollectPersonMapper.selectPersonByPersonCode(id);
         if (personResult != null){
-            personResult.setEncode(new String(personResult.getJdxp()));
-            personResult.setJdxp(null);
+            if(personResult.getJdxp() != null){
+                personResult.setEncode(new String(personResult.getJdxp()));
+                personResult.setJdxp(null);
+            }
         }
         //System.out.println(new String(personResult.getJdxp()));
         //对图片进行加密

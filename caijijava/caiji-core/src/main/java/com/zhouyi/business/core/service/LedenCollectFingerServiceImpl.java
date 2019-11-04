@@ -71,7 +71,8 @@ public class LedenCollectFingerServiceImpl
         List<? extends LedenCollectFinger> fingers = fingerAndPalm.getFingers();
         if(fingers!=null&&fingers.size()>0){
             //删除原有的指纹数据
-            ledenCollectFingerMapper.deleteByPrimaryKey(fingers.get(0).getRyjcxxcjbh());
+            String ryjcxxcjbh = fingers.get(0).getRyjcxxcjbh();
+            ledenCollectFingerMapper.deleteByPersonCode(ryjcxxcjbh);
             fingers.forEach(x->x.setPkId(UUID.randomUUID().toString().replace("-","")));
             ledenCollectFingerMapper.insertFingers(fingers);
         }
@@ -85,7 +86,12 @@ public class LedenCollectFingerServiceImpl
             }else {
                 ledenCollectFourfingerMapper.deleteFourFingerByPersonId(fourfingers.get(0).getRyjcxxcjbh());
             }
-            fourfingers.forEach(x->x.setPkId(MathUtil.generateUUID()));
+            fourfingers.forEach(x-> {
+                x.setPkId(MathUtil.generateUUID());
+                if (x.getRyjcxxcjbh() == null){
+                    x.setRyjcxxcjbh(fingers.get(0).getRyjcxxcjbh());
+                }
+            });
             ledenCollectFourfingerMapper.insertBatch(fourfingers);
         }
 
@@ -125,16 +131,21 @@ public class LedenCollectFingerServiceImpl
         if (list == null || list.size() < 1) {
             return ResponseUtil.returnError(ReturnCode.ERROR_05);
         }
-        BASE64Encoder base64Encoder = new BASE64Encoder();
+        //BASE64Encoder base64Encoder = new BASE64Encoder();
         //加密图片信息
         list.stream().forEach(s -> {
             //0是指纹采集为正常
-            if ("0".equals(s.getZzhwqsqkdm())) {
-                String encode = base64Encoder.encode(s.getZwTxsj());
+            /*if ("0".equals(s.getZzhwqsqkdm())) {
+                *//*String encode = base64Encoder.encode(s.getZwTxsj());
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("data:image/png;base64,");
                 stringBuilder.append(encode);
-                s.setZwzp(stringBuilder.toString());
+                s.setZwzp(stringBuilder.toString());*//*
+                s.setZwzp(new String(s.getZwTxsj()));
+                s.setZwTxsj(null);
+            }*/
+            if (s.getZwTxsj() != null){
+                s.setZwzp(new String(s.getZwTxsj()));
                 s.setZwTxsj(null);
             }
             //添加状态码(供前端归类)

@@ -35,7 +35,7 @@
     select p.*,d1.name zwwz,d2.name zwqsqk from LEDEN_COLLECT_FOURFINGER p
       left join sys_dict_list d1 on p.SLZ_ZWZWDM = d1.code and d1.sign = 'DICT_ZHZHWWZ'
       left join sys_dict_list d2 on p.SLZ_ZZHWQSQKDM = d2.code and d2.sign = 'DICT_ZHZHWQSH'
-    where RYJCXXCJBH = #{id}
+    where RYJCXXCJBH = #{id} and SLZ_TXYSFSMS = '0000'
   </select>
 
     <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectFourfingerVo"
@@ -144,10 +144,13 @@
         from LEDEN_COLLECT_FOURFINGER
         where PK_ID = #{pkId,jdbcType=VARCHAR}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from LEDEN_COLLECT_FOURFINGER
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </delete>
+
+
     <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectFourfinger">
     insert into LEDEN_COLLECT_FOURFINGER (PK_ID, RYJCXXCJBH, SLZ_ZWZWDM,
       SLZ_ZZHWQSQKDM, SLZ_TXYSFSMS, SLZ_TXZL, 

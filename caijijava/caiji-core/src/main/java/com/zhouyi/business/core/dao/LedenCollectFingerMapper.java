@@ -22,4 +22,6 @@ public interface LedenCollectFingerMapper extends
      * 根据人员编号查询指纹信息
      * */
     List<LedenCollectFinger> selectFingerByPersonCode(String id);
+
+    void deleteByPersonCode (String personCode);
 }

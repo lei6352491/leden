@@ -1,7 +1,5 @@
 package com.zhouyi.business.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.zhouyi.business.config.ProvinceFtpUtil;
 import com.zhouyi.business.core.common.ReturnCode;
 import com.zhouyi.business.core.exception.BusinessException;
 import com.zhouyi.business.core.model.LedenEquipment;
@@ -9,28 +7,20 @@ import com.zhouyi.business.core.model.LedenEquipmentResult;
 import com.zhouyi.business.core.model.PageData;
 import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.service.LedenEquipmentService;
-import com.zhouyi.business.core.utils.HttpUtil;
 import com.zhouyi.business.core.utils.MapUtils;
 import com.zhouyi.business.core.utils.ResponseUtil;
 import com.zhouyi.business.core.vo.LedenEquipmentVo;
 import com.zhouyi.business.core.vo.LedenEquipmentVo2;
-import com.zhouyi.business.core.vo.ResponseVo;
 import com.zhouyi.business.dto.EquipmentListDto;
 import com.zhouyi.business.dto.LedenEquipmentDto;
-import com.zhouyi.business.model.provincecomprehensive.ResponseData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,53 +34,39 @@ import java.util.UUID;
  * @Version 1.0
  **/
 @RestController
-@RequestMapping(value = "/api/equipment")
+@RequestMapping(value="/api/equipment")
 @Api(description = "接入管理（设备管理）")
 public class LedenEquipmentController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LedenEquipmentController.class);
     @Autowired
     private LedenEquipmentService ledenEquipmentService;
 
-    @Value("${provinceComprehensive.ip}")
-    private String provinceIp;
-    @Value("${provinceComprehensive.port}")
-    private String provincePort;
-    @Value("${provinceComprehensive.interfaces.registry}")
-    private String registryInterface;
 
-
-    @Value("${temp.unitCode}")
-    private String tempUnitCode;
-
-    @Autowired
-    private ProvinceFtpUtil provinceFtpUtil;
     /**
      * 分页获取设备信息
-     *
      * @param ledenEquipmentDto
      * @return
      */
-    @RequestMapping(value = "/listEquipment", method = RequestMethod.POST)
+    @RequestMapping(value="/listEquipment",method= RequestMethod.POST)
     @ApiOperation(value = "列表查询接入信息")
-    public Response<PageData<LedenEquipment>> listEquipments(@RequestBody EquipmentListDto ledenEquipmentDto) {
-        Map<String, Object> conditions = MapUtils.objectTransferToMap(ledenEquipmentDto);
-        PageData<LedenEquipment> pageData = ledenEquipmentService.getLedenEquipmentPage(conditions);
-        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, pageData);
+    public Response<PageData<LedenEquipment>> listEquipments(@RequestBody EquipmentListDto ledenEquipmentDto){
+        Map<String,Object> conditions= MapUtils.objectTransferToMap(ledenEquipmentDto);
+        PageData<LedenEquipment> pageData=ledenEquipmentService.getLedenEquipmentPage(conditions);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,pageData);
     }
 
 
     /**
      * 更新设备信息
-     *
      * @param ledenEquipmentDto
-     * @return */
+     * @return
+     */
 
-    @RequestMapping(value = "/updateEquipment", method = RequestMethod.PUT)
+    @RequestMapping(value="/updateEquipment",method=RequestMethod.PUT)
     @ApiOperation(value = "更新接入信息")
-    public Response<Object> modifyEquipments(@RequestBody LedenEquipmentDto ledenEquipmentDto) {
-        LedenEquipment ledenEquipment = new LedenEquipment();
-        BeanUtils.copyProperties(ledenEquipmentDto, ledenEquipment);
+    public Response<Object> modifyEquipments(@RequestBody LedenEquipmentDto ledenEquipmentDto){
+        LedenEquipment ledenEquipment=new LedenEquipment();
+        BeanUtils.copyProperties(ledenEquipmentDto,ledenEquipment);
         Boolean result = ledenEquipmentService.updateLedenEquipment(ledenEquipment);
         return ResponseUtil.getResponseInfo(result);
     }
@@ -98,18 +74,17 @@ public class LedenEquipmentController {
 
     /**
      * 添加设备信息
-     *
      * @param ledenEquipmentDto
      * @return
      */
-    @RequestMapping(value = "/insertEquipment", method = RequestMethod.POST)
+    @RequestMapping(value="/insertEquipment",method=RequestMethod.POST)
     @ApiOperation(value = "添加接入信息")
-    public Response<Object> addEquipments(@RequestBody LedenEquipmentDto ledenEquipmentDto) {
-        LedenEquipment ledenEquipment = transferObject(ledenEquipmentDto);
+    public Response<Object> addEquipments(@RequestBody LedenEquipmentDto ledenEquipmentDto){
+        LedenEquipment ledenEquipment=transferObject(ledenEquipmentDto);
         String equipmentCode = ledenEquipmentService.addLedenEquipment(ledenEquipment);
-        if (StringUtils.isEmpty(equipmentCode)) {
+        if (StringUtils.isEmpty(equipmentCode)){
             return ResponseUtil.getResponseInfo(false);
-        } else {
+        }else {
             return ResponseUtil.getResponseInfo(true);
         }
     }
@@ -117,14 +92,13 @@ public class LedenEquipmentController {
 
     /**
      * 删除设备信息
-     *
      * @param id
      * @return
      */
-    @RequestMapping(value = "/delEquipment/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value="/delEquipment/{id}",method=RequestMethod.DELETE)
     @ApiOperation(value = "删除接入信息")
-    public Response<Object> delEquipment(@PathVariable Integer id) {
-        Boolean result = ledenEquipmentService.removeLedenEquipmentById(id);
+    public Response<Object> delEquipment(@PathVariable Integer id){
+        Boolean result=ledenEquipmentService.removeLedenEquipmentById(id);
         return ResponseUtil.getResponseInfo(result);
     }
 
@@ -134,23 +108,22 @@ public class LedenEquipmentController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/getEquipment/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getEquipment/{id}",method=RequestMethod.GET)
     @ApiOperation(value = "根据id获取接入信息")
-    public Response<LedenEquipment> getEquipmentById(@PathVariable Integer id) {
-        LedenEquipment ledenEquipment = ledenEquipmentService.getLedenEquipmentById(id);
-        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, ledenEquipment);
+    public Response<LedenEquipment> getEquipmentById(@PathVariable Integer id){
+        LedenEquipment ledenEquipment=ledenEquipmentService.getLedenEquipmentById(id);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,ledenEquipment);
     }
 
 
     /**
      * 对象转换方法
-     *
      * @param ledenEquipmentDto
      * @return
      */
-    private LedenEquipment transferObject(LedenEquipmentDto ledenEquipmentDto) {
-        LedenEquipment ledenEquipment = new LedenEquipment();
-        BeanUtils.copyProperties(ledenEquipmentDto, ledenEquipment);
+    private LedenEquipment transferObject(LedenEquipmentDto ledenEquipmentDto){
+        LedenEquipment ledenEquipment=new LedenEquipment();
+        BeanUtils.copyProperties(ledenEquipmentDto,ledenEquipment);
         return ledenEquipment;
     }
 
@@ -161,76 +134,22 @@ public class LedenEquipmentController {
      * @return
      */
     @ApiOperation(value = "接入注册")
-    @RequestMapping(value = "/applyRegisterClient", method = RequestMethod.POST)
-    public Response<String> collectNodeRegister(@RequestBody LedenEquipmentVo ledenEquipmentVo) throws Exception {
-        ledenEquipmentVo.setPkId(UUID.randomUUID().toString().substring(0, 32));
-        //向省厅发起注册
-        String provinceNumber = postRegisterClient(ledenEquipmentVo.getUnitCode(), ledenEquipmentVo.getEquipmentIp(), ledenEquipmentVo.getEquipmentMac());
-
-        ledenEquipmentVo.setProvincialEquipmentCode(provinceNumber);
-        String equipmentCode = ledenEquipmentService.collectNodeRegister(ledenEquipmentVo);
-        if (equipmentCode != null && !"".equals(equipmentCode)) {
-            //到省厅ftp上生成目录
-            generaterFtpFolder(provinceNumber);
-        }
-        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, equipmentCode);
+    @RequestMapping(value="/applyRegisterClient",method=RequestMethod.POST)
+    public Response<String> collectNodeRegister(@RequestBody LedenEquipmentVo ledenEquipmentVo){
+            ledenEquipmentVo.setPkId(UUID.randomUUID().toString().substring(0,32));
+            String equipmentCode=ledenEquipmentService.collectNodeRegister(ledenEquipmentVo);
+            return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,equipmentCode);
     }
-
-    /**
-     * 在省综ftp下生成文件夹
-     */
-    private void generaterFtpFolder(String folderName) throws Exception {
-            provinceFtpUtil.connect();
-            provinceFtpUtil.createDir(folderName);
-            provinceFtpUtil.disconnect();
-    }
-
-    /**
-     * 向省厅注册方法
-     * @param unitCode
-     * @param ip
-     * @param mac
-     */
-    private String postRegisterClient(String unitCode, String ip, String mac) throws Exception {
-        StringBuffer url = new StringBuffer("http://");
-        url.append(provinceIp);
-        url.append(":");
-        url.append(provincePort);
-        url.append(registryInterface);
-
-        Map<String, String> params = new HashMap<>(3);
-        params.put("unitCode", tempUnitCode);
-        params.put("ip", ip);
-        params.put("mac", mac);
-        ResponseVo responseVo = HttpUtil.sendPostByJson(url.toString(), params);
-        if (responseVo.isOk()) {
-            //如果服务调用成功则检测数据
-            ResponseData data = (ResponseData) JSONObject.parse(responseVo.getData());
-            if ("0".equals(data.getStatus())) {
-                //失败
-                logger.info("接口调用失败:" + data.getValue());
-                throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());
-            } else if ("1".equals(data.getStatus())) {
-                //成功
-                logger.info("省厅注册成功：设备编号为" + data.getValue());
-                return data.getValue();
-            }
-        } else {
-            throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());
-        }
-        return null;
-    }
-
-
 
     /**
      * 查询设备接入注册信息列表
-     */
+     * */
     @ApiOperation(value = "查询接入注册列表")
-    @RequestMapping(value = "/selectEquipmentList", method = RequestMethod.POST)
+    @RequestMapping(value="/selectEquipmentList",method=RequestMethod.POST)
     public Response selectEquipmentListByData(@RequestBody LedenEquipmentVo2 ledenEquipmentVo2) {
         return ledenEquipmentService.selectEquipmentListByData(ledenEquipmentVo2);
     }
+
 
 
 }

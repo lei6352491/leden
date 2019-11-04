@@ -39,16 +39,20 @@ public class LedenCollectPalmServiceImpl
             return ResponseUtil.returnError(ReturnCode.ERROR_05);
         //把数据添加到集合中
         List list = new ArrayList<>();
-        BASE64Encoder base64Encoder = new BASE64Encoder();
+        //BASE64Encoder base64Encoder = new BASE64Encoder();
         if (palms.size() > 0){
             //加密图片信息
             palms.stream().forEach(s -> {
-                if ("0".equals(s.getZhwZzhwqsqkdm())){
+                /*if ("0".equals(s.getZhwZzhwqsqkdm())){
                     String encode = base64Encoder.encode(s.getZhwTxsj());
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("data:image/png;base64,");
                     stringBuilder.append(encode);
                     s.setZzwzp(stringBuilder.toString());
+                    s.setZhwTxsj(null);
+                }*/
+                if (s.getZhwTxsj() != null){
+                    s.setZzwzp(new String(s.getZhwTxsj()));
                     s.setZhwTxsj(null);
                 }
             });
@@ -56,12 +60,16 @@ public class LedenCollectPalmServiceImpl
         if (fourfingers.size() > 0){
             //加密图片信息
             fourfingers.stream().forEach( s -> {
-                if ("0".equals(s.getSlzZzhwqsqkdm())){
+                /*if ("0".equals(s.getSlzZzhwqsqkdm())){
                     String encode = base64Encoder.encode(s.getSlzTxsj());
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("data:image/png;base64,");
                     stringBuilder.append(encode);
                     s.setCzwzp(stringBuilder.toString());
+                    s.setSlzTxsj(null);
+                }*/
+                if (s.getSlzTxsj() != null){
+                    s.setCzwzp(new String(s.getSlzTxsj()));
                     s.setSlzTxsj(null);
                 }
             });

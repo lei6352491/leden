@@ -35,7 +35,7 @@
     select f.*,d1.name zwwz,d2.name zwqsqk from leden_collect_finger f
       left join sys_dict_list d1 on f.zwzwdm = d1.code and d1.sign = 'DICT_ZHZHWWZ'
       left join sys_dict_list d2 on f.zzhwqsqkdm = d2.code and d2.sign = 'DICT_ZHZHWQSH'
-    where RYJCXXCJBH = #{id}
+    where RYJCXXCJBH = #{id} and ZW_TXYSFFMS = '0000'
   </select>
 
   <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectFingerVo"
@@ -144,10 +144,16 @@
     from LEDEN_COLLECT_FINGER
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from LEDEN_COLLECT_FINGER
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </delete>
+
+  <delete id="deleteByPersonCode" parameterType="java.lang.String">
+        delete from LEDEN_COLLECT_FINGER where RYJCXXCJBH = #{id}
+  </delete>
+
   <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectFinger" >
     insert into LEDEN_COLLECT_FINGER (PK_ID, RYJCXXCJBH, ZWZWDM,
       ZZHWQSQKDM, ZW_TXYSFFMS, ZW_TXZL, 

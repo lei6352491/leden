@@ -56,11 +56,20 @@
           left join leden_upload_log l on a.upload_log_id = l.pk_id
           left join leden_collect_person p on p.ryjcxxcjbh = l.ryjcxxcjbh
         <where>
+          <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
+            and p.RYJCXXCJBH = #{ryjcxxcjbh}
+          </if>
           <if test="cjrxm != null and cjrxm != ''">
             and p.CJRXM like concat('%',concat(#{cjrxm},'%'))
           </if>
+          <if test="cjdwdm != null and cjdwdm != ''">
+            and p.CJDWDM = #{cjdwdm}
+          </if>
           <if test="cjdwmc != null and cjdwmc != ''">
             and p.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
+          </if>
+          <if test="fileSuffix != null and fileSuffix != ''">
+            and a.FILE_SUFFIX = #{fileSuffix}
           </if>
           <if test="dateStart != null">
             and p.CJSJ &gt;= #{dateStart}
