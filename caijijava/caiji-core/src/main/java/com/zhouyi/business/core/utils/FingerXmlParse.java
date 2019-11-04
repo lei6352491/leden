@@ -303,14 +303,15 @@ public class FingerXmlParse {
      * @return
      */
     public static <T> List<T> packageDataEntityList(Element element, Class<T> targetClass) throws IllegalAccessException, NoSuchFieldException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+
+        List<T> targetDataList = new ArrayList<>();
         if (element == null) {
             logger.info("采集数据中缺少数据节点：" + targetClass.getSimpleName());
-            return null;
+            return targetDataList;
         } else if (element.elements().size() == 0) {
             logger.info(targetClass.getSimpleName() + "数据节点中子节点为0");
         }
         Iterator iterator = element.elementIterator();
-        List<T> targetDataList = new ArrayList<>();
         while (iterator.hasNext()) {
             Element childElement = (Element) iterator.next();
             T t = packageEntityData(childElement, targetClass);
