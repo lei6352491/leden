@@ -59,7 +59,7 @@ public class LedenCollectGoodsServiceImpl implements LedenCollectGoodsService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean inputGoodsByXml(String path) throws AuthenticationException, XmlParseException {
 
 
@@ -103,6 +103,8 @@ public class LedenCollectGoodsServiceImpl implements LedenCollectGoodsService {
             }
             //进行新增操作
             //新增前删除原来信息
+            ledenCollectGoods.setCreateUserId(goodsVo.head.getUSER_CODE());
+            ledenCollectGoods.setCreateDatetime(new Date());
             ledenCollectGoodsMapper.deleteGoodsByPersonId(ledenCollectGoods.getRyjcxxcjbh());
             ledenCollectGoodsMapper.insertSelective(ledenCollectGoods);
 

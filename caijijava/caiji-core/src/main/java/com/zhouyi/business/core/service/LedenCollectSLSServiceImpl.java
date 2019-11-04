@@ -65,10 +65,13 @@ public class LedenCollectSLSServiceImpl implements LedenCollectSLSService {
 
         //创建身高/足长/体重对象
         LedenCollectSgtzzc ledenCollectSgtzzc=new LedenCollectSgtzzc();
+        ledenCollectSgtzzc.setPkId(UUID.randomUUID().toString().replace("-",""));
         //创建体貌特征对象
         LedenCollectLooks ledenCollectLooks=new LedenCollectLooks();
+        ledenCollectLooks.setPkId(UUID.randomUUID().toString().replace("-",""));
         //创建特殊体征对象
         List<LedenCollectSign> ledenCollectSigns=new ArrayList<>();
+
 
 
 
@@ -102,6 +105,7 @@ public class LedenCollectSLSServiceImpl implements LedenCollectSLSService {
             for (LedenCollectSign ledenCollectSign : ledenCollectSigns){
                 if (ledenCollectSign.getRyjcxxcjbh() == null){
                     ledenCollectSign.setRyjcxxcjbh(ledenCollectSLSVo.data.ryjcxxcjbh);
+                    ledenCollectSign.setPkId(UUID.randomUUID().toString().replace("-",""));
                 }
             }
             //删除原有数据

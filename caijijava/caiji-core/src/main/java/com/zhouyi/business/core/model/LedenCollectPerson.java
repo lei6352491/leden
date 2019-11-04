@@ -101,6 +101,45 @@ public class LedenCollectPerson implements Serializable {
 
     private String encode;
 
+
+    /**
+     *职业代码
+     */
+    private String zydm;
+    /**
+     * 联系电话
+     */
+    private String lxdh;
+    /**
+     * 工作单位
+     */
+    private String gzdw;
+
+
+    public String getZydm() {
+        return zydm;
+    }
+
+    public void setZydm(String zydm) {
+        this.zydm = zydm;
+    }
+
+    public String getLxdh() {
+        return lxdh;
+    }
+
+    public void setLxdh(String lxdh) {
+        this.lxdh = lxdh;
+    }
+
+    public String getGzdw() {
+        return gzdw;
+    }
+
+    public void setGzdw(String gzdw) {
+        this.gzdw = gzdw;
+    }
+
     public String getEncode() {
         return encode;
     }

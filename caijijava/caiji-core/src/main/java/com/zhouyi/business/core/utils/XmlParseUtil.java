@@ -162,11 +162,35 @@ public class XmlParseUtil {
                         //如果不为集合
                         result=dealSingleton(dataField.getType(),childrenElement.element("data"));
                     }
+                    /**
+                     * 11-2
+                     */
+                    //将采集人写入对象
+//                    Field field= null;
+//                    try {
+//                        field = result.getClass().getField("createUserId");
+//                        boolean flag=predicateFiledExistAndIsNull(field,result);
+//                        if(flag){
+//                            field.set(result,userCodeThreadLocal.get());
+//                        }
+//                        //将创建时间写入
+//                        field=result.getClass().getField("createDatetime");
+//                        flag=predicateFiledExistAndIsNull(field,result);
+//                        if(flag){
+//                            field.set(result,new Date());
+//                        }
+//                    } catch (Exception e) {
+//                    }
+
+
+
                     clazz.getField("data").set(dataResult,result);
                 }
 
             }
+
         } catch (DocumentException e) {
+
             e.printStackTrace();
             throw new XmlParseException("文档解析失败:"+e.getMessage());
         } catch (IllegalAccessException e) {
@@ -290,18 +314,7 @@ public class XmlParseUtil {
         }
 
 
-        //将采集人写入对象
-        Field field=resultDate.getClass().getField("createUserId");
-        boolean flag=predicateFiledExistAndIsNull(field,resultDate);
-        if(flag){
-            field.set(resultDate,userCodeThreadLocal.get());
-        }
-        //将创建时间写入
-        field=resultDate.getClass().getField("createDatetime");
-        flag=predicateFiledExistAndIsNull(field,resultDate);
-        if(flag){
-            field.set(resultDate,new Date());
-        }
+
         return resultDate;
     }
 

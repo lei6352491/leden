@@ -1,5 +1,7 @@
 package com.zhouyi.business.core.vo.xml;
 
+import java.util.Date;
+
 /**
  * @author 李秸康
  * @ClassNmae: LedenCollectFootprintXml
@@ -25,6 +27,25 @@ public class LedenCollectFootprintXml {
 
     public String annex;
 
+    public String createUserId;
+
+    public Date createDatetime;
+
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
+
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
+    }
 
     public String getRyjcxxcjbh() {
         return ryjcxxcjbh;
