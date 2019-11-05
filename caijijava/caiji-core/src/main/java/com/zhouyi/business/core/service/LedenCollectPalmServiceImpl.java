@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class LedenCollectPalmServiceImpl
         extends BaseServiceImpl<LedenCollectPalm, LedenCollectPalmVo>
-        implements LedenCollectPalmService{
+        implements LedenCollectPalmService {
 
     @Autowired
     private LedenCollectPalmMapper ledenCollectPalmMapper;
@@ -28,21 +28,21 @@ public class LedenCollectPalmServiceImpl
 
     /**
      * 根据人员编号查询掌纹与四指指纹信息
-     * */
+     */
     @Override
     public Response selectPalmOrFourFingerByPersonCode(String id) {
         //获取掌纹信息
-        List<LedenCollectPalm> palms =  ledenCollectPalmMapper.selectPalmFingerByPersonCode(id);
+        List<LedenCollectPalm> palms = ledenCollectPalmMapper.selectPalmFingerByPersonCode(id);
         //获取四指指纹信息
-        List<LedenCollectFourfinger> fourfingers = ledenCollectFourfingerMapper.selectFourFingerByPersonCode(id);
-        if (palms.size() == 0 && fourfingers.size() == 0)
+        //List<LedenCollectFourfinger> fourfingers = ledenCollectFourfingerMapper.selectFourFingerByPersonCode(id);
+        if (palms.size() <= 0)
             return ResponseUtil.returnError(ReturnCode.ERROR_05);
         //把数据添加到集合中
         List list = new ArrayList<>();
         //BASE64Encoder base64Encoder = new BASE64Encoder();
-        if (palms.size() > 0){
-            //加密图片信息
-            palms.stream().forEach(s -> {
+
+        //加密图片信息
+        palms.stream().forEach(s -> {
                 /*if ("0".equals(s.getZhwZzhwqsqkdm())){
                     String encode = base64Encoder.encode(s.getZhwTxsj());
                     StringBuilder stringBuilder = new StringBuilder();
@@ -51,31 +51,31 @@ public class LedenCollectPalmServiceImpl
                     s.setZzwzp(stringBuilder.toString());
                     s.setZhwTxsj(null);
                 }*/
-                if (s.getZhwTxsj() != null){
-                    s.setZzwzp(new String(s.getZhwTxsj()));
-                    s.setZhwTxsj(null);
-                }
-            });
-        }
-        if (fourfingers.size() > 0){
+            if (s.getZhwTxsj() != null) {
+                s.setZzwzp(new String(s.getZhwTxsj()));
+                s.setZhwTxsj(null);
+            }
+        });
+
+        /*if (fourfingers.size() > 0){
             //加密图片信息
             fourfingers.stream().forEach( s -> {
-                /*if ("0".equals(s.getSlzZzhwqsqkdm())){
+                *//*if ("0".equals(s.getSlzZzhwqsqkdm())){
                     String encode = base64Encoder.encode(s.getSlzTxsj());
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("data:image/png;base64,");
                     stringBuilder.append(encode);
                     s.setCzwzp(stringBuilder.toString());
                     s.setSlzTxsj(null);
-                }*/
+                }*//*
                 if (s.getSlzTxsj() != null){
                     s.setCzwzp(new String(s.getSlzTxsj()));
                     s.setSlzTxsj(null);
                 }
             });
-        }
+        }*/
         list.add(palms);
-        list.add(fourfingers);
-        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,list);
+        //list.add(fourfingers);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, list);
     }
 }

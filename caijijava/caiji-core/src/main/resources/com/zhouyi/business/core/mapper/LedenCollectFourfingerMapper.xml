@@ -35,7 +35,7 @@
     select p.*,d1.name zwwz,d2.name zwqsqk from LEDEN_COLLECT_FOURFINGER p
       left join sys_dict_list d1 on p.SLZ_ZWZWDM = d1.code and d1.sign = 'DICT_ZHZHWWZ'
       left join sys_dict_list d2 on p.SLZ_ZZHWQSQKDM = d2.code and d2.sign = 'DICT_ZHZHWQSH'
-    where RYJCXXCJBH = #{id} and SLZ_TXYSFSMS = '0000'
+    where RYJCXXCJBH = #{id}
   </select>
 
     <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectFourfingerVo"

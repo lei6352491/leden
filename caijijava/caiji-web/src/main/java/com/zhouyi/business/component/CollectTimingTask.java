@@ -367,7 +367,7 @@ public class CollectTimingTask{
                     }
                 }catch (Exception E){
                     E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
+                    ledenUploadPacket.setResolveResultInfo(E.getMessage());
                     updateUploadPacket(ledenUploadPacket);
                 }
             }

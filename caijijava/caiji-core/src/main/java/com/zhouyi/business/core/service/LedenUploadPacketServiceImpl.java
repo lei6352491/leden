@@ -35,6 +35,15 @@ public class LedenUploadPacketServiceImpl
     }
 
     /**
+     * 获取文件类型列表
+     * */
+    @Override
+    public Response<String> selectFileSuffixList(){
+        List<String> strings = ledenUploadPacketMapper.selectFileSuffixList();
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,strings);
+    }
+
+    /**
      * 多条件查询数据包列表
      * */
     @Override

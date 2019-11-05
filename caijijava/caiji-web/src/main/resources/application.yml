@@ -169,8 +169,8 @@ temp:
 
 Script:
   src:
-    host: 11111
-    port: 1111
+    host: 192.168.1.152
+    port: 22
     user: root
-    password: 23432
-    cmd: dfsdf
+    password: 123456
+    cmd: sh /root/test.sh

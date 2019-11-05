@@ -3,6 +3,7 @@ package com.zhouyi.business.controller;
 import com.zhouyi.business.core.model.LedenCollectFourfinger;
 import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.service.BaseService;
+import com.zhouyi.business.core.service.LedenCollectFourfingerService;
 import com.zhouyi.business.core.vo.LedenCollectFourfingerVo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class LedenCollectFourfingerController {
 
     @Autowired
     private BaseService<LedenCollectFourfinger, LedenCollectFourfingerVo> baseService;
+
+    @Autowired
+    private LedenCollectFourfingerService ledenCollectFourfingerService;
 
     @RequestMapping(value = "/get/{id}")
     public Response getDataById(@PathVariable(value = "id") String id){
@@ -46,6 +50,11 @@ public class LedenCollectFourfingerController {
     @RequestMapping("/delete/{id}")
     public Response deleteData(@PathVariable(value = "id")String id){
         return baseService.deleteData(id);
+    }
+
+    @RequestMapping(value = "/findfourfinger/{id}")
+    public Response findFourFingerByPersonCode(@PathVariable(value = "id")String personCode){
+        return ledenCollectFourfingerService.findFourFingerByPersonCode(personCode);
     }
 
 }

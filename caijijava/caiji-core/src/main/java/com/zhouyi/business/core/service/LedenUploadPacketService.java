@@ -19,4 +19,5 @@ public interface LedenUploadPacketService extends BaseService<LedenUploadPacket,
 
     LedenUploadPacket downloadPacket(String id);
 
+    Response<String> selectFileSuffixList();
 }

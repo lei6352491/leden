@@ -4,17 +4,21 @@ import com.zhouyi.business.core.common.ReturnCode;
 import com.zhouyi.business.core.exception.ExceptionCast;
 import com.zhouyi.business.core.model.Head;
 import com.zhouyi.business.core.utils.ResponseUtil;
+import javafx.scene.input.DataFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import sun.net.www.protocol.ftp.FtpURLConnection;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -46,7 +50,7 @@ public class JsoupParseXmlUtils {
                 URL url = new URL(xmlContext);
                 FtpURLConnection ftpURLConnection = new FtpURLConnection(url);
                 InputStream inputStream = ftpURLConnection.getInputStream();
-                document = Jsoup.parse(inputStream,"utf-8",xmlContext);
+                document = Jsoup.parse(inputStream, "utf-8", xmlContext);
                 //document = Jsoup.parse(xmlContext, "utf-8");
             } else {
                 document = Jsoup.parse(xmlContext);
@@ -132,8 +136,19 @@ public class JsoupParseXmlUtils {
             String substring = filePath.substring(0, 3);
             Document document = null;
             if ("ftp".equalsIgnoreCase(substring)) {
+                URL url = new URL(filePath);
+                FtpURLConnection ftpURLConnection = new FtpURLConnection(url);
+                InputStream inputStream = ftpURLConnection.getInputStream();
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                byte[] bytes = new byte[1024];
+                int i = 0;
+                while ((i = inputStream.read(bytes)) != -1) {
+                    byteArrayOutputStream.write(bytes, 0, i);
+                }
+                String string = byteArrayOutputStream.toString();
                 //获取xml文档对象
-                document = Jsoup.parse(filePath, "utf-8");
+                document = Jsoup.parse(string);
+
             } else {
                 document = Jsoup.parse(filePath);
             }
@@ -163,83 +178,77 @@ public class JsoupParseXmlUtils {
                 }
                 //获取datalist标签的元素对象
                 Element dataListElement = document.getElementsByTag("datalist").first();
-                //获取data标签集合
                 Elements dataElments = dataListElement.children();
+                Object objectParent = parentClass.newInstance();
+                Field[] parentFields = getFields(parentClass);
+
                 for (Element element : dataElments) {
-                    if (parentClass != null) {
-                        Field[] parentFields = getFields(parentClass);
-                        //Method[] parentMethods = getMethods(parentClass);
-                        Object objectParent = parentClass.newInstance();
-                        //获取data标签集合下的子节点集合
-                        Elements dataElements = element.children();
-                        for (Element dataChildElement : dataElements) {
-                            for (Field field : parentFields) {
-                                if (dataChildElement.tagName().replace("_", "").equalsIgnoreCase(field.getName())) {
-                                    field.setAccessible(true);
-                                    if (field.getGenericType().getTypeName().equals(String.class.getTypeName())) {
-                                        field.set(objectParent, dataChildElement.text());
-                                    }
-                                    if (field.getGenericType().getTypeName().equals(byte[].class.getTypeName())) {
-                                        field.set(objectParent, dataChildElement.text().getBytes());
-                                    }
-                                    if (field.getGenericType().getTypeName().equals(Long.class.getTypeName())) {
-                                        field.set(objectParent, Long.parseLong(dataChildElement.text()));
-                                    }
-                                    if (field.getGenericType().getTypeName().equals(Date.class.getTypeName())) {
-                                        field.set(objectParent, new Date(Long.parseLong(dataChildElement.text())));
-                                    }
-                                    if (field.getGenericType().getTypeName().equals(BigDecimal.class.getTypeName())) {
-                                        field.set(objectParent, new BigDecimal(dataChildElement.text()));
-                                    }
-                                }
-                            }
-                            if ("datalist".equalsIgnoreCase(dataChildElement.tagName())) {
-                                //获取data标签集合
-                                Elements dataChildElements = dataChildElement.children();
-                                for (Element dataChildElementChild : dataChildElements) {
-                                    //获取data标签集合下的子节点集合
-                                    Elements elements = dataChildElementChild.children();
-                                    Field[] childFields = getFields(childClass);
-                                    Object objectChild = childClass.newInstance();
-                                    //变量子标签集合
-                                    for (Element elementChild : elements) {
-                                        for (Field field : childFields) {
-                                            if (elementChild.tagName().replace("_", "").equalsIgnoreCase(field.getName())) {
-                                                field.setAccessible(true);
-                                                if (field.getGenericType().getTypeName().equals(String.class.getTypeName())) {
-                                                    field.set(objectChild, elementChild.text());
-                                                }
-                                                if (field.getGenericType().getTypeName().equals(byte[].class.getTypeName())) {
-                                                    field.set(objectChild, elementChild.text().getBytes());
-                                                }
-                                                if (field.getGenericType().getTypeName().equals(Long.class.getTypeName())) {
-                                                    field.set(objectChild, Long.parseLong(elementChild.text()));
-                                                }
-                                                if (field.getGenericType().getTypeName().equals(Date.class.getTypeName())) {
-                                                    field.set(objectChild, new Date(Long.parseLong(elementChild.text())));
-                                                }
-                                                if (field.getGenericType().getTypeName().equals(BigDecimal.class.getTypeName())) {
-                                                    field.set(objectChild, new BigDecimal(elementChild.text()));
-                                                }
-                                            }
+                    if ("datalist".equalsIgnoreCase(element.tagName())){
+                        Elements dataChildElements = element.children();
+                        for (Element dataChildElementChild : dataChildElements) {
+                            //获取data标签集合下的子节点集合
+                            Elements elements = dataChildElementChild.children();
+                            Field[] childFields = getFields(childClass);
+                            Object objectChild = childClass.newInstance();
+                            //遍历子标签集合
+                            for (Element elementChild : elements) {
+                                for (Field field : childFields) {
+                                    if (elementChild.tagName().replace("_", "").equalsIgnoreCase(field.getName())) {
+                                        field.setAccessible(true);
+                                        if (field.getGenericType().getTypeName().equals(String.class.getTypeName())) {
+                                            field.set(objectChild, elementChild.text());
+                                        }
+                                        if (field.getGenericType().getTypeName().equals(byte[].class.getTypeName())) {
+                                            field.set(objectChild, elementChild.text().getBytes());
+                                        }
+                                        if (field.getGenericType().getTypeName().equals(Long.class.getTypeName())) {
+                                            field.set(objectChild, Long.parseLong(elementChild.text()));
+                                        }
+                                        if (field.getGenericType().getTypeName().equals(Date.class.getTypeName())) {
+                                            field.set(objectChild, conversionDate(elementChild.text()));
+                                        }
+                                        if (field.getGenericType().getTypeName().equals(BigDecimal.class.getTypeName())) {
+                                            field.set(objectChild, new BigDecimal(elementChild.text()));
                                         }
                                     }
-                                    //把子节点对象添加到集合中
-                                    childList.add(objectChild);
+                                }
+                            }
+                            //把子节点对象添加到集合中
+                            childList.add(objectChild);
+                        }
+                    }else {
+                        for (Field field : parentFields) {
+                            if (element.tagName().replace("_", "").equalsIgnoreCase(field.getName())) {
+                                field.setAccessible(true);
+                                if (field.getGenericType().getTypeName().equals(String.class.getTypeName())) {
+                                    field.set(objectParent, element.text());
+                                }
+                                if (field.getGenericType().getTypeName().equals(byte[].class.getTypeName())) {
+                                    field.set(objectParent, element.text().getBytes());
+                                }
+                                if (field.getGenericType().getTypeName().equals(Long.class.getTypeName())) {
+                                    field.set(objectParent, Long.parseLong(element.text()));
+                                }
+                                if (field.getGenericType().getTypeName().equals(Date.class.getTypeName())) {
+                                    field.set(objectParent, conversionDate(element.text()));
+                                }
+                                if (field.getGenericType().getTypeName().equals(BigDecimal.class.getTypeName())) {
+                                    field.set(objectParent, new BigDecimal(element.text()));
                                 }
                             }
                         }
-                        //把子节点集合添加到父节点对象中
-                        for (Field field : parentFields) {
-                            if (field.getGenericType().getTypeName().equals(List.class.getTypeName())) {
-                                field.setAccessible(true);
-                                field.set(objectParent, childList);
-                            }
-                        }
-                        //把父节点添加到集合中
-                        parenList.add(objectParent);
                     }
                 }
+                //把子节点集合添加到父节点对象中
+                for (Field field : parentFields) {
+                    if (field.getGenericType().getTypeName().equals(List.class.getTypeName())) {
+                        field.setAccessible(true);
+                        field.set(objectParent, childList);
+                    }
+                }
+                //把父节点添加到集合中
+                parenList.add(objectParent);
+
                 //返回解析数据
                 map.put("head", head);
                 map.put("data", parenList);
@@ -250,6 +259,27 @@ public class JsoupParseXmlUtils {
             ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_1027));
         }
         return null;
+    }
+
+    private static Date conversionDate(String stringDate) {
+        if ("".equals(stringDate)) {
+            return null;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = dateFormat.parse(stringDate);
+        } catch (ParseException e) {
+            SimpleDateFormat dateFormat1 = new SimpleDateFormat("HH:mm:ss");
+            try {
+                date = dateFormat1.parse(stringDate);
+                return date;
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+        return date;
     }
 
     /*public static void main(String[] args) {

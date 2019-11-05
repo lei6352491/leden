@@ -136,8 +136,17 @@ public class LedenCollectGoodsServiceImpl implements LedenCollectGoodsService {
             MapUtils.setPageConditions(Integer.parseInt(pNo), Integer.parseInt(pSize), conditions);
 
         List<LedenCollectGoods> ledenCollectGoods = ledenCollectGoodsMapper.listDataByConditions(conditions);
-        encodeBase64(ledenCollectGoods);
-
+        ledenCollectGoods.stream().forEach(s->{
+            List<LedenCollectGPhoto> list = s.getgPhotos();
+            if (list != null && list.size() > 0){
+                list.stream().forEach(t->{
+                    if (t.getDzwjnr() != null){
+                        t.setBase64Img(new String(t.getDzwjnr()));
+                        t.setDzwjnr(null);
+                    }
+                });
+            }
+        });
         int total = ledenCollectGoodsMapper.getDataCountByConditions(conditions);
         PageData<LedenCollectGoods> pageData=new PageData(ledenCollectGoods,total,Integer.valueOf(pSize));
         return pageData;
