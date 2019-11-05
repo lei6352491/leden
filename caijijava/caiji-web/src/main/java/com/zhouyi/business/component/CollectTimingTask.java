@@ -372,6 +372,11 @@ public class CollectTimingTask{
                 }
             }
         }
+
+
+
+        //如果解析完成并且上报至省综平台
+
     }
 
     private void updateUploadPacket(LedenUploadPacket ledenUploadPacket){
@@ -391,5 +396,10 @@ public class CollectTimingTask{
         ledenCollectProcess.setCollectNodeId(nodeCode);
         return ledenCollectProcess;
     }
+
+
+
+
+
 
 }

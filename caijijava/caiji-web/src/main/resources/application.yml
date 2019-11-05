@@ -161,6 +161,7 @@ provinceComprehensive:
     password: zc_sjsb
   interfaces:
     registry: /htmisWebService/register/postRegisterClient
+    dataNumber: /htmisWebService/person/postCreateId
 
 
 temp:
