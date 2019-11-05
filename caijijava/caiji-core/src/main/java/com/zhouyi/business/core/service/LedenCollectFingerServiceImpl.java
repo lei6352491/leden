@@ -24,6 +24,8 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,6 +58,8 @@ public class LedenCollectFingerServiceImpl
     private LedenCollectFullpalmMapper ledenCollectFullpalmMapper;
     @Autowired
     private LedenCollectPhalangeMapper ledenCollectPhalangeMapper;
+
+    private static final Logger logger= LoggerFactory.getLogger(LedenCollectFingerServiceImpl.class);
     /**
      * @param
      * @return
@@ -65,14 +69,16 @@ public class LedenCollectFingerServiceImpl
      **/
     @Override
     @Transactional
-    public Boolean inputFingersByXml(String path) throws XMLParseException {
+    public Boolean inputFingersByXml(String path,String compressionAlgorithm) throws XMLParseException {
         FingerAndPalm fingerAndPalm = FingerXmlParse.parseFptx(path);
         //指纹数据
         List<? extends LedenCollectFinger> fingers = fingerAndPalm.getFingers();
+
+
         if(fingers!=null&&fingers.size()>0){
             //删除原有的指纹数据
             String ryjcxxcjbh = fingers.get(0).getRyjcxxcjbh();
-            ledenCollectFingerMapper.deleteByPersonCode(ryjcxxcjbh);
+            ledenCollectFingerMapper.deleteByPersonCode(ryjcxxcjbh,compressionAlgorithm);
             fingers.forEach(x->x.setPkId(UUID.randomUUID().toString().replace("-","")));
             ledenCollectFingerMapper.insertFingers(fingers);
         }
@@ -82,9 +88,9 @@ public class LedenCollectFingerServiceImpl
         if(fourfingers!=null&& fourfingers.size()>0){
             //删除数据
             if (fourfingers.get(0).getRyjcxxcjbh() == null){
-                ledenCollectFourfingerMapper.deleteFourFingerByPersonId(fingers.get(0).getRyjcxxcjbh());
+                ledenCollectFourfingerMapper.deleteFourFingerByPersonId(fingers.get(0).getRyjcxxcjbh(),compressionAlgorithm);
             }else {
-                ledenCollectFourfingerMapper.deleteFourFingerByPersonId(fourfingers.get(0).getRyjcxxcjbh());
+                ledenCollectFourfingerMapper.deleteFourFingerByPersonId(fourfingers.get(0).getRyjcxxcjbh(),compressionAlgorithm);
             }
             fourfingers.forEach(x-> {
                 x.setPkId(MathUtil.generateUUID());
@@ -98,30 +104,27 @@ public class LedenCollectFingerServiceImpl
         //掌纹数据
         List<LedenCollectPalm> palms = fingerAndPalm.getPalms();
         if(palms!=null&&palms.size()>0){
-            ledenCollectPalmMapper.deletePalmByPersonId(palms.get(0).getRyjcxxcjbh());
+            ledenCollectPalmMapper.deletePalmByPersonId(palms.get(0).getRyjcxxcjbh(),compressionAlgorithm);
             palms.forEach(x->x.setPkId(MathUtil.generateUUID()));
-            ledenCollectPalmMapper.insertBatch(palms);
         }
-
+        ledenCollectPalmMapper.insertBatch(palms);
 
         //全掌纹
         List<LedenCollectFullpalm> fullpalms = fingerAndPalm.getFullpalms();
         if(fullpalms!=null&&fullpalms.size()>0){
-            ledenCollectFullpalmMapper.deleteFullPalmByPersonId(fullpalms.get(0).getRyjcxxcjbh());
+            ledenCollectFullpalmMapper.deleteFullPalmByPersonId(fullpalms.get(0).getRyjcxxcjbh(),compressionAlgorithm);
             fullpalms.forEach(x->x.setPkId(MathUtil.generateUUID()));
-            ledenCollectFullpalmMapper.insertBatch(fullpalms);
         }
-
+        ledenCollectFullpalmMapper.insertBatch(fullpalms);
 
         //指节纹
         List<LedenCollectPhalange> phalanges = fingerAndPalm.getPhalanges();
         if(phalanges!=null&&phalanges.size()>0){
             //删除原有的指节纹数据
-            ledenCollectPhalangeMapper.deletePhalangeByPersonId(phalanges.get(0).getRyjcxxcjbh());
+            ledenCollectPhalangeMapper.deletePhalangeByPersonId(phalanges.get(0).getRyjcxxcjbh(),compressionAlgorithm);
              phalanges.forEach(x->x.setPkId(MathUtil.generateUUID()));
-             ledenCollectPhalangeMapper.insertBatch(phalanges);
         }
-
+        ledenCollectPhalangeMapper.insertBatch(phalanges);
         return true;
     }
 

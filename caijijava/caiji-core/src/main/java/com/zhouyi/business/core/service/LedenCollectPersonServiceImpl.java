@@ -64,7 +64,8 @@ public class LedenCollectPersonServiceImpl implements LedenCollectPersonService 
         LedenCollectPersonXml personXml=ledenConllectPersonVo.data;
         XmlParseUtil.copyHeader(ledenConllectPersonVo,personXml);
 
-        LedenCollectPerson ledenCollectPerson=new LedenCollectPerson();//创建pojo对象
+        //创建pojo对象
+        LedenCollectPerson ledenCollectPerson=new LedenCollectPerson();
 
         BeanUtils.copyProperties(personXml,ledenCollectPerson);
 

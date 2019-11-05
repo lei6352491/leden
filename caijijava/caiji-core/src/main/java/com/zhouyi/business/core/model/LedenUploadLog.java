@@ -22,6 +22,17 @@ public class LedenUploadLog implements Serializable {
 
     private Date uploadDatetime;
 
+    private Date createDatetime;
+
+
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
+
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public String getPkId() {

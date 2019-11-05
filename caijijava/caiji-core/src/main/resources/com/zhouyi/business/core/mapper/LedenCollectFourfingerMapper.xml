@@ -323,7 +323,13 @@
   </update>
 
     <delete id="deleteFourFingerByPersonId" parameterType="string">
-   delete from  LEDEN_COLLECT_FOURFINGER where ryjcxxcjbh=#{_parameter}
+   delete from  LEDEN_COLLECT_FOURFINGER where ryjcxxcjbh=#{personCode}
+        <if test="compressionAlgorithm=='0000'" >
+            and SLZ_TXYSFSMS='0000'
+        </if>
+        <if test="compressionAlgorithm!='0000'">
+            and SLZ_TXYSFSMS!='0000'
+        </if>
   </delete>
 
 

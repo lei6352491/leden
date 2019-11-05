@@ -70,7 +70,7 @@ public class LedenCollectIrisServiceImpl
 ////                        stringBuilder.append(encode);
 ////                        s.setHmzp(stringBuilder.toString());
 ////                        s.setHmsj(null);
-////                    }
+////                    finge}
 ////                    else if ("1".equals(s.getHmywdm())){
 ////                        String encode = new String(s.getHmsj());
 ////                        StringBuilder stringBuilder = new StringBuilder();

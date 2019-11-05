@@ -32,69 +32,58 @@ public class FileStoreUtils {
     private LedenUploadPacketService ledenUploadPacketService;
 
     public void automaticSavaData
-            (String equipmentCode, String personCode, String nodeCode, String fileType, String path, String status,String isEmpower){
-
-        LedenUploadLog ledenUploadLog = new LedenUploadLog();
-        ledenUploadLog.setPkId(UUID.randomUUID().toString().replace("-", ""));
-        ledenUploadLog.setEquipmentId(equipmentCode);
-        ledenUploadLog.setNodeSign(nodeCode);
-        ledenUploadLog.setIsEmpower(isEmpower);
-        ledenUploadLog.setRyjcxxcjbh(personCode);
-        ledenUploadLog.setUploadStatus("0");
-        ledenUploadLog.setUploadDatetime(new Date());
-        //把日志信息添加到数据库
-        ledenUploadLogService.saveData(ledenUploadLog);
+            (String equipmentCode, String personCode, String nodeCode, String fileType, String path, String status,String dataType){
 
         LedenUploadPacket ledenUploadPacket = new LedenUploadPacket();
         ledenUploadPacket.setPkId(UUID.randomUUID().toString().replace("-", ""));
-        ledenUploadPacket.setUploadLogId(ledenUploadLog.getPkId());
         ledenUploadPacket.setNodeSign(nodeCode);
         ledenUploadPacket.setFileLocation(path);
         ledenUploadPacket.setFileSuffix(fileType);
         ledenUploadPacket.setResolveStatus(status);
+        ledenUploadPacket.setEquipmentId(equipmentCode);
+        ledenUploadPacket.setRyjcxxcjbh(personCode);
+        ledenUploadPacket.setCreateDatetime(new Date());
+        ledenUploadPacket.setDataType(dataType);
         try {
             URL url = null;
             url = new URL(ledenUploadPacket.getFileLocation());
             FtpURLConnection ftpURLConnection = new FtpURLConnection(url);
-            ledenUploadPacket.setFileSize(BigDecimal.valueOf(ftpURLConnection.getContentLengthLong()));
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            ledenUploadPacket.setFileSize(BigDecimal.valueOf(0));
         }
         //把数据信息保存到数据库
         ledenUploadPacketService.saveData(ledenUploadPacket);
     }
 
-    public void automaticSavaPacket(String equipmentCode,String personCode,String packetNamePath,String nodeCode,String status,String path){
+    /**
+     * 录入ZIP数据包
+     * @param equipmentCode
+     * @param personCode
+     * @param packetNamePath
+     * @param nodeCode
+     * @param path
+     */
+    public void automaticSavaPacket(String equipmentCode,String personCode,String packetNamePath,String nodeCode,String path){
         //补全数据包信息
-        LedenUploadLog ledenUploadLog = new LedenUploadLog();
-        ledenUploadLog.setPkId(UUID.randomUUID().toString().replace("-", ""));
-        ledenUploadLog.setEquipmentId(equipmentCode);
-        ledenUploadLog.setNodeSign(nodeCode);
-        ledenUploadLog.setIsEmpower("1");
-        ledenUploadLog.setRyjcxxcjbh(personCode);
-        ledenUploadLog.setUploadStatus("0");
-        ledenUploadLog.setUploadDatetime(new Date());
-        //把日志信息添加到数据库
-        ledenUploadLogService.saveData(ledenUploadLog);
 
         LedenUploadPacket ledenUploadPacket = new LedenUploadPacket();
         ledenUploadPacket.setPkId(UUID.randomUUID().toString().replace("-", ""));
-        ledenUploadPacket.setUploadLogId(ledenUploadLog.getPkId());
         ledenUploadPacket.setNodeSign(nodeCode);
+        ledenUploadPacket.setDataType("ZIP");
+        ledenUploadPacket.setRyjcxxcjbh(personCode);
+        ledenUploadPacket.setEquipmentId(equipmentCode);
         ledenUploadPacket.setFileLocation
                 (path+"/bak/" + packetNamePath + ".zip");
         ledenUploadPacket.setFileSuffix("zip");
+        ledenUploadPacket.setCreateDatetime(new Date());
+        ledenUploadPacket.setResolveStatus("0");
         URL url = null;
         try {
             url = new URL(ledenUploadPacket.getFileLocation());
             FtpURLConnection ftpURLConnection = new FtpURLConnection(url);
-            ledenUploadPacket.setFileSize(BigDecimal.valueOf(ftpURLConnection.getContentLengthLong()));
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            ledenUploadPacket.setFileSize(BigDecimal.valueOf(0));
         }
-        ledenUploadPacket.setResolveStatus(status);
         //把数据包信息保存到数据库
         ledenUploadPacketService.saveData(ledenUploadPacket);
     }

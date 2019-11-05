@@ -3,6 +3,7 @@ package com.zhouyi.business.core.dao;
 import com.zhouyi.business.core.model.LedenCollectFourfinger;
 import com.zhouyi.business.core.vo.LedenCollectFourfingerVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ public interface LedenCollectFourfingerMapper extends
 
         List<LedenCollectFourfinger> selectFourFingerByPersonCode(String id);
 
-        int deleteFourFingerByPersonId(String personId);
+        int deleteFourFingerByPersonId(@Param("personId") String personId, @Param("compressionAlgorithm") String compressionAlgorithm);
 }

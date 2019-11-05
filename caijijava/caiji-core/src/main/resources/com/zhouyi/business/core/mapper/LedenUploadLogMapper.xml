@@ -146,4 +146,12 @@
       UPLOAD_DATETIME = #{uploadDatetime,jdbcType=TIMESTAMP}
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </update>
+
+
+  <insert id="insertUploadLog" parameterType="com.zhouyi.business.core.model.LedenUploadLog">
+    insert into leden_upload_log(pk_id,equipment_id,ryjcxxcjbh,upload_status,create_datetime)
+    values(
+        #{pkId} ,#{equipmentId},#{ryjcxxcjbh},#{uploadStatus},#{createDatetime}
+    )
+  </insert>
 </mapper>

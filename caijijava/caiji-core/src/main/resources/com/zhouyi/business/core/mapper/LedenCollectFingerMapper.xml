@@ -151,7 +151,13 @@
   </delete>
 
   <delete id="deleteByPersonCode" parameterType="java.lang.String">
-        delete from LEDEN_COLLECT_FINGER where RYJCXXCJBH = #{id}
+    delete from LEDEN_COLLECT_FINGER where RYJCXXCJBH = #{personCode}
+    <if test="compressionAlgorithm=='0000'" >
+      and zw_txysffms='0000'
+    </if>
+    <if test="compressionAlgorithm!='0000'">
+      and zw_txysffms!='0000'
+    </if>
   </delete>
 
   <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectFinger" >

@@ -63,19 +63,19 @@ public class LedenCollectFingerController {
       * @param
       * @return
      **/
-    @RequestMapping(value="/parseXml")
-    public Response<Object> parseXml(String path){
-        boolean flag= false;
-        try {
-            flag = ledenCollectFingerService.inputFingersByXml(path);
-        } catch (XMLParseException e) {
-            e.printStackTrace();
-            return ResponseUtil.ntrError(e.getMessage());
-        }catch (AuthenticationException e){
-            return ResponseUtil.returnError(e.getReturnCode());
-        }
-        return ResponseUtil.getResponseInfo(flag);
-    }
+//    @RequestMapping(value="/parseXml")
+//    public Response<Object> parseXml(String path){
+//        boolean flag= false;
+//        try {
+//            flag = ledenCollectFingerService.inputFingersByXml(path);
+//        } catch (XMLParseException e) {
+//            e.printStackTrace();
+//            return ResponseUtil.ntrError(e.getMessage());
+//        }catch (AuthenticationException e){
+//            return ResponseUtil.returnError(e.getReturnCode());
+//        }
+//        return ResponseUtil.getResponseInfo(flag);
+//    }
 
     /**
      * 根据人员编号查询指纹信息

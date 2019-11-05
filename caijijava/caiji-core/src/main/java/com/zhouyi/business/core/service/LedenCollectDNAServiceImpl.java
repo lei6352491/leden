@@ -46,7 +46,7 @@ public class LedenCollectDNAServiceImpl implements LedenCollectDNAService {
      */
     @Override
     @Transactional
-    public Boolean inputDNSByXml(String path) throws AuthenticationException, XmlParseException {
+    public Boolean inputDNAByXml(String path) throws AuthenticationException, XmlParseException {
         LedenCollectDNAVo dNANo= (LedenCollectDNAVo) XmlParseUtil.parseXml(path,LedenCollectDNAVo.class);
         //进行头部数据校验
         boolean flag=securityUtil.repairpermissions(dNANo.head, AuthoirtyEnum.DNAINFO);

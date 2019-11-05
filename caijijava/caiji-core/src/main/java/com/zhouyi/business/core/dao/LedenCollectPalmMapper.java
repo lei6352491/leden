@@ -3,6 +3,7 @@ package com.zhouyi.business.core.dao;
 import com.zhouyi.business.core.model.LedenCollectPalm;
 import com.zhouyi.business.core.vo.LedenCollectPalmVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,5 +13,12 @@ public interface LedenCollectPalmMapper extends
 
     List<LedenCollectPalm> selectPalmFingerByPersonCode(String id);
 
-    int deletePalmByPersonId(String personId);
+    /**
+     * 根据指纹压缩算法和人员编号删除掌纹数据
+     * @param personId
+     * @param compressionAlgorithm
+     * @return
+     */
+    int deletePalmByPersonId(@Param("personId") String personId, @Param("compressionAlgorithm") String compressionAlgorithm);
+
 }

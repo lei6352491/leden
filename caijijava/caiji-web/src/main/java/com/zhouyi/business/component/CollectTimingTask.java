@@ -1,6 +1,7 @@
 package com.zhouyi.business.component;
 
 import com.zhouyi.business.core.dao.LedenCollectProcessMapper;
+import com.zhouyi.business.core.dao.LedenUploadLogMapper;
 import com.zhouyi.business.core.dao.LedenUploadPacketMapper;
 import com.zhouyi.business.core.exception.AuthenticationException;
 import com.zhouyi.business.core.exception.CollectionException;
@@ -8,6 +9,8 @@ import com.zhouyi.business.core.model.*;
 import com.zhouyi.business.core.service.*;
 import com.zhouyi.business.utils.JsoupParseXmlUtils;
 import com.zhouyi.business.utils.XMLParamUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -27,8 +30,13 @@ import java.util.UUID;
  **/
 
 @Component
-public class CollectTimingTask{
+public class CollectTimingTask {
 
+
+    @Autowired
+    private LedenUploadLogMapper ledenUploadLogMapper;
+    @Autowired
+    private LedenEquipmentEmpowerService ledenEquipmentEmpowerService;
     @Autowired
     private LedenUploadPacketMapper ledenUploadPacketMapper;
 
@@ -77,309 +85,515 @@ public class CollectTimingTask{
     private XMLParamUtils xmlParamUtils = new XMLParamUtils();
 
 
+    private static final Logger logger = LoggerFactory.getLogger(CollectTimingTask.class);
+
     @Scheduled(cron = "0/30 * * * * ?")
     private void configureTasks() {
         analysisXmlFile();
     }
 
-    private void analysisXmlFile(){
-        List<LedenUploadPacket> list = ledenUploadPacketMapper.selectDataByIsEmpowerOrResolveStatus();
-        for (LedenUploadPacket ledenUploadPacket : list){
-            if ("000000000001".equals(ledenUploadPacket.getNodeSign())){
-                try{
-                    ledenCollectPersonService.insertCollectPersonByXml(ledenUploadPacket.getFileLocation());
-                    ledenUploadPacket.setResolveResultInfo("解析成功");
-                    updateUploadPacket(ledenUploadPacket);
 
-                    //删除数据库中该编号该节点的采集过程
-                    ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000001");
-                    //添加采集过程
-                    LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000001");
-                    ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-
-                }catch (AuthenticationException e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
-                    updateUploadPacket(ledenUploadPacket);
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000002".equals(ledenUploadPacket.getNodeSign())){
-                try{
-                    ledenCollectPortraitService.insertPortraitByXml(ledenUploadPacket.getFileLocation());
-                    ledenUploadPacket.setResolveResultInfo("解析成功");
-                    updateUploadPacket(ledenUploadPacket);
-
-                    //删除数据库中该编号该节点的采集过程
-                    ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000002");
-                    //添加采集过程
-                    LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000002");
-                    ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-
-                }catch (AuthenticationException e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
-                    updateUploadPacket(ledenUploadPacket);
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-
-                continue;
-            }
-            if ("000000000003".equals(ledenUploadPacket.getNodeSign())){
-                try {
-                    ledenCollectFingerService.inputFingersByXml(ledenUploadPacket.getFileLocation());
-                    ledenUploadPacket.setResolveResultInfo("解析成功");
-                    updateUploadPacket(ledenUploadPacket);
-
-                    //删除数据库中该编号该节点的采集过程
-                    ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000003");
-                    //添加采集过程
-                    LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000003");
-                    ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-
-                } catch (XMLParseException e) {
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getMessage());
-                    updateUploadPacket(ledenUploadPacket);
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000004".equals(ledenUploadPacket.getNodeSign())){
-                try{
-                    ledenCollectSLSService.insertPersonInfo(ledenUploadPacket.getFileLocation());
-                    ledenUploadPacket.setResolveResultInfo("解析成功");
-                    updateUploadPacket(ledenUploadPacket);
-
-                    //删除数据库中该编号该节点的采集过程
-                    ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000004");
-                    //添加采集过程
-                    LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000004");
-                    ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (AuthenticationException e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
-                    updateUploadPacket(ledenUploadPacket);
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000005".equals(ledenUploadPacket.getNodeSign())){
-                try {
-                    ledenCollectDNAService.inputDNSByXml(ledenUploadPacket.getFileLocation());
-                    ledenUploadPacket.setResolveResultInfo("解析成功");
-                    updateUploadPacket(ledenUploadPacket);
-
-                    //删除数据库中该编号该节点的采集过程
-                    ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000005");
-                    //添加采集过程
-                    LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000005");
-                    ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (AuthenticationException e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
-                    updateUploadPacket(ledenUploadPacket);
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000006".equals(ledenUploadPacket.getNodeSign())){
-                try{
-                    ledenCollectFootprintService.inputFootprintByXml(ledenUploadPacket.getFileLocation());
-                    ledenUploadPacket.setResolveResultInfo("解析成功");
-                    updateUploadPacket(ledenUploadPacket);
-
-                    //删除数据库中该编号该节点的采集过程
-                    ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000006");
-                    //添加采集过程
-                    LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000006");
-                    ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (AuthenticationException e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
-                    updateUploadPacket(ledenUploadPacket);
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000007".equals(ledenUploadPacket.getNodeSign())){
-                try {
-                    Map map = xmlParamUtils.parseXmlToMap(ledenUploadPacket.getFileLocation(), LedenCollectVoiceprint.class, null);
-                    Head head = (Head) map.get("head");
-                    List data = (List) map.get("data");
-                    //校验head是否有权限保存数据
-                    boolean boo2 = ledenCollectVoiceprintService.checkHead(head);
-                    if (boo2) {
-                        ledenCollectVoiceprintService.saveMapToRepository(data, head.getUserUnitCode());
-                        ledenUploadPacket.setResolveResultInfo("解析成功");
-                        updateUploadPacket(ledenUploadPacket);
-
-                        //删除数据库中该编号该节点的采集过程
-                        ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000007");
-                        //添加采集过程
-                        LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000007");
-                        ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                    }
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000008".equals(ledenUploadPacket.getNodeSign())){
-                try {
-                    ledenCollectHandWritingService.inputHandWirtingXml(ledenUploadPacket.getFileLocation());
-                    ledenUploadPacket.setResolveResultInfo("解析成功");
-                    updateUploadPacket(ledenUploadPacket);
-
-                    //删除数据库中该编号该节点的采集过程
-                    ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000007");
-                    //添加采集过程
-                    LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000007");
-                    ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (AuthenticationException e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
-                    updateUploadPacket(ledenUploadPacket);
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000009".equals(ledenUploadPacket.getNodeSign())){
-                try {
-                    Map map = JsoupParseXmlUtils.jsoupPerseXmlIrisInfo(ledenUploadPacket.getFileLocation(),LedenCollectIris.class);
-                    Head head = (Head) map.get("head");
-                    List data = (List) map.get("data");
-                    String ryjcxxcjbh =  (String)map.get("ryjcxxcjbh");
-                    //校验head是否有权限保存数据
-                    boolean boo2 = ledenCollectIrisService.checkHead(head);
-                    if (boo2) {
-                        ledenCollectIrisService.saveMapToRepository(data, head.getUserUnitCode(),ryjcxxcjbh);
-                        ledenUploadPacket.setResolveResultInfo("解析成功");
-                        updateUploadPacket(ledenUploadPacket);
-
-                        //删除数据库中该编号该节点的采集过程
-                        ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000009");
-                        //添加采集过程
-                        LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000009");
-                        ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                    }
-                }catch (CollectionException e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getResponse().getMsg());
-                    updateUploadPacket(ledenUploadPacket);
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000010".equals(ledenUploadPacket.getNodeSign())){
-                try {
-                    ledenCollectGoodsService.inputGoodsByXml(ledenUploadPacket.getFileLocation());
-                    ledenUploadPacket.setResolveResultInfo("解析成功");
-                    updateUploadPacket(ledenUploadPacket);
-
-                    //删除数据库中该编号该节点的采集过程
-                    ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000010");
-                    //添加采集过程
-                    LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000010");
-                    ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                }catch (AuthenticationException e){
-                    e.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(e.getReturnCode().getMsg());
-                    updateUploadPacket(ledenUploadPacket);
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000011".equals(ledenUploadPacket.getNodeSign())){
-                try {
-                    Map map = xmlParamUtils.parseXmlToMap(ledenUploadPacket.getFileLocation(), LedenCollectDrugtest.class, null);
-                    Head head = (Head) map.get("head");
-                    List data = (List) map.get("data");
-                    boolean boo2 = ledenCollectDrugtestService.checkHead(head);
-                    if (boo2){
-                        ledenCollectDrugtestService.saveMapToRepository(data, head.getUserUnitCode());
-                        ledenUploadPacket.setResolveResultInfo("解析成功");
-                        updateUploadPacket(ledenUploadPacket);
-
-                        //删除数据库中该编号该节点的采集过程
-                        ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000011");
-                        //添加采集过程
-                        LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000011");
-                        ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                    }
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-                continue;
-            }
-            if ("000000000012".equals(ledenUploadPacket.getNodeSign())){
-
-            }
-            if ("000000000013".equals(ledenUploadPacket.getNodeSign())){
-                try {
-                    Map map = JsoupParseXmlUtils.jsoupParseXml(ledenUploadPacket.getFileLocation(), LedenCollectBankcard.class, LedenCollectBRecord.class);
-                    Head head = (Head) map.get("head");
-                    List data = (List) map.get("data");
-                    //校验head是否有权限保存数据
-                    boolean boo2 = ledenCollectBankcardService.checkHead(head);
-                    if (boo2) {
-                        ledenCollectBankcardService.saveMapToRepository(data, head.getUserUnitCode());
-                        ledenUploadPacket.setResolveResultInfo("解析成功");
-                        updateUploadPacket(ledenUploadPacket);
-
-                        //删除数据库中该编号该节点的采集过程
-                        ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getPersonCode(),"000000000013");
-                        //添加采集过程
-                        LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000013");
-                        ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                    }
-                }catch (Exception E){
-                    E.printStackTrace();
-                    ledenUploadPacket.setResolveResultInfo(E.toString());
-                    updateUploadPacket(ledenUploadPacket);
-                }
-            }
-        }
-
-
-
-        //如果解析完成并且上报至省综平台
+    private void setResolveResult(LedenUploadPacket resolveResult, String status, String message) {
+        resolveResult.setResolveStatus(status);
+        resolveResult.setCreateDatetime(new Date());
+        resolveResult.setResolveResultInfo(message);
 
     }
 
-    private void updateUploadPacket(LedenUploadPacket ledenUploadPacket){
+    private void analysisXmlFile() {
+        /**
+         * 查询
+         */
+        LedenUploadPacket zipUploadPacket = ledenUploadPacketMapper.selectDataByResolveStatus();
+
+
+        List<LedenUploadPacket> list = null;
+
+
+        if (zipUploadPacket != null) {
+
+            list = ledenUploadPacketMapper.selectTaskResolveByRyjcxxcjbh(zipUploadPacket.getRyjcxxcjbh());
+
+            logger.info("正在解析：" + zipUploadPacket.getRyjcxxcjbh() + "的数据包");
+
+
+            //查询该设备的所有授权节点
+            List<String> strings = ledenEquipmentEmpowerService.searchEmpwerdNodeSign(zipUploadPacket.getEquipmentId());
+
+            /**
+             * 默认解析成功
+             */
+            boolean flag = true;
+            boolean flagFinger = true;
+
+
+            for (LedenUploadPacket ledenUploadPacket : list) {
+                logger.info("DatType的值为:"+ledenUploadPacket.getDataType());
+                if ("PERSON".equals(ledenUploadPacket.getDataType())) {
+
+                    try {
+                        logger.info("-------------"+strings.contains("000000000001"));
+                        if (!strings.contains("000000000001")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+                            updateUploadPacket(ledenUploadPacket);
+                            logger.info("人员信息解析未授权");
+                            break;
+
+                        } else {
+                            logger.info("正在解析人员信息");
+                            ledenCollectPersonService.insertCollectPersonByXml(ledenUploadPacket.getFileLocation());
+
+                            setResolveResult(ledenUploadPacket, "1", "解析成功");
+                            //删除数据库中该编号该节点的采集过程
+                            ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000001");
+                            //添加采集过程
+                            LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000001");
+                            ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                            updateUploadPacket(ledenUploadPacket);
+                        }
+
+                    } catch (AuthenticationException e) {
+                        logger.info("解析人员信息失败1");
+                        e.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
+                        updateUploadPacket(ledenUploadPacket);
+                        flag = false;
+                        break;
+                    } catch (Exception E) {
+
+                        logger.info("解析失败2");
+
+                        E.printStackTrace();
+
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                        break;
+                    }
+                    continue;
+                }
+                if ("PORTRAIT".equals(ledenUploadPacket.getDataType())) {
+                    try {
+                        if (!strings.contains("000000000002")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+                        } else {
+                            ledenCollectPortraitService.insertPortraitByXml(ledenUploadPacket.getFileLocation());
+                            setResolveResult(ledenUploadPacket, "1", "解析成功");
+                            //删除数据库中该编号该节点的采集过程
+                            ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000002");
+                            //添加采集过程
+                            LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000002");
+                            ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                        }
+                        updateUploadPacket(ledenUploadPacket);
+
+
+                    } catch (AuthenticationException e) {
+                        e.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
+
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    } catch (Exception E) {
+                        E.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+
+                    continue;
+                }
+                if ("FINGERPLAMBMP".equals(ledenUploadPacket.getDataType())) {
+
+                    try {
+
+                        if (!strings.contains("000000000003")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+
+                            flagFinger = false;
+                        } else {
+                            ledenCollectFingerService.inputFingersByXml(ledenUploadPacket.getFileLocation(),"0000");
+                            setResolveResult(ledenUploadPacket, "1", "解析成功");
+                            //删除数据库中该编号该节点的采集过程
+                            ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000003");
+                            //添加采集过程
+                            LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000003");
+                            ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                        }
+                        updateUploadPacket(ledenUploadPacket);
+
+
+                    } catch (Exception E) {
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        E.printStackTrace();
+                        flag = false;
+                        flagFinger = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("FINGERPLAMWSQ".equals(ledenUploadPacket.getDataType()) && flagFinger) {
+                    try {
+                        if (!strings.contains("000000000003")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+                        } else {
+                            ledenCollectFingerService.inputFingersByXml(ledenUploadPacket.getFileLocation(),"xxxx");
+                            setResolveResult(ledenUploadPacket, "1", "解析成功");
+                            //删除数据库中该编号该节点的采集过程
+                            ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000003");
+                            //添加采集过程
+                            LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000003");
+                            ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                        }
+
+                        updateUploadPacket(ledenUploadPacket);
+                    } catch (Exception E) {
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        E.printStackTrace();
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("SIGNALEMENT".equals(ledenUploadPacket.getDataType())) {
+                    try {
+
+                        if (!strings.contains("000000000004")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+
+                        } else {
+                            ledenCollectSLSService.insertSignalement(ledenUploadPacket.getFileLocation());
+                            setResolveResult(ledenUploadPacket, "1", "解析成功");
+                            //删除数据库中该编号该节点的采集过程
+                            ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000004");
+                            //添加采集过程
+                            LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000004");
+                            ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                        }
+
+                        updateUploadPacket(ledenUploadPacket);
+
+                    } catch (AuthenticationException e) {
+                        e.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    } catch (Exception E) {
+                        E.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("DNAINFO".equals(ledenUploadPacket.getDataType())) {
+                    try {
+                        if (!strings.contains("000000000005")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+                        } else {
+                            ledenCollectDNAService.inputDNAByXml(ledenUploadPacket.getFileLocation());
+                            setResolveResult(ledenUploadPacket, "1", "解析成功");
+                            //删除数据库中该编号该节点的采集过程
+                            ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000005");
+                            //添加采集过程
+                            LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000005");
+                            ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                        }
+
+                        updateUploadPacket(ledenUploadPacket);
+
+
+                    } catch (AuthenticationException e) {
+                        e.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    } catch (Exception E) {
+                        E.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("FOOTPRINT".equals(ledenUploadPacket.getDataType())) {
+                    try {
+                        if (!strings.contains("000000000006")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+
+                        } else {
+                            ledenCollectFootprintService.inputFootprintByXml(ledenUploadPacket.getFileLocation());
+                            setResolveResult(ledenUploadPacket, "1", "解析成功");
+
+                            //删除数据库中该编号该节点的采集过程
+                            ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000006");
+                            //添加采集过程
+                            LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000006");
+                            ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                        }
+
+                        updateUploadPacket(ledenUploadPacket);
+
+                    } catch (AuthenticationException e) {
+                        e.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
+
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    } catch (Exception E) {
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        E.printStackTrace();
+
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("VOICEPRINT".equals(ledenUploadPacket.getDataType())) {
+                    try {
+                        if (!strings.contains("000000000007")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+
+                        } else {
+                            Map map = xmlParamUtils.parseXmlToMap(ledenUploadPacket.getFileLocation(), LedenCollectVoiceprint.class, null);
+                            Head head = (Head) map.get("head");
+                            List data = (List) map.get("data");
+                            //校验head是否有权限保存数据
+                            boolean boo2 = ledenCollectVoiceprintService.checkHead(head);
+                            if (boo2) {
+                                ledenCollectVoiceprintService.saveMapToRepository(data, head.getUserUnitCode());
+                                setResolveResult(ledenUploadPacket, "1", "解析成功");
+
+                                //删除数据库中该编号该节点的采集过程
+                                ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000007");
+                                //添加采集过程
+                                LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000007");
+                                ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                            } else {
+                                setResolveResult(ledenUploadPacket, "2", "用户部门设备不匹配");
+                                flag = false;
+                            }
+
+                        }
+
+                        updateUploadPacket(ledenUploadPacket);
+
+
+                    } catch (Exception E) {
+                        E.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("HANDWRITING".equals(ledenUploadPacket.getDataType())) {
+                    try {
+                        if (!strings.contains("000000000008")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+
+                        } else {
+                            ledenCollectHandWritingService.inputHandWirtingXml(ledenUploadPacket.getFileLocation());
+                            setResolveResult(ledenUploadPacket, "1", "解析成功");
+                            //删除数据库中该编号该节点的采集过程
+                            ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000008");
+                            //添加采集过程
+                            LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000008");
+                            ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                        }
+
+                        updateUploadPacket(ledenUploadPacket);
+                    } catch (AuthenticationException e) {
+                        setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
+                        e.printStackTrace();
+
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    } catch (Exception E) {
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        E.printStackTrace();
+
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("IRISINFO".equals(ledenUploadPacket.getDataType())) {
+                    try {
+                        if (!strings.contains("000000000009")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+
+                        } else {
+                            Map map = JsoupParseXmlUtils.jsoupPerseXmlIrisInfo(ledenUploadPacket.getFileLocation(), LedenCollectIris.class);
+                            Head head = (Head) map.get("head");
+                            List data = (List) map.get("data");
+                            String ryjcxxcjbh = (String) map.get("ryjcxxcjbh");
+                            //校验head是否有权限保存数据
+                            boolean boo2 = ledenCollectIrisService.checkHead(head);
+                            if (boo2) {
+                                ledenCollectIrisService.saveMapToRepository(data, head.getUserUnitCode(), ryjcxxcjbh);
+                                ledenUploadPacket.setResolveResultInfo("解析成功");
+
+                                //删除数据库中该编号该节点的采集过程
+                                ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000009");
+                                //添加采集过程
+                                LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000009");
+                                ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                            } else {
+                                setResolveResult(ledenUploadPacket, "2", "用户部门设备不匹配");
+                                flag = false;
+                            }
+                        }
+                        updateUploadPacket(ledenUploadPacket);
+
+
+                    } catch (Exception E) {
+                        E.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("GOODS".equals(ledenUploadPacket.getDataType())) {
+                    try {
+                        if (!strings.contains("000000000010")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+
+                        } else {
+                            ledenCollectGoodsService.inputGoodsByXml(ledenUploadPacket.getFileLocation());
+                            ledenUploadPacket.setResolveResultInfo("解析成功");
+                            updateUploadPacket(ledenUploadPacket);
+
+                            //删除数据库中该编号该节点的采集过程
+                            ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000010");
+                            //添加采集过程
+                            LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000010");
+                            ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                        }
+                        updateUploadPacket(ledenUploadPacket);
+
+                    } catch (AuthenticationException e) {
+                        setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
+                        e.printStackTrace();
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    } catch (Exception E) {
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        E.printStackTrace();
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("DRUGTEST".equals(ledenUploadPacket.getDataType())) {
+                    try {
+                        if (!strings.contains("000000000011")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+
+                        } else {
+                            updateUploadPacket(ledenUploadPacket);
+                            Map map = xmlParamUtils.parseXmlToMap(ledenUploadPacket.getFileLocation(), LedenCollectDrugtest.class, null);
+                            Head head = (Head) map.get("head");
+                            List data = (List) map.get("data");
+                            boolean boo2 = ledenCollectDrugtestService.checkHead(head);
+                            if (boo2) {
+                                ledenCollectDrugtestService.saveMapToRepository(data, head.getUserUnitCode());
+                                setResolveResult(ledenUploadPacket, "1", "解析成功");
+
+                                //删除数据库中该编号该节点的采集过程
+                                ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000011");
+                                //添加采集过程
+                                LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000011");
+                                ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                            } else {
+                                setResolveResult(ledenUploadPacket, "2", "用户部门设备不匹配");
+                                flag = false;
+                            }
+                        }
+
+                        updateUploadPacket(ledenUploadPacket);
+
+                    } catch (Exception E) {
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+                        E.printStackTrace();
+
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                    continue;
+                }
+                if ("PHONEINFO".equals(ledenUploadPacket.getDataType())) {
+
+                }
+                if ("BANKCARD".equals(ledenUploadPacket.getDataType())) {
+                    try {
+                        if (!strings.contains("000000000013")) {
+                            setResolveResult(ledenUploadPacket, "2", "未授权");
+
+                        } else {
+                            Map map = JsoupParseXmlUtils.jsoupParseXml(ledenUploadPacket.getFileLocation(), LedenCollectBankcard.class, LedenCollectBRecord.class);
+                            Head head = (Head) map.get("head");
+                            List data = (List) map.get("data");
+                            //校验head是否有权限保存数据
+                            boolean boo2 = ledenCollectBankcardService.checkHead(head);
+                            if (boo2) {
+                                ledenCollectBankcardService.saveMapToRepository(data, head.getUserUnitCode());
+                                setResolveResult(ledenUploadPacket, "1", "解析成功");
+
+                                //删除数据库中该编号该节点的采集过程
+                                ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000013");
+                                //添加采集过程
+                                LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000013");
+                                ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
+                            } else {
+                                setResolveResult(ledenUploadPacket, "2", "用户部门设备不匹配");
+                                flag = false;
+                            }
+                        }
+
+                        updateUploadPacket(ledenUploadPacket);
+
+
+                    } catch (Exception E) {
+                        E.printStackTrace();
+                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
+
+                        flag = false;
+                        updateUploadPacket(ledenUploadPacket);
+                    }
+                }
+            }
+
+
+            //如果解析完成并且上报至省综平台
+            logger.info("人员编号:" + zipUploadPacket.getRyjcxxcjbh() + "的flag:" + flag + "\n");
+            if (flag) {
+                setResolveResult(zipUploadPacket, "1", "解析成功");
+                updateUploadPacket(zipUploadPacket);
+                LedenUploadLog ledenUploadLog = new LedenUploadLog();
+
+
+                ledenUploadLog.setEquipmentId(zipUploadPacket.getEquipmentId());
+                ledenUploadLog.setRyjcxxcjbh(zipUploadPacket.getRyjcxxcjbh());
+                ledenUploadLog.setPkId(UUID.randomUUID().toString().replace("-", ""));
+                ledenUploadLog.setUploadStatus("0");
+                ledenUploadLog.setCreateDatetime(new Date());
+
+                ledenUploadLogMapper.insertUploadLog(ledenUploadLog);
+
+
+            }
+        } else {
+
+            logger.error("未获取到解析队列，等待下次执行");
+            return;
+        }
+    }
+
+    private void updateUploadPacket(LedenUploadPacket ledenUploadPacket) {
         LedenUploadPacket ledenUploadPacket1 = ledenUploadPacketMapper.selectByPrimaryKey(ledenUploadPacket.getPkId());
         ledenUploadPacket1.setResolveStatus("1");
         ledenUploadPacket1.setResolveDatetime(new Date());
@@ -387,19 +601,17 @@ public class CollectTimingTask{
         ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket1);
     }
 
-    private LedenCollectProcess getLedenCollectProcess(LedenUploadPacket ledenUploadPacket,int stauts,String nodeCode){
+    private LedenCollectProcess getLedenCollectProcess(LedenUploadPacket ledenUploadPacket, int stauts, String nodeCode) {
         LedenCollectProcess ledenCollectProcess = new LedenCollectProcess();
-        ledenCollectProcess.setPkId(UUID.randomUUID().toString().replace("-",""));
-        ledenCollectProcess.setRyjcxxcjbh(ledenUploadPacket.getPersonCode());
-        ledenCollectProcess.setCollectDate(ledenUploadPacket.getUploadDate());
+        ledenCollectProcess.setPkId(UUID.randomUUID().toString().replace("-", ""));
+        ledenCollectProcess.setRyjcxxcjbh(ledenUploadPacket.getRyjcxxcjbh());
+        ledenCollectProcess.setCollectDate(ledenUploadPacket.getCreateDatetime());
         ledenCollectProcess.setCollectStatus((short) stauts);
         ledenCollectProcess.setCollectNodeId(nodeCode);
+
+
         return ledenCollectProcess;
     }
-
-
-
-
 
 
 }

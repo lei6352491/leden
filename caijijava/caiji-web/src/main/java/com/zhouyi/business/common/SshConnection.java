@@ -34,7 +34,7 @@ public class SshConnection {
     @Value("${Script.src.cmd}")
     private String cmd;
 
-    public Integer executionScript() {
+    public Integer executionScript(String fileName) {
 
         Integer exitStatus = null;
         Session session = null;
@@ -46,6 +46,7 @@ public class SshConnection {
             boolean boo = connection.authenticateWithPassword(user, password);
             if (boo){
                 session = connection.openSession();
+                cmd=cmd+" "+fileName;
                 session.execCommand(cmd);
 
                 try {

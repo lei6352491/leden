@@ -18,4 +18,12 @@ public interface LedenEquipmentEmpowerMapper extends BaseMapper<LedenEquipmentEm
 
     List<LedenEquipmentEmpower> selectEquipmentEmpowerByEquipmentCode(String code);
 
+
+    /**
+     * 查询已经授权的节点信息
+     * @param equipmentCode
+     * @return
+     */
+    List<String> listEquipmentEmpowerdByEquipmentCode(String equipmentCode);
+
 }

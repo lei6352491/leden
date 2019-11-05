@@ -15,7 +15,7 @@ public interface LedenCollectFingerService extends BaseService<LedenCollectFinge
      * @param path
      * @return
      */
-    Boolean inputFingersByXml(String path) throws XMLParseException;
+    Boolean inputFingersByXml(String path,String compressionAlgorithm) throws XMLParseException;
 
     /**
      * 根据人员编号查询指纹信息

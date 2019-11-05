@@ -20,5 +20,8 @@ public interface LedenUploadPacketMapper extends BuffBaseMapper<LedenUploadPacke
 
     List<UploadPacketResponse> selectDataById(List<String> list);
 
-    List<LedenUploadPacket> selectDataByIsEmpowerOrResolveStatus();
+    LedenUploadPacket selectDataByResolveStatus();
+
+
+    List<LedenUploadPacket> selectTaskResolveByRyjcxxcjbh(String ryjcxxcjbh);
 }

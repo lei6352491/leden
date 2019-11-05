@@ -19,7 +19,7 @@ public interface LedenCollectDNAService {
      * @param path
      * @return
      */
-    Boolean inputDNSByXml(String path);
+    Boolean inputDNAByXml(String path);
 
     Response<List<LedenCollectDna>> selectDataByPersonCode(String id);
 }

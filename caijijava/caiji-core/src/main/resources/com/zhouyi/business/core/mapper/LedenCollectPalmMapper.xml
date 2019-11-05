@@ -320,7 +320,13 @@
 
 
     <delete id="deletePalmByPersonId" parameterType="string">
-    delete from LEDEN_COLLECT_PALM where ryjcxxcjbh=#{_parameter}
+    delete from LEDEN_COLLECT_PALM where ryjcxxcjbh=#{personCode}
+        <if test="compressionAlgorithm=='0000'" >
+            and ZHW_TXYSFSMS='0000'
+        </if>
+        <if test="compressionAlgorithm!='0000'">
+            and ZHW_TXYSFSMS!='0000'
+        </if>
   </delete>
 
 

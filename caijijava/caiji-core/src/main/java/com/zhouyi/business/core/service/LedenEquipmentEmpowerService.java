@@ -27,4 +27,11 @@ public interface LedenEquipmentEmpowerService {
     Response<LedenEquipmentEmpower> selectEquipmentEmpowerListByModel(LedenEquipmentEmpower ledenEquipmentEmpower);
 
     Response updateEquipmentEmpower(EquipmentEmpowerRequest equipmentEmpowerRequest);
+
+    /**
+     * 通过设备id获取已授权的节点信息
+     * @param equipmentId
+     * @return
+     */
+    List<String> searchEmpwerdNodeSign(String equipmentId);
 }

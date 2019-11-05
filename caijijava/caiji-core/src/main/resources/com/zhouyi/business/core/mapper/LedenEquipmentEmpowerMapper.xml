@@ -183,4 +183,9 @@
         </where>
   </select>
 
+
+
+  <select id="listEquipmentEmpowerdByEquipmentCode" resultType="string">
+     select node_sign from LEDEN_EQUIPMENT_EMPOWER where equipment_id=#{_parameter} and deletag=0
+  </select>
 </mapper>
