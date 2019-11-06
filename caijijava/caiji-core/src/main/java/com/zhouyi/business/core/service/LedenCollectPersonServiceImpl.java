@@ -21,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Encoder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author 李秸康
@@ -68,6 +65,10 @@ public class LedenCollectPersonServiceImpl implements LedenCollectPersonService 
         LedenCollectPerson ledenCollectPerson=new LedenCollectPerson();
 
         BeanUtils.copyProperties(personXml,ledenCollectPerson);
+        //设置对象采集人和采集时间、状态等信息
+        ledenCollectPerson.setCreateUserId(ledenConllectPersonVo.head.getUSER_CODE());
+        ledenCollectPerson.setCreateDatetime(new Date());
+        ledenCollectPerson.setStatus("02");
 
         //删除数据库该人员编号的个人信息
         ledenCollectPersonMapper.deleteByPrimaryKey(personXml.ryjcxxcjbh);

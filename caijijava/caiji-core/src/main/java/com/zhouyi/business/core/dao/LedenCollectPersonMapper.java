@@ -45,4 +45,11 @@ public interface LedenCollectPersonMapper extends BaseMapper<LedenConllectPerson
     Integer selectCollectPersonListCount(LedenConllectPersonVo2 ledenConllectPersonVo2);
 
     PersonResult selectPersonByPersonCode(String id);
+
+    /**
+     * 根据条件筛选人员信息
+     * @param conditions
+     * @return
+     */
+    List<LedenCollectPerson> getLedenCollectPersonByConditions(Map<String,Object> conditions);
 }

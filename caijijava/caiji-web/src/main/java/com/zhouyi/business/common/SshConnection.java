@@ -4,6 +4,7 @@ import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import com.zhouyi.business.core.exception.ExceptionCast;
 import com.zhouyi.business.core.utils.ResponseUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import java.io.IOException;
  **/
 
 @Component
+@Slf4j
 public class SshConnection {
 
     @Value("${Script.src.host}")
@@ -46,8 +48,10 @@ public class SshConnection {
             boolean boo = connection.authenticateWithPassword(user, password);
             if (boo){
                 session = connection.openSession();
-                cmd=cmd+" "+fileName;
-                session.execCommand(cmd);
+                String newCmd=cmd+" "+fileName;
+                log.info(newCmd);
+                session.execCommand(newCmd);
+
 
                 try {
                     Thread.sleep(1000);

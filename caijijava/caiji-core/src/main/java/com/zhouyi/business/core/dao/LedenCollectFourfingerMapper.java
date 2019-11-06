@@ -13,5 +13,5 @@ public interface LedenCollectFourfingerMapper extends
 
         List<LedenCollectFourfinger> selectFourFingerByPersonCode(String id);
 
-        int deleteFourFingerByPersonId(@Param("personId") String personId, @Param("compressionAlgorithm") String compressionAlgorithm);
+        int deleteFourFingerByPersonId(@Param("personCode") String personId, @Param("compressionAlgorithm") String compressionAlgorithm);
 }

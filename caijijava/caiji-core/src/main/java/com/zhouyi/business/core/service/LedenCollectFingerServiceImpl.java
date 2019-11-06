@@ -115,7 +115,9 @@ public class LedenCollectFingerServiceImpl
             ledenCollectFullpalmMapper.deleteFullPalmByPersonId(fullpalms.get(0).getRyjcxxcjbh(),compressionAlgorithm);
             fullpalms.forEach(x->x.setPkId(MathUtil.generateUUID()));
         }
-        ledenCollectFullpalmMapper.insertBatch(fullpalms);
+        if(fullpalms!=null&&fullpalms.size()>0){
+            ledenCollectFullpalmMapper.insertBatch(fullpalms);
+        }
 
         //指节纹
         List<LedenCollectPhalange> phalanges = fingerAndPalm.getPhalanges();
@@ -124,7 +126,9 @@ public class LedenCollectFingerServiceImpl
             ledenCollectPhalangeMapper.deletePhalangeByPersonId(phalanges.get(0).getRyjcxxcjbh(),compressionAlgorithm);
              phalanges.forEach(x->x.setPkId(MathUtil.generateUUID()));
         }
-        ledenCollectPhalangeMapper.insertBatch(phalanges);
+        if(phalanges!=null&&phalanges.size()>0){
+            ledenCollectPhalangeMapper.insertBatch(phalanges);
+        }
         return true;
     }
 

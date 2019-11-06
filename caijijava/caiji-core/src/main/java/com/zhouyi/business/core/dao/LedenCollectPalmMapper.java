@@ -19,6 +19,6 @@ public interface LedenCollectPalmMapper extends
      * @param compressionAlgorithm
      * @return
      */
-    int deletePalmByPersonId(@Param("personId") String personId, @Param("compressionAlgorithm") String compressionAlgorithm);
+    int deletePalmByPersonId(@Param("personCode") String personId, @Param("compressionAlgorithm") String compressionAlgorithm);
 
 }

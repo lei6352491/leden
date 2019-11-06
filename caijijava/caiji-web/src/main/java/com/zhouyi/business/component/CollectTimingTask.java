@@ -564,6 +564,7 @@ public class CollectTimingTask {
                         flag = false;
                         updateUploadPacket(ledenUploadPacket);
                     }
+
                 }
             }
 

@@ -44,6 +44,11 @@ public class LedenUploadPacketController {
         return ledenUploadPacketService.selectDataList(ledenConllectPersonVo2);
     }
 
+    @RequestMapping(value = "/fileSuffixList")
+    public Response<String> selectFileSuffixList(){
+        return ledenUploadPacketService.selectFileSuffixList();
+    }
+
     @RequestMapping(value = "/exportList")
     public String exportList(RequestList requestList,HttpServletResponse httpServletResponse){
         ServletOutputStream outputStream = null;

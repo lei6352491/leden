@@ -1349,5 +1349,17 @@
   </select>
 
 
+  <select id="getLedenCollectPersonByConditions" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from leden_collect_person
+    <where>
+      <if test="ryjcxxcjbh!=null">
+        and ryjcxxcjbh=#{ryjcxxcjbh}
+      </if>
+    </where>
+  </select>
+
+
 
 </mapper>

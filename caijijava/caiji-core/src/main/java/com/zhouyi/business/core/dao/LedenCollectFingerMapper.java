@@ -29,5 +29,5 @@ public interface LedenCollectFingerMapper extends
      * @param personCode
      * @param compressionAlgorithm
      */
-    void deleteByPersonCode (@Param("personCode") String personCode,@Param("compressionAlgorithem") String compressionAlgorithm);
+    void deleteByPersonCode (@Param("personCode") String personCode,@Param("compressionAlgorithm") String compressionAlgorithm);
 }

@@ -38,6 +38,10 @@
    order by create_datetime desc
   )
   where rownum=1
+    </select>
+  <select id="selectDataByIsEmpowerOrResolveStatus" resultMap="UploadPacketMap">
+    select distinct p.pk_id,p.node_sign,p.file_location,l.UPLOAD_DATETIME,l.RYJCXXCJBH from LEDEN_UPLOAD_LOG l,leden_upload_packet p
+    where l.pk_id = p.upload_log_id and l.is_empower = '1' and p.resolve_status = '0' and p.node_sign != '000000000000' order by node_sign asc
   </select>
 
     <resultMap id="selectDataListMap" type="com.zhouyi.business.core.model.UploadPacketResult">
@@ -53,16 +57,16 @@
         <result column="CJSJ" property="cjsj"/>
     </resultMap>
 
-    <select id="selectDataList" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
-            resultMap="selectDataListMap">
-        select tt.* from
-        (select rownum rn,t.* from
-        (select
-        a.PK_ID,p.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,p.EQUIPMENT_CODE,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,l.equipment_id
-        from
-        leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
-        left join leden_upload_log l on a.upload_log_id = l.pk_id
-        left join leden_collect_person p on p.ryjcxxcjbh = l.ryjcxxcjbh
+  <select id="selectFileSuffixList" resultType="string">
+    select distinct FILE_SUFFIX from leden_upload_packet
+  </select>
+
+  <select id="selectDataList" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2" resultMap="selectDataListMap">
+    select tt.* from
+     (select rownum rn,t.* from
+        (select a.PK_ID,p.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,p.EQUIPMENT_CODE,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,a.equipment_id from
+          leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
+          left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
         <where>
             <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
                 and p.RYJCXXCJBH = #{ryjcxxcjbh}
