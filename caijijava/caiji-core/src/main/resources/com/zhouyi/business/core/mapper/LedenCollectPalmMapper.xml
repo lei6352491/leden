@@ -349,4 +349,14 @@
         </foreach>
         ;end;
     </insert>
+
+
+    <select id="listPalmByConditions" resultMap="BaseResultMap">
+        select * from leden_collect_palm
+        <where>
+            <if test="personCode!=null">
+                and ryjcxxcjbh=#{personCode}
+            </if>
+        </where>
+    </select>
 </mapper>

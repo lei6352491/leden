@@ -42,6 +42,20 @@ public class LedenEquipment implements Serializable {
 
     private String unitName;
 
+    /**
+     * 省综编码
+     */
+    private String provincialEquipmentCode;
+
+
+    public String getProvincialEquipmentCode() {
+        return provincialEquipmentCode;
+    }
+
+    public void setProvincialEquipmentCode(String provincialEquipmentCode) {
+        this.provincialEquipmentCode = provincialEquipmentCode;
+    }
+
     public String getUnitName() {
         return unitName;
     }

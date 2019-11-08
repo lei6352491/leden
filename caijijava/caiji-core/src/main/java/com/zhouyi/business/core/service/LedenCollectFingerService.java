@@ -27,4 +27,13 @@ public interface LedenCollectFingerService extends BaseService<LedenCollectFinge
      * @return
      */
     Boolean generateXml(String cjrybh) throws IOException;
+
+
+    /**
+     * 根据人员编号和压缩算法查询指纹信息
+     * @param personCode
+     * @param compressionAlgorithm
+     * @return
+     */
+    List<LedenCollectFinger> listFingerByConditions(String personCode,String compressionAlgorithm);
 }

@@ -1,5 +1,6 @@
 package com.zhouyi.business.core.service;
 
+import com.alibaba.fastjson.JSON;
 import com.zhouyi.business.core.common.ReturnCode;
 import com.zhouyi.business.core.dao.LedenCollectPersonMapper;
 import com.zhouyi.business.core.exception.AuthenticationException;
@@ -9,12 +10,14 @@ import com.zhouyi.business.core.model.LedenCollectPerson;
 import com.zhouyi.business.core.model.PersonResult;
 import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.model.enums.AuthoirtyEnum;
+import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
 import com.zhouyi.business.core.utils.ResponseUtil;
 import com.zhouyi.business.core.utils.SecurityUtil;
 import com.zhouyi.business.core.utils.XmlParseUtil;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
 import com.zhouyi.business.core.vo.xml.LedenCollectPersonXml;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,7 @@ public class LedenCollectPersonServiceImpl implements LedenCollectPersonService 
     private LedenCollectPersonMapper ledenCollectPersonMapper;
     @Autowired
     private SecurityUtil securityUtil;
+
 
 
     /**
@@ -123,6 +127,28 @@ public class LedenCollectPersonServiceImpl implements LedenCollectPersonService 
         }*/
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,personResult);
     }
+
+
+    @Override
+    public LedenCollectPerson getLedenCollectPersonByConditions(Map<String, Object> maps) {
+        List<LedenCollectPerson> ledenCollectPersonByConditions = ledenCollectPersonMapper.getLedenCollectPersonByConditions(maps);
+        return ledenCollectPersonByConditions!=null?ledenCollectPersonByConditions.get(0):null;
+    }
+
+
+    @Override
+    public StandardPerson getStandardPerson(String personCode) {
+        StandardPerson standardPerson = ledenCollectPersonMapper.getStandardPerson(personCode);
+        return standardPerson;
+    }
+
+    @Override
+    public void updatePersonByUserCode(LedenCollectPerson ledenCollectPerson) {
+        String s = JSON.toJSONString(ledenCollectPerson);
+        Map<String,Object> parse = (Map)JSON.parse(s);
+        ledenCollectPersonMapper.updatePersonByPersonCode(parse);
+    }
+
 
     //初始化分页
     private LedenConllectPersonVo2 initializationPage(LedenConllectPersonVo2 ledenConllectPersonVo2){

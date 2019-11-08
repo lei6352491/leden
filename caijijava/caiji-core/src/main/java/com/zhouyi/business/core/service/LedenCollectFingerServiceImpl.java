@@ -3,6 +3,7 @@ package com.zhouyi.business.core.service;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -217,6 +218,11 @@ public class LedenCollectFingerServiceImpl
         fileInputStream.close();
         ftpClient.logout();
         return true;
+    }
+
+    @Override
+    public List<LedenCollectFinger> listFingerByConditions(String personCode, String compressionAlgorithm) {
+        return ledenCollectFingerMapper.listFingerByConditions(new HashMap<String,Object>(){{put("ryjcxxcjbh",personCode);put("zwTxysffms",compressionAlgorithm);}});
     }
 
     /**

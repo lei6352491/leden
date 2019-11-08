@@ -1,6 +1,9 @@
 package com.zhouyi.business.controller;
 
+import com.zhouyi.business.component.DataReportComponent;
 import com.zhouyi.business.config.CronConfiguration;
+import com.zhouyi.business.core.model.LedenUploadLog;
+import com.zhouyi.business.core.service.LedenUploadLogService;
 import com.zhouyi.business.runnable.UploadRunnable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,30 +15,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
+/**
+ * @Author: first
+ * @Date: 上午6:25 2019/11/8
+ * @Description:  动态任务控制器
+**/
 @RestController
 @Slf4j
 @RequestMapping("/quartz/task")
 public class DynamicTaskController {
 
     @Autowired
-    private CronConfiguration cronConfiguration;
-
+    private DataReportComponent dataReportComponent;
     @Autowired
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+    @Autowired
+    private LedenUploadLogService ledenUploadLogService;
+    @Autowired
+    private CronConfiguration cronConfiguration;
+    @Autowired
+    private UploadRunnable uploadRunnable;
 
     private ScheduledFuture<?> future;
 
 
+    private ScheduledFuture<?> uploadFuture;
     @RequestMapping(value = "/startUpload")
     public String startCron(){
-        future=threadPoolTaskScheduler.schedule(new UploadRunnable(), new Trigger() {
-            @Override
-            public Date nextExecutionTime(TriggerContext triggerContext) {
-               return new CronTrigger(cronConfiguration.getUploadCron()).nextExecutionTime(triggerContext);
-            }
-        });
+        beginPacketAndUpload();
         System.out.println("-------数据上报任务启动----------");
 
         return "success";
@@ -53,5 +63,22 @@ public class DynamicTaskController {
         return "success";
     }
 
+    public String beginPacketAndUpload() {
+        //获取要解析的数据包集合
+        List<LedenUploadLog> waitingUploadLogs = ledenUploadLogService.listUplaodLogByCondition(DataReportComponent.UPLOAD_STATUS.NO_UPLOAD.getValue(),
+                DataReportComponent.UPLOAD_STATUS.UPLOAD_LOSE.getValue());
+        log.info("获取到"+waitingUploadLogs.size()+"条待上传的数据");
+        //开解解析
+        if(waitingUploadLogs!=null&&waitingUploadLogs.size()>0){
+            LedenUploadLog ledenUploadLog = waitingUploadLogs.get(0);
+            uploadRunnable.setPersonCode(ledenUploadLog.getRyjcxxcjbh());
+            uploadRunnable.setEquipmentCode(ledenUploadLog.getEquipmentId());
+            uploadFuture=threadPoolTaskScheduler.schedule(uploadRunnable,x->new CronTrigger(cronConfiguration.getUploadCron()).nextExecutionTime(x));
+        }
+
+        return "success";
+
+
+    }
 
 }

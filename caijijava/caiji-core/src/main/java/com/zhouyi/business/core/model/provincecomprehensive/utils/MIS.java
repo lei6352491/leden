@@ -1,7 +1,9 @@
-package com.zhouyi.business.model.provincecomprehensive.utils;
+package com.zhouyi.business.core.model.provincecomprehensive.utils;
 
-import com.zhouyi.business.model.provincecomprehensive.*;
+import com.zhouyi.business.core.model.provincecomprehensive.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -11,6 +13,8 @@ import java.util.List;
  * @Description: 总数据对象
 **/
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MIS {
    private PersonInfo personInfo;
    private List<GDSInfo> goodsInfo;

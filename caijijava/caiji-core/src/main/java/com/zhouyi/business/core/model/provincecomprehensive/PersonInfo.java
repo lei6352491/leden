@@ -1,4 +1,4 @@
-package com.zhouyi.business.model.provincecomprehensive;
+package com.zhouyi.business.core.model.provincecomprehensive;
 
 import lombok.Data;
 import lombok.ToString;

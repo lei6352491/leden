@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class LedenUploadLogServiceImpl
@@ -91,6 +88,26 @@ public class LedenUploadLogServiceImpl
             }
         }
         return null;
+    }
+
+
+    @Override
+    public List<LedenUploadLog> listUplaodLogByCondition(Integer... status) {
+
+        Integer[] uploadStatus=status;
+
+        List<LedenUploadLog> array = ledenUploadLogMapper.listUploadLogByConditions(new HashMap<String, Object>(10) {{
+            put("array", uploadStatus);
+        }});
+
+        return array;
+    }
+
+
+
+    @Override
+    public void uploadLogStatusByPersonCode(int status, String personCode,String info) {
+        ledenUploadLogMapper.updateUploadLogByPersonCode(personCode,status,info);
     }
 
     /**

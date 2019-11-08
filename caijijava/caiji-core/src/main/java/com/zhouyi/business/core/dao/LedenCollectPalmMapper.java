@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface LedenCollectPalmMapper extends
@@ -20,5 +21,8 @@ public interface LedenCollectPalmMapper extends
      * @return
      */
     int deletePalmByPersonId(@Param("personCode") String personId, @Param("compressionAlgorithm") String compressionAlgorithm);
+
+
+    List<LedenCollectPalm> listPalmByConditions(Map<String,Object> conditions);
 
 }

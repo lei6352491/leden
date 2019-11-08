@@ -17,4 +17,7 @@ public interface LedenCollectDnaMapper extends BaseMapper<LedenCollectDna,String
      */
     int deteteDnaByPersonId(String personId);
 
+
+
+
 }

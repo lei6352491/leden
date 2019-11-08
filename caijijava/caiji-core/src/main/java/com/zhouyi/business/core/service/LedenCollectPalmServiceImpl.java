@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import sun.misc.BASE64Encoder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -77,5 +78,10 @@ public class LedenCollectPalmServiceImpl
         list.add(palms);
         //list.add(fourfingers);
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, list);
+    }
+
+    @Override
+    public List<LedenCollectPalm> listPalmsByPersonCode(String personCode) {
+        return ledenCollectPalmMapper.listPalmByConditions(new HashMap<String,Object>(1){{put("ryjcxxcjbh",personCode);}});
     }
 }

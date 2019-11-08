@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -74,4 +75,17 @@ public class LedenCollectDNAServiceImpl implements LedenCollectDNAService {
         List<LedenCollectDna> list = ledenCollectDnaMapper.selectDataByPersonCode(id);
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,list);
     }
+
+
+    @Override
+    public LedenCollectDna getDnaByPersonCode(String personCode) {
+        List<LedenCollectDna> ledenCollectDnas = ledenCollectDnaMapper.selectDataByPersonCode(personCode);
+        if (ledenCollectDnas != null && ledenCollectDnas.size() > 0) {
+            return ledenCollectDnas.get(0);
+        }
+        return null;
+    }
+
+
+
 }

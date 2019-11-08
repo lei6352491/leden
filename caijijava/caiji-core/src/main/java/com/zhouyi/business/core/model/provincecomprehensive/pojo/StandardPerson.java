@@ -1,4 +1,4 @@
-package com.zhouyi.business.model.provincecomprehensive.pojo;
+package com.zhouyi.business.core.model.provincecomprehensive.pojo;
 
 import com.zhouyi.business.core.model.LedenCollectPerson;
 import lombok.Data;
@@ -10,6 +10,12 @@ import lombok.Data;
 **/
 @Data
 public class StandardPerson extends LedenCollectPerson {
+
+
+    /**
+     * dna编号
+     */
+    private String rydnabh;
     /**
      * 指纹编号(人员编号去掉R)
      */
@@ -33,7 +39,7 @@ public class StandardPerson extends LedenCollectPerson {
 
 
     /**
-     * 户籍地的详情地址
+     * 户籍地的行政区划
      */
     private String hjdxzqh;
 
@@ -41,4 +47,13 @@ public class StandardPerson extends LedenCollectPerson {
      * 现住地行政区划
      */
     private String xzdxzqh;
+
+
+    private String sg;
+
+    private String tz;
+
+    private String zc;
+
+
 }

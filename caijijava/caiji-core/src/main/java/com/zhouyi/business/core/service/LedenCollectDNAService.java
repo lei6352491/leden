@@ -22,4 +22,12 @@ public interface LedenCollectDNAService {
     Boolean inputDNAByXml(String path);
 
     Response<List<LedenCollectDna>> selectDataByPersonCode(String id);
+
+
+    /**
+     * 根据人员编号获取dna信息
+     * @param personCode
+     * @return
+     */
+    LedenCollectDna getDnaByPersonCode(String personCode);
 }

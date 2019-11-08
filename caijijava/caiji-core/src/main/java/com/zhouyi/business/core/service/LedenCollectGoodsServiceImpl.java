@@ -7,6 +7,7 @@ import com.zhouyi.business.core.exception.AuthenticationException;
 import com.zhouyi.business.core.exception.BusinessException;
 import com.zhouyi.business.core.exception.XmlParseException;
 import com.zhouyi.business.core.model.*;
+import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardGoods;
 import com.zhouyi.business.core.utils.MapUtils;
 import com.zhouyi.business.core.utils.XmlParseUtil;
 import com.zhouyi.business.core.vo.LedenCollectGoodsVo;
@@ -185,6 +186,11 @@ public class LedenCollectGoodsServiceImpl implements LedenCollectGoodsService {
             });
         });
         return list.get(0);
+    }
+
+    @Override
+    public List<StandardGoods> listGoodsByPersonCode(String personCode) {
+        return ledenCollectGoodsMapper.listGoodsByConditions(new HashMap<String,Object>(1){{put("personCode",personCode);}});
     }
 
 

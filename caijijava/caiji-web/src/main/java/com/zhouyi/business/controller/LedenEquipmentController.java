@@ -3,9 +3,7 @@ package com.zhouyi.business.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zhouyi.business.config.ProvinceFtpUtil;
 import com.zhouyi.business.core.common.ReturnCode;
-import com.zhouyi.business.core.exception.BusinessException;
 import com.zhouyi.business.core.model.LedenEquipment;
-import com.zhouyi.business.core.model.LedenEquipmentResult;
 import com.zhouyi.business.core.model.PageData;
 import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.service.LedenEquipmentService;
@@ -17,11 +15,13 @@ import com.zhouyi.business.core.vo.LedenEquipmentVo2;
 import com.zhouyi.business.core.vo.ResponseVo;
 import com.zhouyi.business.dto.EquipmentListDto;
 import com.zhouyi.business.dto.LedenEquipmentDto;
-import com.zhouyi.business.model.provincecomprehensive.ResponseData;
+import com.zhouyi.business.core.model.provincecomprehensive.ResponseData;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import okhttp3.HttpUrl;
+import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -30,7 +30,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -206,15 +205,15 @@ public class LedenEquipmentController {
         ResponseVo responseVo = HttpUtil.sendPostByJson(url.toString(), params);
         if (responseVo.isOk()) {
             //如果服务调用成功则检测数据
-            ResponseData data = (ResponseData) JSONObject.parse(responseVo.getData());
-            if ("0".equals(data.getStatus())) {
+            logger.info(responseVo.getData());
+            if ("0".equals(responseVo.getStatus())) {
                 //失败
-                logger.info("接口调用失败:" + data.getValue());
+                logger.info("接口调用失败:" + responseVo.getData());
                 throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());
-            } else if ("1".equals(data.getStatus())) {
+            } else if ("1".equals(responseVo.getStatus())) {
                 //成功
-                logger.info("省厅注册成功：设备编号为" + data.getValue());
-                return data.getValue();
+                logger.info("省厅注册成功：设备编号为" + responseVo.getData());
+                return responseVo.getData();
             }
         } else {
             throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());

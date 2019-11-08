@@ -101,8 +101,8 @@ public class HttpUtil {
 		
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(httpEntity);
-		
 
+		LOGGER.info(httpEntity.toString());
 		// 请求
 		HttpResponse response = getClient().execute(httpPost);
 		

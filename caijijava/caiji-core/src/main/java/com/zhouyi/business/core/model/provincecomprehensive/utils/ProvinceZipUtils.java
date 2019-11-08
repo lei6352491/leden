@@ -1,9 +1,7 @@
-package com.zhouyi.business.model.provincecomprehensive.utils;
+package com.zhouyi.business.core.model.provincecomprehensive.utils;
 
-import com.zhouyi.business.core.exception.BusinessException;
-import com.zhouyi.business.model.provincecomprehensive.*;
-import com.zhouyi.business.utils.XMLParamUtils;
-import org.apache.poi.ss.formula.functions.T;
+import com.zhouyi.business.core.model.provincecomprehensive.*;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -11,15 +9,11 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.nio.channels.FileChannel;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +25,7 @@ import java.util.zip.ZipOutputStream;
  * @Date: 下午12:09 2019/10/31
  * @Description: 省综生成xml
 **/
+@Slf4j
 public class ProvinceZipUtils {
 
     /**
@@ -44,18 +39,16 @@ public class ProvinceZipUtils {
      */
 
 
-    private static final Logger logger= LoggerFactory.getLogger(XMLParamUtils.class);
 
     /**
      * 生成ZIP压缩包
      * @param request
      * @param mis
-     * @param dataInfos
      */
-    public static String generatorZip(HttpServletRequest request,MIS mis,List<DataInfo> dataInfos){
+    public static String generatorZip(HttpServletRequest request,MIS mis,List<DataInfo> dataInfos) throws Exception{
         //生成的名称为： 人员编号.zip
         String contextPath=request.getSession().getServletContext().getRealPath("/zips/");
-        logger.info("项目的绝对路径为:"+contextPath);
+        log.info("项目的绝对路径为:"+contextPath);
         StringBuffer fileBuffer=new StringBuffer(contextPath);
         fileBuffer.append(mis.getPersonInfo().getPersonId());
         fileBuffer.append(".zip");
@@ -72,12 +65,13 @@ public class ProvinceZipUtils {
                 zipOutputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                logger.error("关闭ZIP流异常");
+                log.error("关闭ZIP流异常");
             }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            logger.error("创建ZIP文件失败");
+            log.error("文件未找到");
+            throw new Exception(e.getMessage());
         }
 
         return fileBuffer.toString();
@@ -91,23 +85,22 @@ public class ProvinceZipUtils {
      * @param outputStream
      * @param dataInfos
      */
-    public static void generatorDataFile(String contextPath,ZipOutputStream outputStream,List<DataInfo> dataInfos){
+    private static void generatorDataFile(String contextPath,ZipOutputStream outputStream,List<DataInfo> dataInfos){
         dataInfos.forEach(x->{
             //使用StringBuffer构建整个文件名
             StringBuffer fileNameBuffer=new StringBuffer(contextPath);
             fileNameBuffer.append(x.getFileName());
-            fileNameBuffer.append(x.getSuffix());
 
             try {
                 //创建文件并写入zip
                 File dataFile=new File(fileNameBuffer.toString());
                 pushFileIntoZip(outputStream, dataFile);
                 if(dataFile.exists()){
-                    dataFile.exists();
+                    dataFile.delete();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                logger.error("数据文件压入zip失败");
+                log.error("数据文件压入zip失败");
             }
 
         });
@@ -140,16 +133,16 @@ public class ProvinceZipUtils {
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            logger.error("省综生成xml编码错误,编码不支持");
+            log.error("省综生成xml编码错误,编码不支持");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            logger.error("省综xml文件不存在");
+            log.error("省综xml文件不存在");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            logger.error("封装xml错误");
+            log.error("封装xml错误");
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error("生成xml错误");
+            log.error("生成xml错误");
         }
     }
 
@@ -212,7 +205,7 @@ public class ProvinceZipUtils {
                 packageNodeData(singleElement,x);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-                logger.error("封装singleElement数据节点时发生错误");
+                log.error("封装singleElement数据节点时发生错误");
             }
         });
     }
@@ -263,6 +256,8 @@ public class ProvinceZipUtils {
         chars[0]-=32;
         return new String(chars);
     }
+
+
 
 
 }

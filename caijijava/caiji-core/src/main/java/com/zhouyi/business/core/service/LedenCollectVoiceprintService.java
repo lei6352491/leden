@@ -2,6 +2,7 @@ package com.zhouyi.business.core.service;
 
 import com.zhouyi.business.core.model.LedenCollectVoiceprint;
 import com.zhouyi.business.core.model.Response;
+import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardVoice;
 import com.zhouyi.business.core.vo.LedenCollectVoiceprintVo;
 import org.apache.http.util.ByteArrayBuffer;
 
@@ -20,6 +21,21 @@ public interface LedenCollectVoiceprintService
     InputStream selectVoicePrintByPersonCodeBlob(String id) throws IOException;
 
     InputStream selectVoicePrintByPersonCodeBlobSWSJ(String id) throws IOException;
+
+    /**
+     * 根据人员编号获取声纹信息
+     * @param personCode
+     * @return
+     */
+    LedenCollectVoiceprint getVoiceprintByPersonCode(String personCode);
+
+
+    /**
+     * 根据人员编号获取声纹
+     * @param personCode
+     * @return
+     */
+    StandardVoice getStandardVoByPersonCode(String personCode);
 
 
 }

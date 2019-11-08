@@ -1,5 +1,6 @@
 package com.zhouyi.business.core.model;
 
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,10 +9,13 @@ public class LedenUploadLog implements Serializable {
 
     private String equipmentId;
 
+//    @Description("节点标示")
     private String nodeSign;
 
+//    @Description("是否授权")
     private String isEmpower;
 
+//    @Description("上传id")
     private String uploadIp;
 
     private String ryjcxxcjbh;

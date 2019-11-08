@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Encoder;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -78,5 +79,10 @@ public class LedenCollectHandWritingServiceImpl implements LedenCollectHandWriti
             ledenCollectHandwriting.setBjsj(null);
         }
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,ledenCollectHandwriting);
+    }
+
+    @Override
+    public List<LedenCollectHandwriting> listHandWritingByPersonCode(String personCode) {
+        return ledenCollectHandwritingMapper.selectDataByPersonCode(personCode);
     }
 }

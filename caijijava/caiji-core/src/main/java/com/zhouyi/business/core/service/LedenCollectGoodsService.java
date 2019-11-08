@@ -2,6 +2,7 @@ package com.zhouyi.business.core.service;
 
 import com.zhouyi.business.core.model.LedenCollectGoods;
 import com.zhouyi.business.core.model.PageData;
+import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardGoods;
 
 import java.util.List;
 
@@ -36,4 +37,12 @@ public interface LedenCollectGoodsService {
      * @return
      */
     LedenCollectGoods good(String wpbh);
+
+
+    /**
+     * 根据人员编号获取物品信息
+     * @param personCode
+     * @return
+     */
+    List<StandardGoods> listGoodsByPersonCode(String personCode);
 }

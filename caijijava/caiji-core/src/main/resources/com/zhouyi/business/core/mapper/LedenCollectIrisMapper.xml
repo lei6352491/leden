@@ -304,4 +304,10 @@
   <delete id="deleteDataByPersonCode" parameterType="string">
     delete from LEDEN_COLLECT_IRIS where ryjcxxcjbh=#{_parameter}
   </delete>
+
+
+
+  <select id="listDataByConditions" resultMap="BaseResultMap">
+   select * form leden_collect_iris where ryjcxxcjbh=#{personCode}
+  </select>
 </mapper>

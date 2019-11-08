@@ -483,4 +483,31 @@
   <delete id="deleteVoiceprintByPersonId" parameterType="string">
     delete from LEDEN_COLLECT_VOICEPRINT where ryjcxxcjbh=#{_parameter}
   </delete>
+
+  <resultMap id="standardVoiceprintResultMap" type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardVoice" extends="BaseResultMap">
+    <result column="sbxh" property="sbxh"/>
+    <result column="speakTypeName" property="speakTypeName"/>
+    <result column="languageTypeName" property="languageTypeName"/>
+    <result column="dialectName" property="dialectName"/>
+  </resultMap>
+
+
+
+  <select id="getVoiceByPersonCode" parameterType="string" resultMap="standardVoiceprintResultMap">
+    select
+        v.*,
+        pa.plug_in_id as sbxh,
+        d1.name as speakTypeName,
+        d2.name as languageTypeName,
+        d3.name as dialectName
+     from leden_collect_voiceprint v
+     left join leden_collect_person p on p.ryjcxxcjbh=v.ryjcxxcjbh
+     left join leden_equipment e on e.equipment_code=p.equipment_code
+     left join leden_equipment_parets pa on e.pk_id=pa.equipment_pkId
+     left join sys_dict_list d1 on d1.code=v.FYFSDM
+    left join sys_dict_list d2 on d2.code=v.LYYZDM
+    left join sys_dict_list d3 on d3.code=v.HYFYDM
+    where v.ryjcxxcjbh=#{_parameter} and pa.node_code='000000000007'
+
+  </select>
 </mapper>

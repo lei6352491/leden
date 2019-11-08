@@ -89,4 +89,9 @@ public class LedenCollectFootprintServiceImpl implements LedenCollectFootprintSe
         }
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,ledenCollectFootprint);
     }
+
+    @Override
+    public List<LedenCollectFootprint> listFootPrintByPersonCode(String personCode) {
+        return ledenCollectFootprintMapper.listFootPrintByConditions(new HashMap<String,Object>(){{put("personCode",personCode);}});
+    }
 }

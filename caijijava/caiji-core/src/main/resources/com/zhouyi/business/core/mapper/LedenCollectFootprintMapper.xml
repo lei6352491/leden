@@ -307,4 +307,14 @@
     <delete id="deleteFootPrintByPersonId" parameterType="string">
         delete from LEDEN_COLLECT_FOOTPRINT where ryjcxxcjbh=#{_parameter}
     </delete>
+
+
+    <select id="listFootPrintByConditions" resultMap="BaseResultMap">
+        select * from leden_collect_footprint
+        <where>
+            <if test="personCode!=null">
+                ryjcxxcjbh=#{personCode}
+            </if>
+        </where>
+    </select>
 </mapper>

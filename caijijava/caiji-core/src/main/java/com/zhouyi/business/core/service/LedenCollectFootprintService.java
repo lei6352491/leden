@@ -35,4 +35,11 @@ public interface LedenCollectFootprintService {
      * 根据主键查询足迹信息
      * */
     Response<LedenCollectFootprint> getFootprint(String id);
+
+    /**
+     * 根据人员编号查询足记信息
+      * @param personCode
+     * @return
+     */
+    List<LedenCollectFootprint> listFootPrintByPersonCode(String personCode);
 }

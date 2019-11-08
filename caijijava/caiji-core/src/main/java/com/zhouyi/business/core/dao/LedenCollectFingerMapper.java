@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface LedenCollectFingerMapper extends
@@ -30,4 +31,12 @@ public interface LedenCollectFingerMapper extends
      * @param compressionAlgorithm
      */
     void deleteByPersonCode (@Param("personCode") String personCode,@Param("compressionAlgorithm") String compressionAlgorithm);
+
+
+    /**
+     * 根据条件筛选指纹信息
+     * @param conditions
+     * @return
+     */
+    List<LedenCollectFinger> listFingerByConditions(Map<String,Object> conditions);
 }

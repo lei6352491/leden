@@ -125,4 +125,9 @@ public class LedenCollectPortraitServiceImpl
         }
         return ResponseUtil.returnError(ReturnCode.ERROR_05);
     }
+
+    @Override
+    public List<LedenCollectPortrait> listPortraitsByPersonCode(String personCode) {
+        return ledenCollectPortraitMapper.selectPortraitByPersonCode(personCode);
+    }
 }
