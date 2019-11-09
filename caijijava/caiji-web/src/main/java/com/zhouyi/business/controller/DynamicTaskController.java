@@ -3,6 +3,8 @@ package com.zhouyi.business.controller;
 import com.zhouyi.business.component.DataReportComponent;
 import com.zhouyi.business.config.CronConfiguration;
 import com.zhouyi.business.core.model.LedenUploadLog;
+import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
+import com.zhouyi.business.core.service.LedenCollectPersonService;
 import com.zhouyi.business.core.service.LedenUploadLogService;
 import com.zhouyi.business.runnable.UploadRunnable;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +40,8 @@ public class DynamicTaskController {
     private CronConfiguration cronConfiguration;
     @Autowired
     private UploadRunnable uploadRunnable;
+    @Autowired
+    private LedenCollectPersonService ledenCollectPersonService;
 
     private ScheduledFuture<?> future;
 
@@ -71,8 +75,11 @@ public class DynamicTaskController {
         //开解解析
         if(waitingUploadLogs!=null&&waitingUploadLogs.size()>0){
             LedenUploadLog ledenUploadLog = waitingUploadLogs.get(0);
+
+            //查询出设备id
+            StandardPerson standardPerson = ledenCollectPersonService.getStandardPerson(ledenUploadLog.getRyjcxxcjbh());
             uploadRunnable.setPersonCode(ledenUploadLog.getRyjcxxcjbh());
-            uploadRunnable.setEquipmentCode(ledenUploadLog.getEquipmentId());
+            uploadRunnable.setEquipmentCode(standardPerson.getEquipmentCode());
             uploadFuture=threadPoolTaskScheduler.schedule(uploadRunnable,x->new CronTrigger(cronConfiguration.getUploadCron()).nextExecutionTime(x));
         }
 
