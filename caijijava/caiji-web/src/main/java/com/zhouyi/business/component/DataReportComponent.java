@@ -390,16 +390,27 @@ public class DataReportComponent {
            }
        }else{
           //则获取字段修改值
+           Field personCodeField=null;
            try {
-               Field personCodeField = target.getClass().getSuperclass().getDeclaredField("ryjcxxcjbh");
+               personCodeField = target.getClass().getDeclaredField("ryjcxxcjbh");
+
+           } catch (NoSuchFieldException e) {
+               log.info(target.getClass().getSimpleName()+"没有人员编号字段,尝试从父类获取");
+               try {
+                   personCodeField=target.getClass().getSuperclass().getDeclaredField("ryjcxxcjbh") ;
+               } catch (NoSuchFieldException ex) {
+                   log.error(target.getClass().getSimpleName()+"父类并找到人员编号字段,封装人员编号失败");
+                   ex.printStackTrace();
+               }
+           }
+           try {
                personCodeField.setAccessible(true);
                personCodeField.set(target,provincePersonCode);
-           } catch (NoSuchFieldException e) {
-               log.error(target.getClass().getSimpleName()+"没有人员编号字段,替换省编号失败");
-               e.printStackTrace();
-           }catch (IllegalAccessException e){
+           } catch (IllegalAccessException e) {
                log.error(target.getClass().getSimpleName()+"的人员编号字段不可以访问,替换省编号失败");
+               e.printStackTrace();
            }
+
        }
     }
 
