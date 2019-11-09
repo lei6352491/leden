@@ -67,7 +67,7 @@ public class UploadRunnable implements Runnable{
             String fileLocation = ProvinceZipUtils.generatorZip(classPath, dataInfoMis.getMis(), dataInfoMis.getDataInfos());
             log.info("上传中-========");
             //5.上传
-            uploadProvinceComponent.pushZipToFtp(fileLocation,equipmentCode);
+            uploadProvinceComponent.pushZipToFtp(equipmentCode,fileLocation);
             //6.修改状态
             ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOADED.getValue(),personCode,"上传成功");
         } catch (Exception e) {

@@ -210,6 +210,7 @@ public class ProvinceZipUtils {
      * @param object
      */
     private static void packageNodeData(Element element,Object object) throws IllegalAccessException {
+        log.info(element.getName());
         Field[] fields=object.getClass().getDeclaredFields();
         if(object instanceof IrisInfo){
             //如果是虹膜类型
