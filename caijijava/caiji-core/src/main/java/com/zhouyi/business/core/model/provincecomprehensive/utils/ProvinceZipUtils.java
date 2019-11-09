@@ -94,9 +94,6 @@ public class ProvinceZipUtils {
                 //创建文件并写入zip
                 File dataFile=new File(fileNameBuffer.toString());
                 pushFileIntoZip(outputStream, dataFile);
-                if(dataFile.exists()){
-                    dataFile.delete();
-                }
             } catch (IOException e) {
                 e.printStackTrace();
                 log.error("数据文件压入zip失败");
@@ -126,10 +123,6 @@ public class ProvinceZipUtils {
             Document document = createDocument(mis);
             xmlWriter.write(document);
             pushFileIntoZip(outputStream, infoXml);
-            if(infoXml.exists()){
-                //如果文件存在，则最后删除
-                infoXml.delete();
-            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             log.error("省综生成xml编码错误,编码不支持");
