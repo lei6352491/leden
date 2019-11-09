@@ -222,7 +222,7 @@ public class LedenCollectFingerServiceImpl
 
     @Override
     public List<LedenCollectFinger> listFingerByConditions(String personCode, String compressionAlgorithm) {
-        return ledenCollectFingerMapper.listFingerByConditions(new HashMap<String,Object>(){{put("ryjcxxcjbh",personCode);put("zwTxysffms",compressionAlgorithm);}});
+        return ledenCollectFingerMapper.listFingerByConditions(new HashMap<String,Object>(2){{put("personCode",personCode);put("zwTxysffms",compressionAlgorithm);}});
     }
 
     /**
