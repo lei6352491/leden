@@ -2,7 +2,6 @@ package com.zhouyi.business.core.model.provincecomprehensive.utils;
 
 import com.zhouyi.business.core.model.provincecomprehensive.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -180,7 +179,7 @@ public class ProvinceZipUtils {
                 Class genericType = getGenericType(field);
                 System.out.println(genericType);
                 //如果为list
-                packageNodeDatas(misElement,(List)field.get(mis),field.getName());
+                packageNodeDatas(misElement,(List)field.get(mis),field.getName(),genericType.getSimpleName());
             }
         }
         return document;
@@ -193,12 +192,11 @@ public class ProvinceZipUtils {
      * @param element
      * @param data
      */
-    private static void packageNodeDatas(Element element, List<T> data, String nodeName){
+    private static void packageNodeDatas(Element element, List data, String nodeName,String dataType){
         Element multiElement = element.addElement(firstLetterToUpperCase(nodeName));
         //后去泛型的类型
-        Type actualTypeArgument = ((ParameterizedType) data.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         data.forEach(x->{
-            Element singleElement = multiElement.addElement(firstLetterToUpperCase(actualTypeArgument.getTypeName()));
+            Element singleElement = multiElement.addElement(firstLetterToUpperCase(dataType));
             try {
                 packageNodeData(singleElement,x);
             } catch (IllegalAccessException e) {
