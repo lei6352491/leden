@@ -95,7 +95,6 @@ public class ProvinceZipUtils {
                 File dataFile=new File(fileNameBuffer.toString());
                 FileOutputStream fileOutputStream = new FileOutputStream(dataFile);
                 fileOutputStream.write(x.getData());
-                outputStream.close();
                 pushFileIntoZip(outputStream, dataFile);
             } catch (IOException e) {
                 e.printStackTrace();
