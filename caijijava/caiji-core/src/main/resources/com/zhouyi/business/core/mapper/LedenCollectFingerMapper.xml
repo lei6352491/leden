@@ -359,7 +359,7 @@
                 ryjcxxcjbh=#{personCode}
             </if>
             <if test="compressionAlgorithm!=null">
-                zwTxysffms=#{compressionAlgorithm}
+                zw_txysffms=#{compressionAlgorithm}
             </if>
         </where>
     </select>
