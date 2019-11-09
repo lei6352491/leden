@@ -225,8 +225,11 @@ public class ProvinceZipUtils {
 
                 if("irisIndex".equals(field.getName())||"score".equals(field.getName())){
                     nodeName=firstLetterToUpperCase(field.getName());
-                    element.addElement(nodeName).setText(value!=null?value.toString():"");
+                }else{
+                    nodeName=field.getName();
                 }
+
+                element.addElement(nodeName).setText(value!=null?value.toString():"");
             }
         }else{
             //非虹膜类型,统一首字母转大写
