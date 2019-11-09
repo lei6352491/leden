@@ -116,7 +116,7 @@ public class PlatformMappedMap {
 
 
         String[] standardPlatform={"xdwpWpmc",null,null,"wpysdm","wpysdmbcms",null,null,null,"annex",
-        "imageInfos"};
+        null};
         packingFiledMappingData(fieldNames,standardPlatform);
 
         //图片字段

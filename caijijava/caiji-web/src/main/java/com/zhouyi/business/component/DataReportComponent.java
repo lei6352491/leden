@@ -191,6 +191,8 @@ public class DataReportComponent {
 
             }
 
+
+
             //指纹
             if (ledenCollectFingers != null) {
                 ledenCollectFingers.forEach(x -> {
