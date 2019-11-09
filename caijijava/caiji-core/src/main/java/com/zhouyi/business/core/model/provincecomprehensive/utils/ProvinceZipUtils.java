@@ -230,7 +230,8 @@ public class ProvinceZipUtils {
                     String format = new SimpleDateFormat("yyyyMMdd").format(field.get(object));
                     element.addElement(nodeName).setText(format);
                 }
-                element.addElement(nodeName).setText(field.get(object).toString());
+                Object value=field.get(object);
+                element.addElement(nodeName).setText(object==null?"":object.toString());
             }
         }
 
