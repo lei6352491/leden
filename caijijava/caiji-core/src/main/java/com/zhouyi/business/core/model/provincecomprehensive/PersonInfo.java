@@ -143,7 +143,7 @@ public class PersonInfo {
     /**
      * 被采集原因
      */
-    private String reason;
+    private String Reason;
 
     /**
      * 采集单位代码

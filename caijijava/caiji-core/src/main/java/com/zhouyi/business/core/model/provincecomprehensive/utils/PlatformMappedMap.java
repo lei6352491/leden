@@ -142,6 +142,7 @@ public class PlatformMappedMap {
 
     /**
      * 虹膜信息
+     *hmqsqkdm 缺失情况
      */
     public static void packingIrisInfo(){
         Field[] declaredFields = IrisInfo.class.getDeclaredFields();
