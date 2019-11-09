@@ -391,7 +391,7 @@ public class DataReportComponent {
        }else{
           //则获取字段修改值
            try {
-               Field personCodeField = target.getClass().getDeclaredField("ryjcxxcjbh");
+               Field personCodeField = target.getClass().getSuperclass().getDeclaredField("ryjcxxcjbh");
                personCodeField.setAccessible(true);
                personCodeField.set(target,provincePersonCode);
            } catch (NoSuchFieldException e) {
