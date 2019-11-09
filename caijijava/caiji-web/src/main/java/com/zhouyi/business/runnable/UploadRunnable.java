@@ -61,7 +61,7 @@ public class UploadRunnable implements Runnable{
             DataReportComponent.DataInfoMis dataInfoMis=dataReportComponent.getMappedData(personCode,equipmentCode);
             log.info("生成ZIP");
             //4.生成ZIP
-            String fileLocation = ProvinceZipUtils.generatorZip(generateHttpServletRequest(), dataInfoMis.getMis(), dataInfoMis.getDataInfos());
+            String fileLocation = ProvinceZipUtils.generatorZip(getClasspath(), dataInfoMis.getMis(), dataInfoMis.getDataInfos());
             log.info("上传中-========");
             //5.上传
             uploadProvinceComponent.pushZipToFtp(fileLocation,equipmentCode);
@@ -83,12 +83,11 @@ public class UploadRunnable implements Runnable{
 
 
     /**
-     * 获取request
+     * 获取classpath
      * @return
      */
-    public HttpServletRequest generateHttpServletRequest(){
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return request;
+    public String getClasspath(){
+        return System.getProperty("user.dir");
 
     }
 

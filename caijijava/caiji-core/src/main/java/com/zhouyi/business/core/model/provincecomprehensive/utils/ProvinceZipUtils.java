@@ -42,14 +42,13 @@ public class ProvinceZipUtils {
 
     /**
      * 生成ZIP压缩包
-     * @param request
+     * @param classpath
      * @param mis
      */
-    public static String generatorZip(HttpServletRequest request,MIS mis,List<DataInfo> dataInfos) throws Exception{
+    public static String generatorZip(String classpath,MIS mis,List<DataInfo> dataInfos) throws Exception{
         //生成的名称为： 人员编号.zip
-        String contextPath=request.getSession().getServletContext().getRealPath("/zips/");
-        log.info("项目的绝对路径为:"+contextPath);
-        StringBuffer fileBuffer=new StringBuffer(contextPath);
+        log.info("项目的绝对路径为:"+classpath);
+        StringBuffer fileBuffer=new StringBuffer(classpath);
         fileBuffer.append(mis.getPersonInfo().getPersonId());
         fileBuffer.append(".zip");
 
@@ -58,9 +57,9 @@ public class ProvinceZipUtils {
         try {
             zipOutputStream=new ZipOutputStream(new FileOutputStream(zipFile));
             //生成MISxml文件并存入zip
-            generatorXml(contextPath,zipOutputStream,mis);
+            generatorXml(classpath,zipOutputStream,mis);
             //生成其他文件并存入zip
-            generatorDataFile(contextPath,zipOutputStream,dataInfos);
+            generatorDataFile(classpath,zipOutputStream,dataInfos);
             try {
                 zipOutputStream.close();
             } catch (IOException e) {
