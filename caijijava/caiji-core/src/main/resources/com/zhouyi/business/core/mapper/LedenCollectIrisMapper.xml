@@ -309,7 +309,7 @@
 
 
   <resultMap id="standardIrisResultMap" type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris"  extends="BaseResultMap"></resultMap>
-  <select id="listDataByConditions" resultMap="StandardIris">
+  <select id="listDataByConditions" resultMap="standardIrisResultMap">
    select * from leden_collect_iris where ryjcxxcjbh=#{personCode}
   </select>
 </mapper>
