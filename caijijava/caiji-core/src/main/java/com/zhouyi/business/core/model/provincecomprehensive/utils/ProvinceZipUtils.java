@@ -49,8 +49,9 @@ public class ProvinceZipUtils {
      */
     public static String generatorZip(String classpath,MIS mis,List<DataInfo> dataInfos) throws Exception{
         //生成的名称为： 人员编号.zip
-        log.info("文件的存储路径为:"+classpath);
+        log.info("文件的存储路径为:"+classpath+mis.getPersonInfo().getPersonId());
         StringBuffer fileBuffer=new StringBuffer(classpath);
+        fileBuffer.append(mis.getPersonInfo().getPersonId());
         fileBuffer.append(mis.getPersonInfo().getPersonId());
         fileBuffer.append(".zip");
 
@@ -245,6 +246,7 @@ public class ProvinceZipUtils {
                     //如果为日期类型
                     String format = new SimpleDateFormat("yyyyMMdd").format(field.get(object));
                     element.addElement(nodeName).setText(format);
+                    continue;
                 }
                 element.addElement(nodeName).setText(value==null?"":value.toString());
             }
