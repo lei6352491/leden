@@ -345,7 +345,13 @@ public class DataReportComponent {
             String standardFiledName = PlatformMappedMap.fieldNameMapping.get(targetField.getName());
             //从标采中获取值填入省综对象
             try {
-                Field standardFieldEach = standardClass.getDeclaredField(standardFiledName);
+                Field standardFieldEach = null;
+                try {
+                    standardFieldEach = standardClass.getDeclaredField(standardFiledName);
+                } catch (NoSuchFieldException e) {
+                    //如果获取失败则向父类获取
+                    standardFieldEach=standardClass.getSuperclass().getDeclaredField(standardFiledName);
+                }
                 standardFieldEach.setAccessible(true);
                 targetField.set(target, standardFieldEach.get(origin));
             } catch (NoSuchFieldException e) {
