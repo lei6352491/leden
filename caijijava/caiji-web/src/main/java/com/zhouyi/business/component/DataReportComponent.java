@@ -215,16 +215,16 @@ public class DataReportComponent {
                     StringBuffer fileName = new StringBuffer(newPersonCode);
                     switch (x.getZhwzhwdm()) {
                         case "31":
-                            fileName.append("_PM_R");
+                            fileName.append("_PM_R.bmp");
                             break;
                         case "32":
-                            fileName.append("_PM_L");
+                            fileName.append("_PM_L.bmp");
                             break;
                         case "33":
-                            fileName.append("_PW_R");
+                            fileName.append("_PW_R.bmp");
                             break;
                         case "34":
-                            fileName.append("_PW_");
+                            fileName.append("_PW_L.bmp");
                             break;
                     }
                     dataInfos.add(new DataInfo(fileName.toString(), x.getZhwTxsj(), ".bmp"));
@@ -259,10 +259,10 @@ public class DataReportComponent {
                     StringBuffer fileName = new StringBuffer(newPersonCode);
                     switch (x.getZjbwdm()) {
                         case "0":
-                            fileName.append("_FT_L");
+                            fileName.append("_FT_L.jpg");
                             break;
                         case "1":
-                            fileName.append("_FT_R");
+                            fileName.append("_FT_R.jpg");
                             break;
                     }
                     dataInfos.add(new DataInfo(fileName.toString(), x.getZjsj(), ".jpg"));
