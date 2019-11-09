@@ -346,14 +346,16 @@ public class DataReportComponent {
             //从标采中获取值填入省综对象
             try {
                 Field standardFieldEach = null;
-                try {
-                    standardFieldEach = standardClass.getDeclaredField(standardFiledName);
-                } catch (NoSuchFieldException e) {
-                    //如果获取失败则向父类获取
-                    standardFieldEach=standardClass.getSuperclass().getDeclaredField(standardFiledName);
+                if(standardFiledName!=null) {
+                    try {
+                        standardFieldEach = standardClass.getDeclaredField(standardFiledName);
+                    } catch (NoSuchFieldException e) {
+                        //如果获取失败则向父类获取
+                        standardFieldEach = standardClass.getSuperclass().getDeclaredField(standardFiledName);
+                    }
+                    standardFieldEach.setAccessible(true);
+                    targetField.set(target, standardFieldEach.get(origin));
                 }
-                standardFieldEach.setAccessible(true);
-                targetField.set(target, standardFieldEach.get(origin));
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
                 log.error("模型数据转换字段不匹配:" + e.getMessage());
