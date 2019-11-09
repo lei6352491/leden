@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -38,6 +39,8 @@ public class UploadRunnable implements Runnable{
     private DataReportComponent dataReportComponent;
     @Autowired
     private UploadProvinceComponent uploadProvinceComponent;
+    @Value("${provinceComprehensive.generate.dir}")
+    private String classPath;
 
     private String personCode;
     private String equipmentCode;
@@ -61,7 +64,7 @@ public class UploadRunnable implements Runnable{
             DataReportComponent.DataInfoMis dataInfoMis=dataReportComponent.getMappedData(personCode,equipmentCode);
             log.info("生成ZIP");
             //4.生成ZIP
-            String fileLocation = ProvinceZipUtils.generatorZip(getClasspath(), dataInfoMis.getMis(), dataInfoMis.getDataInfos());
+            String fileLocation = ProvinceZipUtils.generatorZip(classPath, dataInfoMis.getMis(), dataInfoMis.getDataInfos());
             log.info("上传中-========");
             //5.上传
             uploadProvinceComponent.pushZipToFtp(fileLocation,equipmentCode);
