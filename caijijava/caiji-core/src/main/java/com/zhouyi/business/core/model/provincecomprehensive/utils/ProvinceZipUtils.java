@@ -225,13 +225,14 @@ public class ProvinceZipUtils {
                 field.setAccessible(true);
                 String nodeName=firstLetterToUpperCase(field.getName());
 
-                if(field.getType()== Date.class){
+
+                Object value=field.get(object);
+                if(field.getType()== Date.class&&value!=null){
                     //如果为日期类型
                     String format = new SimpleDateFormat("yyyyMMdd").format(field.get(object));
                     element.addElement(nodeName).setText(format);
                 }
-                Object value=field.get(object);
-                element.addElement(nodeName).setText(object==null?"":object.toString());
+                element.addElement(nodeName).setText(value==null?"":value.toString());
             }
         }
 
