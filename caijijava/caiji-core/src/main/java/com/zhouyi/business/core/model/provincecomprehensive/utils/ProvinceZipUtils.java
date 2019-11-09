@@ -2,6 +2,7 @@ package com.zhouyi.business.core.model.provincecomprehensive.utils;
 
 import com.zhouyi.business.core.model.provincecomprehensive.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -175,6 +176,9 @@ public class ProvinceZipUtils {
                 Element singleElement = misElement.addElement(firstLetterToUpperCase(field.getName()));
                 packageNodeData(singleElement,field.get(mis));
             }else{
+                //获取泛型
+                Class genericType = getGenericType(field);
+                System.out.println(genericType);
                 //如果为list
                 packageNodeDatas(misElement,(List)field.get(mis),field.getName());
             }
@@ -189,7 +193,7 @@ public class ProvinceZipUtils {
      * @param element
      * @param data
      */
-    private static void packageNodeDatas(Element element, List<?> data,String nodeName){
+    private static void packageNodeDatas(Element element, List<T> data, String nodeName){
         Element multiElement = element.addElement(firstLetterToUpperCase(nodeName));
         //后去泛型的类型
         Type actualTypeArgument = ((ParameterizedType) data.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -210,7 +214,6 @@ public class ProvinceZipUtils {
      * @param object
      */
     private static void packageNodeData(Element element,Object object) throws IllegalAccessException {
-        log.info(element.getName());
         Field[] fields=object.getClass().getDeclaredFields();
         if(object instanceof IrisInfo){
             //如果是虹膜类型
@@ -260,6 +263,19 @@ public class ProvinceZipUtils {
         return new String(chars);
     }
 
+
+    /**
+     * 获取泛型
+     * @param field
+     * @return
+     */
+    private static Class getGenericType(Field field){
+        ParameterizedType listGenericType = (ParameterizedType) field.getGenericType();
+		Type[] listActualTypeArguments = listGenericType.getActualTypeArguments();
+
+		return (Class)listActualTypeArguments[0];
+
+    }
 
 
 
