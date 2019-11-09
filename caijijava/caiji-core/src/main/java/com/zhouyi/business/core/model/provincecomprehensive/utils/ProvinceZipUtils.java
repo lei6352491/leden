@@ -252,7 +252,10 @@ public class ProvinceZipUtils {
      */
     private static String firstLetterToUpperCase(String str){
         char[] chars = str.toCharArray();
-        chars[0]-=32;
+        char first=chars[0];
+        if(first>'a'&&first<'z'){
+            chars[0]-=32;
+        }
         return new String(chars);
     }
 

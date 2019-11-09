@@ -169,6 +169,7 @@ public class DataReportComponent {
             String idCardFileName=newPersonCode+"_IDCARD.JPG";
             standardPerson.setIdCardPhoto(idCardFileName);
             standardPerson.setCjddm(equipmentCode);
+            standardPerson.setZwbh(standardPerson.getRyjcxxcjbh().substring(1));
             DataInfo personDataInfo=new DataInfo(idCardFileName,standardPerson.getJdxp(),"JPG");
             dataInfos.add(personDataInfo);
 
