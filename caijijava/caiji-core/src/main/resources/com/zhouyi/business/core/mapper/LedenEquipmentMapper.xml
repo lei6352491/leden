@@ -396,4 +396,11 @@
   <select id="listEqipmentCodebyUnitCode" parameterType="string" resultType="string">
     select EQUIPMENT_MAC from leden_equipment where unit_code=#{_parameter}
   </select>
+
+
+  <select id="getEquipmentByEquipmentCode" resultMap="BaseResultMap" parameterType="string">
+    select <include refid="Base_Column_List"/>
+    from leden_equipment
+    where equipment_code=#{_parameter}
+  </select>
 </mapper>

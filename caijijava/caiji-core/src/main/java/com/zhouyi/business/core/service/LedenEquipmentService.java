@@ -61,5 +61,7 @@ public interface LedenEquipmentService {
     Response selectEquipmentListByData(LedenEquipmentVo2 ledenEquipmentVo2);
 
     Response selectEquipmentByEquipmentCode(String equipmentCode);
-    
+
+
+    LedenEquipment getEquipmentByEquipmentCode(String code);
 }

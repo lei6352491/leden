@@ -57,7 +57,9 @@ public class ProvinceZipUtils {
 
         ZipOutputStream zipOutputStream=null;
         File zipFile=new File(fileBuffer.toString());
+
         try {
+
             zipOutputStream=new ZipOutputStream(new FileOutputStream(zipFile));
             //生成MISxml文件并存入zip
             generatorXml(classpath,zipOutputStream,mis);

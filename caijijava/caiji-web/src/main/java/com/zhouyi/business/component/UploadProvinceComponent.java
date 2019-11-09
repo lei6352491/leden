@@ -142,7 +142,7 @@ public class UploadProvinceComponent {
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftpClient.disconnect();
             }
-            String newFileName = new String(zipFile.getBytes("UTF-8"), "iso-8859-1");
+            String newFileName = new String(zipFile.substring(zipFile.lastIndexOf("/")).getBytes("UTF-8"), "iso-8859-1");
 
             FileInputStream fileInputStream = new FileInputStream(zipFile);
             //上传文件
