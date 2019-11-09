@@ -18,7 +18,7 @@ import java.util.List;
 public class MIS {
    private PersonInfo personInfo;
    private List<GDSInfo> goodsInfo;
-   private List<BodySignInfo> NewDataSet;
+   private List<BodySignInfo> newDataSet;
    private List<IrisInfo> irisInfos;
    private VoiceInfo voiceInfo;
 }
