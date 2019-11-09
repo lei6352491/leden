@@ -356,10 +356,10 @@
         select * from leden_collect_finger
         <where>
             <if test="personCode!=null">
-                ryjcxxcjbh=#{personCode}
+                and ryjcxxcjbh=#{personCode}
             </if>
             <if test="compressionAlgorithm!=null">
-                zw_txysffms=#{compressionAlgorithm}
+                and zw_txysffms=#{compressionAlgorithm}
             </if>
         </where>
     </select>
