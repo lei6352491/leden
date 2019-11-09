@@ -9,6 +9,8 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.misc.BASE64Decoder;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.lang.reflect.Field;
@@ -94,7 +96,9 @@ public class ProvinceZipUtils {
                 //创建文件并写入zip
                 File dataFile=new File(fileNameBuffer.toString());
                 FileOutputStream fileOutputStream = new FileOutputStream(dataFile);
-                fileOutputStream.write(x.getData());
+                //将数据进行base64转码
+                byte[] bytes = new BASE64Decoder().decodeBuffer(x.getData().toString());
+                fileOutputStream.write(bytes);
                 pushFileIntoZip(outputStream, dataFile);
             } catch (IOException e) {
                 e.printStackTrace();
