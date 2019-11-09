@@ -166,7 +166,7 @@ public class ProvinceZipUtils {
 
         Element misElement=document.addElement("MIS");
 
-        Field[] fields = mis.getClass().getFields();
+        Field[] fields = mis.getClass().getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
             if(field.getType()!=List.class){
