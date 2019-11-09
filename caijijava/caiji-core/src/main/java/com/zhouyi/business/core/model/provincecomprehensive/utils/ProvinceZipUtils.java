@@ -214,10 +214,13 @@ public class ProvinceZipUtils {
             for (Field field : fields) {
                 field.setAccessible(true);
                 String nodeName=null;
+
+                Object value=field.get(object);
+
                 if("irisIndex".equals(field.getName())||"score".equals(field.getName())){
                     nodeName=firstLetterToUpperCase(field.getName());
                 }
-                element.addElement(nodeName).setText(field.get(object).toString());
+                element.addElement(nodeName).setText(value!=null?value.toString():"");
             }
         }else{
             //非虹膜类型,统一首字母转大写
