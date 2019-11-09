@@ -116,8 +116,7 @@ public class UploadProvinceComponent {
             if (dataNumberResponse.getStatus() == 1) {
                 String generatedPersonCode=dataNumberResponse.getData();
                 //将人员编号存入数据库
-                LedenCollectPerson waitingSavePerson = new LedenCollectPerson(personCode, generatedPersonCode);
-                ledenCollectPersonMapper.insertSelective(waitingSavePerson);
+                ledenCollectPersonMapper.updatePersonByPersonCode(new HashMap<String,Object>(2){{put("personCode",personCode);put("jzrybh",generatedPersonCode);}});
             }else{
                 log.error("生成人员编号失败");
                 throw new Exception("生成人员编号失败");

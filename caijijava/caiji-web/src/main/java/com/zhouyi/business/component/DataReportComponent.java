@@ -160,11 +160,6 @@ public class DataReportComponent {
             List<?> standardObjects= Arrays.asList(standardPerson,collectGoods,standardSigns,collectIrises,standardVoByPersonCode);
             standardObjects.forEach(x->replacePersonCode(x,newPersonCode));
 
-            //将得到的newPersonCode存入警综人员编号
-            LedenCollectPerson ledenCollectPerson=new LedenCollectPerson();
-            ledenCollectPerson.setRyjcxxcjbh(personCode);
-            ledenCollectPerson.setJzrybh(newPersonCode);
-            ledenCollectPersonService.updatePersonByUserCode(ledenCollectPerson);
 
 
 
