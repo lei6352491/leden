@@ -382,6 +382,9 @@ public class DataReportComponent {
      * @param provincePersonCode
      */
     private void replacePersonCode(Object target,String provincePersonCode){
+        if(target==null){
+            return;
+        }
        if(target instanceof List){
           //如果是集合
            List targetList=(List)target;
