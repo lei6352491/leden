@@ -355,7 +355,7 @@
 
 
     <resultMap id="standardGoodsResultMap" type="com.zhouyi.business.core.model.LedenCollectGoods" extends="BaseResultMap">
-        <collection property="gPhtotos" ofType="com.zhouyi.business.core.model.LedenCollectGPhoto">
+        <collection property="gPhotos" ofType="com.zhouyi.business.core.model.LedenCollectGPhoto">
             <result column="DZWJNR" property="dzwjnr"/>
         </collection>
     </resultMap>
