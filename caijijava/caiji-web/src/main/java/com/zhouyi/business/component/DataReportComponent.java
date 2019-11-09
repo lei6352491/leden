@@ -165,13 +165,14 @@ public class DataReportComponent {
 
             List<DataInfo> dataInfos=new ArrayList<>();
 
-            transferModelData(standardPerson,personInfo);
             //封装人员信息
             String idCardFileName=newPersonCode+"_IDCARD.JPG";
             standardPerson.setIdCardPhoto(idCardFileName);
             standardPerson.setCjddm(equipmentCode);
             DataInfo personDataInfo=new DataInfo(idCardFileName,standardPerson.getJdxp(),"JPG");
             dataInfos.add(personDataInfo);
+
+            transferModelData(standardPerson,personInfo);
 
             //封装随身物品信息
             if(collectGoods!=null){

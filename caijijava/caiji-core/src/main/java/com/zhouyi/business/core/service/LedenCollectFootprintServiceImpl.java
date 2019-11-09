@@ -92,6 +92,6 @@ public class LedenCollectFootprintServiceImpl implements LedenCollectFootprintSe
 
     @Override
     public List<LedenCollectFootprint> listFootPrintByPersonCode(String personCode) {
-        return ledenCollectFootprintMapper.listFootPrintByConditions(new HashMap<String,Object>(){{put("personCode",personCode);}});
+        return ledenCollectFootprintMapper.listFootPrintByConditions(new HashMap<String,Object>(1){{put("personCode",personCode);}});
     }
 }
