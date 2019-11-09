@@ -201,10 +201,10 @@ public class DataReportComponent {
                     if (fingerPosition.startsWith("0")) {
                         //滚动指纹
                         fingerPosition = fingerPosition.substring(1);
-                        dataInfos.add(new DataInfo(newPersonCode + "_RP_" + fingerPosition, x.getZwTxsj(), ".Bmp"));
+                        dataInfos.add(new DataInfo(newPersonCode + "_RP_" + fingerPosition+".Bmp", x.getZwTxsj(), ".Bmp"));
                     } else {
                         //平面指纹
-                        dataInfos.add(new DataInfo(newPersonCode + "_FP_" + fingerPosition, x.getZwTxsj(), ".Bmp"));
+                        dataInfos.add(new DataInfo(newPersonCode + "_FP_" + fingerPosition+".Bmp", x.getZwTxsj(), ".Bmp"));
                     }
                 });
             }
@@ -238,13 +238,13 @@ public class DataReportComponent {
                     StringBuffer fileName = new StringBuffer(newPersonCode);
                     switch (x.getRxzplxdm()) {
                         case "1":
-                            fileName.append("_PH_F");
+                            fileName.append("_PH_F.JPG");
                             break;
                         case "2":
-                            fileName.append("_PH_L");
+                            fileName.append("_PH_L.JPG");
                             break;
                         case "4":
-                            fileName.append("_PH_R");
+                            fileName.append("_PH_R.JPG");
                             break;
                     }
 
@@ -290,10 +290,10 @@ public class DataReportComponent {
                     StringBuffer fileName = new StringBuffer(newPersonCode);
                     switch (x.getHmywdm()) {
                         case "0":
-                            fileName.append("_IRIS_L");
+                            fileName.append("_IRIS_L.jpg");
                             break;
                         case "1":
-                            fileName.append("_IRIS_R");
+                            fileName.append("_IRIS_R.jpg");
                             break;
                     }
                     dataInfos.add(new DataInfo(fileName.toString(), x.getHmsj(), ".jpg"));
@@ -307,7 +307,7 @@ public class DataReportComponent {
 
             //声纹
             if (standardVoByPersonCode != null) {
-                String fileName = personCode + "_voc";
+                String fileName = personCode + "_voc.wav";
                 dataInfos.add(new DataInfo(fileName, standardVoByPersonCode.getYpsj(), ".wav"));
                 transferModelData(standardVoByPersonCode,voiceInfo);
             }
@@ -316,7 +316,7 @@ public class DataReportComponent {
 
             //笔记
             if (ledenCollectHandwritings != null && ledenCollectHandwritings.size() > 0) {
-                String fileName = personCode + "_PEN";
+                String fileName = personCode + "_PEN.jpg";
                 dataInfos.add(new DataInfo(fileName, ledenCollectHandwritings.get(0).getBjsj(), ".jpg"));
             }
 
