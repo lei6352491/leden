@@ -97,7 +97,7 @@ public class ProvinceZipUtils {
                 File dataFile=new File(fileNameBuffer.toString());
                 FileOutputStream fileOutputStream = new FileOutputStream(dataFile);
                 //将数据进行base64转码
-                byte[] bytes = new BASE64Decoder().decodeBuffer(x.getData().toString());
+                byte[] bytes = new BASE64Decoder().decodeBuffer(new String(x.getData()));
                 fileOutputStream.write(bytes);
                 pushFileIntoZip(outputStream, dataFile);
             } catch (IOException e) {
