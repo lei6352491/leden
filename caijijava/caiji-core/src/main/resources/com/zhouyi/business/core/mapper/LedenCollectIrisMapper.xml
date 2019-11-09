@@ -308,6 +308,6 @@
 
 
   <select id="listDataByConditions" resultMap="BaseResultMap">
-   select * form leden_collect_iris where ryjcxxcjbh=#{personCode}
+   select * from leden_collect_iris where ryjcxxcjbh=#{personCode}
   </select>
 </mapper>
