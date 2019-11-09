@@ -309,7 +309,7 @@
     </delete>
 
 
-    <select id="listFootPrintByConditions" resultMap="BaseResultMap">
+    <select id="listFootPrintByConditions" resultMap="ResultMapWithBLOBs">
         select * from leden_collect_footprint
         <where>
             <if test="personCode!=null">
