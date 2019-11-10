@@ -157,7 +157,7 @@
 
 
     <sql id="condition_filter_column">
-    ryjcxxcjbh,equipmnet_id
+    ryjcxxcjbh,equipment_id
   </sql>
 
     <select id="listUploadLogByConditions" resultMap="BaseResultMap">
