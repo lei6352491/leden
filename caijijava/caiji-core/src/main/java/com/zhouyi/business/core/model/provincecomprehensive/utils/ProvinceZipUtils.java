@@ -57,6 +57,9 @@ public class ProvinceZipUtils {
 
         ZipOutputStream zipOutputStream=null;
         File zipFile=new File(fileBuffer.toString());
+        if (!zipFile.exists()){
+            zipFile.createNewFile();
+        }
 
         try {
 

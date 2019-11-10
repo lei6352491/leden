@@ -74,7 +74,7 @@ public class UploadRunnable implements Runnable{
 
             e.printStackTrace();
             //如果报错则记录报错信息到数据库
-            ledenUploadLogService.uploadLogStatusByPersonCode(2,personCode,e.getMessage());
+            ledenUploadLogService.uploadLogStatusByPersonCode(2,personCode,"上传失败");
         }
 
 

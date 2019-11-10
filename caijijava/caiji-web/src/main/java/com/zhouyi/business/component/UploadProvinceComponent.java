@@ -143,7 +143,7 @@ public class UploadProvinceComponent {
                 ftpClient.disconnect();
             }
 
-            File file=new File(dir);
+            File file=new File(zipFile);
             String fileName=file.getName();
             String newFileName = new String(fileName.getBytes("UTF-8"), "iso-8859-1");
 
