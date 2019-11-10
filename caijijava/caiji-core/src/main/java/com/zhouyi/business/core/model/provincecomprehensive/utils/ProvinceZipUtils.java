@@ -49,7 +49,11 @@ public class ProvinceZipUtils {
      */
     public static String generatorZip(String classpath,MIS mis,List<DataInfo> dataInfos) throws Exception{
         //生成的名称为： 人员编号.zip
-        classpath+=mis.getPersonInfo().getPersonId()+"/";
+        classpath+=mis.getPersonInfo().getPersonId()+File.separator;
+        File dir=new File(classpath);
+        if(!dir.exists()){
+            dir.mkdir();
+        }
         log.info("文件的存储路径为:"+classpath);
         StringBuffer fileBuffer=new StringBuffer(classpath);
         fileBuffer.append(mis.getPersonInfo().getPersonId());
