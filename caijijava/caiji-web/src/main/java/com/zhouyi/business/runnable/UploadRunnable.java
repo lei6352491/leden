@@ -2,6 +2,8 @@ package com.zhouyi.business.runnable;
 
 import com.zhouyi.business.component.DataReportComponent;
 import com.zhouyi.business.component.UploadProvinceComponent;
+import com.zhouyi.business.core.model.LedenEquipment;
+import com.zhouyi.business.core.model.LedenUploadLog;
 import com.zhouyi.business.core.service.*;
 import com.zhouyi.business.core.model.provincecomprehensive.utils.ProvinceZipUtils;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author: first
@@ -41,17 +44,37 @@ public class UploadRunnable implements Runnable{
     private UploadProvinceComponent uploadProvinceComponent;
     @Value("${provinceComprehensive.generate.dir}")
     private String classPath;
+    @Autowired
+    private LedenEquipmentService ledenEquipmentService;
 
-    private String personCode;
-    private String equipmentCode;
 
-    public UploadRunnable(String personCode,String equipmentCode) {
-        this.personCode = personCode;
-        this.equipmentCode=equipmentCode;
-    }
+
+
 
     @Override
     public void run() {
+         String personCode=null;
+         String equipmentCode=null;
+
+        //获取要解析的数据包集合
+        List<LedenUploadLog> waitingUploadLogs = ledenUploadLogService.listUplaodLogByCondition(DataReportComponent.UPLOAD_STATUS.NO_UPLOAD.getValue(),
+                DataReportComponent.UPLOAD_STATUS.UPLOAD_LOSE.getValue());
+        log.info("获取到"+waitingUploadLogs.size()+"条待上传的数据");
+        //开解解析
+        if(waitingUploadLogs!=null&&waitingUploadLogs.size()>0){
+            LedenUploadLog ledenUploadLog = waitingUploadLogs.get(0);
+
+            LedenEquipment ledenEquipment=ledenEquipmentService.getEquipmentByEquipmentCode(ledenUploadLog.getEquipmentId());
+
+            //查询出设备id
+            personCode=ledenUploadLog.getRyjcxxcjbh();
+            equipmentCode=ledenEquipment.getProvincialEquipmentCode();
+        }
+        if(personCode==null||equipmentCode==null){
+           log.error("没有带解析的数据");
+           return;
+        }
+
         try {
             log.info("正在打包压缩"+personCode+"的数据");
             //1.更新上传状态

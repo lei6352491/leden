@@ -70,22 +70,9 @@ public class DynamicTaskController {
     }
 
     public String beginPacketAndUpload() {
-        //获取要解析的数据包集合
-        List<LedenUploadLog> waitingUploadLogs = ledenUploadLogService.listUplaodLogByCondition(DataReportComponent.UPLOAD_STATUS.NO_UPLOAD.getValue(),
-                DataReportComponent.UPLOAD_STATUS.UPLOAD_LOSE.getValue());
-        log.info("获取到"+waitingUploadLogs.size()+"条待上传的数据");
-        //开解解析
-        if(waitingUploadLogs!=null&&waitingUploadLogs.size()>0){
-            LedenUploadLog ledenUploadLog = waitingUploadLogs.get(0);
 
-            LedenEquipment ledenEquipment=ledenEquipmentService.getEquipmentByEquipmentCode(ledenUploadLog.getEquipmentId());
 
-            //查询出设备id
-            uploadRunnable.setPersonCode(ledenUploadLog.getRyjcxxcjbh());
-            uploadRunnable.setEquipmentCode(ledenEquipment.getProvincialEquipmentCode());
-            uploadFuture=threadPoolTaskScheduler.schedule(uploadRunnable,x->new CronTrigger(cronConfiguration.getUploadCron()).nextExecutionTime(x));
-        }
-
+        uploadFuture=threadPoolTaskScheduler.schedule(uploadRunnable,x->new CronTrigger(cronConfiguration.getUploadCron()).nextExecutionTime(x));
         return "success";
 
 
