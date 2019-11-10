@@ -18,10 +18,9 @@ public interface LedenUploadLogMapper extends BuffBaseMapper<LedenUploadLog, Led
 
     /**
      * 根据条件筛选日志消息
-     * @param conditions
      * @return
      */
-    List<LedenUploadLog> listUploadLogByConditions(Map<String,Object> conditions);
+    List<LedenUploadLog> listUploadLogByConditions(@Param("status") List status);
 
 
     /**
