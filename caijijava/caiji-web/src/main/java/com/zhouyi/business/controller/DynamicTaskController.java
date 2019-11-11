@@ -61,8 +61,8 @@ public class DynamicTaskController {
 
     @RequestMapping(value = "/stopUpload")
     public String stopCron(){
-        if(future!=null){
-            future.cancel(true);
+        if(uploadFuture!=null){
+            uploadFuture.cancel(true);
         }
 
         System.out.println("------数据上报关闭成功");
