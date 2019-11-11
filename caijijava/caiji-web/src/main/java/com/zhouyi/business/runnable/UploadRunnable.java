@@ -7,7 +7,6 @@ import com.zhouyi.business.core.model.LedenUploadLog;
 import com.zhouyi.business.core.model.provincecomprehensive.utils.MIS;
 import com.zhouyi.business.core.service.*;
 import com.zhouyi.business.core.model.provincecomprehensive.utils.ProvinceZipUtils;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -33,6 +26,7 @@ import java.util.List;
 @Slf4j
 @NoArgsConstructor
 @Configuration
+@Scope("prototype")
 public class UploadRunnable implements Runnable{
 
     @Autowired
@@ -100,6 +94,7 @@ public class UploadRunnable implements Runnable{
             //如果报错则记录报错信息到数据库
             ledenUploadLogService.uploadLogStatusByPersonCode(2,personCode,"上传失败");
         }
+
 
 
 
