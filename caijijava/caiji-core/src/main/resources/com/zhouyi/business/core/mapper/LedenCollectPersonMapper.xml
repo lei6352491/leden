@@ -1384,9 +1384,15 @@
         (select
         <include refid="standardPersonSql"/>
         from leden_collect_person) person
-        left join sys_dict_list d1 on person.CJXXYYDM=d1.code
-        left join sys_dict_list d2 on person.HJDSSXDM=d2.code
-        left join sys_dict_list d3 on person.XZDQHDM=d3.code
+        left join (
+            select * from sys_dict_list where sign='DICT_RYCJYY'
+        ) d1 on d1.code=person.cjxxyydm
+        left join (
+            select * from sys_dict_list where sign='DICT_XZQH'
+        ) d2 on person.hjdssxdm=d2.code
+        left join (
+            select * from sys_dict_list where sign='DICT_XZQH'
+        ) d3 on person.xzdqhdm=d3.code
         left join LEDEN_COLLECT_SGTZZC stz on stz.RYJCXXCJBH=person.RYJCXXCJBH
         left join leden_collect_dna d on d.ryjcxxcjbh=person.ryjcxxcjbh
 

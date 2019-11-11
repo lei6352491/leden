@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: first
@@ -104,25 +105,32 @@ public class UploadProvinceComponent {
      * @return 采集数据编号(相当远人员编号)
      */
     public String generateDataNumber(String personCode,String unitCode) throws Exception {
+        log.info("正在获取数据编号");
         StringBuffer urlBuffer = new StringBuffer("http://");
         urlBuffer.append(provinceIp);
         urlBuffer.append(":");
         urlBuffer.append(provincePort);
         urlBuffer.append(dataNumberAddress);
-        ResponseVo dataNumberResponse = HttpUtil.sendPost(urlBuffer.toString(), new HashMap<String, String>(1) {{
+        ResponseVo dataNumberResponse = HttpUtil.sendPostByform(urlBuffer.toString(), new HashMap<String, String>(1) {{
             put("unitCode", unitCode);
         }});
+        log.info(dataNumberResponse.toString());
         if (dataNumberResponse.isOk()) {
-            if (dataNumberResponse.getStatus() == 1) {
-                String generatedPersonCode=dataNumberResponse.getData();
+            log.info("获取人员编号成功");
+            Map result=(Map)JSON.parse(dataNumberResponse.getData());
+            log.info(result.toString());
+            if (result.get("status").equals("1")) {
+                String generatedPersonCode=result.get("value").toString();
                 //将人员编号存入数据库
                 ledenCollectPersonMapper.updatePersonByPersonCode(new HashMap<String,Object>(2){{put("personCode",personCode);put("jzrybh",generatedPersonCode);}});
+                return generatedPersonCode;
             }else{
                 log.error("生成人员编号失败");
                 throw new Exception("生成人员编号失败");
             }
+        }else{
+            throw new Exception("调用生成数据编号失败");
         }
-        return null;
     }
 
 

@@ -1,5 +1,4 @@
 package com.zhouyi.business.core.model.provincecomprehensive.utils;
-
 import com.zhouyi.business.core.model.provincecomprehensive.*;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
@@ -7,11 +6,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -21,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 /**
  * @Author: first
  * @Date: 下午12:09 2019/10/31
@@ -30,6 +24,55 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 public class ProvinceZipUtils {
 
+
+
+
+    public static String generateZip2(String classpath,MIS mis){
+       //获取根路径下所有文件
+        StringBuffer stringBuffer=new StringBuffer(classpath).append(mis.getPersonInfo().getPersonId());
+
+
+        File file=new File(stringBuffer.toString());
+        File[] files=file.listFiles();
+
+        String zipFile=stringBuffer.append(mis.getPersonInfo().getPersonId()).append(".zip").toString();
+
+        ZipOutputStream zipOutputStream=null;
+        FileInputStream fileInputStream=null;
+        log.info("一共生成"+files.length+"个数据文件");
+        try {
+            zipOutputStream=new ZipOutputStream(new FileOutputStream(zipFile));
+            for (File file1 : files) {
+                fileInputStream=new FileInputStream(file1);
+                ZipEntry zipEntry=new ZipEntry(file1.getName());
+                zipOutputStream.putNextEntry(zipEntry);
+                int temp=0;
+                while((temp=fileInputStream.read())!=-1){
+                    zipOutputStream.write(temp);
+                    zipOutputStream.flush();
+                }
+            }
+            return zipFile;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(fileInputStream!=null) {
+                    fileInputStream.close();
+                }
+                if(zipOutputStream!=null){
+                    zipOutputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+
+    }
     /**
      * 根据数据对象构建ZIP文件
      * @param request
@@ -39,15 +82,12 @@ public class ProvinceZipUtils {
      * @param irisInfo
      * @param voiceInfo
      */
-
-
-
     /**
      * 生成ZIP压缩包
      * @param classpath
      * @param mis
      */
-    public static String generatorZip(String classpath,MIS mis,List<DataInfo> dataInfos) throws Exception{
+    public static String generatorZip(String classpath,MIS mis) throws Exception{
         //生成的名称为： 人员编号.zip
         classpath+=mis.getPersonInfo().getPersonId()+File.separator;
         File dir=new File(classpath);
@@ -67,9 +107,9 @@ public class ProvinceZipUtils {
 
             zipOutputStream=new ZipOutputStream(new FileOutputStream(zipFile));
             //生成MISxml文件并存入zip
-            generatorXml(classpath,zipOutputStream,mis);
+            generatorXml(classpath,mis);
             //生成其他文件并存入zip
-            generatorDataFile(classpath,zipOutputStream,dataInfos);
+//            generatorDataFile(classpath,zipOutputStream);
             try {
                 zipOutputStream.close();
             } catch (IOException e) {
@@ -95,6 +135,7 @@ public class ProvinceZipUtils {
      * @param dataInfos
      */
     private static void generatorDataFile(String contextPath,ZipOutputStream outputStream,List<DataInfo> dataInfos){
+
         dataInfos.forEach(x->{
             //使用StringBuffer构建整个文件名
             StringBuffer fileNameBuffer=new StringBuffer(contextPath);
@@ -118,12 +159,11 @@ public class ProvinceZipUtils {
 
     /**
      * 生成xml并放入zip
-     * @param outputStream zip的流
      * @param mis
      */
-    private static void generatorXml(String contextPath,ZipOutputStream outputStream, MIS mis){
+    public static void generatorXml(String contextPath, MIS mis){
         StringBuffer xml=new StringBuffer(contextPath);
-        xml.append(mis.getPersonInfo().getPersonId());
+        xml.append(mis.getPersonInfo().getPersonId()).append(File.separator).append(mis.getPersonInfo().getPersonId());
         xml.append(".xml");
 
         //构建xml对象
@@ -136,7 +176,6 @@ public class ProvinceZipUtils {
             xmlWriter.setEscapeText(false);
             Document document = createDocument(mis);
             xmlWriter.write(document);
-            pushFileIntoZip(outputStream, infoXml);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             log.error("省综生成xml编码错误,编码不支持");
@@ -288,6 +327,34 @@ public class ProvinceZipUtils {
 		Type[] listActualTypeArguments = listGenericType.getActualTypeArguments();
 
 		return (Class)listActualTypeArguments[0];
+
+    }
+
+
+    /**
+     * 在指定目录生成数据文件
+     * @param filePath
+     * @param data
+     */
+    public static void generatePictureOrVoiceFile(String filePath,byte[] data){
+       File file=new File(filePath);
+       if(!file.exists()){
+           file.mkdirs();
+       }
+        try {
+            //将数据Base64解码
+            byte[] bytes = new BASE64Decoder().decodeBuffer(new String(data));
+            FileOutputStream fileOutputStream=new FileOutputStream(file);
+            fileOutputStream.write(bytes);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            log.error(file.getName()+":文件不存在");
+            e.printStackTrace();
+        } catch (IOException e) {
+            log.error(filePath+"进行base64解码失败");
+            e.printStackTrace();
+        }
 
     }
 

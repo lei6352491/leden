@@ -1,5 +1,6 @@
 package com.zhouyi.business.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhouyi.business.config.ProvinceFtpUtil;
 import com.zhouyi.business.core.common.ReturnCode;
@@ -202,23 +203,25 @@ public class LedenEquipmentController {
         params.put("unitCode", tempUnitCode);
         params.put("ip", ip);
         params.put("mac", mac);
-        ResponseVo responseVo = HttpUtil.sendPostByJson(url.toString(), params);
+        ResponseVo responseVo = HttpUtil.sendPostByform(url.toString(), params);
         if (responseVo.isOk()) {
             //如果服务调用成功则检测数据
             logger.info(responseVo.getData());
-            if ("0".equals(responseVo.getStatus())) {
+            Map result=(Map) JSON.parse(responseVo.getData());
+            if ("0".equals(result.get("status"))) {
                 //失败
-                logger.info("接口调用失败:" + responseVo.getData());
-                throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());
-            } else if ("1".equals(responseVo.getStatus())) {
+                logger.info("接口调用失败:" + result.get("value"));
+                throw new Exception("省厅注册借口调用失败" + result.get("value"));
+            } else if ("1".equals(result.get("status"))) {
                 //成功
-                logger.info("省厅注册成功：设备编号为" + responseVo.getData());
+                logger.info("省厅注册成功：设备编号为" +result.get("value"));
                 return responseVo.getData();
+            }else{
+                throw new Exception("注册失败:"+result.get("value"));
             }
         } else {
-            throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());
+            throw new Exception("省厅注册借口调用失败");
         }
-        return null;
     }
 
 

@@ -2,6 +2,7 @@ package com.zhouyi.business.core.model.provincecomprehensive.pojo;
 
 import com.zhouyi.business.core.model.LedenCollectPerson;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @Author: first
@@ -9,6 +10,7 @@ import lombok.Data;
  * @Description: 和综采对接的人员信息类
 **/
 @Data
+@ToString
 public class StandardPerson extends LedenCollectPerson {
 
 

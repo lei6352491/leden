@@ -4,6 +4,7 @@ import com.zhouyi.business.component.DataReportComponent;
 import com.zhouyi.business.component.UploadProvinceComponent;
 import com.zhouyi.business.core.model.LedenEquipment;
 import com.zhouyi.business.core.model.LedenUploadLog;
+import com.zhouyi.business.core.model.provincecomprehensive.utils.MIS;
 import com.zhouyi.business.core.service.*;
 import com.zhouyi.business.core.model.provincecomprehensive.utils.ProvinceZipUtils;
 import lombok.AllArgsConstructor;
@@ -63,12 +64,13 @@ public class UploadRunnable implements Runnable{
         //开解解析
         if(waitingUploadLogs!=null&&waitingUploadLogs.size()>0){
             LedenUploadLog ledenUploadLog = waitingUploadLogs.get(0);
+            waitingUploadLogs.clear();
 
             LedenEquipment ledenEquipment=ledenEquipmentService.getEquipmentByEquipmentCode(ledenUploadLog.getEquipmentId());
-
             //查询出设备id
             personCode=ledenUploadLog.getRyjcxxcjbh();
             equipmentCode=ledenEquipment.getProvincialEquipmentCode();
+            ledenEquipment=null;
         }
         if(personCode==null||equipmentCode==null){
            log.error("没有带解析的数据");
@@ -79,15 +81,14 @@ public class UploadRunnable implements Runnable{
             log.info("正在打包压缩"+personCode+"的数据");
             //1.更新上传状态
             ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.PACKING.getValue(),personCode, DataReportComponent.UPLOAD_STATUS.PACKING.getName());
-//            log.info("正在从数据库读取数据");
-//            //2.从数据库里读取数据
-//            ledenCollectPersonService.getLedenCollectPersonByConditions(new HashMap<String,Object>(1){{put("ryjcxxcjbh",personCode);}});
             log.info("封装数据ing");
             //3.封装数据
-            DataReportComponent.DataInfoMis dataInfoMis=dataReportComponent.getMappedData(personCode,equipmentCode);
+            MIS mis =dataReportComponent.getMappedData(personCode,equipmentCode);
+            //生成xml
+            ProvinceZipUtils.generatorXml(classPath,mis);
             log.info("生成ZIP");
             //4.生成ZIP
-            String fileLocation = ProvinceZipUtils.generatorZip(classPath, dataInfoMis.getMis(), dataInfoMis.getDataInfos());
+            String fileLocation = ProvinceZipUtils.generatorZip(classPath, mis);
             log.info("上传中-========");
             //5.上传
             uploadProvinceComponent.pushZipToFtp(equipmentCode,fileLocation);
