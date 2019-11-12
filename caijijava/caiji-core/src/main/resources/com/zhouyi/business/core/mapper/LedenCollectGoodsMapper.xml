@@ -361,10 +361,11 @@
     </resultMap>
 
     <select id="listGoodsByConditions" resultMap="standardGoodsResultMap">
-        select * from leden_collect_goods
+        select * from leden_collect_goods g
+        left join leden_collect_G_photo p on g.wpbh=p.wpbh
         <where>
             <if test="personCode!=null">
-                and ryjcxxcjbh=#{personCode}
+                and g.ryjcxxcjbh=#{personCode}
             </if>
         </where>
     </select>

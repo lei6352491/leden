@@ -496,7 +496,7 @@
   <select id="getVoiceByPersonCode" parameterType="string" resultMap="standardVoiceprintResultMap">
     select
         v.*,
-        pa.plug_in_id as sbxh,
+        pa.parets_version as sbxh,
         d1.name as speakTypeName,
         d2.name as languageTypeName,
         d3.name as dialectName
@@ -508,6 +508,7 @@
     left join sys_dict_list d2 on d2.code=v.LYYZDM
     left join sys_dict_list d3 on d3.code=v.HYFYDM
     where v.ryjcxxcjbh=#{_parameter} and pa.node_code='000000000007'
+    and d1.sign='DICT_FYFS' and d2.sign='DICT_LYYZH' and d3.sign='DICT_HYFY'
 
   </select>
 </mapper>

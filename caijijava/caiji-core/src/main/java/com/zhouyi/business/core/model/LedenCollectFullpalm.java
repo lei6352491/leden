@@ -12,7 +12,7 @@ public class LedenCollectFullpalm implements Serializable {
 
     private String qzZzhwqsqkdm;
 
-    private String qzTxysfsms;
+    private String qztxysffms;
 
     private String qzTxzl;
 
@@ -64,12 +64,12 @@ public class LedenCollectFullpalm implements Serializable {
         this.qzZzhwqsqkdm = qzZzhwqsqkdm;
     }
 
-    public String getQzTxysfsms() {
-        return qzTxysfsms;
+    public String getqztxysffms() {
+        return qztxysffms;
     }
 
-    public void setQzTxysfsms(String qzTxysfsms) {
-        this.qzTxysfsms = qzTxysfsms;
+    public void setqztxysffms(String qztxysffms) {
+        this.qztxysffms = qztxysffms;
     }
 
     public String getQzTxzl() {
@@ -146,7 +146,7 @@ public class LedenCollectFullpalm implements Serializable {
         sb.append(", ryjcxxcjbh=").append(ryjcxxcjbh);
         sb.append(", qzZhwzhwdm=").append(qzZhwzhwdm);
         sb.append(", qzZzhwqsqkdm=").append(qzZzhwqsqkdm);
-        sb.append(", qzTxysfsms=").append(qzTxysfsms);
+        sb.append(", qztxysffms=").append(qztxysffms);
         sb.append(", qzTxzl=").append(qzTxzl);
         sb.append(", deletag=").append(deletag);
         sb.append(", annex=").append(annex);

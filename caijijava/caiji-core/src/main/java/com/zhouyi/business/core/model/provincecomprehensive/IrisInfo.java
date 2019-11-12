@@ -35,7 +35,7 @@ public class IrisInfo {
     /**
      * 采集状态
      */
-    private String cjbs;
+    private String cjbs="3";
 
     /**
      * 设备型号

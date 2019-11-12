@@ -572,6 +572,7 @@ public class CollectTimingTask {
             //如果解析完成并且上报至省综平台
             logger.info("人员编号:" + zipUploadPacket.getRyjcxxcjbh() + "的flag:" + flag + "\n");
             if (flag) {
+                logger.info("更改ZIP的状态为成功"+flag);
                 setResolveResult(zipUploadPacket, "1", "解析成功");
                 updateUploadPacket(zipUploadPacket);
                 LedenUploadLog ledenUploadLog = new LedenUploadLog();

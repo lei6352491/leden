@@ -1,52 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zhouyi.business.core.dao.LedenCollectIrisMapper" >
-  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectIris" >
-    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
-    <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
-    <result column="HMYWDM" property="hmywdm" jdbcType="VARCHAR" />
-    <result column="HMQSQKDM" property="hmqsqkdm" jdbcType="VARCHAR" />
-    <result column="XXZLDF" property="xxzldf" jdbcType="VARCHAR" />
-    <result column="DELETAG" property="deletag" jdbcType="VARCHAR" />
-    <result column="ANNEX" property="annex" jdbcType="VARCHAR" />
-    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
-    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" />
-    <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR" />
-    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectIris" extends="BaseResultMap" >
-    <result column="HMSJ" property="hmsj" jdbcType="BLOB" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenCollectIrisMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenCollectIris">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
+        <result column="HMYWDM" property="hmywdm" jdbcType="VARCHAR"/>
+        <result column="HMQSQKDM" property="hmqsqkdm" jdbcType="VARCHAR"/>
+        <result column="XXZLDF" property="xxzldf" jdbcType="VARCHAR"/>
+        <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
+        <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP"/>
+
+        <result column="HMCJSBXHDM2" property="hmcjsbxhdm"/>
+        <result column="sbbh2" property="sbbh"/>
+        <result column="sbcsdm2" property="sbcsdm"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectIris" extends="BaseResultMap">
+        <result column="HMSJ" property="hmsj" jdbcType="BLOB"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     PK_ID, RYJCXXCJBH, HMYWDM, HMQSQKDM, XXZLDF, DELETAG, ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
     UPDATE_USER_ID, UPDATE_DATETIME,CJBH,QZCJBZ,HMCJSBXHDM,HMCJHS,SBBH,SBCSDM
   </sql>
-  <sql id="Blob_Column_List" >
+    <sql id="Blob_Column_List">
     HMSJ
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from LEDEN_COLLECT_IRIS
-    where PK_ID = #{pkId,jdbcType=VARCHAR}
-  </select>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from LEDEN_COLLECT_IRIS
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
 
-  <select id="selectDataByPersonCode" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from LEDEN_COLLECT_IRIS
-    where RYJCXXCJBH = #{id,jdbcType=VARCHAR}
-  </select>
+    <select id="selectDataByPersonCode" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from LEDEN_COLLECT_IRIS
+        where RYJCXXCJBH = #{id,jdbcType=VARCHAR}
+    </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from LEDEN_COLLECT_IRIS
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectIris" >
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectIris">
     insert into LEDEN_COLLECT_IRIS (PK_ID, RYJCXXCJBH, HMYWDM,
       HMQSQKDM, XXZLDF, DELETAG, 
       ANNEX, CREATE_USER_ID, CREATE_DATETIME, 
@@ -58,125 +62,125 @@
       #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}, #{hmsj,jdbcType=BLOB}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectIris" >
-    insert into LEDEN_COLLECT_IRIS
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkId != null" >
-        PK_ID,
-      </if>
-      <if test="ryjcxxcjbh != null" >
-        RYJCXXCJBH,
-      </if>
-      <if test="hmywdm != null" >
-        HMYWDM,
-      </if>
-      <if test="hmqsqkdm != null" >
-        HMQSQKDM,
-      </if>
-      <if test="xxzldf != null" >
-        XXZLDF,
-      </if>
-      <if test="deletag != null" >
-        DELETAG,
-      </if>
-      <if test="annex != null" >
-        ANNEX,
-      </if>
-      <if test="createUserId != null" >
-        CREATE_USER_ID,
-      </if>
-      <if test="createDatetime != null" >
-        CREATE_DATETIME,
-      </if>
-      <if test="updateUserId != null" >
-        UPDATE_USER_ID,
-      </if>
-      <if test="updateDatetime != null" >
-        UPDATE_DATETIME,
-      </if>
-      <if test="hmsj != null" >
-        HMSJ,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkId != null" >
-        #{pkId,jdbcType=VARCHAR},
-      </if>
-      <if test="ryjcxxcjbh != null" >
-        #{ryjcxxcjbh,jdbcType=VARCHAR},
-      </if>
-      <if test="hmywdm != null" >
-        #{hmywdm,jdbcType=VARCHAR},
-      </if>
-      <if test="hmqsqkdm != null" >
-        #{hmqsqkdm,jdbcType=VARCHAR},
-      </if>
-      <if test="xxzldf != null" >
-        #{xxzldf,jdbcType=VARCHAR},
-      </if>
-      <if test="deletag != null" >
-        #{deletag,jdbcType=VARCHAR},
-      </if>
-      <if test="annex != null" >
-        #{annex,jdbcType=VARCHAR},
-      </if>
-      <if test="createUserId != null" >
-        #{createUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="createDatetime != null" >
-        #{createDatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="updateDatetime != null" >
-        #{updateDatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="hmsj != null" >
-        #{hmsj,jdbcType=BLOB},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectIris" >
-    update LEDEN_COLLECT_IRIS
-    <set >
-      <if test="ryjcxxcjbh != null" >
-        RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
-      </if>
-      <if test="hmywdm != null" >
-        HMYWDM = #{hmywdm,jdbcType=VARCHAR},
-      </if>
-      <if test="hmqsqkdm != null" >
-        HMQSQKDM = #{hmqsqkdm,jdbcType=VARCHAR},
-      </if>
-      <if test="xxzldf != null" >
-        XXZLDF = #{xxzldf,jdbcType=VARCHAR},
-      </if>
-      <if test="deletag != null" >
-        DELETAG = #{deletag,jdbcType=VARCHAR},
-      </if>
-      <if test="annex != null" >
-        ANNEX = #{annex,jdbcType=VARCHAR},
-      </if>
-      <if test="createUserId != null" >
-        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="createDatetime != null" >
-        CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateUserId != null" >
-        UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="updateDatetime != null" >
-        UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="hmsj != null" >
-        HMSJ = #{hmsj,jdbcType=BLOB},
-      </if>
-    </set>
-    where PK_ID = #{pkId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenCollectIris" >
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenCollectIris">
+        insert into LEDEN_COLLECT_IRIS
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH,
+            </if>
+            <if test="hmywdm != null">
+                HMYWDM,
+            </if>
+            <if test="hmqsqkdm != null">
+                HMQSQKDM,
+            </if>
+            <if test="xxzldf != null">
+                XXZLDF,
+            </if>
+            <if test="deletag != null">
+                DELETAG,
+            </if>
+            <if test="annex != null">
+                ANNEX,
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID,
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME,
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID,
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME,
+            </if>
+            <if test="hmsj != null">
+                HMSJ,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="hmywdm != null">
+                #{hmywdm,jdbcType=VARCHAR},
+            </if>
+            <if test="hmqsqkdm != null">
+                #{hmqsqkdm,jdbcType=VARCHAR},
+            </if>
+            <if test="xxzldf != null">
+                #{xxzldf,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="hmsj != null">
+                #{hmsj,jdbcType=BLOB},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectIris">
+        update LEDEN_COLLECT_IRIS
+        <set>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="hmywdm != null">
+                HMYWDM = #{hmywdm,jdbcType=VARCHAR},
+            </if>
+            <if test="hmqsqkdm != null">
+                HMQSQKDM = #{hmqsqkdm,jdbcType=VARCHAR},
+            </if>
+            <if test="xxzldf != null">
+                XXZLDF = #{xxzldf,jdbcType=VARCHAR},
+            </if>
+            <if test="deletag != null">
+                DELETAG = #{deletag,jdbcType=VARCHAR},
+            </if>
+            <if test="annex != null">
+                ANNEX = #{annex,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDatetime != null">
+                UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="hmsj != null">
+                HMSJ = #{hmsj,jdbcType=BLOB},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhouyi.business.core.model.LedenCollectIris">
     update LEDEN_COLLECT_IRIS
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       HMYWDM = #{hmywdm,jdbcType=VARCHAR},
@@ -191,7 +195,7 @@
       HMSJ = #{hmsj,jdbcType=BLOB}
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectIris" >
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectIris">
     update LEDEN_COLLECT_IRIS
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       HMYWDM = #{hmywdm,jdbcType=VARCHAR},
@@ -206,110 +210,117 @@
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </update>
 
-  <sql id="BaseTable">
+    <sql id="BaseTable">
 		LEDEN_COLLECT_IRIS
   </sql>
 
-  <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectIrisVo"
-          resultMap="BaseResultMap">
-    select tt.* from
-    (select rownum rn,t.* from
-    (select e.* from
-    (select * from LEDEN_COLLECT_IRIS order by
-    <if test="overName != null and overName != ''">
-      #{overName}
-    </if>
-    <if test="overName = null and overName = ''">
-      UPDATE_DATETIME
-    </if>
-    desc) e
-    <where>
-      <if test="ryjcxxcjbh != null" >
-        and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
-      </if>
-      <if test="hmywdm != null" >
-        and HMYWDM = #{hmywdm,jdbcType=VARCHAR}
-      </if>
-      <if test="hmqsqkdm != null" >
-        and HMQSQKDM = #{hmqsqkdm,jdbcType=VARCHAR}
-      </if>
-      <if test="xxzldf != null" >
-        and XXZLDF = #{xxzldf,jdbcType=VARCHAR}
-      </if>
-      <if test="deletag != null" >
-        and DELETAG = #{deletag,jdbcType=VARCHAR}
-      </if>
-      <if test="annex != null" >
-        and ANNEX = #{annex,jdbcType=VARCHAR}
-      </if>
-      <if test="createUserId != null" >
-        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
-      </if>
-      <if test="createDatetime != null" >
-        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="updateUserId != null" >
-        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
-      </if>
-      <if test="updateDatetime != null" >
-        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="hmsj != null" >
-        and HMSJ = #{hmsj,jdbcType=BLOB}
-      </if>
-    </where>
-    ) t) tt
-    where rn &gt;= #{startNo} and rn &lt; #{endNo}
-  </select>
+    <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectIrisVo"
+            resultMap="BaseResultMap">
+        select tt.* from
+        (select rownum rn,t.* from
+        (select e.* from
+        (select * from LEDEN_COLLECT_IRIS order by
+        <if test="overName != null and overName != ''">
+            #{overName}
+        </if>
+        <if test="overName = null and overName = ''">
+            UPDATE_DATETIME
+        </if>
+        desc) e
+        <where>
+            <if test="ryjcxxcjbh != null">
+                and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+            </if>
+            <if test="hmywdm != null">
+                and HMYWDM = #{hmywdm,jdbcType=VARCHAR}
+            </if>
+            <if test="hmqsqkdm != null">
+                and HMQSQKDM = #{hmqsqkdm,jdbcType=VARCHAR}
+            </if>
+            <if test="xxzldf != null">
+                and XXZLDF = #{xxzldf,jdbcType=VARCHAR}
+            </if>
+            <if test="deletag != null">
+                and DELETAG = #{deletag,jdbcType=VARCHAR}
+            </if>
+            <if test="annex != null">
+                and ANNEX = #{annex,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="hmsj != null">
+                and HMSJ = #{hmsj,jdbcType=BLOB}
+            </if>
+        </where>
+        ) t) tt
+        where rn &gt;= #{startNo} and rn &lt; #{endNo}
+    </select>
 
-  <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectIrisVo"
-          resultType="int">
-    select count(1) from LEDEN_COLLECT_IRIS
-    <where>
-      <if test="ryjcxxcjbh != null" >
-        and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
-      </if>
-      <if test="hmywdm != null" >
-        and HMYWDM = #{hmywdm,jdbcType=VARCHAR}
-      </if>
-      <if test="hmqsqkdm != null" >
-        and HMQSQKDM = #{hmqsqkdm,jdbcType=VARCHAR}
-      </if>
-      <if test="xxzldf != null" >
-        and XXZLDF = #{xxzldf,jdbcType=VARCHAR}
-      </if>
-      <if test="deletag != null" >
-        and DELETAG = #{deletag,jdbcType=VARCHAR}
-      </if>
-      <if test="annex != null" >
-        and ANNEX = #{annex,jdbcType=VARCHAR}
-      </if>
-      <if test="createUserId != null" >
-        and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
-      </if>
-      <if test="createDatetime != null" >
-        and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="updateUserId != null" >
-        and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
-      </if>
-      <if test="updateDatetime != null" >
-        and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="hmsj != null" >
-        and HMSJ = #{hmsj,jdbcType=BLOB}
-      </if>
-    </where>
-  </select>
-  <delete id="deleteDataByPersonCode" parameterType="string">
+    <select id="findTotal" parameterType="com.zhouyi.business.core.vo.LedenCollectIrisVo"
+            resultType="int">
+        select count(1) from LEDEN_COLLECT_IRIS
+        <where>
+            <if test="ryjcxxcjbh != null">
+                and RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
+            </if>
+            <if test="hmywdm != null">
+                and HMYWDM = #{hmywdm,jdbcType=VARCHAR}
+            </if>
+            <if test="hmqsqkdm != null">
+                and HMQSQKDM = #{hmqsqkdm,jdbcType=VARCHAR}
+            </if>
+            <if test="xxzldf != null">
+                and XXZLDF = #{xxzldf,jdbcType=VARCHAR}
+            </if>
+            <if test="deletag != null">
+                and DELETAG = #{deletag,jdbcType=VARCHAR}
+            </if>
+            <if test="annex != null">
+                and ANNEX = #{annex,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="hmsj != null">
+                and HMSJ = #{hmsj,jdbcType=BLOB}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteDataByPersonCode" parameterType="string">
     delete from LEDEN_COLLECT_IRIS where ryjcxxcjbh=#{_parameter}
   </delete>
 
 
-
-
-  <resultMap id="standardIrisResultMap" type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris"  extends="BaseResultMap"></resultMap>
-  <select id="listDataByConditions" resultMap="standardIrisResultMap">
-   select * from leden_collect_iris where ryjcxxcjbh=#{personCode}
+    <resultMap id="standardIrisResultMap" type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris"
+               extends="BaseResultMap"></resultMap>
+    <select id="listDataByConditions" resultMap="standardIrisResultMap">
+   select
+        iris.*,paret.PARETS_VERSION as HMCJSBXHDM2,paret.PARETS_SERIAL_NUMBER as sbbh2,
+        plugin.MANUFACTURER_CODE as sbcsdm2
+    from leden_collect_iris iris
+    left join leden_collect_person person on person.ryjcxxcjbh=iris.ryjcxxcjbh
+    left join leden_equipment equipment on equipment.equipment_code=person.equipment_code
+    left join leden_equipment_parets paret on paret.equipment_pkId=equipment.pk_id
+    left join leden_equipment_plug_in plugin on plugin.pk_id=paret.plug_in_id
+    where iris.ryjcxxcjbh=#{personCode} and paret.node_code='000000000009'
   </select>
 </mapper>

@@ -262,7 +262,7 @@ public class LedenCollectFingerServiceImpl
             Element plam = plamlist.addElement("PLAM");
             plam.addElement("ZHWZHWDM");
             plam.addElement("ZHW_ZZHWQSQKDM");
-            plam.addElement("ZHW_TXYSFSMS");
+            plam.addElement("ZHW_TXYSFFMS");
             plam.addElement("ZHW_TXZL");
             plam.addElement("ZHW_TXSJ");
 
@@ -273,7 +273,7 @@ public class LedenCollectFingerServiceImpl
             Element fourFinger = fourfingerlist.addElement("FOURFINGER");
             fourFinger.addElement("SLZ_ZWZWDM");
             fourFinger.addElement("SLZ_ZZHWQSQKDM");
-            fourFinger.addElement("SLZ_TXYSFSMS");
+            fourFinger.addElement("SLZ_TXYSFFMS");
             fourFinger.addElement("SLZ_TXZL");
             fourFinger.addElement("SLZ_TXSJ");
         }

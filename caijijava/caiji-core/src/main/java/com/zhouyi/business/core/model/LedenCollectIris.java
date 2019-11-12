@@ -42,6 +42,8 @@ public class LedenCollectIris implements Serializable {
 
     private String hmzp;
 
+
+
     private static final long serialVersionUID = 1L;
 
     private Long serialNumber;

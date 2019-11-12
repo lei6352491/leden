@@ -6,7 +6,7 @@
         <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
         <result column="QZ_ZHWZHWDM" property="qzZhwzhwdm" jdbcType="VARCHAR"/>
         <result column="QZ_ZZHWQSQKDM" property="qzZzhwqsqkdm" jdbcType="VARCHAR"/>
-        <result column="QZ_TXYSFSMS" property="qzTxysfsms" jdbcType="VARCHAR"/>
+        <result column="QZ_TXYSFSMS" property="qztxysffms" jdbcType="VARCHAR"/>
         <result column="QZ_TXZL" property="qzTxzl" jdbcType="VARCHAR"/>
         <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
         <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
@@ -54,8 +54,8 @@
             <if test="qzZzhwqsqkdm != null">
                 and QZ_ZZHWQSQKDM = #{qzZzhwqsqkdm,jdbcType=VARCHAR}
             </if>
-            <if test="qzTxysfsms != null">
-                and QZ_TXYSFSMS = #{qzTxysfsms,jdbcType=VARCHAR}
+            <if test="qztxysffms != null">
+                and QZ_TXYSFSMS = #{qztxysffms,jdbcType=VARCHAR}
             </if>
             <if test="qzTxzl != null">
                 and QZ_TXZL = #{qzTxzl,jdbcType=VARCHAR}
@@ -99,8 +99,8 @@
             <if test="qzZzhwqsqkdm != null">
                 and QZ_ZZHWQSQKDM = #{qzZzhwqsqkdm,jdbcType=VARCHAR}
             </if>
-            <if test="qzTxysfsms != null">
-                and QZ_TXYSFSMS = #{qzTxysfsms,jdbcType=VARCHAR}
+            <if test="qztxysffms != null">
+                and QZ_TXYSFSMS = #{qztxysffms,jdbcType=VARCHAR}
             </if>
             <if test="qzTxzl != null">
                 and QZ_TXZL = #{qzTxzl,jdbcType=VARCHAR}
@@ -148,7 +148,7 @@
       CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME,
       QZ_TXSJ)
     values (#{pkId,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{qzZhwzhwdm,jdbcType=VARCHAR},
-      #{qzZzhwqsqkdm,jdbcType=VARCHAR}, #{qzTxysfsms,jdbcType=VARCHAR}, #{qzTxzl,jdbcType=VARCHAR},
+      #{qzZzhwqsqkdm,jdbcType=VARCHAR}, #{qztxysffms,jdbcType=VARCHAR}, #{qzTxzl,jdbcType=VARCHAR},
       #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR},
       #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP},
       #{qzTxsj,jdbcType=BLOB})
@@ -168,7 +168,7 @@
             <if test="qzZzhwqsqkdm != null">
                 QZ_ZZHWQSQKDM,
             </if>
-            <if test="qzTxysfsms != null">
+            <if test="qztxysffms != null">
                 QZ_TXYSFSMS,
             </if>
             <if test="qzTxzl != null">
@@ -209,8 +209,8 @@
             <if test="qzZzhwqsqkdm != null">
                 #{qzZzhwqsqkdm,jdbcType=VARCHAR},
             </if>
-            <if test="qzTxysfsms != null">
-                #{qzTxysfsms,jdbcType=VARCHAR},
+            <if test="qztxysffms != null">
+                #{qztxysffms,jdbcType=VARCHAR},
             </if>
             <if test="qzTxzl != null">
                 #{qzTxzl,jdbcType=VARCHAR},
@@ -250,8 +250,8 @@
             <if test="qzZzhwqsqkdm != null">
                 QZ_ZZHWQSQKDM = #{qzZzhwqsqkdm,jdbcType=VARCHAR},
             </if>
-            <if test="qzTxysfsms != null">
-                QZ_TXYSFSMS = #{qzTxysfsms,jdbcType=VARCHAR},
+            <if test="qztxysffms != null">
+                QZ_TXYSFSMS = #{qztxysffms,jdbcType=VARCHAR},
             </if>
             <if test="qzTxzl != null">
                 QZ_TXZL = #{qzTxzl,jdbcType=VARCHAR},
@@ -285,7 +285,7 @@
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       QZ_ZHWZHWDM = #{qzZhwzhwdm,jdbcType=VARCHAR},
       QZ_ZZHWQSQKDM = #{qzZzhwqsqkdm,jdbcType=VARCHAR},
-      QZ_TXYSFSMS = #{qzTxysfsms,jdbcType=VARCHAR},
+      QZ_TXYSFSMS = #{qztxysffms,jdbcType=VARCHAR},
       QZ_TXZL = #{qzTxzl,jdbcType=VARCHAR},
       DELETAG = #{deletag,jdbcType=VARCHAR},
       ANNEX = #{annex,jdbcType=VARCHAR},
@@ -301,7 +301,7 @@
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       QZ_ZHWZHWDM = #{qzZhwzhwdm,jdbcType=VARCHAR},
       QZ_ZZHWQSQKDM = #{qzZzhwqsqkdm,jdbcType=VARCHAR},
-      QZ_TXYSFSMS = #{qzTxysfsms,jdbcType=VARCHAR},
+      QZ_TXYSFSMS = #{qztxysffms,jdbcType=VARCHAR},
       QZ_TXZL = #{qzTxzl,jdbcType=VARCHAR},
       DELETAG = #{deletag,jdbcType=VARCHAR},
       ANNEX = #{annex,jdbcType=VARCHAR},
@@ -333,7 +333,7 @@
             CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME,
             QZ_TXSJ)
             values (#{pkId,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{qzZhwzhwdm,jdbcType=VARCHAR},
-            #{qzZzhwqsqkdm,jdbcType=VARCHAR}, #{qzTxysfsms,jdbcType=VARCHAR}, #{qzTxzl,jdbcType=VARCHAR},
+            #{qzZzhwqsqkdm,jdbcType=VARCHAR}, #{qztxysffms,jdbcType=VARCHAR}, #{qzTxzl,jdbcType=VARCHAR},
             #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR},
             #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR},
             #{updateDatetime,jdbcType=TIMESTAMP},
