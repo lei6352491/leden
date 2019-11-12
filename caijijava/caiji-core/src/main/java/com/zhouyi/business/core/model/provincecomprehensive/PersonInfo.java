@@ -23,7 +23,7 @@ public class PersonInfo {
 
     private String DNA_N;
 
-    private String person_Name;
+    private String personName;
 
     private String personAlias;
 

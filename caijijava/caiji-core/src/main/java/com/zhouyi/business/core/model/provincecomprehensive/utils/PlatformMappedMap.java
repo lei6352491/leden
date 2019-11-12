@@ -94,7 +94,7 @@ public class PlatformMappedMap {
          * 户籍地行政区划
          */
         String[] standardPlatform = {
-                "ryjcxxcjbh", "zwbh", "rydnabh", "xmhypy", "bmch", "csrq",
+                "ryjcxxcjbh", "zwbh", "rydnabh", "xm", "bmch", "csrq",
                 "xbdm", "sg", "tz", "zc", "gjdm", "xldm", "zzmmdm", "jgssxdm", "zydm","gzdw",
                 "lxdh",null,null,null,"mzdm","gmsfhm","cyzjdm",null,"hjdssxdm","hjdxzqh","hjdxz",
                 "xzdqhdm","xzdxzqh","xzdxz","rylbdm","ajlbdm",null,null,null,null,"cjxxyy","cjdwdm","cjdwmc","cjddm","cjrxm",

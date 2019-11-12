@@ -1366,7 +1366,10 @@
 
     <sql id="standardPersonSql">
         <include refid="Base_Column_List"/>,
-        <include refid="Blob_Column_List"/>
+        <include refid="Blob_Column_List"/>,
+        zydm,
+        lxdh,
+        gzdw
     </sql>
 
     <select id="getStandardPerson" parameterType="string" resultMap="standardResultMap">
@@ -1410,6 +1413,9 @@
         <result column="tz" property="tz"/>
         <result column="zc" property="zc"/>
         <result column="rydnabh" property="rydnabh"/>
+        <result column="zydm" property="zydm"/>
+        <result column="gzdw" property="gzdw"/>
+        <result column="lxdh" property="lxdh"/>
     </resultMap>
 
 

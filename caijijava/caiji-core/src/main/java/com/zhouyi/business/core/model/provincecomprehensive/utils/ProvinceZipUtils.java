@@ -35,7 +35,7 @@ public class ProvinceZipUtils {
         File file=new File(stringBuffer.toString());
         File[] files=file.listFiles();
 
-        String zipFile=stringBuffer.append(mis.getPersonInfo().getPersonId()).append(".zip").toString();
+        String zipFile=stringBuffer.append(".zip").toString();
 
         ZipOutputStream zipOutputStream=null;
         FileInputStream fileInputStream=null;

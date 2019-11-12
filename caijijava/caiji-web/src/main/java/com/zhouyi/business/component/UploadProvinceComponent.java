@@ -43,7 +43,7 @@ public class UploadProvinceComponent {
 
     @Value("${provinceComprehensive.ip}")
     private String provinceIp;
-    @Value("${provinceComprehensive.port}")
+    @Value("${provinceComprehensive.ftp.port}")
     private String provincePort;
     @Value("${provinceComprehensive.ftp.username}")
     private String ftpUserName;
@@ -51,6 +51,15 @@ public class UploadProvinceComponent {
     private String ftpPassword;
     @Value("${provinceComprehensive.interfaces.dataNumber}")
     private String dataNumberAddress;
+    @Value("${provinceComprehensive.interfaces.dataUpload}")
+    private String dataUpload;
+    @Value("${provinceComprehensive.upload.user}")
+    private String user;
+    @Value("${provinceComprehensive.upload.password}")
+    private String password;
+    @Value("${provinceComprehensive.port}")
+    private String port;
+
 
     @Value("${upload.ip}")
     private String uploadIP;
@@ -109,7 +118,7 @@ public class UploadProvinceComponent {
         StringBuffer urlBuffer = new StringBuffer("http://");
         urlBuffer.append(provinceIp);
         urlBuffer.append(":");
-        urlBuffer.append(provincePort);
+        urlBuffer.append(port);
         urlBuffer.append(dataNumberAddress);
         ResponseVo dataNumberResponse = HttpUtil.sendPostByform(urlBuffer.toString(), new HashMap<String, String>(1) {{
             put("unitCode", unitCode);
@@ -138,6 +147,8 @@ public class UploadProvinceComponent {
      * 将文件推送到ftp服务器
      */
     public void pushZipToFtp(String dir, String zipFile) throws Exception{
+        log.info(provinceIp+":"+provincePort);
+        log.info("上传的目录为:"+dir);
         FTPClient ftpClient = new FTPClient();
             ftpClient.connect(provinceIp, Integer.valueOf(provincePort));
             ftpClient.login(ftpUserName, ftpPassword);
@@ -150,7 +161,7 @@ public class UploadProvinceComponent {
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftpClient.disconnect();
             }
-
+            log.info("ZIP文件为:"+zipFile);
             File file=new File(zipFile);
             String fileName=file.getName();
             String newFileName = new String(fileName.getBytes("UTF-8"), "iso-8859-1");
@@ -164,5 +175,39 @@ public class UploadProvinceComponent {
             ftpClient.logout();
 
 
+    }
+
+
+    /**
+     * 通知省综接口
+     * @param rybh
+     * @param cjdbh
+     * @param dir
+     * @return
+     */
+    public String uploadData(String rybh,String cjdbh,String dir){
+        Map<String,String> params=new HashMap<>(5);
+        params.put("userName",user);
+        params.put("passWord",password);
+        params.put("rybh",rybh);
+        params.put("cjdNo",cjdbh);
+        params.put("dir",dir);
+        try {
+            StringBuffer targetUrlBuffer=new StringBuffer("http://");
+            targetUrlBuffer.append(provinceIp);
+            targetUrlBuffer.append(":");
+            targetUrlBuffer.append(port);
+            targetUrlBuffer.append(dataUpload);
+            ResponseVo responseVo = HttpUtil.sendPostByform(targetUrlBuffer.toString(), params);
+            if(responseVo.isOk()){
+                return responseVo.getData();
+            }else{
+                log.info("通知省厅失败");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.info("通知省厅失败");
+        }
+        return null;
     }
 }

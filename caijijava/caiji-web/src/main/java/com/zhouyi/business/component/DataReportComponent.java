@@ -73,7 +73,8 @@ public class DataReportComponent {
         PACKING(1, "打包中"),
         UPLOAD_LOSE(2, "上传失败"),
         UPLOADING(3, "正在上传"),
-        UPLOADED(4, "已上传");
+        UPLOADED(4, "已上传"),
+        WAITING_RESOLVE(5,"正在等待解析");
 
 
         private int value;
@@ -243,7 +244,7 @@ public class DataReportComponent {
                     for (int j = 0; j < standardGood.getgPhotos().size(); i++) {
                         LedenCollectGPhoto photo = (LedenCollectGPhoto) standardGood.getgPhotos().get(j);
                         fileNameBuffer.append(newPersonCode).append("_").append(i).append("_").append(j).append("_good.JPG");
-                        ProvinceZipUtils.generatePictureOrVoiceFile(fileNameBuffer.toString(), photo.getDzwjnr());
+                        ProvinceZipUtils.generatePictureOrVoiceFile(fileNameBuffer.toString().substring(fileNameBuffer.toString().indexOf("R")), photo.getDzwjnr());
                         standardGood.getImagesInfos().add(standardGood.new ImagesInfo(fileNameBuffer.toString()));
                         flushFilePathBuffer(fileNameBuffer, newPersonCode);
                     }
@@ -265,7 +266,7 @@ public class DataReportComponent {
                     standardSign.setRyjcxxcjbh(newPersonCode);
                     fileNameBuffer.append(newPersonCode).append("_").append(i).append("_sign.JPG");
                     ProvinceZipUtils.generatePictureOrVoiceFile(fileNameBuffer.toString(), standardSign.getTstzZp());
-                    standardSign.setPhoto(fileNameBuffer.toString());
+                    standardSign.setPhoto(fileNameBuffer.toString().substring(fileNameBuffer.toString().indexOf("R")));
                     BodySignInfo bodySignInfo = new BodySignInfo();
                     transferModelData(standardSign, bodySignInfo);
                     bodySignInfos.add(bodySignInfo);

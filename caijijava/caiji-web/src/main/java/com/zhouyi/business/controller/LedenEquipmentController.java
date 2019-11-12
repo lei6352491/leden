@@ -164,10 +164,6 @@ public class LedenEquipmentController {
         if(provinceNumber!=null&&!"".equals(provinceNumber)){
             ledenEquipmentVo.setProvincialEquipmentCode(provinceNumber);
             String equipmentCode = ledenEquipmentService.collectNodeRegister(ledenEquipmentVo);
-            if (equipmentCode != null && !"".equals(equipmentCode)) {
-                //到省厅ftp上生成目录
-                generaterFtpFolder(provinceNumber);
-            }
             return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, equipmentCode);
         }else{
             return ResponseUtil.ntrError("向省厅获取的编号为空");
@@ -215,7 +211,8 @@ public class LedenEquipmentController {
             } else if ("1".equals(result.get("status"))) {
                 //成功
                 logger.info("省厅注册成功：设备编号为" +result.get("value"));
-                return responseVo.getData();
+                generaterFtpFolder(result.get("value").toString());
+                return result.get("value").toString();
             }else{
                 throw new Exception("注册失败:"+result.get("value"));
             }

@@ -590,7 +590,6 @@ public class CollectTimingTask {
         } else {
 
             logger.error("未获取到解析队列，等待下次执行");
-            return;
         }
     }
 
