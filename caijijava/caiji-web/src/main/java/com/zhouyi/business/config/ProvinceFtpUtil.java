@@ -54,6 +54,7 @@ public class ProvinceFtpUtil {
      */
     public void createDir(String folderName) throws IOException {
         ftpClient.makeDirectory(folderName);
+        logger.info("在ftp上创建"+folderName+"文件夹成功");
     }
 
 

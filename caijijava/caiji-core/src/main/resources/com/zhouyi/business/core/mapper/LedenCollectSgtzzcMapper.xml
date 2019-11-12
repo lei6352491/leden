@@ -252,4 +252,14 @@
   <delete id="deleteSgtzzcByPersonId" parameterType="string">
     delete from  LEDEN_COLLECT_SGTZZC where ryjcxxcjbh=#{_parameter}
   </delete>
+
+
+  <select id="getSgtzzcByConditions" resultMap="BaseResultMap">
+    select * from leden_collect_sgtzzc
+    <where>
+      <if test="personCode!=null">
+        and ryjcxxcjbh=#{personCode}
+      </if>
+    </where>
+  </select>
 </mapper>

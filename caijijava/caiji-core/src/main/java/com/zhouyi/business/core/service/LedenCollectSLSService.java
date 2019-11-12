@@ -17,5 +17,5 @@ public interface LedenCollectSLSService {
      * @param path
      * @return
      */
-    boolean insertPersonInfo(String path) throws AuthenticationException;
+    boolean insertSignalement(String path) throws AuthenticationException;
 }

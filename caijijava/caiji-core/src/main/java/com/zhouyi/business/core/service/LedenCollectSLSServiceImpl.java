@@ -51,7 +51,7 @@ public class LedenCollectSLSServiceImpl implements LedenCollectSLSService {
      */
     @Override
     @Transactional
-    public boolean insertPersonInfo(String path) throws AuthenticationException, XmlParseException {
+    public boolean insertSignalement(String path) throws AuthenticationException, XmlParseException {
 
 
         //获取解析的数据

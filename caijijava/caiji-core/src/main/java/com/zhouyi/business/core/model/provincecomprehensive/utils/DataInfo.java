@@ -1,7 +1,9 @@
-package com.zhouyi.business.model.provincecomprehensive.utils;
+package com.zhouyi.business.core.model.provincecomprehensive.utils;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author: first
@@ -9,6 +11,8 @@ import lombok.Data;
  * @Description: zip包中图片信息
 **/
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DataInfo {
     /**
      * 文件名
@@ -22,4 +26,7 @@ public class DataInfo {
      * 后缀
      */
     private String suffix;
+
+
+
 }

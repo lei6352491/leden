@@ -1,9 +1,12 @@
 package com.zhouyi.business.core.service;
 
+import com.zhouyi.business.core.model.LedenCollectPerson;
 import com.zhouyi.business.core.model.PersonResult;
 import com.zhouyi.business.core.model.Response;
+import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,4 +32,26 @@ public interface LedenCollectPersonService {
     Response<Map<String,Object>> selectDataList(LedenConllectPersonVo2 ledenConllectPersonVo2);
 
     Response<PersonResult> selectPersonByPersonCode(String id);
+
+    /**
+     * 根据条件获取人员信息
+     * @param maps
+     * @return
+     */
+    LedenCollectPerson getLedenCollectPersonByConditions(Map<String,Object> maps);
+
+
+    /**
+     * 获取对接模型数据
+     * @param personCode 标采的人员编号
+     * @return
+     */
+    StandardPerson getStandardPerson(String personCode);
+
+
+    /**
+     * 根据人员编号更新人员信息
+     * @param ledenCollectPerson
+     */
+    void updatePersonByUserCode(LedenCollectPerson ledenCollectPerson);
 }

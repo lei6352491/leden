@@ -37,7 +37,7 @@ public class LedenCollectSLSController {
         boolean flag= false;
 
         try {
-            flag = ledenCollectSLSService.insertPersonInfo(path);
+            flag = ledenCollectSLSService.insertSignalement(path);
         } catch (AuthenticationException e) {
             return ResponseUtil.returnError(e.getReturnCode());
         } catch (XmlParseException e){

@@ -22,6 +22,7 @@ import java.util.*;
 @Service
 public class LedenEquipmentEmpowerServiceImpl implements LedenEquipmentEmpowerService {
 
+
     @Autowired
     private LedenEquipmentMapper ledenEquipmentMapper;
 
@@ -115,5 +116,12 @@ public class LedenEquipmentEmpowerServiceImpl implements LedenEquipmentEmpowerSe
             }
         }
         return ResponseUtil.getResponseInfo(true);
+    }
+
+
+    @Override
+    public List<String> searchEmpwerdNodeSign(String equipmentId) {
+        List<String> equipmentEmpowerByEquipmnetCode = ledenEquipmentEmpowerMapper.listEquipmentEmpowerdByEquipmentCode(equipmentId);
+        return equipmentEmpowerByEquipmnetCode;
     }
 }

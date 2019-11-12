@@ -314,8 +314,14 @@
 
 
     <delete id="deletePhalangeByPersonId" parameterType="string" statementType="PREPARED">
-    delete from LEDEN_COLLECT_PHALANGE where ryjcxxcjbh=#{_parameter}
-  </delete>
+        delete from LEDEN_COLLECT_PHALANGE where ryjcxxcjbh=#{personCode}
+        <if test="compressionAlgorithm=='0000'">
+            and ZJW_TXYSFSMS='0000'
+        </if>
+        <if test="compressionAlgorithm!='0000'">
+            and ZJW_TXYSFSMS!='0000'
+        </if>
+    </delete>
 
 
     <insert id="insertBatch" parameterType="list" statementType="PREPARED">

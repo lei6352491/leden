@@ -18,4 +18,17 @@ public class ProvinceFtpConfig {
     private String targetDir;
     private String username;
     private String password;
+
+    private String serverAddress;
+
+
+    public String getServerAddress() {
+        if(serverAddress==null){
+           StringBuffer stringBuffer=new StringBuffer("http://");
+           stringBuffer.append(ip);
+           stringBuffer.append(":");
+           stringBuffer.append("port");
+        }
+        return serverAddress;
+    }
 }

@@ -2,6 +2,7 @@ package com.zhouyi.business.core.dao;
 
 import com.zhouyi.business.core.model.LedenCollectPerson;
 import com.zhouyi.business.core.model.PersonResult;
+import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
 import org.apache.ibatis.annotations.Mapper;
@@ -45,4 +46,28 @@ public interface LedenCollectPersonMapper extends BaseMapper<LedenConllectPerson
     Integer selectCollectPersonListCount(LedenConllectPersonVo2 ledenConllectPersonVo2);
 
     PersonResult selectPersonByPersonCode(String id);
+
+    /**
+     * 根据条件筛选人员信息
+     * @param conditions
+     * @return
+     */
+    List<LedenCollectPerson> getLedenCollectPersonByConditions(Map<String,Object> conditions);
+
+
+    /**
+     * 封装上传对应实体类
+     * @param person
+     * @return
+     */
+    StandardPerson getStandardPerson(String person);
+
+
+    /**
+     * 根据人员编号修改人员信息
+     * @param data
+     * @return
+     */
+    int updatePersonByPersonCode(Map<String,Object> data);
+
 }

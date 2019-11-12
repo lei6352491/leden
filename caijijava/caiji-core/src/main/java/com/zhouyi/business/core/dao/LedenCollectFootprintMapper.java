@@ -5,6 +5,7 @@ import com.zhouyi.business.core.vo.LedenCollectFootprintSearchVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface LedenCollectFootprintMapper extends BaseMapper<LedenCollectFootprintSearchVo,String>{
@@ -26,4 +27,10 @@ public interface LedenCollectFootprintMapper extends BaseMapper<LedenCollectFoot
      */
     int deleteFootPrintByPersonId(String personId);
 
+    /**
+     * 根据条件筛选足记信息
+     * @param conditions
+     * @return
+     */
+    List<LedenCollectFootprint> listFootPrintByConditions(Map<String,Object> conditions);
 }

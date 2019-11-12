@@ -1,11 +1,10 @@
 package com.zhouyi.business.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhouyi.business.config.ProvinceFtpUtil;
 import com.zhouyi.business.core.common.ReturnCode;
-import com.zhouyi.business.core.exception.BusinessException;
 import com.zhouyi.business.core.model.LedenEquipment;
-import com.zhouyi.business.core.model.LedenEquipmentResult;
 import com.zhouyi.business.core.model.PageData;
 import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.service.LedenEquipmentService;
@@ -17,11 +16,13 @@ import com.zhouyi.business.core.vo.LedenEquipmentVo2;
 import com.zhouyi.business.core.vo.ResponseVo;
 import com.zhouyi.business.dto.EquipmentListDto;
 import com.zhouyi.business.dto.LedenEquipmentDto;
-import com.zhouyi.business.model.provincecomprehensive.ResponseData;
+import com.zhouyi.business.core.model.provincecomprehensive.ResponseData;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import okhttp3.HttpUrl;
+import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -30,7 +31,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -164,10 +164,6 @@ public class LedenEquipmentController {
         if(provinceNumber!=null&&!"".equals(provinceNumber)){
             ledenEquipmentVo.setProvincialEquipmentCode(provinceNumber);
             String equipmentCode = ledenEquipmentService.collectNodeRegister(ledenEquipmentVo);
-            if (equipmentCode != null && !"".equals(equipmentCode)) {
-                //到省厅ftp上生成目录
-                generaterFtpFolder(provinceNumber);
-            }
             return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, equipmentCode);
         }else{
             return ResponseUtil.ntrError("向省厅获取的编号为空");
@@ -203,23 +199,26 @@ public class LedenEquipmentController {
         params.put("unitCode", tempUnitCode);
         params.put("ip", ip);
         params.put("mac", mac);
-        ResponseVo responseVo = HttpUtil.sendPostByJson(url.toString(), params);
+        ResponseVo responseVo = HttpUtil.sendPostByform(url.toString(), params);
         if (responseVo.isOk()) {
             //如果服务调用成功则检测数据
-            ResponseData data = (ResponseData) JSONObject.parse(responseVo.getData());
-            if ("0".equals(data.getStatus())) {
+            logger.info(responseVo.getData());
+            Map result=(Map) JSON.parse(responseVo.getData());
+            if ("0".equals(result.get("status"))) {
                 //失败
-                logger.info("接口调用失败:" + data.getValue());
-                throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());
-            } else if ("1".equals(data.getStatus())) {
+                logger.info("接口调用失败:" + result.get("value"));
+                throw new Exception("省厅注册借口调用失败" + result.get("value"));
+            } else if ("1".equals(result.get("status"))) {
                 //成功
-                logger.info("省厅注册成功：设备编号为" + data.getValue());
-                return data.getValue();
+                logger.info("省厅注册成功：设备编号为" +result.get("value"));
+                generaterFtpFolder(result.get("value").toString());
+                return result.get("value").toString();
+            }else{
+                throw new Exception("注册失败:"+result.get("value"));
             }
         } else {
-            throw new Exception("省厅注册借口调用失败" + responseVo.getStatus());
+            throw new Exception("省厅注册借口调用失败");
         }
-        return null;
     }
 
 

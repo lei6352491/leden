@@ -212,6 +212,12 @@ public class LedenEquipmentServiceImpl implements LedenEquipmentService {
             return ResponseUtil.returnError(ReturnCode.ERROR_1037);
     }
 
+    @Override
+    public LedenEquipment getEquipmentByEquipmentCode(String code) {
+
+        return ledenEquipmentMapper.getEquipmentByEquipmentCode(code);
+    }
+
     /**
      * 初始化设备授权信息
      * */

@@ -304,4 +304,12 @@
   <delete id="deleteDataByPersonCode" parameterType="string">
     delete from LEDEN_COLLECT_IRIS where ryjcxxcjbh=#{_parameter}
   </delete>
+
+
+
+
+  <resultMap id="standardIrisResultMap" type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris"  extends="BaseResultMap"></resultMap>
+  <select id="listDataByConditions" resultMap="standardIrisResultMap">
+   select * from leden_collect_iris where ryjcxxcjbh=#{personCode}
+  </select>
 </mapper>

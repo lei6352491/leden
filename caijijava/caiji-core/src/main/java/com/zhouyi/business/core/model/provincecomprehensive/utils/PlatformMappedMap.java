@@ -1,6 +1,6 @@
-package com.zhouyi.business.model.provincecomprehensive.utils;
+package com.zhouyi.business.core.model.provincecomprehensive.utils;
 
-import com.zhouyi.business.model.provincecomprehensive.*;
+import com.zhouyi.business.core.model.provincecomprehensive.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,14 +83,18 @@ public class PlatformMappedMap {
 
         /**
          * 1.zwbh指纹编号：编号去掉R
-         * 2.cjxxyy 我们为采集原因代码，从字段表中读取出采集原因
+         * rylbdm为标采的所属采集类别
          * 3.cjddm:采集点代码，为省综平台注册返回的编号
          * 4.idCardPhoto:身份证照片
          * 5.hjdxzqh: 户籍地的详情地址
          * 6.xzdxzqh: 现住地行政区划
+         *
+         *
+         * 户籍地行政区划代码-户籍地省市县代码
+         * 户籍地行政区划
          */
         String[] standardPlatform = {
-                "ryjcxxcjbh", "zwbh", "rydnabh", "xmhypy", "bmch", "csrq",
+                "ryjcxxcjbh", "zwbh", "rydnabh", "xm", "bmch", "csrq",
                 "xbdm", "sg", "tz", "zc", "gjdm", "xldm", "zzmmdm", "jgssxdm", "zydm","gzdw",
                 "lxdh",null,null,null,"mzdm","gmsfhm","cyzjdm",null,"hjdssxdm","hjdxzqh","hjdxz",
                 "xzdqhdm","xzdxzqh","xzdxz","rylbdm","ajlbdm",null,null,null,null,"cjxxyy","cjdwdm","cjdwmc","cjddm","cjrxm",
@@ -112,7 +116,7 @@ public class PlatformMappedMap {
 
 
         String[] standardPlatform={"xdwpWpmc",null,null,"wpysdm","wpysdmbcms",null,null,null,"annex",
-        "imageInfos"};
+        null};
         packingFiledMappingData(fieldNames,standardPlatform);
 
         //图片字段
@@ -138,11 +142,12 @@ public class PlatformMappedMap {
 
     /**
      * 虹膜信息
+     *hmqsqkdm 缺失情况
      */
     public static void packingIrisInfo(){
         Field[] declaredFields = IrisInfo.class.getDeclaredFields();
         String[] fieldNames=extractFieldName(declaredFields);
-        String[] standardPlatform={"hmywdm","xxzldf","hmqsqkdm","hmcjhs",null,null,"sbbh","sbcsdm"};
+        String[] standardPlatform={"hmywdm","xxzldf","hmqsqkdm","hmcjhs",null,"hmcjsbxhdm","sbbh","sbcsdm"};
         packingFiledMappingData(fieldNames,standardPlatform);
     }
 
@@ -157,7 +162,7 @@ public class PlatformMappedMap {
         Field[] declaredFields = VoiceInfo.class.getDeclaredFields();
         String[] fieldNames=extractFieldName(declaredFields);
         String[] standardPlatform={"fyfsdm","speakTypeName","lyyzdm","languageTypeName",
-        "hyfydm","dialectName","lysb",null,null,"xzb","nlz",null};
+        "hyfydm","dialectName","sbxh","yxypSc",null,"xzb","nlz",null};
         packingFiledMappingData(fieldNames,standardPlatform);
     }
 

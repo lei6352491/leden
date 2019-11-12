@@ -1,4 +1,4 @@
-package com.zhouyi.business.model.provincecomprehensive.pojo;
+package com.zhouyi.business.core.model.provincecomprehensive.pojo;
 
 import com.zhouyi.business.core.model.LedenCollectVoiceprint;
 import lombok.Data;
@@ -27,6 +27,10 @@ public class StandardVoice extends LedenCollectVoiceprint {
     private String dialectName;
 
 
+    /**
+     * 设备型号
+     */
+    private String sbxh;
 
 
 }

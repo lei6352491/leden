@@ -1,7 +1,9 @@
-package com.zhouyi.business.model.provincecomprehensive.pojo;
+package com.zhouyi.business.core.model.provincecomprehensive.pojo;
 
 import com.zhouyi.business.core.model.LedenCollectGoods;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -17,11 +19,17 @@ public class StandardGoods extends LedenCollectGoods {
 
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public class ImagesInfo{
 
         private String image;
 
         private String remark;
 
+
+        public ImagesInfo(String image) {
+            this.image = image;
+        }
     }
 }

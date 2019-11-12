@@ -578,4 +578,14 @@ public class LedenCollectPerson implements Serializable {
                 ", jdxp=" + Arrays.toString(jdxp) +
                 '}';
     }
+
+
+    public LedenCollectPerson(String ryjcxxcjbh, String jzrybh) {
+        this.ryjcxxcjbh = ryjcxxcjbh;
+        this.jzrybh = jzrybh;
+    }
+
+
+    public LedenCollectPerson() {
+    }
 }

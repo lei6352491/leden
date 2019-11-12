@@ -50,4 +50,10 @@ public interface LedenEquipmentMapper {
     LedenEquipment selectEquipmentByMac(@Param("mac")String equipmentMac);
 
     LedenEquipment selectEquipmentByEquipmentCode(@Param("equipmentCode")String equipmentCode);
+
+
+    LedenEquipment getEquipmentByEquipmentCode(String equipmentCode);
+
+
+
 }

@@ -21,4 +21,11 @@ public interface SysDictListService {
     List<SysDictList> testList(SysDictListVo sysDictListVo);
 
     int findTotal(SysDictListVo sysDictListVo);
+
+    /**
+     * 根据code查询name
+     * @param code
+     * @return
+     */
+    String getDictNameByCode(String code);
 }

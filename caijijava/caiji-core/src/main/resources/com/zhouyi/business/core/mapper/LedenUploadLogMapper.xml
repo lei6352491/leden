@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zhouyi.business.core.dao.LedenUploadLogMapper" >
-  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenUploadLog" >
-    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
-    <result column="EQUIPMENT_ID" property="equipmentId" jdbcType="VARCHAR" />
-    <result column="NODE_SIGN" property="nodeSign" jdbcType="VARCHAR" />
-    <result column="IS_EMPOWER" property="isEmpower" jdbcType="VARCHAR" />
-    <result column="UPLOAD_IP" property="uploadIp" jdbcType="VARCHAR" />
-    <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR" />
-    <result column="UPLOAD_STATUS" property="uploadStatus" jdbcType="VARCHAR" />
-    <result column="UPLOAD_RESULT_INFO" property="uploadResultInfo" jdbcType="VARCHAR" />
-    <result column="UPLOAD_DATETIME" property="uploadDatetime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenUploadLogMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenUploadLog">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="EQUIPMENT_ID" property="equipmentId" jdbcType="VARCHAR"/>
+        <result column="NODE_SIGN" property="nodeSign" jdbcType="VARCHAR"/>
+        <result column="IS_EMPOWER" property="isEmpower" jdbcType="VARCHAR"/>
+        <result column="UPLOAD_IP" property="uploadIp" jdbcType="VARCHAR"/>
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
+        <result column="UPLOAD_STATUS" property="uploadStatus" jdbcType="VARCHAR"/>
+        <result column="UPLOAD_RESULT_INFO" property="uploadResultInfo" jdbcType="VARCHAR"/>
+        <result column="UPLOAD_DATETIME" property="uploadDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     PK_ID, EQUIPMENT_ID, NODE_SIGN, IS_EMPOWER, UPLOAD_IP, RYJCXXCJBH, UPLOAD_STATUS, 
     UPLOAD_RESULT_INFO, UPLOAD_DATETIME
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from LEDEN_UPLOAD_LOG
-    where PK_ID = #{pkId,jdbcType=VARCHAR}
-  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from LEDEN_UPLOAD_LOG
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
 
-  <select id="selectLedenUploadLogByNewTime" parameterType="string" resultMap="BaseResultMap">
-    select rownum,log.* from (select
-    <include refid="Base_Column_List" />
-    from LEDEN_UPLOAD_LOG where EQUIPMENT_ID = #{id} order by PK_ID desc) log where rownum = 1
-  </select>
+    <select id="selectLedenUploadLogByNewTime" parameterType="string" resultMap="BaseResultMap">
+        select rownum,log.* from (select
+        <include refid="Base_Column_List"/>
+        from LEDEN_UPLOAD_LOG where EQUIPMENT_ID = #{id} order by PK_ID desc) log where rownum = 1
+    </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from LEDEN_UPLOAD_LOG
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenUploadLog" >
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenUploadLog">
     insert into LEDEN_UPLOAD_LOG (PK_ID, EQUIPMENT_ID, NODE_SIGN,
       IS_EMPOWER, UPLOAD_IP, RYJCXXCJBH, 
       UPLOAD_STATUS, UPLOAD_RESULT_INFO, UPLOAD_DATETIME
@@ -43,98 +43,98 @@
       #{uploadStatus,jdbcType=VARCHAR}, #{uploadResultInfo,jdbcType=VARCHAR}, #{uploadDatetime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenUploadLog" >
-    insert into LEDEN_UPLOAD_LOG
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkId != null" >
-        PK_ID,
-      </if>
-      <if test="equipmentId != null" >
-        EQUIPMENT_ID,
-      </if>
-      <if test="nodeSign != null" >
-        NODE_SIGN,
-      </if>
-      <if test="isEmpower != null" >
-        IS_EMPOWER,
-      </if>
-      <if test="uploadIp != null" >
-        UPLOAD_IP,
-      </if>
-      <if test="ryjcxxcjbh != null" >
-        RYJCXXCJBH,
-      </if>
-      <if test="uploadStatus != null" >
-        UPLOAD_STATUS,
-      </if>
-      <if test="uploadResultInfo != null" >
-        UPLOAD_RESULT_INFO,
-      </if>
-      <if test="uploadDatetime != null" >
-        UPLOAD_DATETIME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkId != null" >
-        #{pkId,jdbcType=VARCHAR},
-      </if>
-      <if test="equipmentId != null" >
-        #{equipmentId,jdbcType=VARCHAR},
-      </if>
-      <if test="nodeSign != null" >
-        #{nodeSign,jdbcType=VARCHAR},
-      </if>
-      <if test="isEmpower != null" >
-        #{isEmpower,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadIp != null" >
-        #{uploadIp,jdbcType=VARCHAR},
-      </if>
-      <if test="ryjcxxcjbh != null" >
-        #{ryjcxxcjbh,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadStatus != null" >
-        #{uploadStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadResultInfo != null" >
-        #{uploadResultInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadDatetime != null" >
-        #{uploadDatetime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenUploadLog" >
-    update LEDEN_UPLOAD_LOG
-    <set >
-      <if test="equipmentId != null" >
-        EQUIPMENT_ID = #{equipmentId,jdbcType=VARCHAR},
-      </if>
-      <if test="nodeSign != null" >
-        NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
-      </if>
-      <if test="isEmpower != null" >
-        IS_EMPOWER = #{isEmpower,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadIp != null" >
-        UPLOAD_IP = #{uploadIp,jdbcType=VARCHAR},
-      </if>
-      <if test="ryjcxxcjbh != null" >
-        RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadStatus != null" >
-        UPLOAD_STATUS = #{uploadStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadResultInfo != null" >
-        UPLOAD_RESULT_INFO = #{uploadResultInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadDatetime != null" >
-        UPLOAD_DATETIME = #{uploadDatetime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where PK_ID = #{pkId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenUploadLog" >
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenUploadLog">
+        insert into LEDEN_UPLOAD_LOG
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="equipmentId != null">
+                EQUIPMENT_ID,
+            </if>
+            <if test="nodeSign != null">
+                NODE_SIGN,
+            </if>
+            <if test="isEmpower != null">
+                IS_EMPOWER,
+            </if>
+            <if test="uploadIp != null">
+                UPLOAD_IP,
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH,
+            </if>
+            <if test="uploadStatus != null">
+                UPLOAD_STATUS,
+            </if>
+            <if test="uploadResultInfo != null">
+                UPLOAD_RESULT_INFO,
+            </if>
+            <if test="uploadDatetime != null">
+                UPLOAD_DATETIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="equipmentId != null">
+                #{equipmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="nodeSign != null">
+                #{nodeSign,jdbcType=VARCHAR},
+            </if>
+            <if test="isEmpower != null">
+                #{isEmpower,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadIp != null">
+                #{uploadIp,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadStatus != null">
+                #{uploadStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadResultInfo != null">
+                #{uploadResultInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadDatetime != null">
+                #{uploadDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenUploadLog">
+        update LEDEN_UPLOAD_LOG
+        <set>
+            <if test="equipmentId != null">
+                EQUIPMENT_ID = #{equipmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="nodeSign != null">
+                NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
+            </if>
+            <if test="isEmpower != null">
+                IS_EMPOWER = #{isEmpower,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadIp != null">
+                UPLOAD_IP = #{uploadIp,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh != null">
+                RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadStatus != null">
+                UPLOAD_STATUS = #{uploadStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadResultInfo != null">
+                UPLOAD_RESULT_INFO = #{uploadResultInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadDatetime != null">
+                UPLOAD_DATETIME = #{uploadDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenUploadLog">
     update LEDEN_UPLOAD_LOG
     set EQUIPMENT_ID = #{equipmentId,jdbcType=VARCHAR},
       NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
@@ -146,4 +146,41 @@
       UPLOAD_DATETIME = #{uploadDatetime,jdbcType=TIMESTAMP}
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </update>
+
+
+    <insert id="insertUploadLog" parameterType="com.zhouyi.business.core.model.LedenUploadLog">
+    insert into leden_upload_log(pk_id,equipment_id,ryjcxxcjbh,upload_status,create_datetime)
+    values(
+        #{pkId} ,#{equipmentId},#{ryjcxxcjbh},#{uploadStatus},#{createDatetime}
+    )
+  </insert>
+
+
+    <sql id="condition_filter_column">
+    ryjcxxcjbh,equipment_id
+  </sql>
+
+    <select id="listUploadLogByConditions" resultMap="BaseResultMap">
+        select * from (
+        select ROWNUM as rowno,
+        <include refid="condition_filter_column"/>
+        from LEDEN_UPLOAD_LOG
+        <where>
+                and upload_Status in
+                <foreach collection="status" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+        </where>
+        order by upload_status,
+        create_datetime
+        ) where rowno=1
+    </select>
+
+
+    <update id="updateUploadLogByPersonCode">
+        update LEDEN_UPLOAD_LOG set upload_status=#{status},upload_result_info=#{resolveInfo}
+        where ryjcxxcjbh=#{personCode}
+    </update>
+
+
 </mapper>

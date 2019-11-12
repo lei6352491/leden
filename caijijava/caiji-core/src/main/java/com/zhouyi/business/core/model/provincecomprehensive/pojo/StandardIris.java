@@ -1,4 +1,4 @@
-package com.zhouyi.business.model.provincecomprehensive.pojo;
+package com.zhouyi.business.core.model.provincecomprehensive.pojo;
 
 import com.zhouyi.business.core.model.LedenCollectIris;
 import lombok.Data;

@@ -4,6 +4,7 @@ import com.zhouyi.business.core.common.ReturnCode;
 import com.zhouyi.business.core.dao.LedenCollectIrisMapper;
 import com.zhouyi.business.core.model.LedenCollectIris;
 import com.zhouyi.business.core.model.Response;
+import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris;
 import com.zhouyi.business.core.utils.ResponseUtil;
 import com.zhouyi.business.core.vo.LedenCollectIrisVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class LedenCollectIrisServiceImpl
 ////                        stringBuilder.append(encode);
 ////                        s.setHmzp(stringBuilder.toString());
 ////                        s.setHmsj(null);
-////                    }
+////                    finge}
 ////                    else if ("1".equals(s.getHmywdm())){
 ////                        String encode = new String(s.getHmsj());
 ////                        StringBuilder stringBuilder = new StringBuilder();
@@ -92,6 +93,11 @@ public class LedenCollectIrisServiceImpl
 //            return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,list);
 //        }
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,list);
+    }
+
+    @Override
+    public List<StandardIris> listIrisByPersonCode(String personCode) {
+        return (List)ledenCollectIrisMapper.listDataByConditions(new HashMap<String,Object>(1){{put("personCode",personCode);}});
     }
 
     //获取主键

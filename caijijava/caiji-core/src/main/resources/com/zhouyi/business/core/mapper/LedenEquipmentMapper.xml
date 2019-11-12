@@ -396,4 +396,14 @@
   <select id="listEqipmentCodebyUnitCode" parameterType="string" resultType="string">
     select EQUIPMENT_MAC from leden_equipment where unit_code=#{_parameter}
   </select>
+
+
+  <resultMap id="secondResultMap" type="com.zhouyi.business.core.model.LedenEquipment" extends="BaseResultMap">
+    <result column="provincial_equipment_code" property="provincialEquipmentCode"/>
+  </resultMap>
+  <select id="getEquipmentByEquipmentCode" resultMap="secondResultMap" parameterType="string">
+    select <include refid="Base_Column_List"/>,provincial_equipment_code
+    from leden_equipment
+    where equipment_code=#{_parameter}
+  </select>
 </mapper>

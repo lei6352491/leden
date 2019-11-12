@@ -10,6 +10,8 @@ import com.zhouyi.business.utils.FileStoreUtils;
 import com.zhouyi.business.utils.JsoupParseXmlUtils;
 import com.zhouyi.business.utils.XMLParamUtils;
 import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +25,8 @@ import java.util.Map;
 @RequestMapping(value = "/collectWebService")
 @Api(hidden = true)
 public class XMLParseController {
+
+    private static final Logger logger= LoggerFactory.getLogger(XMLParseController.class);
 
     @Value("${xmlParse.ftp.path}")
     private String path;
@@ -165,6 +169,9 @@ public class XMLParseController {
      */
     @RequestMapping(value = "/getDataUploadMessage")
     public Response getDataUploadMessage(@RequestBody UploadFileMessage uploadFileMessage) {
+
+        logger.info("数据上传消息接口参数为："+uploadFileMessage.toString());
+
         //1.保存数据包数据到数据库
         //校验权限
         Head headBean = new Head();
@@ -173,24 +180,28 @@ public class XMLParseController {
         headBean.setEquipmentCode(uploadFileMessage.getEquipmentCode());
         boolean boo = ledenUploadLogService.checkHead(headBean);
 
-        //获取设备授权信息
-        List<LedenEquipmentEmpower> ledenEquipmentEmpowers =
-                ledenEquipmentEmpowerMapperMapper.selectEquipmentEmpowerByEquipmentCode(uploadFileMessage.getEquipmentCode());
 
         if (boo) {
+
+            String fileName=uploadFileMessage.getDataBrief().getUploadPacket();
             //执行ssh脚本文件
-            Integer integer = sshConnection.executionScript();
+            Integer integer = sshConnection.executionScript(fileName);
 
             if (integer == null){
                 return ResponseUtil.returnError(ReturnCode.ERROR_1127);
             }else if (integer == 0){
                 //获取数据包名中的人员编号
                 Integer indexOf = uploadFileMessage.getDataBrief().getUploadPacket().indexOf("-");
-                String personCode = uploadFileMessage.getDataBrief().getUploadPacket().substring(0, indexOf);
-                //存储数据包信息
+                String ryjcxxcjbh = uploadFileMessage.getDataBrief().getUploadPacket().substring(0, indexOf);
 
-                fileStoreUtils.automaticSavaPacket(uploadFileMessage.getEquipmentCode(),personCode,uploadFileMessage.getDataBrief().getUploadPacket(),"000000000000","1",path);
 
+
+
+//                存储zip数据包信息
+                fileStoreUtils.automaticSavaPacket(uploadFileMessage.getEquipmentCode(),ryjcxxcjbh,uploadFileMessage.getDataBrief().getUploadPacket(),"000000000000",path);
+
+
+                logger.info("zip入库成功");
                 //2.解析数据
                 //获取文件名，用于拼接文件路劲
                 String uploadPacketFileName = uploadFileMessage.getDataBrief().getUploadPacket();
@@ -200,87 +211,88 @@ public class XMLParseController {
                 filePathPrefix.append(uploadPacketFileName);
 
                 if (uploadFileMessage.getDataBrief().getPerson()) {
-                    String path = filePathPrefix.toString() + "/PERSON-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/PERSON-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000001", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000001", "xml", path,"0","PERSON");
 
                 }
                 if (uploadFileMessage.getDataBrief().getPortrait()) {
-                    String path = filePathPrefix.toString() + "/PORTRAIT-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/PORTRAIT-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000002", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000002", "xml", path,"0","PORTRAIT");
 
                 }
                 if (uploadFileMessage.getDataBrief().getFingerplam()) {
-                    String pathbmp = filePathPrefix.toString() + "/FINGERPLAMBMP-"+personCode+".fptx";
-                    //String pathwsq = filePathPrefix.toString() + "/FINGERPLAMWSQ-"+personCode+".fptx";
+                    String pathbmp = filePathPrefix.toString() + "/FINGERPLAMBMP-"+ryjcxxcjbh+".fptx";
+                    String pathwsq = filePathPrefix.toString() + "/FINGERPLAMWSQ-"+ryjcxxcjbh+".fptx";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000003", "fptx", pathbmp,"0","1");
-                    //fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000003", "fptx", pathwsq,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000003", "fptx", pathbmp,"0","FINGERPLAMBMP");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000003", "fptx", pathwsq,"0","FINGERPLAMWSQ");
 
                 }
                 //文件中数据的字段超过数据库的最大长度
                 if (uploadFileMessage.getDataBrief().getSignAlement()) {
-                    String path = filePathPrefix.toString() + "/SIGNALEMENT-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/SIGNALEMENT-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000004", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000004", "xml", path,"0","SIGNALEMENT");
 
                 }
                 if (uploadFileMessage.getDataBrief().getDnaInfo()) {
-                    String path = filePathPrefix.toString() + "/DNAINFO-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/DNAINFO-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000005", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000005", "xml", path,"0","DNAINFO");
 
                 }
                 if (uploadFileMessage.getDataBrief().getFootprint()) {
-                    String path = filePathPrefix.toString() + "/FOOTPRINT-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/FOOTPRINT-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000006", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000006", "xml", path,"0","FOOTPRINT");
 
                 }
                 //文件中的值超过表中字段的最大长度
                 if (uploadFileMessage.getDataBrief().getVoiceprint()) {
-                    String path = filePathPrefix.toString() + "/VOICEPRINT-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/VOICEPRINT-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000007", "xml", path,"0","1");
+
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000007", "xml", path,"0","VOICEPRINT");
 
                 }
                 //文件中没有数据
                 if (uploadFileMessage.getDataBrief().getHandwriting()) {
-                    String path = filePathPrefix.toString() + "/HANDWRITING-" + personCode + ".xml";
+                    String path = filePathPrefix.toString() + "/HANDWRITING-" + ryjcxxcjbh + ".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000008", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000008", "xml", path,"0","HANDWRITING");
 
                 }
                 if (uploadFileMessage.getDataBrief().getIrisInfo()) {
-                    String path = filePathPrefix.toString() + "/IRISINFO-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/IRISINFO-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000009", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000009", "xml", path,"0","IRISINFO");
 
                 }
                 //文件中的值超过表中字段的最大长度
                 if (uploadFileMessage.getDataBrief().getGoods()) {
-                    String path = filePathPrefix.toString() + "/GOODS-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/GOODS-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000010", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000010", "xml", path,"0","GOODS");
 
                 }
                 if (uploadFileMessage.getDataBrief().getDrugTest()) {
-                    String path = filePathPrefix.toString() + "/DRUGTEST-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/DRUGTEST-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000011", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000011", "xml", path,"0","DRUGTEST");
 
                 }
                 if (uploadFileMessage.getDataBrief().getPhoneInfo()){
-                    String path = filePathPrefix.toString() + "/PhoneInfo-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/PhoneInfo-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000012", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000012", "xml", path,"0","PhoneInfo");
 
                 }
                 if (uploadFileMessage.getDataBrief().getBankCard()) {
-                    String path = filePathPrefix.toString() + "/BANKCARD-"+personCode+".xml";
+                    String path = filePathPrefix.toString() + "/BANKCARD-"+ryjcxxcjbh+".xml";
 
-                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), personCode, "000000000013", "xml", path,"0","1");
+                    fileStoreUtils.automaticSavaData(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, "000000000013", "xml", path,"0","BANKCARD");
 
                 }
                 return ResponseUtil.returnError(ReturnCode.SUCCESS);

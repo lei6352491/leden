@@ -12,7 +12,7 @@ public class LedenCollectPalm implements Serializable {
 
     private String zhwZzhwqsqkdm;
 
-    private String zhwTxysfsms;
+    private String zhwTxysffms;
 
     private String zhwTxzl;
 
@@ -94,12 +94,12 @@ public class LedenCollectPalm implements Serializable {
         this.zhwZzhwqsqkdm = zhwZzhwqsqkdm;
     }
 
-    public String getZhwTxysfsms() {
-        return zhwTxysfsms;
+    public String getzhwTxysffms() {
+        return zhwTxysffms;
     }
 
-    public void setZhwTxysfsms(String zhwTxysfsms) {
-        this.zhwTxysfsms = zhwTxysfsms;
+    public void setzhwTxysffms(String zhwTxysffms) {
+        this.zhwTxysffms = zhwTxysffms;
     }
 
     public String getZhwTxzl() {
@@ -176,7 +176,7 @@ public class LedenCollectPalm implements Serializable {
         sb.append(", ryjcxxcjbh=").append(ryjcxxcjbh);
         sb.append(", zhwzhwdm=").append(zhwzhwdm);
         sb.append(", zhwZzhwqsqkdm=").append(zhwZzhwqsqkdm);
-        sb.append(", zhwTxysfsms=").append(zhwTxysfsms);
+        sb.append(", zhwTxysffms=").append(zhwTxysffms);
         sb.append(", zhwTxzl=").append(zhwTxzl);
         sb.append(", deletag=").append(deletag);
         sb.append(", annex=").append(annex);

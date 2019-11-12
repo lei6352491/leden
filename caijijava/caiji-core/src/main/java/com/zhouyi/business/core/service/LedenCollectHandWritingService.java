@@ -3,6 +3,8 @@ package com.zhouyi.business.core.service;
 import com.zhouyi.business.core.model.LedenCollectHandwriting;
 import com.zhouyi.business.core.model.Response;
 
+import java.util.List;
+
 /**
  * @author 李秸康
  * @ClassNmae: LedenCollectHandWritingService
@@ -21,4 +23,12 @@ public interface LedenCollectHandWritingService {
     boolean inputHandWirtingXml(String path);
 
     Response<LedenCollectHandwriting> selectHandWritingById(String id);
+
+
+    /**
+     * 根据人员编号查询笔记信息
+     * @param personCode
+     * @return
+     */
+    List<LedenCollectHandwriting> listHandWritingByPersonCode(String personCode);
 }

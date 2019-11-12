@@ -383,4 +383,20 @@
     <delete id="deleteSignByPersonId" parameterType="string">
         delete from LEDEN_COLLECT_SIGN where ryjcxxcjbh=#{_parameter}
     </delete>
+
+
+    
+    
+    <resultMap id="standardSignResultMap" type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardSign" extends="BaseResultMap">
+        <result property="signCode" column="TSTZ_MC"/>
+        <result property="tstzZp" column="TSTZ_ZP"/>
+    </resultMap>
+    <select id="listSignsByConditions" resultMap="standardSignResultMap">
+        select * from leden_collect_sign
+        <where>
+            <if test="personCode!=null">
+                and ryjcxxcjbh=#{personCode}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -1,52 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zhouyi.business.core.dao.LedenUploadPacketMapper" >
-  <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenUploadPacket" >
-    <id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
-    <result column="UPLOAD_LOG_ID" property="uploadLogId" jdbcType="VARCHAR" />
-    <result column="NODE_SIGN" property="nodeSign" jdbcType="VARCHAR" />
-    <result column="FILE_SERVER" property="fileServer" jdbcType="VARCHAR" />
-    <result column="FILE_LOCATION" property="fileLocation" jdbcType="VARCHAR" />
-    <result column="FILE_SUFFIX" property="fileSuffix" jdbcType="VARCHAR" />
-    <result column="FILE_SIZE" property="fileSize" jdbcType="DECIMAL" />
-    <result column="FILE_MD5" property="fileMd5" jdbcType="VARCHAR" />
-    <result column="RESOLVE_STATUS" property="resolveStatus" jdbcType="VARCHAR" />
-    <result column="RESOLVE_RESULT_INFO" property="resolveResultInfo" jdbcType="VARCHAR" />
-    <result column="RESOLVE_DATETIME" property="resolveDatetime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.zhouyi.business.core.dao.LedenUploadPacketMapper">
+    <resultMap id="BaseResultMap" type="com.zhouyi.business.core.model.LedenUploadPacket">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="NODE_SIGN" property="nodeSign" jdbcType="VARCHAR"/>
+        <result column="FILE_SERVER" property="fileServer" jdbcType="VARCHAR"/>
+        <result column="FILE_LOCATION" property="fileLocation" jdbcType="VARCHAR"/>
+        <result column="FILE_SUFFIX" property="fileSuffix" jdbcType="VARCHAR"/>
+        <result column="RESOLVE_STATUS" property="resolveStatus" jdbcType="VARCHAR"/>
+        <result column="RESOLVE_RESULT_INFO" property="resolveResultInfo" jdbcType="VARCHAR"/>
+        <result column="RESOLVE_DATETIME" property="resolveDatetime" jdbcType="TIMESTAMP"/>
+        <result column="equipment_id" property="equipmentId"></result>
+        <result column="ryjcxxcjbh" property="ryjcxxcjbh"></result>
+        <result column="create_datetime" property="createDatetime"></result>
+        <result column="data_type" property="dataType"></result>
+    </resultMap>
+    <sql id="Base_Column_List">
     PK_ID, UPLOAD_LOG_ID, NODE_SIGN, FILE_SERVER, FILE_LOCATION, FILE_SUFFIX, FILE_SIZE, 
     FILE_MD5, RESOLVE_STATUS, RESOLVE_RESULT_INFO, RESOLVE_DATETIME
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from LEDEN_UPLOAD_PACKET
-    where PK_ID = #{pkId,jdbcType=VARCHAR}
-  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from LEDEN_UPLOAD_PACKET
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </select>
 
-  <resultMap id="UploadPacketMap" type="com.zhouyi.business.core.model.LedenUploadPacket" extends="BaseResultMap">
-    <result column="UPLOAD_DATETIME" property="uploadDate" jdbcType="TIMESTAMP" />
-    <result column="RYJCXXCJBH" property="personCode" jdbcType="VARCHAR" />
-  </resultMap>
+    <resultMap id="UploadPacketMap" type="com.zhouyi.business.core.model.LedenUploadPacket" extends="BaseResultMap">
+        <result column="UPLOAD_DATETIME" property="uploadDate" jdbcType="TIMESTAMP"/>
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
+    </resultMap>
 
+    <select id="selectDataByResolveStatus" resultMap="BaseResultMap">
+
+  select * from (
+  select  * from leden_upload_packet where resolve_status=0 and data_Type='ZIP'
+   order by create_datetime desc
+  )
+  where rownum=1
+    </select>
   <select id="selectDataByIsEmpowerOrResolveStatus" resultMap="UploadPacketMap">
     select distinct p.pk_id,p.node_sign,p.file_location,l.UPLOAD_DATETIME,l.RYJCXXCJBH from LEDEN_UPLOAD_LOG l,leden_upload_packet p
     where l.pk_id = p.upload_log_id and l.is_empower = '1' and p.resolve_status = '0' and p.node_sign != '000000000000' order by node_sign asc
   </select>
 
-  <resultMap id="selectDataListMap" type="com.zhouyi.business.core.model.UploadPacketResult">
-    <id column="PK_ID" property="pkId"/>
-    <result column="RYJCXXCJBH" property="ryjcxxcjbh"/>
-    <result column="RESOLVE_STATUS" property="resolveStatus"/>
-    <result column="NODE_NAME" property="nodeName"/>
-    <result column="EQUIPMENT_CODE" property="equipmentCode"/>
-    <result column="FILE_SUFFIX" property="fileSuffix"/>
-    <result column="FILE_SIZE" property="fileSize"/>
-    <result column="CJRXM" property="cjrxm"/>
-    <result column="CJDWMC" property="cjdwmc"/>
-    <result column="CJSJ" property="cjsj"/>
-  </resultMap>
+    <resultMap id="selectDataListMap" type="com.zhouyi.business.core.model.UploadPacketResult">
+        <id column="PK_ID" property="pkId"/>
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh"/>
+        <result column="RESOLVE_STATUS" property="resolveStatus"/>
+        <result column="NODE_NAME" property="nodeName"/>
+        <result column="EQUIPMENT_CODE" property="equipmentCode"/>
+        <result column="FILE_SUFFIX" property="fileSuffix"/>
+        <result column="FILE_SIZE" property="fileSize"/>
+        <result column="CJRXM" property="cjrxm"/>
+        <result column="CJDWMC" property="cjdwmc"/>
+        <result column="CJSJ" property="cjsj"/>
+    </resultMap>
 
   <select id="selectFileSuffixList" resultType="string">
     select distinct FILE_SUFFIX from leden_upload_packet
@@ -55,225 +64,230 @@
   <select id="selectDataList" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2" resultMap="selectDataListMap">
     select tt.* from
      (select rownum rn,t.* from
-        (select a.PK_ID,p.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,p.EQUIPMENT_CODE,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,l.equipment_id from
+        (select a.PK_ID,p.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,p.EQUIPMENT_CODE,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,a.equipment_id from
           leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
-          left join leden_upload_log l on a.upload_log_id = l.pk_id
-          left join leden_collect_person p on p.ryjcxxcjbh = l.ryjcxxcjbh
+          left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
         <where>
-          <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
-            and p.RYJCXXCJBH = #{ryjcxxcjbh}
-          </if>
-          <if test="cjrxm != null and cjrxm != ''">
-            and p.CJRXM like concat('%',concat(#{cjrxm},'%'))
-          </if>
-          <if test="cjdwdm != null and cjdwdm != ''">
-            and p.CJDWDM = #{cjdwdm}
-          </if>
-          <if test="cjdwmc != null and cjdwmc != ''">
-            and p.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
-          </if>
-          <if test="fileSuffix != null and fileSuffix != ''">
-            and a.FILE_SUFFIX = #{fileSuffix}
-          </if>
-          <if test="dateStart != null">
-            and p.CJSJ &gt;= #{dateStart}
-          </if>
-          <if test="dateEnd != null">
-            and p.CJSJ &lt;= #{dateEnd}
-          </if>
+            <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
+                and p.RYJCXXCJBH = #{ryjcxxcjbh}
+            </if>
+            <if test="cjrxm != null and cjrxm != ''">
+                and p.CJRXM like concat('%',concat(#{cjrxm},'%'))
+            </if>
+            <if test="cjdwdm != null and cjdwdm != ''">
+                and p.CJDWDM = #{cjdwdm}
+            </if>
+            <if test="cjdwmc != null and cjdwmc != ''">
+                and p.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
+            </if>
+            <if test="fileSuffix != null and fileSuffix != ''">
+                and a.FILE_SUFFIX = #{fileSuffix}
+            </if>
+            <if test="dateStart != null">
+                and p.CJSJ &gt;= #{dateStart}
+            </if>
+            <if test="dateEnd != null">
+                and p.CJSJ &lt;= #{dateEnd}
+            </if>
         </where>
         order by p.CJSJ desc) t) tt
-    where tt.rn &gt;= #{startNo} and tt.rn &lt; #{endNo}
-  </select>
+        where tt.rn &gt;= #{startNo} and tt.rn &lt; #{endNo}
+    </select>
 
-  <select id="selectDataListCount" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2" resultType="int">
-    select count(1) from
-    leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
-    left join leden_collect_process s on s.collect_node_id = n.node_code
-    left join leden_collect_person p on p.ryjcxxcjbh = s.ryjcxxcjbh
-    <where>
-      <if test="cjrxm != null and cjrxm != ''">
-        and p.CJRXM like concat('%',concat(#{cjrxm},'%'))
-      </if>
-      <if test="cjdwmc != null and cjdwmc != ''">
-        and p.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
-      </if>
-      <if test="dateStart != null">
-        and p.CJSJ &gt;= #{dateStart}
-      </if>
-      <if test="dateEnd != null">
-        and p.CJSJ &lt;= #{dateEnd}
-      </if>
-    </where>
-    order by p.CJSJ desc
-  </select>
+    <select id="selectDataListCount" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
+            resultType="int">
+        select count(1) from
+        leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
+        left join leden_collect_process s on s.collect_node_id = n.node_code
+        left join leden_collect_person p on p.ryjcxxcjbh = s.ryjcxxcjbh
+        <where>
+            <if test="cjrxm != null and cjrxm != ''">
+                and p.CJRXM like concat('%',concat(#{cjrxm},'%'))
+            </if>
+            <if test="cjdwmc != null and cjdwmc != ''">
+                and p.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
+            </if>
+            <if test="dateStart != null">
+                and p.CJSJ &gt;= #{dateStart}
+            </if>
+            <if test="dateEnd != null">
+                and p.CJSJ &lt;= #{dateEnd}
+            </if>
+        </where>
+        order by p.CJSJ desc
+    </select>
 
-  <resultMap id="selectDataByIdMap" type="com.zhouyi.business.core.model.UploadPacketResponse">
-    <id column="PK_ID" property="pkId"/>
-    <result column="FILE_SERVER" property="fileServer"/>
-    <result column="RESOLVE_STATUS" property="resolveStatus"/>
-    <result column="FILE_SUFFIX" property="fileSuffix"/>
-    <result column="FILE_SIZE" property="fileSize"/>
-    <result column="RESOLVE_RESULT_INFO" property="resolveResultInfo"/>
-    <result column="RESOLVE_DATETIME" property="resolveDatetime"/>
-    <result column="NODE_NAME" property="nodeName"/>
-    <result column="EQUIPMENT_CODE" property="equipmentCode"/>
-  </resultMap>
+    <resultMap id="selectDataByIdMap" type="com.zhouyi.business.core.model.UploadPacketResponse">
+        <id column="PK_ID" property="pkId"/>
+        <result column="FILE_SERVER" property="fileServer"/>
+        <result column="RESOLVE_STATUS" property="resolveStatus"/>
+        <result column="FILE_SUFFIX" property="fileSuffix"/>
+        <result column="FILE_SIZE" property="fileSize"/>
+        <result column="RESOLVE_RESULT_INFO" property="resolveResultInfo"/>
+        <result column="RESOLVE_DATETIME" property="resolveDatetime"/>
+        <result column="NODE_NAME" property="nodeName"/>
+        <result column="EQUIPMENT_CODE" property="equipmentCode"/>
+    </resultMap>
 
-  <select id="selectDataById" parameterType="list" resultMap="selectDataByIdMap">
-    select
-    a.PK_ID,a.FILE_SERVER,a.RESOLVE_STATUS,a.FILE_SUFFIX,a.FILE_SIZE,a.RESOLVE_RESULT_INFO,a.RESOLVE_DATETIME,n.NODE_NAME,p.*
-    from
-    leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
-    left join leden_collect_process s on s.collect_node_id = n.node_code
-    left join leden_collect_person p on p.ryjcxxcjbh = s.ryjcxxcjbh
-    <where>
-      <if test="list != null and list.size() > 0">
-        and a.PK_ID in
-        <foreach collection="list" open="(" separator="," close=")" item="id">
-          #{id}
-        </foreach>
-      </if>
-      <if test="list.size == 0">
-        and a.PK_ID = null
-      </if>
-    </where>
-  </select>
+    <select id="selectDataById" parameterType="list" resultMap="selectDataByIdMap">
+        select
+        a.PK_ID,a.FILE_SERVER,a.RESOLVE_STATUS,a.FILE_SUFFIX,a.FILE_SIZE,a.RESOLVE_RESULT_INFO,a.RESOLVE_DATETIME,n.NODE_NAME,p.*
+        from
+        leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
+        left join leden_collect_process s on s.collect_node_id = n.node_code
+        left join leden_collect_person p on p.ryjcxxcjbh = s.ryjcxxcjbh
+        <where>
+            <if test="list != null and list.size() > 0">
+                and a.PK_ID in
+                <foreach collection="list" open="(" separator="," close=")" item="id">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="list.size == 0">
+                and a.PK_ID = null
+            </if>
+        </where>
+    </select>
 
-  <select id="selectDataAnalysisStatus" parameterType="string" resultMap="BaseResultMap">
+    <select id="selectDataAnalysisStatus" parameterType="string" resultMap="BaseResultMap">
     select p.NODE_SIGN,p.RESOLVE_STATUS
     from leden_upload_packet p,leden_upload_log l
     where p.upload_log_id = l.pk_id and l.ryjcxxcjbh = #{id}
   </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from LEDEN_UPLOAD_PACKET
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </delete>
 
-  <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenUploadPacket" >
-    insert into LEDEN_UPLOAD_PACKET (PK_ID, UPLOAD_LOG_ID, NODE_SIGN,
-      FILE_SERVER, FILE_LOCATION, FILE_SUFFIX, 
-      FILE_SIZE, FILE_MD5, RESOLVE_STATUS, 
-      RESOLVE_RESULT_INFO, RESOLVE_DATETIME)
-    values (#{pkId,jdbcType=VARCHAR}, #{uploadLogId,jdbcType=VARCHAR}, #{nodeSign,jdbcType=VARCHAR}, 
-      #{fileServer,jdbcType=VARCHAR}, #{fileLocation,jdbcType=VARCHAR}, #{fileSuffix,jdbcType=VARCHAR}, 
-      #{fileSize,jdbcType=DECIMAL}, #{fileMd5,jdbcType=VARCHAR}, #{resolveStatus,jdbcType=VARCHAR}, 
-      #{resolveResultInfo,jdbcType=VARCHAR}, #{resolveDatetime,jdbcType=TIMESTAMP})
+    <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenUploadPacket">
+    insert into LEDEN_UPLOAD_PACKET (pk_id,equipment_id,ryjcxxcjbh,node_sign,file_server,file_location,data_type,create_datetime,file_suffix,
+    resolve_status,resolve_result_info,resolve_datetime)
+    values (
+       pkId,equipmentId,ryjcxxcjbh,nodeSign,fileServer,fileLocation,dataType,createDatetime,
+       fileSuffix,resolveStatus,resolveResultInfo,resolveDatetime
+    )
   </insert>
 
-  <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenUploadPacket" >
-    insert into LEDEN_UPLOAD_PACKET
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkId != null" >
-        PK_ID,
-      </if>
-      <if test="uploadLogId != null" >
-        UPLOAD_LOG_ID,
-      </if>
-      <if test="nodeSign != null" >
-        NODE_SIGN,
-      </if>
-      <if test="fileServer != null" >
-        FILE_SERVER,
-      </if>
-      <if test="fileLocation != null" >
-        FILE_LOCATION,
-      </if>
-      <if test="fileSuffix != null" >
-        FILE_SUFFIX,
-      </if>
-      <if test="fileSize != null" >
-        FILE_SIZE,
-      </if>
-      <if test="fileMd5 != null" >
-        FILE_MD5,
-      </if>
-      <if test="resolveStatus != null" >
-        RESOLVE_STATUS,
-      </if>
-      <if test="resolveResultInfo != null" >
-        RESOLVE_RESULT_INFO,
-      </if>
-      <if test="resolveDatetime != null" >
-        RESOLVE_DATETIME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkId != null" >
-        #{pkId,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadLogId != null" >
-        #{uploadLogId,jdbcType=VARCHAR},
-      </if>
-      <if test="nodeSign != null" >
-        #{nodeSign,jdbcType=VARCHAR},
-      </if>
-      <if test="fileServer != null" >
-        #{fileServer,jdbcType=VARCHAR},
-      </if>
-      <if test="fileLocation != null" >
-        #{fileLocation,jdbcType=VARCHAR},
-      </if>
-      <if test="fileSuffix != null" >
-        #{fileSuffix,jdbcType=VARCHAR},
-      </if>
-      <if test="fileSize != null" >
-        #{fileSize,jdbcType=DECIMAL},
-      </if>
-      <if test="fileMd5 != null" >
-        #{fileMd5,jdbcType=VARCHAR},
-      </if>
-      <if test="resolveStatus != null" >
-        #{resolveStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="resolveResultInfo != null" >
-        #{resolveResultInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="resolveDatetime != null" >
-        #{resolveDatetime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
+    <insert id="insertSelective" parameterType="com.zhouyi.business.core.model.LedenUploadPacket">
+        insert into LEDEN_UPLOAD_PACKET
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                PK_ID,
+            </if>
+            <if test="equipmentId != null">
+                equipment_id,
+            </if>
+            <if test="ryjcxxcjbh!=null">
+                ryjcxxcjbh,
+            </if>
+            <if test="nodeSign != null">
+                NODE_SIGN,
+            </if>
+            <if test="fileServer != null">
+                FILE_SERVER,
+            </if>
+            <if test="fileLocation != null">
+                FILE_LOCATION,
+            </if>
+            <if test="dataType!=null">
+                data_type,
+            </if>
+            <if test="createDatetime!=null">
+                create_datetime,
+            </if>
+            <if test="fileSuffix != null">
+                FILE_SUFFIX,
+            </if>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenUploadPacket" >
-    update LEDEN_UPLOAD_PACKET
-    <set >
-      <if test="uploadLogId != null" >
-        UPLOAD_LOG_ID = #{uploadLogId,jdbcType=VARCHAR},
-      </if>
-      <if test="nodeSign != null" >
-        NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
-      </if>
-      <if test="fileServer != null" >
-        FILE_SERVER = #{fileServer,jdbcType=VARCHAR},
-      </if>
-      <if test="fileLocation != null" >
-        FILE_LOCATION = #{fileLocation,jdbcType=VARCHAR},
-      </if>
-      <if test="fileSuffix != null" >
-        FILE_SUFFIX = #{fileSuffix,jdbcType=VARCHAR},
-      </if>
-      <if test="fileSize != null" >
-        FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
-      </if>
-      <if test="fileMd5 != null" >
-        FILE_MD5 = #{fileMd5,jdbcType=VARCHAR},
-      </if>
-      <if test="resolveStatus != null" >
-        RESOLVE_STATUS = #{resolveStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="resolveResultInfo != null" >
-        RESOLVE_RESULT_INFO = #{resolveResultInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="resolveDatetime != null" >
-        RESOLVE_DATETIME = #{resolveDatetime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where PK_ID = #{pkId,jdbcType=VARCHAR}
-  </update>
+            <if test="resolveStatus != null">
+                RESOLVE_STATUS,
+            </if>
+            <if test="resolveResultInfo != null">
+                RESOLVE_RESULT_INFO,
+            </if>
+            <if test="resolveDatetime != null">
+                RESOLVE_DATETIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkId != null">
+                #{pkId,jdbcType=VARCHAR},
+            </if>
+            <if test="equipmentId != null">
+                #{equipmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="ryjcxxcjbh!=null">
+                #{ryjcxxcjbh},
+            </if>
+            <if test="nodeSign != null">
+                #{nodeSign,jdbcType=VARCHAR},
+            </if>
+            <if test="fileServer != null">
+                #{fileServer,jdbcType=VARCHAR},
+            </if>
+            <if test="fileLocation != null">
+                #{fileLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="dataType!=null">
+                #{dataType},
+            </if>
+            <if test="createDatetime!=null">
+                #{createDatetime},
+            </if>
+            <if test="fileSuffix != null">
+                #{fileSuffix,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveStatus != null">
+                #{resolveStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveResultInfo != null">
+                #{resolveResultInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveDatetime != null">
+                #{resolveDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
 
-  <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenUploadPacket" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenUploadPacket">
+        update LEDEN_UPLOAD_PACKET
+        <set>
+            <if test="uploadLogId != null">
+                UPLOAD_LOG_ID = #{uploadLogId,jdbcType=VARCHAR},
+            </if>
+            <if test="nodeSign != null">
+                NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
+            </if>
+            <if test="fileServer != null">
+                FILE_SERVER = #{fileServer,jdbcType=VARCHAR},
+            </if>
+            <if test="fileLocation != null">
+                FILE_LOCATION = #{fileLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSuffix != null">
+                FILE_SUFFIX = #{fileSuffix,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
+            </if>
+            <if test="fileMd5 != null">
+                FILE_MD5 = #{fileMd5,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveStatus != null">
+                RESOLVE_STATUS = #{resolveStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveResultInfo != null">
+                RESOLVE_RESULT_INFO = #{resolveResultInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveDatetime != null">
+                RESOLVE_DATETIME = #{resolveDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PK_ID = #{pkId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenUploadPacket">
     update LEDEN_UPLOAD_PACKET
     set UPLOAD_LOG_ID = #{uploadLogId,jdbcType=VARCHAR},
       NODE_SIGN = #{nodeSign,jdbcType=VARCHAR},
@@ -287,4 +301,9 @@
       RESOLVE_DATETIME = #{resolveDatetime,jdbcType=TIMESTAMP}
     where PK_ID = #{pkId,jdbcType=VARCHAR}
   </update>
+
+
+    <select id="selectTaskResolveByRyjcxxcjbh" resultMap="BaseResultMap">
+    select * from leden_upload_packet where resolve_status in (0,2) and ryjcxxcjbh=#{_parameter} and data_type!='zip'
+  </select>
 </mapper>

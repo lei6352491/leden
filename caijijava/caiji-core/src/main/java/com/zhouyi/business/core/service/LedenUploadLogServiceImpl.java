@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class LedenUploadLogServiceImpl
@@ -58,6 +55,7 @@ public class LedenUploadLogServiceImpl
             Map<String, String> map = JSON.parseObject(string, Map.class);
             //遍历map
             Set<String> strings = map.keySet();
+            Date date=new Date();
             for (String key : strings) {
                 if ("upload_Packet".equals(key))
                     continue;
@@ -72,7 +70,7 @@ public class LedenUploadLogServiceImpl
                 ledenUploadLog.setIsEmpower("1");
                 ledenUploadLog.setRyjcxxcjbh(ryjcxxcjbh);
                 ledenUploadLog.setUploadStatus(map.get(key));
-                ledenUploadLog.setUploadDatetime(new Date());
+                ledenUploadLog.setUploadDatetime(date);
                 //添加采集上传文件的节点信息
                 ledenUploadLogMapper.insertSelective(ledenUploadLog);
 
@@ -80,7 +78,6 @@ public class LedenUploadLogServiceImpl
                 LedenUploadPacket ledenUploadPacket = new LedenUploadPacket();
                 //同上传文件主键（测试用）
                 ledenUploadPacket.setPkId(stringBuffer.toString().replace("UP","PA"));
-                ledenUploadPacket.setUploadLogId(stringBuffer.toString());
                 ledenUploadPacket.setNodeSign(key);
                 ledenUploadPacket.setFileLocation(map.get("upload_Packet"));
                 //0.未解析;1.已解析
@@ -91,6 +88,24 @@ public class LedenUploadLogServiceImpl
             }
         }
         return null;
+    }
+
+
+    @Override
+    public List<LedenUploadLog> listUplaodLogByCondition(Integer... status) {
+
+        Integer[] uploadStatus=status;
+
+        List<LedenUploadLog> array = ledenUploadLogMapper.listUploadLogByConditions(Arrays.asList(uploadStatus));;
+
+        return array;
+    }
+
+
+
+    @Override
+    public void uploadLogStatusByPersonCode(int status, String personCode,String info) {
+        ledenUploadLogMapper.updateUploadLogByPersonCode(personCode,status,info);
     }
 
     /**

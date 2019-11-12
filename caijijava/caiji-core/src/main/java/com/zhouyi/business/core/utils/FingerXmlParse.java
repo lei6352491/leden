@@ -72,7 +72,8 @@ public class FingerXmlParse {
             else
                 document = saxReader.read(new ByteArrayInputStream(path.getBytes("GBK")));
 
-            Element packageElement = document.getRootElement(); //获取根节点
+            //获取根节点
+            Element packageElement = document.getRootElement();
 
 
             //创建head对象
@@ -130,6 +131,7 @@ public class FingerXmlParse {
             //解析掌纹信息
             List<LedenCollectPalm> palmss = packageDataEntityList(fingerPrintPackageElement.element("palms"), LedenCollectPalm.class);
 
+            logger.info("采集到掌纹数据:"+palmss.size()+"条");
             //解析四指信息
             List<LedenCollectFourfinger> fourprintMsgs = packageDataEntityList(fingerPrintPackageElement.element("fourprints"), LedenCollectFourfinger.class);
 

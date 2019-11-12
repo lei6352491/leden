@@ -1,4 +1,4 @@
-package com.zhouyi.business.model.provincecomprehensive;
+package com.zhouyi.business.core.model.provincecomprehensive;
 
 import lombok.Data;
 import lombok.ToString;
@@ -23,7 +23,7 @@ public class PersonInfo {
 
     private String DNA_N;
 
-    private String person_Name;
+    private String personName;
 
     private String personAlias;
 
@@ -143,7 +143,7 @@ public class PersonInfo {
     /**
      * 被采集原因
      */
-    private String reason;
+    private String Reason;
 
     /**
      * 采集单位代码

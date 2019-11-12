@@ -89,4 +89,10 @@ public class SysDictListServiceImpl implements SysDictListService{
     public int findTotal(SysDictListVo sysDictListVo) {
         return sysDictListMapper.findTotal(sysDictListVo);
     }
+
+    @Override
+    public String getDictNameByCode(String code) {
+        SysDictList sysDictList = sysDictListMapper.selectByPrimaryKey(code);
+        return sysDictList.getName();
+    }
 }

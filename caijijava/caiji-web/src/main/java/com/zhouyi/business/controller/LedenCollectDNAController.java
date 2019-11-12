@@ -40,7 +40,7 @@ public class LedenCollectDNAController {
     public Response<Object> parseXml(String path){
         boolean flag=false;
         try {
-            flag=ledenCollectDNAService.inputDNSByXml(path);
+            flag=ledenCollectDNAService.inputDNAByXml(path);
         } catch (XmlParseException e) {
             return ResponseUtil.ntrError(e.getMessage());
         } catch(AuthenticationException e){
