@@ -183,6 +183,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         //修改角色信息
         SysRole sysRole = new SysRole();
         sysRole.setPkId(roleMenuRequest.getRoleId());
+        sysRole.setRoleName(roleMenuRequest.getRoleName());
         sysRole.setRoleDescription(roleMenuRequest.getRoleDescription());
         sysRole.setUpdateUserId(roleMenuRequest.getUserId());
         sysRole.setUpdateDatetime(new Date());

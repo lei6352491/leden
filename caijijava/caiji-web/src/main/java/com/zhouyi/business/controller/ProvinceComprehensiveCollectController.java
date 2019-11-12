@@ -95,7 +95,7 @@ public class ProvinceComprehensiveCollectController {
                             if (sysUnit == null) {
                                 ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_17));
                             }
-                            
+
                             invoke = method.invoke(ledenPersonIndexService, unitCode);
                         }
                         return invoke;
