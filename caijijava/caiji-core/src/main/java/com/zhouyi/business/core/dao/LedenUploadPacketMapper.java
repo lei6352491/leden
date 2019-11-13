@@ -16,14 +16,21 @@ public interface LedenUploadPacketMapper extends BuffBaseMapper<LedenUploadPacke
 
     List<UploadPacketResult> selectDataList(LedenConllectPersonVo2 ledenConllectPersonVo2);
 
+    List<UploadPacketResult> selectDataList2(LedenConllectPersonVo2 ledenConllectPersonVo2);
+
     Integer selectDataListCount(LedenConllectPersonVo2 ledenConllectPersonVo2);
+
+    Integer selectDataListCount2(LedenConllectPersonVo2 ledenConllectPersonVo2);
 
     List<UploadPacketResponse> selectDataById(List<String> list);
 
     LedenUploadPacket selectDataByResolveStatus();
 
     List<LedenUploadPacket> selectTaskResolveByRyjcxxcjbh(String ryjcxxcjbh);
+
     List<LedenUploadPacket> selectDataByIsEmpowerOrResolveStatus();
 
     List<String> selectFileSuffixList();
+
+    List<String> selectDataTypeList();
 }

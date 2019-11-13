@@ -39,7 +39,7 @@
   )
   where rownum=1
     </select>
-  <select id="selectDataByIsEmpowerOrResolveStatus" resultMap="UploadPacketMap">
+    <select id="selectDataByIsEmpowerOrResolveStatus" resultMap="UploadPacketMap">
     select distinct p.pk_id,p.node_sign,p.file_location,l.UPLOAD_DATETIME,l.RYJCXXCJBH from LEDEN_UPLOAD_LOG l,leden_upload_packet p
     where l.pk_id = p.upload_log_id and l.is_empower = '1' and p.resolve_status = '0' and p.node_sign != '000000000000' order by node_sign asc
   </select>
@@ -55,18 +55,22 @@
         <result column="CJRXM" property="cjrxm"/>
         <result column="CJDWMC" property="cjdwmc"/>
         <result column="CJSJ" property="cjsj"/>
+        <result column="DATA_TYPE" property="dataType"/>
     </resultMap>
 
-  <select id="selectFileSuffixList" resultType="string">
+    <select id="selectFileSuffixList" resultType="string">
     select distinct FILE_SUFFIX from leden_upload_packet
   </select>
 
-  <select id="selectDataList" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2" resultMap="selectDataListMap">
-    select tt.* from
-     (select rownum rn,t.* from
-        (select a.PK_ID,p.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,p.EQUIPMENT_CODE,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,a.equipment_id from
-          leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
-          left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
+    <select id="selectDataList" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
+            resultMap="selectDataListMap">
+        select tt.* from
+        (select rownum rn,t.* from
+        (select
+        a.PK_ID,p.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,p.EQUIPMENT_CODE,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,a.DATA_TYPE
+        from
+        leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
+        left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
         <where>
             <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
                 and p.RYJCXXCJBH = #{ryjcxxcjbh}
@@ -80,8 +84,8 @@
             <if test="cjdwmc != null and cjdwmc != ''">
                 and p.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
             </if>
-            <if test="fileSuffix != null and fileSuffix != ''">
-                and a.FILE_SUFFIX = #{fileSuffix}
+            <if test="dataType != null and dataType != ''">
+                and a.DATA_TYPE = #{dataType}
             </if>
             <if test="dateStart != null">
                 and p.CJSJ &gt;= #{dateStart}
@@ -93,6 +97,74 @@
         order by p.CJSJ desc) t) tt
         where tt.rn &gt;= #{startNo} and tt.rn &lt; #{endNo}
     </select>
+
+    <select id="selectDataList2" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
+            resultMap="selectDataListMap">
+        select tt.* from
+        (select rownum rn,t.* from
+        (select
+        t.PK_ID,p.RYJCXXCJBH,t.RESOLVE_STATUS,n.NODE_NAME,p.EQUIPMENT_CODE,t.FILE_SUFFIX,t.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,g.equipment_id
+        from
+        leden_upload_log g left join leden_upload_packet t on g.pk_id = t.upload_log_id
+        left join leden_collect_node n on g.node_sign = n.node_code
+        left join leden_collect_person p on p.ryjcxxcjbh = g.ryjcxxcjbh
+        <where>
+            <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
+                and p.RYJCXXCJBH = #{ryjcxxcjbh}
+            </if>
+            <if test="cjrxm != null and cjrxm != ''">
+                and p.CJRXM like concat('%',concat(#{cjrxm},'%'))
+            </if>
+            <if test="cjdwdm != null and cjdwdm != ''">
+                and p.CJDWDM = #{cjdwdm}
+            </if>
+            <if test="cjdwmc != null and cjdwmc != ''">
+                and p.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
+            </if>
+            <if test="dataType != null and dataType != ''">
+                and t.DATA_TYPE = #{dataType}
+            </if>
+            <if test="dateStart != null">
+                and p.CJSJ &gt;= #{dateStart}
+            </if>
+            <if test="dateEnd != null">
+                and p.CJSJ &lt;= #{dateEnd}
+            </if>
+        </where>
+        order by p.CJSJ desc) t) tt
+        where tt.rn &gt;= #{startNo} and tt.rn &lt; #{endNo}
+    </select>
+
+    <select id="selectDataListCount2" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
+            resultType="int">
+        select count(1) from
+        leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
+        left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
+        <where>
+            <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
+                and p.RYJCXXCJBH = #{ryjcxxcjbh}
+            </if>
+            <if test="cjrxm != null and cjrxm != ''">
+                and p.CJRXM like concat('%',concat(#{cjrxm},'%'))
+            </if>
+            <if test="cjdwdm != null and cjdwdm != ''">
+                and p.CJDWDM = #{cjdwdm}
+            </if>
+            <if test="cjdwmc != null and cjdwmc != ''">
+                and p.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
+            </if>
+            <if test="dataType != null and dataType != ''">
+                and a.DATA_TYPE = #{dataType}
+            </if>
+            <if test="dateStart != null">
+                and p.CJSJ &gt;= #{dateStart}
+            </if>
+            <if test="dateEnd != null">
+                and p.CJSJ &lt;= #{dateEnd}
+            </if>
+        </where>
+    </select>
+
 
     <select id="selectDataListCount" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
             resultType="int">
@@ -115,6 +187,10 @@
             </if>
         </where>
         order by p.CJSJ desc
+    </select>
+
+    <select id="selectDataTypeList" resultType="string">
+        select distinct data_type as datatype from LEDEN_UPLOAD_PACKET
     </select>
 
     <resultMap id="selectDataByIdMap" type="com.zhouyi.business.core.model.UploadPacketResponse">

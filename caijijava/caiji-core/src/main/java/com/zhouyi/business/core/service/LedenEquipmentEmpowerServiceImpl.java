@@ -70,7 +70,7 @@ public class LedenEquipmentEmpowerServiceImpl implements LedenEquipmentEmpowerSe
     public Response<LedenEquipmentEmpower> selectEquipmentEmpowerListByModel(LedenEquipmentEmpower ledenEquipmentEmpower){
         //初始化查询条件(设备授权为启动)
         ledenEquipmentEmpower.setDeletag("0");
-        LedenEquipment ledenEquipment = ledenEquipmentMapper.selectByPrimaryKey(ledenEquipmentEmpower.getEquipmentId());
+        LedenEquipment ledenEquipment = ledenEquipmentMapper.getLedenEquipmentByEquipmentCode(ledenEquipmentEmpower.getEquipmentId());
         ledenEquipmentEmpower.setEquipmentId(ledenEquipment.getEquipmentCode());
         List<LedenEquipmentEmpower> list = ledenEquipmentEmpowerMapper.selectByModel(ledenEquipmentEmpower);
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,list);
@@ -82,7 +82,7 @@ public class LedenEquipmentEmpowerServiceImpl implements LedenEquipmentEmpowerSe
     @Override
     public Response updateEquipmentEmpower(EquipmentEmpowerRequest equipmentEmpowerRequest){
 
-        LedenEquipment ledenEquipment = ledenEquipmentMapper.selectByPrimaryKey(equipmentEmpowerRequest.getEquipmentId());
+        LedenEquipment ledenEquipment = ledenEquipmentMapper.getLedenEquipmentByEquipmentCode(equipmentEmpowerRequest.getEquipmentId());
 
         //设置查询条件
         LedenEquipmentEmpower ledenEquipmentEmpower = new LedenEquipmentEmpower();

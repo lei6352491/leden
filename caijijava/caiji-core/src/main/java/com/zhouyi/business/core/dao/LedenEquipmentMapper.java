@@ -11,6 +11,8 @@ import java.util.Map;
 
 @Mapper
 public interface LedenEquipmentMapper {
+
+
     int deleteByPrimaryKey(String pkId);
 
     int insert(LedenEquipment record);

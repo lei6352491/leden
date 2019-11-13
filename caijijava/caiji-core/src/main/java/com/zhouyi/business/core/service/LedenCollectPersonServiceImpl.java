@@ -73,6 +73,7 @@ public class LedenCollectPersonServiceImpl implements LedenCollectPersonService 
         ledenCollectPerson.setCreateUserId(ledenConllectPersonVo.head.getUSER_CODE());
         ledenCollectPerson.setCreateDatetime(new Date());
         ledenCollectPerson.setStatus("02");
+        ledenCollectPerson.setDeletag("0");
 
         //删除数据库该人员编号的个人信息
         ledenCollectPersonMapper.deleteByPrimaryKey(personXml.ryjcxxcjbh);

@@ -15,16 +15,23 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.net.www.protocol.ftp.FtpURLConnection;
 
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class LedenUploadPacketServiceImpl
         extends BaseServiceImpl<LedenUploadPacket, LedenUploadPacketVo>
         implements LedenUploadPacketService{
+
 
     @Autowired
     private LedenUploadPacketMapper ledenUploadPacketMapper;
@@ -44,6 +51,16 @@ public class LedenUploadPacketServiceImpl
     }
 
     /**
+     * 获取采集数据类型列表
+     * */
+    @Override
+    public Response<String> selectDataTypeList() {
+        List<String> strings = ledenUploadPacketMapper.selectDataTypeList();
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,strings);
+    }
+
+
+    /**
      * 多条件查询数据包列表
      * */
     @Override
@@ -52,7 +69,7 @@ public class LedenUploadPacketServiceImpl
         new InitializationPageUtils<>().initializationPage(ledenConllectPersonVo2);
         List<UploadPacketResult> list = ledenUploadPacketMapper.selectDataList(ledenConllectPersonVo2);
         //添加zip文件的信息
-        Integer total = ledenUploadPacketMapper.selectDataListCount(ledenConllectPersonVo2);
+        Integer total = ledenUploadPacketMapper.selectDataListCount2(ledenConllectPersonVo2);
         Map<String,Object> map = new LinkedMap<>();
         map.put("list",list);
         map.put("total",total);
@@ -327,6 +344,78 @@ public class LedenUploadPacketServiceImpl
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public synchronized InputStream downloadPacketList(List<String> list) {
+        //获取uploadPacket对象集合
+        List<LedenUploadPacket> ledenUploadPacketList = new ArrayList<>();
+        for (String str : list){
+            LedenUploadPacket ledenUploadPacket = ledenUploadPacketMapper.selectByPrimaryKey(str);
+            if (ledenUploadPacket != null && !StringUtils.isEmpty(ledenUploadPacket.getPkId())){
+                ledenUploadPacketList.add(ledenUploadPacket);
+            }
+        }
+
+        File zipFile = new File("/usr/personData.zip");
+        ZipOutputStream zipOutputStream = null;
+        if (!zipFile.exists()){
+            try {
+                zipFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_1129));
+            }
+        }
+        try {
+            zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_1129));
+        }
+        //获取文档对象
+        for (LedenUploadPacket ledenUploadPacket : ledenUploadPacketList){
+            if (StringUtils.isNotEmpty(ledenUploadPacket.getFileLocation())) {
+                URL url = null;
+                InputStream inputStream = null;
+                try {
+                    //获取文件名称
+                    File file = new File(ledenUploadPacket.getFileLocation());
+                    String fileName = file.getName();
+                    url = new URL(ledenUploadPacket.getFileLocation());
+                    FtpURLConnection ftpURLConnection = new FtpURLConnection(url);
+                    ftpURLConnection.connect();
+                    inputStream = ftpURLConnection.getInputStream();
+                    ZipEntry zipEntry = new ZipEntry(fileName);
+                    if (zipOutputStream != null){
+                        zipOutputStream.putNextEntry(zipEntry);
+                        byte[] bytes = new byte[2048];
+                        int count = 0;
+                        while (-1 != (count = inputStream.read(bytes))){
+                            zipOutputStream.write(bytes,0,count);
+                        }
+                    }
+                    zipOutputStream.closeEntry();
+                    inputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        try {
+            if (zipOutputStream != null)
+                zipOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(zipFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
     }
 
     @Override

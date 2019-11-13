@@ -3,6 +3,8 @@ package com.zhouyi.business.core.model;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.Date;
+
 /**
  * @author 杜承旭
  * @ClassNmae: UploadPacketResult
@@ -24,6 +26,7 @@ public class UploadPacketResult {
     private String fileSize;
     private String cjrxm;
     private String cjdwmc;
-    private String cjsj;
+    private Date cjsj;
+    private String dataType;
 
 }

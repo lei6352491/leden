@@ -34,6 +34,16 @@ public class LedenConllectPersonVo2 extends LedenCollectPerson implements Serial
 
     private Date dateEnd;
 
+    private String dataType;
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
     public Integer getPage() {
         return page;
     }

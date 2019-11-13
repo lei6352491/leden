@@ -7,12 +7,7 @@ import com.zhouyi.business.core.service.LedenUploadPacketService;
 import com.zhouyi.business.core.utils.ResponseUtil;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.net.www.protocol.ftp.FtpURLConnection;
@@ -20,10 +15,8 @@ import sun.net.www.protocol.ftp.FtpURLConnection;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 /**
  * @author 杜承旭
@@ -49,6 +42,11 @@ public class LedenUploadPacketController {
         return ledenUploadPacketService.selectFileSuffixList();
     }
 
+    @RequestMapping(value = "/dataTypeList")
+    public Response<String> selectDataTypeList(){
+        return ledenUploadPacketService.selectDataTypeList();
+    }
+
     @RequestMapping(value = "/exportList")
     public String exportList(RequestList requestList,HttpServletResponse httpServletResponse){
         ServletOutputStream outputStream = null;
@@ -71,6 +69,49 @@ public class LedenUploadPacketController {
             }
         }
         return null;
+    }
+
+    @RequestMapping(value = "/downloadPacketList")
+    public Response downloadPacketList(@RequestBody UploadParam uploadParam,HttpServletResponse response){
+        if (uploadParam.getList() == null || uploadParam.getList().size() < 1)
+            return ResponseUtil.returnError(ReturnCode.ERROR_06);
+        InputStream inputStream = ledenUploadPacketService.downloadPacketList(uploadParam.getList());
+        if (inputStream == null){
+            return ResponseUtil.returnError(ReturnCode.ERROR_1130);
+        }
+        ServletOutputStream outputStream = null;
+        try {
+            outputStream = response.getOutputStream();
+            response.reset();
+            response.setHeader("Content-Type","application/octet-stream");
+            Date date = new Date();
+            long time = date.getTime();
+            response.setHeader("Content-Disposition","attachment;filename=personData-" + time + ".zip");
+
+            byte[] bytes = new byte[2048];
+            int count = 0;
+            while (-1 != (count = inputStream.read(bytes))){
+                outputStream.write(bytes,0,count);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseUtil.returnError(ReturnCode.ERROR_1130);
+        }finally {
+            if (outputStream != null){
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return ResponseUtil.getResponseInfo(true);
     }
 
     @RequestMapping(value = "/downloadPacket/{id}")

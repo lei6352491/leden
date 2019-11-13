@@ -6,6 +6,7 @@ import com.zhouyi.business.core.vo.LedenUploadPacketVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface LedenUploadPacketService extends BaseService<LedenUploadPacket,
     LedenUploadPacket downloadPacket(String id);
 
     Response<String> selectFileSuffixList();
+
+    Response<String> selectDataTypeList();
+
+    InputStream downloadPacketList(List<String> list);
 }
