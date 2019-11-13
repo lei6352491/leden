@@ -294,10 +294,10 @@ public class ProvinceZipUtils {
                     element.addElement(nodeName).setText(format);
                     continue;
                 }else if(field.getType()==List.class){
-                    Element imageElement=element.addElement(nodeName);
                     List images=(List)field.get(object);
                     GDSInfo.ImageInfo image=null;
                     for (Object data : images) {
+                        Element imageElement=element.addElement(nodeName);
                         image=(GDSInfo.ImageInfo)data;
                         imageElement.addElement("image").setText(image.getImage());
                         imageElement.addElement("imageRemark").setText("");

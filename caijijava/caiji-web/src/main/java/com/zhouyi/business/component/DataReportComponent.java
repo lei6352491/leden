@@ -1,5 +1,6 @@
 package com.zhouyi.business.component;
 
+import com.zhouyi.business.core.dao.LedenUploadLogMapper;
 import com.zhouyi.business.core.model.*;
 import com.zhouyi.business.core.model.provincecomprehensive.pojo.*;
 import com.zhouyi.business.core.model.provincecomprehensive.utils.ProvinceZipUtils;
@@ -104,7 +105,7 @@ public class DataReportComponent {
      *
      * @return
      */
-    public MIS getMappedData(String personCode, String equipmentCode) throws Exception {
+    public MIS getMappedData(String personCode, String equipmentCode,Integer isGetLog,String updateLogPkId) throws Exception {
 
         PersonInfo personInfo = new PersonInfo();
         List<GDSInfo> gdsInfos = new ArrayList<>();
@@ -114,10 +115,11 @@ public class DataReportComponent {
 
         final StringBuffer fileNameBuffer = new StringBuffer(generateDir);
         //1.生成人员信息
+        log.info("查询的人员编号为:"+personCode);
         StandardPerson standardPerson = ledenCollectPersonService.getStandardPerson(personCode);
 
         //修改之后代码使用的人员编号
-        final String newPersonCode = standardPerson.getJzrybh() == null ? uploadProvinceComponent.generateDataNumber(standardPerson.getRyjcxxcjbh(), standardPerson.getCjdwdm()) : standardPerson.getJzrybh();
+        final String newPersonCode = isGetLog==0 ? uploadProvinceComponent.generateDataNumber(standardPerson.getRyjcxxcjbh(), standardPerson.getCjdwdm(),updateLogPkId) : standardPerson.getJzrybh();
         fileNameBuffer.append(newPersonCode);
         fileNameBuffer.append(File.separator);
 
@@ -283,7 +285,7 @@ public class DataReportComponent {
                     standardSign.setRyjcxxcjbh(newPersonCode);
                     fileNameBuffer.append(newPersonCode).append("_").append(i).append("_sign.JPG");
                     ProvinceZipUtils.generatePictureOrVoiceFile(fileNameBuffer.toString(), standardSign.getTstzZp());
-                    standardSign.setPhoto(fileNameBuffer.toString().substring(fileNameBuffer.toString().indexOf("R")));
+                    standardSign.setPhoto(fileNameBuffer.toString().substring(fileNameBuffer.toString().lastIndexOf("R")));
                     BodySignInfo bodySignInfo = new BodySignInfo();
                     transferModelData(standardSign, bodySignInfo);
                     bodySignInfos.add(bodySignInfo);

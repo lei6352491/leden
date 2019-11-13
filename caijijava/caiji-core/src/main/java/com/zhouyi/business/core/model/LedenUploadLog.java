@@ -28,6 +28,15 @@ public class LedenUploadLog implements Serializable {
 
     private Date createDatetime;
 
+    private Integer isGetCode;
+
+    public Integer getIsGetCode() {
+        return isGetCode;
+    }
+
+    public void setIsGetCode(Integer isGetCode) {
+        this.isGetCode = isGetCode;
+    }
 
     public Date getCreateDatetime() {
         return createDatetime;

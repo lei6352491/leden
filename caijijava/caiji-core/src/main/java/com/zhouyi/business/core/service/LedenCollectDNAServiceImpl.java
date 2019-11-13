@@ -61,7 +61,7 @@ public class LedenCollectDNAServiceImpl implements LedenCollectDNAService {
         ledenCollectDna.setCreateDatetime(new Date());
         BeanUtils.copyProperties(dNANo.getData(),ledenCollectDna);
         //清除原有的dna数据
-        ledenCollectDnaMapper.deleteByPrimaryKey(ledenCollectDna.getRyjcxxcjbh());
+        ledenCollectDnaMapper.deteteDnaByPersonId(ledenCollectDna.getRyjcxxcjbh());
 
         ledenCollectDna.setPkId(UUID.randomUUID().toString().replace("-",""));
         return ledenCollectDnaMapper.insertSelective(ledenCollectDna)==1?true:false;

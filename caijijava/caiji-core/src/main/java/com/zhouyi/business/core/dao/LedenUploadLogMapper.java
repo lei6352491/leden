@@ -33,4 +33,14 @@ public interface LedenUploadLogMapper extends BuffBaseMapper<LedenUploadLog, Led
     int updateUploadLogByPersonCode(@Param("personCode")String personCode,
                                     @Param("status")int status,
                                     @Param("resolveInfo")String resolveInfo);
+
+
+    /**
+     * 更改是否获取到省综人员编号
+     * @param pkId
+     * @param isGetCode
+     * @return
+     */
+    int updateIsGetCodeByPersonCode(@Param("pkId")String pkId,
+                                    @Param("isGetCode")Integer isGetCode);
 }

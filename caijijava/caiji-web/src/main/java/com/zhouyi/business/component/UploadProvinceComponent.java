@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.zhouyi.business.config.ProvinceFtpConfig;
 import com.zhouyi.business.core.dao.LedenCollectDnaMapper;
 import com.zhouyi.business.core.dao.LedenCollectPersonMapper;
+import com.zhouyi.business.core.dao.LedenUploadLogMapper;
 import com.zhouyi.business.core.model.LedenCollectDna;
 import com.zhouyi.business.core.model.LedenCollectPerson;
 import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
@@ -69,6 +70,9 @@ public class UploadProvinceComponent {
     private String uploadIP;
     @Value("${upload.mac}")
     private String uploadMac;
+    @Autowired
+    private LedenUploadLogMapper ledenUploadLogMapper;
+
     /**
      * 向省综注册
      *
@@ -117,7 +121,7 @@ public class UploadProvinceComponent {
      * @param unitCode 单位代码
      * @return 采集数据编号(相当远人员编号)
      */
-    public String generateDataNumber(String personCode,String unitCode) throws Exception {
+    public String generateDataNumber(String personCode,String unitCode,String uploadLogPkId) throws Exception {
         log.info("正在获取数据编号");
         StringBuffer urlBuffer = new StringBuffer("http://");
         urlBuffer.append(provinceIp);
@@ -141,6 +145,8 @@ public class UploadProvinceComponent {
                 ledenCollectDna.setRyjcxxcjbh(personCode);
                 ledenCollectDna.setRydnabh(result2.get("dna_n").toString());
                 ledenCollectDnaMapper.updateByPrimaryKeySelective(ledenCollectDna);
+                //更新是否获取到省综人员编号的状态
+                ledenUploadLogMapper.updateIsGetCodeByPersonCode(personCode,1);
 
 
                 return result2.get("rybh").toString();

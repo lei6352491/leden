@@ -157,10 +157,14 @@
 
 
     <sql id="condition_filter_column">
-    ryjcxxcjbh,equipment_id
+    ryjcxxcjbh,equipment_id,is_get_code
   </sql>
 
-    <select id="listUploadLogByConditions" resultMap="BaseResultMap">
+    <resultMap id="listBaseMap" type="com.zhouyi.business.core.model.LedenUploadLog" extends="BaseResultMap">
+        <result column="is_get_code" property="isGetCode"/>
+    </resultMap>
+
+    <select id="listUploadLogByConditions" resultMap="listBaseMap">
         select * from (
         select ROWNUM as rowno,
         <include refid="condition_filter_column"/>
@@ -183,4 +187,9 @@
     </update>
 
 
+
+
+    <update id="updateIsGetCodeByPersonCode">
+        update leden_upload_log set is_get_code=#{isGetCode} where pk_id=#{pId}
+    </update>
 </mapper>

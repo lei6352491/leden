@@ -1399,7 +1399,7 @@
         left join LEDEN_COLLECT_SGTZZC stz on stz.RYJCXXCJBH=person.RYJCXXCJBH
         left join leden_collect_dna d on d.ryjcxxcjbh=person.ryjcxxcjbh
 
-        where person.ryjcxxcjbh=#{_personarameter} and d1.sign='DICT_RYCJYY'
+        where person.ryjcxxcjbh=#{_parameter} and d1.sign='DICT_RYCJYY'
     </select>
 
 

@@ -41,7 +41,6 @@ public class XmlParseUtil {
 
     public static ThreadLocal<String> userCodeThreadLocal=new ThreadLocal();
 
-    public static ThreadLocal<String> createDatetimeThreadLocal=new ThreadLocal<>();
     //数据结果对象
 
     /**

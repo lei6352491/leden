@@ -34,7 +34,6 @@ public class SysOperationLogAspect {
     private SysLogOperationService sysLogOperationService;
     @Autowired
     private JWTUtil jwtUtil;
-    private static final ThreadLocal<Map<Object,Object>> objectThreadLocal=new InheritableThreadLocal<>();
 
 
     @Pointcut("execution(* com.zhouyi.business.controller.*.add*(..))||" +

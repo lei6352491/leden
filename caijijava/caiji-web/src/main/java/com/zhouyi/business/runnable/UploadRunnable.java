@@ -49,7 +49,8 @@ public class UploadRunnable implements Runnable {
     public void run() {
         String personCode = null;
         String equipmentCode = null;
-
+        Integer isGetLog=0;
+        String uploadLogPkId=null;
         //获取要解析的数据包集合
         List<LedenUploadLog> waitingUploadLogs = ledenUploadLogService.listUplaodLogByCondition(DataReportComponent.UPLOAD_STATUS.NO_UPLOAD.getValue(),
                 DataReportComponent.UPLOAD_STATUS.UPLOAD_LOSE.getValue());
@@ -62,7 +63,9 @@ public class UploadRunnable implements Runnable {
             LedenEquipment ledenEquipment = ledenEquipmentService.getEquipmentByEquipmentCode(ledenUploadLog.getEquipmentId());
             //查询出设备id
             personCode = ledenUploadLog.getRyjcxxcjbh();
+            isGetLog=ledenUploadLog.getIsGetCode();
             equipmentCode = ledenEquipment.getProvincialEquipmentCode();
+            uploadLogPkId=ledenUploadLog.getPkId();
             ledenEquipment = null;
         }
         if (personCode == null || equipmentCode == null) {
@@ -76,7 +79,7 @@ public class UploadRunnable implements Runnable {
             ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.PACKING.getValue(), personCode, DataReportComponent.UPLOAD_STATUS.PACKING.getName());
             log.info("封装数据ing");
             //3.封装数据
-            MIS mis = dataReportComponent.getMappedData(personCode, equipmentCode);
+            MIS mis = dataReportComponent.getMappedData(personCode, equipmentCode,isGetLog,uploadLogPkId);
             //生成xml
             ProvinceZipUtils.generatorXml(classPath, mis);
             log.info("生成ZIP");
