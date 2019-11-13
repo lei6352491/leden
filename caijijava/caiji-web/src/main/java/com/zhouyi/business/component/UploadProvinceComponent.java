@@ -2,7 +2,9 @@ package com.zhouyi.business.component;
 
 import com.alibaba.fastjson.JSON;
 import com.zhouyi.business.config.ProvinceFtpConfig;
+import com.zhouyi.business.core.dao.LedenCollectDnaMapper;
 import com.zhouyi.business.core.dao.LedenCollectPersonMapper;
+import com.zhouyi.business.core.model.LedenCollectDna;
 import com.zhouyi.business.core.model.LedenCollectPerson;
 import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
 import com.zhouyi.business.core.utils.HttpUtil;
@@ -40,6 +42,8 @@ public class UploadProvinceComponent {
     @Autowired
     private LedenCollectPersonMapper ledenCollectPersonMapper;
 
+    @Autowired
+    private LedenCollectDnaMapper ledenCollectDnaMapper;
 
     @Value("${provinceComprehensive.ip}")
     private String provinceIp;
@@ -130,9 +134,16 @@ public class UploadProvinceComponent {
             log.info(result.toString());
             if (result.get("status").equals("1")) {
                 String generatedPersonCode=result.get("value").toString();
+                Map result2=(Map)JSON.parse(generatedPersonCode);
                 //将人员编号存入数据库
-                ledenCollectPersonMapper.updatePersonByPersonCode(new HashMap<String,Object>(2){{put("personCode",personCode);put("jzrybh",generatedPersonCode);}});
-                return generatedPersonCode;
+                ledenCollectPersonMapper.updatePersonByPersonCode(new HashMap<String,Object>(2){{put("personCode",personCode);put("jzrybh",result2.get("rybh"));}});
+                LedenCollectDna ledenCollectDna=new LedenCollectDna();
+                ledenCollectDna.setRyjcxxcjbh(personCode);
+                ledenCollectDna.setRydnabh(result2.get("dna_n").toString());
+                ledenCollectDnaMapper.updateByPrimaryKeySelective(ledenCollectDna);
+
+
+                return result2.get("rybh").toString();
             }else{
                 log.error("生成人员编号失败");
                 throw new Exception("生成人员编号失败");

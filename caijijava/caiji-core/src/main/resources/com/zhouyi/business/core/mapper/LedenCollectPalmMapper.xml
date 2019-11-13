@@ -6,7 +6,7 @@
         <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
         <result column="ZHWZHWDM" property="zhwzhwdm" jdbcType="VARCHAR"/>
         <result column="ZHW_ZZHWQSQKDM" property="zhwZzhwqsqkdm" jdbcType="VARCHAR"/>
-        <result column="ZHW_TXYSFSMS" property="zhwTxysffms" jdbcType="VARCHAR"/>
+        <result column="ZHW_TXYSFFMS" property="zhwTxysffms" jdbcType="VARCHAR"/>
         <result column="ZHW_TXZL" property="zhwTxzl" jdbcType="VARCHAR"/>
         <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
         <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
@@ -19,7 +19,7 @@
         <result column="ZHW_TXSJ" property="zhwTxsj" jdbcType="BLOB"/>
     </resultMap>
     <sql id="Base_Column_List">
-    PK_ID, RYJCXXCJBH, ZHWZHWDM, ZHW_ZZHWQSQKDM, ZHW_TXYSFSMS, ZHW_TXZL, DELETAG, ANNEX, 
+    PK_ID, RYJCXXCJBH, ZHWZHWDM, ZHW_ZZHWQSQKDM, ZHW_TXYSFFMS, ZHW_TXZL, DELETAG, ANNEX,
     CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
   </sql>
     <sql id="Blob_Column_List">
@@ -61,7 +61,7 @@
                 and ZHW_ZZHWQSQKDM = #{zhwZzhwqsqkdm,jdbcType=VARCHAR}
             </if>
             <if test="zhwTxysffms != null">
-                and ZHW_TXYSFSMS = #{zhwTxysffms,jdbcType=VARCHAR}
+                and ZHW_TXYSFFMS = #{zhwTxysffms,jdbcType=VARCHAR}
             </if>
             <if test="zhwTxzl != null">
                 and ZHW_TXZL = #{zhwTxzl,jdbcType=VARCHAR}
@@ -106,7 +106,7 @@
                 and ZHW_ZZHWQSQKDM = #{zhwZzhwqsqkdm,jdbcType=VARCHAR}
             </if>
             <if test="zhwTxysffms != null">
-                and ZHW_TXYSFSMS = #{zhwTxysffms,jdbcType=VARCHAR}
+                and ZHW_TXYSFFMS = #{zhwTxysffms,jdbcType=VARCHAR}
             </if>
             <if test="zhwTxzl != null">
                 and ZHW_TXZL = #{zhwTxzl,jdbcType=VARCHAR}
@@ -149,7 +149,7 @@
   </delete>
     <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectPalm">
     insert into LEDEN_COLLECT_PALM (PK_ID, RYJCXXCJBH, ZHWZHWDM,
-      ZHW_ZZHWQSQKDM, ZHW_TXYSFSMS, ZHW_TXZL, 
+      ZHW_ZZHWQSQKDM, ZHW_TXYSFFMS, ZHW_TXZL,
       DELETAG, ANNEX, CREATE_USER_ID, 
       CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME, 
       ZHW_TXSJ)
@@ -175,7 +175,7 @@
                 ZHW_ZZHWQSQKDM,
             </if>
             <if test="zhwTxysffms != null">
-                ZHW_TXYSFSMS,
+                ZHW_TXYSFFMS,
             </if>
             <if test="zhwTxzl != null">
                 ZHW_TXZL,
@@ -257,7 +257,7 @@
                 ZHW_ZZHWQSQKDM = #{zhwZzhwqsqkdm,jdbcType=VARCHAR},
             </if>
             <if test="zhwTxysffms != null">
-                ZHW_TXYSFSMS = #{zhwTxysffms,jdbcType=VARCHAR},
+                ZHW_TXYSFFMS = #{zhwTxysffms,jdbcType=VARCHAR},
             </if>
             <if test="zhwTxzl != null">
                 ZHW_TXZL = #{zhwTxzl,jdbcType=VARCHAR},
@@ -291,7 +291,7 @@
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       ZHWZHWDM = #{zhwzhwdm,jdbcType=VARCHAR},
       ZHW_ZZHWQSQKDM = #{zhwZzhwqsqkdm,jdbcType=VARCHAR},
-      ZHW_TXYSFSMS = #{zhwTxysffms,jdbcType=VARCHAR},
+      ZHW_TXYSFFMS = #{zhwTxysffms,jdbcType=VARCHAR},
       ZHW_TXZL = #{zhwTxzl,jdbcType=VARCHAR},
       DELETAG = #{deletag,jdbcType=VARCHAR},
       ANNEX = #{annex,jdbcType=VARCHAR},
@@ -307,7 +307,7 @@
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       ZHWZHWDM = #{zhwzhwdm,jdbcType=VARCHAR},
       ZHW_ZZHWQSQKDM = #{zhwZzhwqsqkdm,jdbcType=VARCHAR},
-      ZHW_TXYSFSMS = #{zhwTxysffms,jdbcType=VARCHAR},
+      ZHW_TXYSFFMS = #{zhwTxysffms,jdbcType=VARCHAR},
       ZHW_TXZL = #{zhwTxzl,jdbcType=VARCHAR},
       DELETAG = #{deletag,jdbcType=VARCHAR},
       ANNEX = #{annex,jdbcType=VARCHAR},
@@ -322,10 +322,10 @@
     <delete id="deletePalmByPersonId" parameterType="string">
     delete from LEDEN_COLLECT_PALM where ryjcxxcjbh=#{personCode}
         <if test="compressionAlgorithm=='0000'" >
-            and ZHW_TXYSFSMS='0000'
+            and ZHW_TXYSFFMS='0000'
         </if>
         <if test="compressionAlgorithm!='0000'">
-            and ZHW_TXYSFSMS!='0000'
+            and ZHW_TXYSFFMS!='0000'
         </if>
   </delete>
 
@@ -334,7 +334,7 @@
         begin
         <foreach collection="list" item="item" separator=";">
             insert into LEDEN_COLLECT_PALM (PK_ID, RYJCXXCJBH, ZHWZHWDM,
-            ZHW_ZZHWQSQKDM, ZHW_TXYSFSMS, ZHW_TXZL,
+            ZHW_ZZHWQSQKDM, ZHW_TXYSFFMS, ZHW_TXZL,
             DELETAG, ANNEX, CREATE_USER_ID,
             CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME,
             ZHW_TXSJ)
@@ -354,9 +354,10 @@
     <select id="listPalmByConditions" resultMap="ResultMapWithBLOBs">
         select * from leden_collect_palm
         <where>
-            <if test="personCode!=null">
-                and ryjcxxcjbh=#{personCode}
+            <if test="ryjcxxcjbh!=null">
+                and ryjcxxcjbh=#{ryjcxxcjbh}
             </if>
+            and zhw_txysffms='0000'
         </where>
     </select>
 </mapper>

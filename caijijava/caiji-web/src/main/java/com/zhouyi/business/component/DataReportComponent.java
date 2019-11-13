@@ -121,7 +121,16 @@ public class DataReportComponent {
         fileNameBuffer.append(newPersonCode);
         fileNameBuffer.append(File.separator);
 
+        //创建目录
+        File personDir=new File(generateDir+newPersonCode);
+        if(!personDir.exists()){
+            personDir.mkdir();
+        }
+
         String idCardFileName = newPersonCode + "_IDCARD.JPG";
+        fileNameBuffer.append(idCardFileName);
+        ProvinceZipUtils.generatePictureOrVoiceFile(fileNameBuffer.toString(),standardPerson.getJdxp());
+        flushFilePathBuffer(fileNameBuffer,newPersonCode);
         standardPerson.setIdCardPhoto(idCardFileName);
         standardPerson.setCjddm(equipmentCode);
         standardPerson.setZwbh(standardPerson.getRyjcxxcjbh().substring(1));
@@ -132,18 +141,23 @@ public class DataReportComponent {
         //指纹
         if (data != null) {
             log.info("指纹数据条数为：" + data.size());
+            final int[] i={1};
+            final int[] j={1};
             data.forEach(x -> {
+                fileNameBuffer.append(newPersonCode);
                 String fingerPosition = ((LedenCollectFinger) x).getZwzwdm();
                 ((LedenCollectFinger) x).setRyjcxxcjbh(newPersonCode);
-                if (fingerPosition.startsWith("0")) {
+
+                if (fingerPosition.startsWith("0")||fingerPosition.equals("10")) {
                     //滚动指纹
                     fingerPosition = fingerPosition.substring(1);
-                    fileNameBuffer.append("_RP_");
+                    fileNameBuffer.append("_RP_"+j[0]);
+                    j[0]++;
                 } else {
                     //平面指纹
-                    fileNameBuffer.append("_FP_");
+                    fileNameBuffer.append("_FP_"+i[0]);
+                    i[0]++;
                 }
-                fileNameBuffer.append(fingerPosition);
                 fileNameBuffer.append(".Bmp");
                 ProvinceZipUtils.generatePictureOrVoiceFile(fileNameBuffer.toString(), ((LedenCollectFinger) x).getZwTxsj());
                 //清空fileBuffer
@@ -241,15 +255,18 @@ public class DataReportComponent {
                     standardGood = (StandardGoods) data.get(i);
                     standardGood.setRyjcxxcjbh(newPersonCode);
                     standardGood.setImagesInfos(new ArrayList<>());
-                    for (int j = 0; j < standardGood.getgPhotos().size(); i++) {
+                    GDSInfo gdsInfo = new GDSInfo();
+                    List<GDSInfo.ImageInfo> list=new ArrayList<>();
+                    for (int j = 0; j < standardGood.getgPhotos().size(); j++) {
                         LedenCollectGPhoto photo = (LedenCollectGPhoto) standardGood.getgPhotos().get(j);
                         fileNameBuffer.append(newPersonCode).append("_").append(i).append("_").append(j).append("_good.JPG");
-                        ProvinceZipUtils.generatePictureOrVoiceFile(fileNameBuffer.toString().substring(fileNameBuffer.toString().indexOf("R")), photo.getDzwjnr());
-                        standardGood.getImagesInfos().add(standardGood.new ImagesInfo(fileNameBuffer.toString()));
+                        ProvinceZipUtils.generatePictureOrVoiceFile(fileNameBuffer.toString(), photo.getDzwjnr());
+                        GDSInfo.ImageInfo gdsImage=gdsInfo.new ImageInfo(fileNameBuffer.toString().substring(fileNameBuffer.toString().lastIndexOf(File.separator)+1));
+                        list.add(gdsImage);
                         flushFilePathBuffer(fileNameBuffer, newPersonCode);
                     }
-                    GDSInfo gdsInfo = new GDSInfo();
                     transferModelData(standardGood, gdsInfo);
+                    gdsInfo.setImageInfos(list);
                     gdsInfos.add(gdsInfo);
                 }
 
@@ -280,7 +297,7 @@ public class DataReportComponent {
                 data.forEach(x -> {
                     fileNameBuffer.append(newPersonCode);
                     switch (((StandardIris) x).getHmywdm()) {
-                        case "0":
+                        case "2":
                             fileNameBuffer.append("_IRIS_L.jpg");
                             break;
                         case "1":

@@ -280,7 +280,7 @@ public class ProvinceZipUtils {
 
                 element.addElement(nodeName).setText(value!=null?value.toString():"");
             }
-        }else{
+        } else{
             //非虹膜类型,统一首字母转大写
             for (Field field : fields) {
                 field.setAccessible(true);
@@ -293,13 +293,27 @@ public class ProvinceZipUtils {
                     String format = new SimpleDateFormat("yyyyMMdd").format(field.get(object));
                     element.addElement(nodeName).setText(format);
                     continue;
+                }else if(field.getType()==List.class){
+                    Element imageElement=element.addElement(nodeName);
+                    List images=(List)field.get(object);
+                    GDSInfo.ImageInfo image=null;
+                    for (Object data : images) {
+                        image=(GDSInfo.ImageInfo)data;
+                        imageElement.addElement("image").setText(image.getImage());
+                        imageElement.addElement("imageRemark").setText("");
+                    }
+                }else{
+                    element.addElement(nodeName).setText(value==null?"":value.toString());
                 }
-                element.addElement(nodeName).setText(value==null?"":value.toString());
             }
         }
 
 
     }
+
+
+
+
 
 
     /**
@@ -338,10 +352,10 @@ public class ProvinceZipUtils {
      */
     public static void generatePictureOrVoiceFile(String filePath,byte[] data){
        File file=new File(filePath);
-       if(!file.exists()){
-           file.mkdirs();
-       }
         try {
+            if(!file.exists()){
+                file.createNewFile();
+            }
             //将数据Base64解码
             byte[] bytes = new BASE64Decoder().decodeBuffer(new String(data));
             FileOutputStream fileOutputStream=new FileOutputStream(file);

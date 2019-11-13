@@ -49,6 +49,10 @@ public class GDSInfo {
          * 图片备注
          */
        private String imageRemark;
+
+        public ImageInfo(String image) {
+            this.image = image;
+        }
     }
 
 

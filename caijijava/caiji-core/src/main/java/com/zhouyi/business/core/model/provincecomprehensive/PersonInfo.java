@@ -122,7 +122,7 @@ public class PersonInfo {
     /**
      * 案件类别代码2
      */
-    private String caseTypeCode;
+    private String caseType2Code;
 
 
     /**

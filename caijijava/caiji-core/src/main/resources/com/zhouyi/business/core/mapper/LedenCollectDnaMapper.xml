@@ -133,9 +133,7 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zhouyi.business.core.model.LedenCollectDna" >
     update LEDEN_COLLECT_DNA
     <set >
-      <if test="ryjcxxcjbh != null" >
-        RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
-      </if>
+
       <if test="rydnabh != null" >
         RYDNABH = #{rydnabh,jdbcType=VARCHAR},
       </if>
@@ -170,7 +168,7 @@
         UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where PK_ID = #{pkId,jdbcType=VARCHAR}
+    where RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zhouyi.business.core.model.LedenCollectDna" >
     update LEDEN_COLLECT_DNA

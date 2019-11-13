@@ -6,7 +6,7 @@
         <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
         <result column="SLZ_ZWZWDM" property="slzZwzwdm" jdbcType="VARCHAR"/>
         <result column="SLZ_ZZHWQSQKDM" property="slzZzhwqsqkdm" jdbcType="VARCHAR"/>
-        <result column="SLZ_TXYSFSMS" property="slzTxyaffms" jdbcType="VARCHAR"/>
+        <result column="SLZ_TXYSFFMS" property="slzTxyaffms" jdbcType="VARCHAR"/>
         <result column="SLZ_TXZL" property="slzTxzl" jdbcType="VARCHAR"/>
         <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
         <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
@@ -20,7 +20,7 @@
         <result column="SLZ_TXSJ" property="slzTxsj" jdbcType="BLOB"/>
     </resultMap>
     <sql id="Base_Column_List">
-    PK_ID, RYJCXXCJBH, SLZ_ZWZWDM, SLZ_ZZHWQSQKDM, SLZ_TXYSFSMS, SLZ_TXZL, DELETAG, ANNEX, 
+    PK_ID, RYJCXXCJBH, SLZ_ZWZWDM, SLZ_ZZHWQSQKDM, SLZ_TXYSFFMS, SLZ_TXZL, DELETAG, ANNEX,
     CREATE_USER_ID, CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME
   </sql>
     <sql id="Blob_Column_List">
@@ -62,7 +62,7 @@
                 and SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR}
             </if>
             <if test="slzTxyaffms != null">
-                and SLZ_TXYSFSMS = #{slzTxyaffms,jdbcType=VARCHAR}
+                and SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR}
             </if>
             <if test="slzTxzl != null">
                 and SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR}
@@ -107,7 +107,7 @@
                 and SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR}
             </if>
             <if test="slzTxyaffms != null">
-                and SLZ_TXYSFSMS = #{slzTxyaffms,jdbcType=VARCHAR}
+                and SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR}
             </if>
             <if test="slzTxzl != null">
                 and SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR}
@@ -153,7 +153,7 @@
 
     <insert id="insert" parameterType="com.zhouyi.business.core.model.LedenCollectFourfinger">
     insert into LEDEN_COLLECT_FOURFINGER (PK_ID, RYJCXXCJBH, SLZ_ZWZWDM,
-      SLZ_ZZHWQSQKDM, SLZ_TXYSFSMS, SLZ_TXZL, 
+      SLZ_ZZHWQSQKDM, SLZ_TXYSFFMS, SLZ_TXZL,
       DELETAG, ANNEX, CREATE_USER_ID, 
       CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME, 
       SLZ_TXSJ)
@@ -179,7 +179,7 @@
                 SLZ_ZZHWQSQKDM,
             </if>
             <if test="slzTxyaffms != null">
-                SLZ_TXYSFSMS,
+                SLZ_TXYSFFMS,
             </if>
             <if test="slzTxzl != null">
                 SLZ_TXZL,
@@ -261,7 +261,7 @@
                 SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR},
             </if>
             <if test="slzTxyaffms != null">
-                SLZ_TXYSFSMS = #{slzTxyaffms,jdbcType=VARCHAR},
+                SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR},
             </if>
             <if test="slzTxzl != null">
                 SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR},
@@ -295,7 +295,7 @@
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       SLZ_ZWZWDM = #{slzZwzwdm,jdbcType=VARCHAR},
       SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR},
-      SLZ_TXYSFSMS = #{slzTxyaffms,jdbcType=VARCHAR},
+      SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR},
       SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR},
       DELETAG = #{deletag,jdbcType=VARCHAR},
       ANNEX = #{annex,jdbcType=VARCHAR},
@@ -311,7 +311,7 @@
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       SLZ_ZWZWDM = #{slzZwzwdm,jdbcType=VARCHAR},
       SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR},
-      SLZ_TXYSFSMS = #{slzTxyaffms,jdbcType=VARCHAR},
+      SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR},
       SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR},
       DELETAG = #{deletag,jdbcType=VARCHAR},
       ANNEX = #{annex,jdbcType=VARCHAR},
@@ -325,10 +325,10 @@
     <delete id="deleteFourFingerByPersonId" parameterType="string">
    delete from  LEDEN_COLLECT_FOURFINGER where ryjcxxcjbh=#{personCode}
         <if test="compressionAlgorithm=='0000'" >
-            and SLZ_TXYSFSMS='0000'
+            and SLZ_TXYSFFMS='0000'
         </if>
         <if test="compressionAlgorithm!='0000'">
-            and SLZ_TXYSFSMS!='0000'
+            and SLZ_TXYSFFMS!='0000'
         </if>
   </delete>
 
@@ -337,7 +337,7 @@
         begin
         <foreach collection="list" item="item" separator=";">
             insert into LEDEN_COLLECT_FOURFINGER (PK_ID, RYJCXXCJBH, SLZ_ZWZWDM,
-            SLZ_ZZHWQSQKDM, SLZ_TXYSFSMS, SLZ_TXZL,
+            SLZ_ZZHWQSQKDM, SLZ_TXYSFFMS, SLZ_TXZL,
             DELETAG, ANNEX, CREATE_USER_ID,
             CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME,
             SLZ_TXSJ)
