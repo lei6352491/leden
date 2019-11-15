@@ -116,7 +116,7 @@ public class AdvanceServiceImpl implements AdvanceService{
 
             HSSFCell cell01 = row.createCell(1);
             cell01.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cell01.setCellValue("人员类别");
+            cell01.setCellValue("采集信息原因");
             cell01.setCellStyle(headerStyle);
 
             HSSFCell cell02 = row.createCell(2);
@@ -261,7 +261,7 @@ public class AdvanceServiceImpl implements AdvanceService{
 
             HSSFCell cell30 = row.createCell(30);
             cell30.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cell30.setCellValue("采集信息原因");
+            cell30.setCellValue("人员类别");
             cell30.setCellStyle(headerStyle);
 
             for (int rowNo = 1; rowNo <= list.size(); rowNo ++){
@@ -276,7 +276,7 @@ public class AdvanceServiceImpl implements AdvanceService{
                             cell.setCellStyle(bodyStyle);
                             break;
                         case 1:
-                            cell.setCellValue(personResult.getRylbmc());
+                            cell.setCellValue(personResult.getCjxxyymc());
                             cell.setCellType(HSSFCell.CELL_TYPE_STRING);
                             cell.setCellStyle(bodyStyle);
                             break;
@@ -450,7 +450,7 @@ public class AdvanceServiceImpl implements AdvanceService{
                             cell.setCellStyle(bodyStyle);
                             break;
                         case 30:
-                            cell.setCellValue(personResult.getCjxxyymc());
+                            cell.setCellValue(personResult.getRylbmc());
                             cell.setCellType(HSSFCell.CELL_TYPE_STRING);
                             cell.setCellStyle(bodyStyle);
                             break;
