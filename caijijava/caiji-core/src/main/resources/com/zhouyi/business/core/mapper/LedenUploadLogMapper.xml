@@ -190,6 +190,6 @@
 
 
     <update id="updateIsGetCodeByPersonCode">
-        update leden_upload_log set is_get_code=#{isGetCode} where pk_id=#{pId}
+        update leden_upload_log set is_get_code=#{isGetCode} where pk_id=#{pkId}
     </update>
 </mapper>

@@ -33,9 +33,14 @@ import java.util.List;
 @ConfigurationProperties(prefix = "own")
 public class PhoneParseXmlUtil {
 
-
-    private static String modelClassPath; //模型包名
-    private static String realPath; //bcp文件真实路径
+    /**
+     *模型包名
+     */
+    private static String modelClassPath;
+    /**
+     * bcp文件真实路径
+     */
+    private static String realPath;
 
 
     /**
@@ -45,7 +50,8 @@ public class PhoneParseXmlUtil {
      */
     public static PhonePackXml parsePhoneDataPack(String filePath){
         SAXReader saxReader=new SAXReader();
-        PhonePackXml phonePackXml=new PhonePackXml(); //创建返回结果数据对象
+        //创建返回结果数据对象
+        PhonePackXml phonePackXml=new PhonePackXml();
 
 
         try {
@@ -56,10 +62,14 @@ public class PhoneParseXmlUtil {
                     .element("DATASET");
             //获取Data节点集合
             List<Element> datas = dataSetElement.elements("DATA");
-            Integer beginRow=1; //定义解析初始值
-            String bcpFilepath=null; // 定义数据文件路径
-            Integer rowRecord=1; //定义记录数量
-            String dataSetCode=null;  //数据项编码
+            //定义解析初始值
+            Integer beginRow=1;
+            // 定义数据文件路径
+            String bcpFilepath=null;
+            //定义记录数量
+            Integer rowRecord=1;
+            //数据项编码
+            String dataSetCode=null;
 
             for (Element dataElement :
                     datas) {
@@ -72,10 +82,12 @@ public class PhoneParseXmlUtil {
                  */
                 for (Element itemElement :
                         itemsElement) {
-                    if (itemElement.attributeValue("key").equals("I010038"))
+                    if (itemElement.attributeValue("key").equals("I010038")){
                         beginRow=Integer.parseInt(itemElement.attributeValue("val"));
-                    else if(itemElement.attributeValue("key").equals("A010004"))
+                    }
+                    else if(itemElement.attributeValue("key").equals("A010004")){
                         dataSetCode=itemElement.attributeValue("val");
+                    }
                 }
 
                 //如果不在集合中的配置项则不解析
@@ -118,10 +130,14 @@ public class PhoneParseXmlUtil {
                              item) {
                             String key=temp.attributeValue("key");
                             String value=temp.attributeValue("val");
-                            if(key.equals("H010020"))
-                                bcpFilepath=value; //获取bcp文件路径
-                            else if(key.equals("I010034"))
-                                rowRecord=Integer.parseInt(value); //获取行记录书
+                            if(key.equals("H010020")){
+                                //获取bcp文件路径
+                                bcpFilepath=value;
+                            }
+                            else if(key.equals("I010034")){
+                                //获取行记录书
+                                rowRecord=Integer.parseInt(value);
+                            }
                         }
                     }else{
                         //如果为BCP文件数据结构
@@ -236,18 +252,21 @@ public class PhoneParseXmlUtil {
         for (int d=0;d<rowRecord;d++){
             //每一条数据创建一个数据对象
             Object targetObject= targetClass.newInstance();
-            String  everyData=fileContent[d];  //获取数据文件中每一行数据
+            //获取数据文件中每一行数据
+            String  everyData=fileContent[d];
             //如果时\t结束
-            if(everyData.endsWith("\t"))
+            if(everyData.endsWith("\t")){
                 everyData+=" ";
-
-            String[] dataPoint=everyData.split("\\t"); //将数据用\t分割成数据组
+            }
+            //将数据用\t分割成数据组
+            String[] dataPoint=everyData.split("\\t");
 
 
             //每遍历一条数据，则遍历一次节点
             for (int i=0;i<items.size();i++){
                 Element itemElement=items.get(i);
-                String key = itemElement.attributeValue("key");//获取属性key对应的值
+                //获取属性key对应的值
+                String key = itemElement.attributeValue("key");
                 //根据key到集合中取得相应的属性值
                 Object mapValue= CodesEnum.valueOf(key).getPropertiy();
 
@@ -268,7 +287,8 @@ public class PhoneParseXmlUtil {
                     //获取字段对象后进行封装
                     field.setAccessible(true);
                     field.set(targetObject,dataPoint[i]);
-                    objects.add(targetObject); //将数据对象添加入
+                    //将数据对象添加入
+                    objects.add(targetObject);
                 }else if(mapValue.toString().equals("00000")){
                     //如果为00000则表示数据库没有列存储该项值
                     continue;

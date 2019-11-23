@@ -1,3 +1,4 @@
 /target/
-../.idea
 caiji-core.iml
+/.project
+/.classpath

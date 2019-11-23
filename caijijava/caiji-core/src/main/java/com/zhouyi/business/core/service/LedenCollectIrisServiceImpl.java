@@ -7,6 +7,7 @@ import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris;
 import com.zhouyi.business.core.utils.ResponseUtil;
 import com.zhouyi.business.core.vo.LedenCollectIrisVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import sun.misc.BASE64Encoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Slf4j
 @Service
 public class LedenCollectIrisServiceImpl
         extends BaseServiceImpl<LedenCollectIris, LedenCollectIrisVo>
@@ -97,6 +99,7 @@ public class LedenCollectIrisServiceImpl
 
     @Override
     public List<StandardIris> listIrisByPersonCode(String personCode) {
+        log.info("封装虹膜事personCode为:"+personCode);
         return (List)ledenCollectIrisMapper.listDataByConditions(new HashMap<String,Object>(1){{put("personCode",personCode);}});
     }
 

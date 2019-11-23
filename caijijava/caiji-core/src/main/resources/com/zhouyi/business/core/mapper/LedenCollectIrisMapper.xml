@@ -14,9 +14,7 @@
         <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR"/>
         <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP"/>
 
-        <result column="HMCJSBXHDM2" property="hmcjsbxhdm"/>
-        <result column="sbbh2" property="sbbh"/>
-        <result column="sbcsdm2" property="sbcsdm"/>
+
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.zhouyi.business.core.model.LedenCollectIris" extends="BaseResultMap">
         <result column="HMSJ" property="hmsj" jdbcType="BLOB"/>
@@ -101,6 +99,18 @@
             <if test="hmsj != null">
                 HMSJ,
             </if>
+            <if test="hmcjsbxhdm!=null">
+                HMCJSBXHDM,
+            </if>
+            <if test="sbbh!=null">
+                SBBH,
+            </if>
+            <if test="sbcsdm!=null">
+                SBCSDM,
+            </if>
+            <if test="hmcjhs!=null">
+                HMCJHS,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="pkId != null">
@@ -138,6 +148,18 @@
             </if>
             <if test="hmsj != null">
                 #{hmsj,jdbcType=BLOB},
+            </if>
+            <if test="hmcjsbxhdm!=null">
+                #{hmcjsbxhdm},
+            </if>
+            <if test="sbbh!=null">
+                #{sbbh},
+            </if>
+            <if test="sbcsdm!=null">
+                #{sbcsdm},
+            </if>
+            <if test="hmcjhs!=null">
+                #{hmcjhs},
             </if>
         </trim>
     </insert>
@@ -311,16 +333,20 @@
 
 
     <resultMap id="standardIrisResultMap" type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris"
-               extends="BaseResultMap"></resultMap>
-    <select id="listDataByConditions" resultMap="standardIrisResultMap">
-   select
-        iris.*,paret.PARETS_VERSION as HMCJSBXHDM2,paret.PARETS_SERIAL_NUMBER as sbbh2,
-        plugin.MANUFACTURER_CODE as sbcsdm2
-    from leden_collect_iris iris
-    left join leden_collect_person person on person.ryjcxxcjbh=iris.ryjcxxcjbh
-    left join leden_equipment equipment on equipment.equipment_code=person.equipment_code
-    left join leden_equipment_parets paret on paret.equipment_pkId=equipment.pk_id
-    left join leden_equipment_plug_in plugin on plugin.pk_id=paret.plug_in_id
-    where iris.ryjcxxcjbh=#{personCode} and paret.node_code='000000000009'
+               extends="BaseResultMap">
+        <result column="HMCJSBXHDM2" property="hmcjsbxhdm"/>
+        <result column="sbbh2" property="sbbh"/>
+        <result column="sbcsdm2" property="sbcsdm"/>
+    </resultMap>
+
+    <resultMap id="standardIrisResultMapNew" type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris"
+               extends="BaseResultMap">
+        <result column="HMCJSBXHDM" property="hmcjsbxhdm"/>
+        <result column="sbbh" property="sbbh"/>
+        <result column="sbcsdm" property="sbcsdm"/>
+        <result column="hmcjhs" property="hmcjhs"/>
+    </resultMap>
+    <select id="listDataByConditions" resultMap="standardIrisResultMapNew">
+         select * from leden_collect_iris where ryjcxxcjbh=#{personCode}
   </select>
 </mapper>
