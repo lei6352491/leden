@@ -8,6 +8,7 @@ import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -69,5 +70,8 @@ public interface LedenCollectPersonMapper extends BaseMapper<LedenConllectPerson
      * @return
      */
     int updatePersonByPersonCode(Map<String,Object> data);
+
+    //获取时间段采集人数
+    int selectCollectNumber(@Param("startDate")Date startDate,@Param("endDate")Date endDate);
 
 }

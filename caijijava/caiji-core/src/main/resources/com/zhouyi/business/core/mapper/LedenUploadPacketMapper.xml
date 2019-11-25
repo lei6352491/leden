@@ -12,7 +12,7 @@
         <result column="RESOLVE_DATETIME" property="resolveDatetime" jdbcType="TIMESTAMP"/>
         <result column="equipment_id" property="equipmentId"></result>
         <result column="ryjcxxcjbh" property="ryjcxxcjbh"></result>
-        <result column="create_datetime" property="createDatetime"></result>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"></result>
         <result column="data_type" property="dataType"></result>
     </resultMap>
     <sql id="Base_Column_List">
@@ -32,13 +32,13 @@
     </resultMap>
 
     <select id="selectDataByResolveStatus" resultMap="BaseResultMap">
-
-  select * from (
-  select  * from leden_upload_packet where resolve_status=0 and data_Type='ZIP'
-   order by create_datetime desc
-  )
-  where rownum=1
+      select * from (
+      select  * from leden_upload_packet where resolve_status=0 and FILE_SUFFIX='zip'
+       order by CREATE_DATETIME desc
+      )
+      where rownum=1
     </select>
+
     <select id="selectDataByIsEmpowerOrResolveStatus" resultMap="UploadPacketMap">
     select distinct p.pk_id,p.node_sign,p.file_location,l.UPLOAD_DATETIME,l.RYJCXXCJBH from LEDEN_UPLOAD_LOG l,leden_upload_packet p
     where l.pk_id = p.upload_log_id and l.is_empower = '1' and p.resolve_status = '0' and p.node_sign != '000000000000' order by node_sign asc
