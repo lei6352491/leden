@@ -59,8 +59,6 @@ public class LedenEquipmentController {
     @Value("${provinceComprehensive.interfaces.registry}")
     private String registryInterface;
 
-    @Value("${temp.unitCode}")
-    private String tempUnitCode;
 
     @Autowired
     private ProvinceFtpUtil provinceFtpUtil;
@@ -196,7 +194,7 @@ public class LedenEquipmentController {
         url.append(registryInterface);
 
         Map<String, String> params = new HashMap<>(3);
-        params.put("unitCode", tempUnitCode);
+        params.put("unitCode", unitCode);
         params.put("ip", ip);
         params.put("mac", mac);
         ResponseVo responseVo = HttpUtil.sendPostByform(url.toString(), params);

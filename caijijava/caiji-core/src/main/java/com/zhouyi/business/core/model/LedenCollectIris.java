@@ -1,8 +1,12 @@
 package com.zhouyi.business.core.model;
 
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.Date;
 
+
+@ToString
 public class LedenCollectIris implements Serializable {
     private String pkId;
 
@@ -208,25 +212,5 @@ public class LedenCollectIris implements Serializable {
         this.hmsj = hmsj;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", pkId=").append(pkId);
-        sb.append(", ryjcxxcjbh=").append(ryjcxxcjbh);
-        sb.append(", hmywdm=").append(hmywdm);
-        sb.append(", hmqsqkdm=").append(hmqsqkdm);
-        sb.append(", xxzldf=").append(xxzldf);
-        sb.append(", deletag=").append(deletag);
-        sb.append(", annex=").append(annex);
-        sb.append(", createUserId=").append(createUserId);
-        sb.append(", createDatetime=").append(createDatetime);
-        sb.append(", updateUserId=").append(updateUserId);
-        sb.append(", updateDatetime=").append(updateDatetime);
-        sb.append(", hmsj=").append(hmsj);
-        sb.append("]");
-        return sb.toString();
-    }
+
 }

@@ -1,25 +1,12 @@
 package com.zhouyi.business.controller;
-
-import com.zhouyi.business.component.DataReportComponent;
 import com.zhouyi.business.config.CronConfiguration;
-import com.zhouyi.business.core.model.LedenEquipment;
-import com.zhouyi.business.core.model.LedenUploadLog;
-import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
-import com.zhouyi.business.core.service.LedenCollectPersonService;
-import com.zhouyi.business.core.service.LedenEquipmentService;
-import com.zhouyi.business.core.service.LedenUploadLogService;
 import com.zhouyi.business.runnable.UploadRunnable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.Trigger;
-import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -29,53 +16,57 @@ import java.util.concurrent.ScheduledFuture;
 **/
 @RestController
 @Slf4j
-@RequestMapping("/quartz/task")
+@RequestMapping("/quartz/upload")
 public class DynamicTaskController {
 
     @Autowired
-    private DataReportComponent dataReportComponent;
-    @Autowired
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
-    @Autowired
-    private LedenUploadLogService ledenUploadLogService;
     @Autowired
     private CronConfiguration cronConfiguration;
     @Autowired
     private UploadRunnable uploadRunnable;
-    @Autowired
-    private LedenEquipmentService ledenEquipmentService;
 
-    private ScheduledFuture<?> future;
-
+    private boolean upload_on_off=false;
 
     private ScheduledFuture<?> uploadFuture;
-    @RequestMapping(value = "/startUpload")
+
+
+    /**
+     * 开启上报省厅
+     * @return
+     */
+    @RequestMapping(value = "/start")
     public String startCron(){
-        beginPacketAndUpload();
-        System.out.println("-------数据上报任务启动----------");
-
-        return "success";
-    }
-
-
-
-    @RequestMapping(value = "/stopUpload")
-    public String stopCron(){
-        if(uploadFuture!=null){
-            uploadFuture.cancel(true);
+        if(upload_on_off==false){
+            beginPacketAndUpload();
+            log.info("-------数据上报任务启动----------");
+            return "数据上报启动成功";
+        }else{
+            return "数据上报任务已是开启状态";
         }
-
-        System.out.println("------数据上报关闭成功");
-        return "success";
     }
 
-    public String beginPacketAndUpload() {
 
+    /**
+     * 关闭上报省厅
+     */
+    @RequestMapping(value = "/stop")
+    public String stopCron(){
+        if(uploadFuture!=null&&upload_on_off==true){
+            uploadFuture.cancel(true);
+            upload_on_off=false;
+            log.info("------数据上报关闭成功");
+            return "数据上报关闭成功";
+        }else{
+            return "数据上报已是关闭状态";
+        }
+    }
 
+    public void beginPacketAndUpload() {
         uploadFuture=threadPoolTaskScheduler.schedule(uploadRunnable,x->new CronTrigger(cronConfiguration.getUploadCron()).nextExecutionTime(x));
-        return "success";
-
-
+        //表示已经开启了上传
+        upload_on_off=true;
     }
+
 
 }

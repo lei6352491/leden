@@ -66,53 +66,9 @@ public class UploadProvinceComponent {
     private String port;
 
 
-    @Value("${upload.ip}")
-    private String uploadIP;
-    @Value("${upload.mac}")
-    private String uploadMac;
     @Autowired
     private LedenUploadLogMapper ledenUploadLogMapper;
 
-    /**
-     * 向省综注册
-     *
-     * @param personCode 用户编码
-     * @return 采集点编号
-     */
-    public String registry(String personCode) throws Exception {
-        StandardPerson standardPerson = ledenCollectPersonMapper.getStandardPerson(personCode);
-
-        //如果没有则获取调用省综接口
-        ResponseVo response = HttpUtil.sendPostByJson(provinceFtpConfig.getServerAddress() + registry, new HashMap<String, String>(3) {{
-            put("unitCode", standardPerson.getCjdwdm());
-            put("ip",uploadIP);
-            put("mac",uploadMac);
-        }});
-
-        if (response.isOk()) {
-            //如果为调用成功则获取人员编号
-            String data = response.getData();
-            ResponseData responseData = JSON.parseObject(data, ResponseData.class);
-            if (response.getStatus() == 1) {
-                //生成的采集点编号
-                String equipmentCode = response.getData();
-                log.info("获取的采集点编号为:" + equipmentCode);
-                //生成目录
-                FTPClient ftpClient = new FTPClient();
-                ftpClient.connect(provinceIp, Integer.valueOf(provincePort));
-                ftpClient.login(ftpUserName, ftpPassword);
-                ftpClient.setControlEncoding("UTF-8");
-                ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-                ftpClient.enterLocalPassiveMode();
-                ftpClient.makeDirectory(equipmentCode);
-                return equipmentCode;
-            } else {
-                throw new Exception("生成编号出错");
-            }
-
-        }
-        return null;
-    }
 
 
     /**

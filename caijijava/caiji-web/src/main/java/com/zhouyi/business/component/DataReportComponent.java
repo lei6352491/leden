@@ -296,7 +296,7 @@ public class DataReportComponent {
             //虹膜信息
             data = ledenCollectIrisService.listIrisByPersonCode(personCode);
             if (data != null) {
-                data.forEach(x -> {
+                for (Object x : data) {
                     fileNameBuffer.append(newPersonCode);
                     switch (((StandardIris) x).getHmywdm()) {
                         case "2":
@@ -305,6 +305,9 @@ public class DataReportComponent {
                         case "1":
                             fileNameBuffer.append("_IRIS_R.jpg");
                             break;
+                        default:
+                            continue;
+
                     }
                     ((StandardIris) x).setRyjcxxcjbh(newPersonCode);
                     ProvinceZipUtils.generatePictureOrVoiceFile(fileNameBuffer.toString(), ((StandardIris) x).getHmsj());
@@ -312,7 +315,8 @@ public class DataReportComponent {
                     transferModelData(x, irisInfo);
                     irisInfos.add(irisInfo);
                     flushFilePathBuffer(fileNameBuffer, newPersonCode);
-                });
+                }
+
             }
 
             //5.生成声纹
