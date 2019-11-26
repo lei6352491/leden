@@ -107,8 +107,8 @@ public class LedenCollectFingerServiceImpl
         if(palms!=null&&palms.size()>0){
             ledenCollectPalmMapper.deletePalmByPersonId(palms.get(0).getRyjcxxcjbh(),compressionAlgorithm);
             palms.forEach(x->x.setPkId(MathUtil.generateUUID()));
+            ledenCollectPalmMapper.insertBatch(palms);
         }
-        ledenCollectPalmMapper.insertBatch(palms);
 
         //全掌纹
         List<LedenCollectFullpalm> fullpalms = fingerAndPalm.getFullpalms();

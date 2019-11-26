@@ -12,7 +12,7 @@ public class LedenCollectFourfinger implements Serializable {
 
     private String slzZzhwqsqkdm;
 
-    private String slzTxyaffms;
+    private String slzTxysffms;
 
     private String slzTxzl;
 
@@ -94,12 +94,12 @@ public class LedenCollectFourfinger implements Serializable {
         this.slzZzhwqsqkdm = slzZzhwqsqkdm;
     }
 
-    public String getslzTxyaffms() {
-        return slzTxyaffms;
+    public String getslzTxysffms() {
+        return slzTxysffms;
     }
 
-    public void setslzTxyaffms(String slzTxyaffms) {
-        this.slzTxyaffms = slzTxyaffms;
+    public void setslzTxysffms(String slzTxysffms) {
+        this.slzTxysffms = slzTxysffms;
     }
 
     public String getSlzTxzl() {
@@ -176,7 +176,7 @@ public class LedenCollectFourfinger implements Serializable {
         sb.append(", ryjcxxcjbh=").append(ryjcxxcjbh);
         sb.append(", slzZwzwdm=").append(slzZwzwdm);
         sb.append(", slzZzhwqsqkdm=").append(slzZzhwqsqkdm);
-        sb.append(", slzTxyaffms=").append(slzTxyaffms);
+        sb.append(", slzTxysffms=").append(slzTxysffms);
         sb.append(", slzTxzl=").append(slzTxzl);
         sb.append(", deletag=").append(deletag);
         sb.append(", annex=").append(annex);

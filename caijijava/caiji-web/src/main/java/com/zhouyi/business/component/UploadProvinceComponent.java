@@ -6,11 +6,8 @@ import com.zhouyi.business.core.dao.LedenCollectDnaMapper;
 import com.zhouyi.business.core.dao.LedenCollectPersonMapper;
 import com.zhouyi.business.core.dao.LedenUploadLogMapper;
 import com.zhouyi.business.core.model.LedenCollectDna;
-import com.zhouyi.business.core.model.LedenCollectPerson;
-import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
 import com.zhouyi.business.core.utils.HttpUtil;
 import com.zhouyi.business.core.vo.ResponseVo;
-import com.zhouyi.business.core.model.provincecomprehensive.ResponseData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -22,7 +19,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,6 +54,8 @@ public class UploadProvinceComponent {
     private String dataNumberAddress;
     @Value("${provinceComprehensive.interfaces.dataUpload}")
     private String dataUpload;
+    @Value("${provinceComprehensive.interfaces.getUploadStatus}")
+    private String dataUploadStatus;
     @Value("${provinceComprehensive.upload.user}")
     private String user;
     @Value("${provinceComprehensive.upload.password}")
@@ -102,7 +100,7 @@ public class UploadProvinceComponent {
                 ledenCollectDna.setRydnabh(result2.get("dna_n").toString());
                 ledenCollectDnaMapper.updateByPrimaryKeySelective(ledenCollectDna);
                 //更新是否获取到省综人员编号的状态
-                ledenUploadLogMapper.updateIsGetCodeByPersonCode(personCode,1);
+                ledenUploadLogMapper.updateIsGetCodeByPersonCode(uploadLogPkId,1);
 
 
                 return result2.get("rybh").toString();
@@ -182,5 +180,31 @@ public class UploadProvinceComponent {
             log.info("通知省厅失败");
         }
         return null;
+    }
+
+
+    /**
+     * 查询上传状态借口
+     * @param rybh 被查询人的人员编号
+     * @return 响应的结果实体
+     */
+    public ResponseVo getDataUploadStatus(String rybh){
+        String targetInterface=joinCompleteInterface(dataUploadStatus);
+        return null;
+    }
+
+
+    /**
+     * 拼接访问接口的字符串
+     * @param targetInterface
+     * @return
+     */
+    private String joinCompleteInterface(String targetInterface){
+        StringBuffer stringBuffer=new StringBuffer("http://");
+        stringBuffer.append(provinceIp);
+        stringBuffer.append(":");
+        stringBuffer.append(port);
+        stringBuffer.append(targetInterface);
+        return stringBuffer.toString();
     }
 }

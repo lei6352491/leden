@@ -53,6 +53,6 @@ public class LogAspect {
      */
     @AfterReturning(value = "ponitCut()",returning = "object")
     public void after(JoinPoint joinPoint,Object object){
-       log.info(joinPoint.getTarget().getClass().getName()+".return:"+ JSON.toJSONString(object));
+//       log.info(joinPoint.getTarget().getClass().getName()+".return:"+ JSON.toJSONString(object));
     }
 }

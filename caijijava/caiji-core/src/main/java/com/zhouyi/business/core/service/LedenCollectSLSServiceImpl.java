@@ -42,70 +42,68 @@ public class LedenCollectSLSServiceImpl implements LedenCollectSLSService {
     private SecurityUtil securityUtil;
 
 
-
     /**
      * 录入人员的体貌/特征/足长等信息
+     *
      * @param path
      * @return
      * @throws RuntimeException
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean insertSignalement(String path) throws AuthenticationException, XmlParseException {
 
 
         //获取解析的数据
-        LedenCollectSLSVo ledenCollectSLSVo=(LedenCollectSLSVo) XmlParseUtil.parseXml(path,LedenCollectSLSVo.class);
+        LedenCollectSLSVo ledenCollectSLSVo = (LedenCollectSLSVo) XmlParseUtil.parseXml(path, LedenCollectSLSVo.class);
         //进行头部校验
-        boolean flag=securityUtil.repairpermissions(ledenCollectSLSVo.head, AuthoirtyEnum.SIGNALEMENT);
-        if(!flag)
+        boolean flag = securityUtil.repairpermissions(ledenCollectSLSVo.head, AuthoirtyEnum.SIGNALEMENT);
+        if (!flag) {
             throw new AuthenticationException(ReturnCode.ERROR_1037);
-
+        }
 
 
         //创建身高/足长/体重对象
-        LedenCollectSgtzzc ledenCollectSgtzzc=new LedenCollectSgtzzc();
-        ledenCollectSgtzzc.setPkId(UUID.randomUUID().toString().replace("-",""));
+        LedenCollectSgtzzc ledenCollectSgtzzc = new LedenCollectSgtzzc();
+        ledenCollectSgtzzc.setPkId(UUID.randomUUID().toString().replace("-", ""));
         //创建体貌特征对象
-        LedenCollectLooks ledenCollectLooks=new LedenCollectLooks();
-        ledenCollectLooks.setPkId(UUID.randomUUID().toString().replace("-",""));
+        LedenCollectLooks ledenCollectLooks = new LedenCollectLooks();
+        ledenCollectLooks.setPkId(UUID.randomUUID().toString().replace("-", ""));
         //创建特殊体征对象
-        List<LedenCollectSign> ledenCollectSigns=new ArrayList<>();
+        List<LedenCollectSign> ledenCollectSigns = new ArrayList<>();
 
 
-
-
-
-        List targets= Arrays.asList(ledenCollectSgtzzc, ledenCollectLooks);
+        List targets = Arrays.asList(ledenCollectSgtzzc, ledenCollectLooks);
         //复制头部信息
-        XmlParseUtil.copyHeader(ledenCollectSLSVo,targets);
-       //将vo对象属性信息分解为三个对象
-        XmlParseUtil.copyProperties(ledenCollectSLSVo.data,targets);
-
-        List<LedenCollectSignXml> dataSon = ledenCollectSLSVo.getData().getDataSon();//特殊体征信息集合
+        XmlParseUtil.copyHeader(ledenCollectSLSVo, targets);
+        //将vo对象属性信息分解为三个对象
+        XmlParseUtil.copyProperties(ledenCollectSLSVo.data, targets);
+        //特殊体征信息集合
+        List<LedenCollectSignXml> dataSon = ledenCollectSLSVo.getData().getDataSon();
         //复制头部信息
-        XmlParseUtil.copyHeader(ledenCollectSLSVo,dataSon);
+        XmlParseUtil.copyHeader(ledenCollectSLSVo, dataSon);
         //复制基础信息
-        for (int i=0;i<dataSon.size();i++){
-            LedenCollectSign ledenCollectSign=new LedenCollectSign();
-            BeanUtils.copyProperties(dataSon.get(i),ledenCollectSign);
-            ledenCollectSign.setPkId(UUID.randomUUID().toString().replace("-",""));
+        for (int i = 0; i < dataSon.size(); i++) {
+            LedenCollectSign ledenCollectSign = new LedenCollectSign();
+            BeanUtils.copyProperties(dataSon.get(i), ledenCollectSign);
+            ledenCollectSign.setPkId(UUID.randomUUID().toString().replace("-", ""));
             ledenCollectSigns.add(ledenCollectSign);
         }
 
         //进行持久化操作
         //清除原有数据
         ledenCollectLooksMapper.deleteLooksById(ledenCollectLooks.getRyjcxxcjbh());
+
         ledenCollectLooksMapper.insertSelective(ledenCollectLooks);
 
         ledenCollectSgtzzcMapper.deleteSgtzzcByPersonId(ledenCollectSgtzzc.getRyjcxxcjbh());
         ledenCollectSgtzzcMapper.insertSelective(ledenCollectSgtzzc);
 
-        if (ledenCollectSigns != null && ledenCollectSigns.size() != 0){
-            for (LedenCollectSign ledenCollectSign : ledenCollectSigns){
-                if (ledenCollectSign.getRyjcxxcjbh() == null){
+        if (ledenCollectSigns != null && ledenCollectSigns.size() != 0) {
+            for (LedenCollectSign ledenCollectSign : ledenCollectSigns) {
+                if (ledenCollectSign.getRyjcxxcjbh() == null) {
                     ledenCollectSign.setRyjcxxcjbh(ledenCollectSLSVo.data.ryjcxxcjbh);
-                    ledenCollectSign.setPkId(UUID.randomUUID().toString().replace("-",""));
+                    ledenCollectSign.setPkId(UUID.randomUUID().toString().replace("-", ""));
                 }
             }
             //删除原有数据

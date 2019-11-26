@@ -108,6 +108,12 @@ public class LedenUploadLogServiceImpl
         ledenUploadLogMapper.updateUploadLogByPersonCode(personCode,status,info);
     }
 
+
+    @Override
+    public void updateDataStatus() {
+
+    }
+
     /**
      * 生成上传服务主键
      */

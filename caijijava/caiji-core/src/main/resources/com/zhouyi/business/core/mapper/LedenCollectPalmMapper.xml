@@ -34,7 +34,7 @@
     select p.*,d1.name zwwz,d2.name zwqsqk from leden_collect_palm p
       left join sys_dict_list d1 on p.zhwzhwdm = d1.code and d1.sign = 'DICT_ZHZHWWZ'
       left join sys_dict_list d2 on p.zhw_zzhwqsqkdm = d2.code and d2.sign = 'DICT_ZHZHWQSH'
-    where RYJCXXCJBH = #{id} and ZHW_TXYSFSMS = '0000'
+    where RYJCXXCJBH = #{id} and ZHW_TXYSFFMS = '0000'
   </select>
 
     <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectPalmVo"

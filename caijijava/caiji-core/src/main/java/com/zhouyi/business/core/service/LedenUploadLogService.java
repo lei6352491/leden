@@ -27,4 +27,10 @@ public interface LedenUploadLogService extends BaseService<LedenUploadLog, Leden
      * @param personCode
      */
     void uploadLogStatusByPersonCode(int status,String personCode,String info);
+
+
+    /**
+     * 更新数据状态
+     */
+    void updateDataStatus();
 }

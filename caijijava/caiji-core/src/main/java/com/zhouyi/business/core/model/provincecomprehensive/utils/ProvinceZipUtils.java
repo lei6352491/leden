@@ -351,6 +351,10 @@ public class ProvinceZipUtils {
      * @param data
      */
     public static void generatePictureOrVoiceFile(String filePath,byte[] data){
+        if(data==null){
+            //如果没有数据则结束方法
+            return;
+        }
        File file=new File(filePath);
         try {
             if(!file.exists()){

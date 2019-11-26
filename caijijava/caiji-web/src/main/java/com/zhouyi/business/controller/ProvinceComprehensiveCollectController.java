@@ -44,35 +44,6 @@ public class ProvinceComprehensiveCollectController {
     @Autowired
     private SysUnitService sysUnitService;
 
-    @RequestMapping(value = "/register/postRegisterClient")
-    public Response<Object> addEquipment(@RequestBody LedenEquipmentSZ ledenEquipmentSZ){
-        if (StringUtils.isEmpty(ledenEquipmentSZ.getUnitCode())||StringUtils.isEmpty(ledenEquipmentSZ.getIp())||StringUtils.isEmpty(ledenEquipmentSZ.getMac())){
-            ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_02));
-        }
-        LedenEquipment ledenEquipment = new LedenEquipment();
-        ledenEquipment.setEquipmentMac(ledenEquipmentSZ.getMac());
-        ledenEquipment.setEquipmentIp(ledenEquipmentSZ.getIp());
-        ledenEquipment.setEquipmentCode(ledenEquipmentSZ.getUnitCode());
-
-        String equipmentCode = ledenEquipmentService.addLedenEquipment(ledenEquipment);
-
-        if (StringUtils.isEmpty(equipmentCode)){
-            return ResponseUtil.getResponseInfo(false);
-        }else {
-            return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,equipmentCode);
-        }
-    }
-
-    @RequestMapping(value = "/register/getAuthorized")
-    public Response<Object> getAuthorized(@RequestBody String cjdNo){
-        if (StringUtils.isEmpty(cjdNo))
-            ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_2));
-        Map map = JSON.parseObject(cjdNo, Map.class);
-        Object equipmentCodeObject = map.get("cjdNo");
-        if (equipmentCodeObject == null)
-            ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_02));
-        return ledenEquipmentService.selectEquipmentByEquipmentCode(equipmentCodeObject.toString());
-    }
 
     @RequestMapping(value = "/person/postCreateId")
     public Response<Object> createPersonCode(@RequestBody String unitCode){
@@ -104,5 +75,11 @@ public class ProvinceComprehensiveCollectController {
         String personCode = proxyLedenPersonIndexService.selectNextPrimaryKey(unitCodeObject);
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,personCode);
     }
+
+
+
+
+
+
 
 }

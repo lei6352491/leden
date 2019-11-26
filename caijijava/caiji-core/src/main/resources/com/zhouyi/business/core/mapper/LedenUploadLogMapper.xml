@@ -170,10 +170,10 @@
         <include refid="condition_filter_column"/>
         from LEDEN_UPLOAD_LOG
         <where>
-                and upload_Status in
-                <foreach collection="status" item="item" open="(" close=")" separator=",">
-                    #{item}
-                </foreach>
+            and upload_Status in
+            <foreach collection="status" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
         </where>
         order by upload_status,
         create_datetime
@@ -187,9 +187,16 @@
     </update>
 
 
-
-
     <update id="updateIsGetCodeByPersonCode">
         update leden_upload_log set is_get_code=#{isGetCode} where pk_id=#{pkId}
     </update>
+
+
+    <select id="getUploadSuccessData" resultType="string">
+       select d.* from (
+       select ryjcxxcjbh,ROWNUM r from leden_upload_log
+        where upload_status='4'
+        order by upload_datetime desc
+       ) where r=1
+    </select>
 </mapper>

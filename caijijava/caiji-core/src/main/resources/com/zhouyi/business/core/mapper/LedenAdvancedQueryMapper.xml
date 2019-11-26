@@ -457,7 +457,7 @@
                 (select
                 p.*,d.rydnabh,d.yblxdm,d.ybbzqk,d.sample_des,d.cjzkbsdm,t.xdjcyb,t.xdjcfs,t.xdjcjg,y.COLLET_CATEGORY_NAME,l.name
                 from
-                leden_collect_person p left join leden_collect_dna d on p.ryjcxxcjbh = d.ryjcxxcjbh left join leden_collect_drugtest t on t.ryjcxxcjbh = d.ryjcxxcjbh left join LEDEN_COLLECT_CATEGORY y on p.COLLECT_CATEGORY_ID = y.PK_ID left join sys_dict_list l on l.code = p.AJLBDM
+                leden_collect_person p left join leden_collect_dna d on p.ryjcxxcjbh = d.ryjcxxcjbh left join leden_collect_drugtest t on t.ryjcxxcjbh = d.ryjcxxcjbh left join LEDEN_COLLECT_CATEGORY y on p.COLLECT_CATEGORY_ID = y.PK_ID left join (select * from sys_dict_list where sign='DICT_AJLB') l on l.code = p.AJLBDM
                 <where>
                     <if test="cjdwdm != null and cjdwdm != ''">
                         and p.cjdwdm = #{cjdwdm}
@@ -516,9 +516,7 @@
                     <if test="stopDate != null">
                         and p.csrq &lt;= #{stopDate}
                     </if>
-                    <if test="sign != null and sign != null">
-                        and l.sign = #{sign}
-                    </if>
+
                 </where>
                 order by p.cjsj desc)
             csl)

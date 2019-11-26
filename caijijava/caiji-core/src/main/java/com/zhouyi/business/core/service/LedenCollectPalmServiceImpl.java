@@ -8,6 +8,7 @@ import com.zhouyi.business.core.model.LedenCollectPalm;
 import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.utils.ResponseUtil;
 import com.zhouyi.business.core.vo.LedenCollectPalmVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Encoder;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
+@Slf4j
 public class LedenCollectPalmServiceImpl
         extends BaseServiceImpl<LedenCollectPalm, LedenCollectPalmVo>
         implements LedenCollectPalmService {
@@ -54,6 +56,7 @@ public class LedenCollectPalmServiceImpl
                 }*/
             if (s.getZhwTxsj() != null) {
                 s.setZzwzp(new String(s.getZhwTxsj()));
+                log.info("掌纹数据长度为:"+s.getZhwTxsj().length);
                 s.setZhwTxsj(null);
             }
         });
@@ -77,7 +80,9 @@ public class LedenCollectPalmServiceImpl
         }*/
         list.add(palms);
         //list.add(fourfingers);
+        log.info("掌纹数据条数为"+list.size());
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, list);
+
     }
 
     @Override

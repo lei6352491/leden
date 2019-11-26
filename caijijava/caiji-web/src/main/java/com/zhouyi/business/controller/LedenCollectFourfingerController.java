@@ -6,6 +6,7 @@ import com.zhouyi.business.core.service.BaseService;
 import com.zhouyi.business.core.service.LedenCollectFourfingerService;
 import com.zhouyi.business.core.vo.LedenCollectFourfingerVo;
 import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/fourfinger")
 @Api(value = "四指接口",hidden = true)
+@Slf4j
 public class LedenCollectFourfingerController {
 
     @Autowired
@@ -54,6 +56,7 @@ public class LedenCollectFourfingerController {
 
     @RequestMapping(value = "/findfourfinger/{id}")
     public Response findFourFingerByPersonCode(@PathVariable(value = "id")String personCode){
+        log.info("开始查询四指数据");
         return ledenCollectFourfingerService.findFourFingerByPersonCode(personCode);
     }
 

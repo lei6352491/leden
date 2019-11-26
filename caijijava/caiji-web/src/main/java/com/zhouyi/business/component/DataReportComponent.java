@@ -74,8 +74,9 @@ public class DataReportComponent {
         PACKING(1, "打包中"),
         UPLOAD_LOSE(2, "上传失败"),
         UPLOADING(3, "正在上传"),
-        UPLOADED(4, "已上传"),
-        WAITING_RESOLVE(5,"正在等待解析");
+        UPLOADED(4, "已上传,等待解析"),
+        RESOLVE_SUCCESS(5,"解析成功"),
+        RESOLVE_FAIL(6,"解析失败");
 
 
         private int value;

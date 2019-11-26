@@ -6,6 +6,7 @@ import com.zhouyi.business.core.service.BaseService;
 import com.zhouyi.business.core.service.LedenCollectPalmService;
 import com.zhouyi.business.core.vo.LedenCollectPalmVo;
 import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/palm")
 @Api(hidden = true)
+@Slf4j
 public class LedenCollectPalmController {
 
     @Autowired
@@ -57,6 +59,7 @@ public class LedenCollectPalmController {
      * */
     @RequestMapping(value = "/getpalm/{id}")
     public Response selectPalmOrFourFingerByPersonCode(@PathVariable String id){
+        log.info("开始查询掌纹数据");
         return ledenCollectPalmService.selectPalmOrFourFingerByPersonCode(id);
     }
 }

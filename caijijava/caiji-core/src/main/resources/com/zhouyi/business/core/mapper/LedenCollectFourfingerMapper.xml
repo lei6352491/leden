@@ -6,7 +6,7 @@
         <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
         <result column="SLZ_ZWZWDM" property="slzZwzwdm" jdbcType="VARCHAR"/>
         <result column="SLZ_ZZHWQSQKDM" property="slzZzhwqsqkdm" jdbcType="VARCHAR"/>
-        <result column="SLZ_TXYSFFMS" property="slzTxyaffms" jdbcType="VARCHAR"/>
+        <result column="SLZ_TXYSFFMS" property="slzTxysffms" jdbcType="VARCHAR"/>
         <result column="SLZ_TXZL" property="slzTxzl" jdbcType="VARCHAR"/>
         <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
         <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
@@ -35,7 +35,7 @@
     select p.*,d1.name zwwz,d2.name zwqsqk from LEDEN_COLLECT_FOURFINGER p
       left join sys_dict_list d1 on p.SLZ_ZWZWDM = d1.code and d1.sign = 'DICT_ZHZHWWZ'
       left join sys_dict_list d2 on p.SLZ_ZZHWQSQKDM = d2.code and d2.sign = 'DICT_ZHZHWQSH'
-    where RYJCXXCJBH = #{id} and SLZ_TXYSFSMS = '0000'
+    where RYJCXXCJBH = #{id} and SLZ_TXYSFFMS = '0000'
   </select>
 
     <select id="selectByModel" parameterType="com.zhouyi.business.core.vo.LedenCollectFourfingerVo"
@@ -61,8 +61,8 @@
             <if test="slzZzhwqsqkdm != null">
                 and SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR}
             </if>
-            <if test="slzTxyaffms != null">
-                and SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR}
+            <if test="slzTxysffms != null">
+                and SLZ_TXYSFFMS = #{slzTxysffms,jdbcType=VARCHAR}
             </if>
             <if test="slzTxzl != null">
                 and SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR}
@@ -106,8 +106,8 @@
             <if test="slzZzhwqsqkdm != null">
                 and SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR}
             </if>
-            <if test="slzTxyaffms != null">
-                and SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR}
+            <if test="slzTxysffms != null">
+                and SLZ_TXYSFFMS = #{slzTxysffms,jdbcType=VARCHAR}
             </if>
             <if test="slzTxzl != null">
                 and SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR}
@@ -158,7 +158,7 @@
       CREATE_DATETIME, UPDATE_USER_ID, UPDATE_DATETIME, 
       SLZ_TXSJ)
     values (#{pkId,jdbcType=VARCHAR}, #{ryjcxxcjbh,jdbcType=VARCHAR}, #{slzZwzwdm,jdbcType=VARCHAR}, 
-      #{slzZzhwqsqkdm,jdbcType=VARCHAR}, #{slzTxyaffms,jdbcType=VARCHAR}, #{slzTxzl,jdbcType=VARCHAR},
+      #{slzZzhwqsqkdm,jdbcType=VARCHAR}, #{slzTxysffms,jdbcType=VARCHAR}, #{slzTxzl,jdbcType=VARCHAR},
       #{deletag,jdbcType=VARCHAR}, #{annex,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
       #{createDatetime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}, 
       #{slzTxsj,jdbcType=BLOB})
@@ -178,7 +178,7 @@
             <if test="slzZzhwqsqkdm != null">
                 SLZ_ZZHWQSQKDM,
             </if>
-            <if test="slzTxyaffms != null">
+            <if test="slzTxysffms != null">
                 SLZ_TXYSFFMS,
             </if>
             <if test="slzTxzl != null">
@@ -219,8 +219,8 @@
             <if test="slzZzhwqsqkdm != null">
                 #{slzZzhwqsqkdm,jdbcType=VARCHAR},
             </if>
-            <if test="slzTxyaffms != null">
-                #{slzTxyaffms,jdbcType=VARCHAR},
+            <if test="slzTxysffms != null">
+                #{slzTxysffms,jdbcType=VARCHAR},
             </if>
             <if test="slzTxzl != null">
                 #{slzTxzl,jdbcType=VARCHAR},
@@ -260,8 +260,8 @@
             <if test="slzZzhwqsqkdm != null">
                 SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR},
             </if>
-            <if test="slzTxyaffms != null">
-                SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR},
+            <if test="slzTxysffms != null">
+                SLZ_TXYSFFMS = #{slzTxysffms,jdbcType=VARCHAR},
             </if>
             <if test="slzTxzl != null">
                 SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR},
@@ -295,7 +295,7 @@
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       SLZ_ZWZWDM = #{slzZwzwdm,jdbcType=VARCHAR},
       SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR},
-      SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR},
+      SLZ_TXYSFFMS = #{slzTxysffms,jdbcType=VARCHAR},
       SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR},
       DELETAG = #{deletag,jdbcType=VARCHAR},
       ANNEX = #{annex,jdbcType=VARCHAR},
@@ -311,7 +311,7 @@
     set RYJCXXCJBH = #{ryjcxxcjbh,jdbcType=VARCHAR},
       SLZ_ZWZWDM = #{slzZwzwdm,jdbcType=VARCHAR},
       SLZ_ZZHWQSQKDM = #{slzZzhwqsqkdm,jdbcType=VARCHAR},
-      SLZ_TXYSFFMS = #{slzTxyaffms,jdbcType=VARCHAR},
+      SLZ_TXYSFFMS = #{slzTxysffms,jdbcType=VARCHAR},
       SLZ_TXZL = #{slzTxzl,jdbcType=VARCHAR},
       DELETAG = #{deletag,jdbcType=VARCHAR},
       ANNEX = #{annex,jdbcType=VARCHAR},
@@ -343,7 +343,7 @@
             SLZ_TXSJ)
             values(
             #{item.pkId,jdbcType=VARCHAR}, #{item.ryjcxxcjbh,jdbcType=VARCHAR}, #{item.slzZwzwdm,jdbcType=VARCHAR},
-            #{item.slzZzhwqsqkdm,jdbcType=VARCHAR}, #{item.slzTxyaffms,jdbcType=VARCHAR}, #{item.slzTxzl,jdbcType=VARCHAR},
+            #{item.slzZzhwqsqkdm,jdbcType=VARCHAR}, #{item.slzTxysffms,jdbcType=VARCHAR}, #{item.slzTxzl,jdbcType=VARCHAR},
             #{item.deletag,jdbcType=VARCHAR}, #{item.annex,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=VARCHAR},
             #{item.createDatetime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=VARCHAR},
             #{item.updateDatetime,jdbcType=TIMESTAMP},

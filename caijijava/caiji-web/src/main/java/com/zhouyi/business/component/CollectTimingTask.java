@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.modelmbean.XMLParseException;
 import java.util.Date;
@@ -88,7 +89,8 @@ public class CollectTimingTask {
     private static final Logger logger = LoggerFactory.getLogger(CollectTimingTask.class);
 
     @Scheduled(cron = "0/30 * * * * ?")
-    private void configureTasks() {
+    @Transactional
+    public void configureTasks() {
         analysisXmlFile();
     }
 
@@ -138,7 +140,6 @@ public class CollectTimingTask {
                             updateUploadPacket(ledenUploadPacket);
                             logger.info("人员信息解析未授权");
                             break;
-
                         } else {
                             logger.info("正在解析人员信息");
                             ledenCollectPersonService.insertCollectPersonByXml(ledenUploadPacket.getFileLocation());
@@ -615,4 +616,9 @@ public class CollectTimingTask {
     }
 
 
+
+    @Scheduled(cron = "0/30 * * * * ?")
+    public void searchDataStatus(){
+
+    }
 }

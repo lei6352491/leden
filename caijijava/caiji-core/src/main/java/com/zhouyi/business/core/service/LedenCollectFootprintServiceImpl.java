@@ -30,7 +30,7 @@ import java.util.*;
  * @Version 1.0
  **/
 @Service
-public class LedenCollectFootprintServiceImpl implements LedenCollectFootprintService{
+public class LedenCollectFootprintServiceImpl implements LedenCollectFootprintService {
 
     @Autowired
     private LedenCollectFootprintMapper ledenCollectFootprintMapper;
@@ -39,43 +39,47 @@ public class LedenCollectFootprintServiceImpl implements LedenCollectFootprintSe
 
     /**
      * 录入xml数据信息
+     *
      * @param path
      * @return
      */
     @Override
     @Transactional
-    public Boolean inputFootprintByXml(String path) throws XmlParseException,AuthenticationException {
+    public Boolean inputFootprintByXml(String path) throws XmlParseException, AuthenticationException {
 
-        LedenCollectFootprintVo ledenCollectFootprintVo=(LedenCollectFootprintVo) XmlParseUtil.parseXml(path,LedenCollectFootprintVo.class);
+        LedenCollectFootprintVo ledenCollectFootprintVo = (LedenCollectFootprintVo) XmlParseUtil.parseXml(path, LedenCollectFootprintVo.class);
         //进行头部信息校验
-        boolean flag=securityUtil.repairpermissions(ledenCollectFootprintVo.head, AuthoirtyEnum.FOOTPRINT);
-        if(!flag)
+        boolean flag = securityUtil.repairpermissions(ledenCollectFootprintVo.head, AuthoirtyEnum.FOOTPRINT);
+        if (!flag) {
             throw new AuthenticationException(ReturnCode.ERROR_1037);
+        }
 
-        List<LedenCollectFootprint> ledenCollectFootprints=new ArrayList<>();
+        List<LedenCollectFootprint> ledenCollectFootprints = new ArrayList<>();
 
         //复制数据
-        for (LedenCollectFootprintXml data:ledenCollectFootprintVo.getData()){
-            LedenCollectFootprint ledenCollectFootprint=new LedenCollectFootprint();
-            BeanUtils.copyProperties(data,ledenCollectFootprint);
+        for (LedenCollectFootprintXml data : ledenCollectFootprintVo.getData()) {
+            LedenCollectFootprint ledenCollectFootprint = new LedenCollectFootprint();
+            BeanUtils.copyProperties(data, ledenCollectFootprint);
             ledenCollectFootprint.setCreateUserId(ledenCollectFootprintVo.head.getUSER_CODE());
             ledenCollectFootprint.setCreateDatetime(new Date());
-            ledenCollectFootprint.setPkId(UUID.randomUUID().toString().substring(0,32));
+            ledenCollectFootprint.setPkId(UUID.randomUUID().toString().substring(0, 32));
             ledenCollectFootprints.add(ledenCollectFootprint);
             ledenCollectFootprint.setCreateDatetime(new Date());
         }
         //清除原有数据
         ledenCollectFootprintMapper.deleteFootPrintByPersonId(ledenCollectFootprints.get(0).getRyjcxxcjbh());
-        ledenCollectFootprintMapper.insertFootPrints(ledenCollectFootprints);
+        if (ledenCollectFootprints != null && ledenCollectFootprints.size() > 0) {
+            ledenCollectFootprintMapper.insertFootPrints(ledenCollectFootprints);
+        }
         return true;
     }
 
     @Override
-    public List<LedenCollectFootprintSearchVo> listFoots(String RYJCXXCJBH,String pNo,String pSize) {
-        Map<String,Object> conditions=new HashMap<>();
-        conditions.put("RYJCXXCJBH",RYJCXXCJBH);
-        if(pNo!=null && pSize!=null)
-            MapUtils.setPageConditions(Integer.parseInt(pNo),Integer.parseInt(pSize),conditions);
+    public List<LedenCollectFootprintSearchVo> listFoots(String RYJCXXCJBH, String pNo, String pSize) {
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("RYJCXXCJBH", RYJCXXCJBH);
+        if (pNo != null && pSize != null)
+            MapUtils.setPageConditions(Integer.parseInt(pNo), Integer.parseInt(pSize), conditions);
         List<LedenCollectFootprintSearchVo> foots = ledenCollectFootprintMapper.listDataByConditions(conditions);
         return foots;
     }
@@ -83,15 +87,17 @@ public class LedenCollectFootprintServiceImpl implements LedenCollectFootprintSe
     @Override
     public Response<LedenCollectFootprint> getFootprint(String id) {
         LedenCollectFootprint ledenCollectFootprint = ledenCollectFootprintMapper.selectDataById(id);
-        if (ledenCollectFootprint != null){
+        if (ledenCollectFootprint != null) {
             ledenCollectFootprint.setZjzp(new String(ledenCollectFootprint.getZjsj()));
             ledenCollectFootprint.setZjsj(null);
         }
-        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,ledenCollectFootprint);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, ledenCollectFootprint);
     }
 
     @Override
     public List<LedenCollectFootprint> listFootPrintByPersonCode(String personCode) {
-        return ledenCollectFootprintMapper.listFootPrintByConditions(new HashMap<String,Object>(1){{put("personCode",personCode);}});
+        return ledenCollectFootprintMapper.listFootPrintByConditions(new HashMap<String, Object>(1) {{
+            put("personCode", personCode);
+        }});
     }
 }

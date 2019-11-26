@@ -100,9 +100,6 @@ public class UploadRunnable implements Runnable {
                     case "1":
                         ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOADED.getValue(), personCode, "已上传");
                         break;
-                    case "0":
-                        ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.WAITING_RESOLVE.getValue(), personCode, "正在等待解析");
-                        break;
                     default:
                         ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOAD_LOSE.getValue(), personCode, result.get("value").toString());
                         break;

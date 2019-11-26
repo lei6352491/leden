@@ -43,22 +43,25 @@ public class SecurityUtil {
     public  Boolean repairpermissions(HeaderVo headerVo, AuthoirtyEnum authoirtyNode){
         boolean flag=false;
 
-        if(StringUtils.isEmpty(headerVo.getUSER_CODE())||StringUtils.isEmpty(headerVo.EQUIPMENT_CODE)||StringUtils.isEmpty(headerVo.getUSER_UNIT_CODE()))
+        if(StringUtils.isEmpty(headerVo.getUSER_CODE())||StringUtils.isEmpty(headerVo.EQUIPMENT_CODE)||StringUtils.isEmpty(headerVo.getUSER_UNIT_CODE())){
             throw new AuthenticationException(ReturnCode.ERROR_1036);
+        }
         //验证用户信息
         SysUser sysUser=sysUserMapper.getSysUserByUserCode(headerVo.getUSER_CODE());
         if(sysUser==null){
             throw new AuthenticationException(ReturnCode.ERROR_1001);
         }else if(!sysUser.getUserUnitCode().equals(headerVo.getUSER_UNIT_CODE())){
-            //throw new AuthenticationException(ReturnCode.ERROR_1032);
+            throw new AuthenticationException(ReturnCode.ERROR_1032);
         }
         //用户部门信息通过
         //根据编码拿到主键
         LedenEquipment tempEquipment = ledenEquipmentMapper.getLedenEquipmentByEquipmentCode(headerVo.getEQUIPMENT_CODE());
-        if(tempEquipment==null)
+        if(tempEquipment==null){
             throw new AuthenticationException(ReturnCode.ERROR_1038);
-        else if(!tempEquipment.getUnitCode().equals(sysUser.getUserUnitCode()))
+        }
+        else if(!tempEquipment.getUnitCode().equals(sysUser.getUserUnitCode())){
             throw new AuthenticationException(ReturnCode.ERROR_1046);
+        }
         //授权信息通过
         List<LedenEquipmentEmpower> equipmentEmpowerByEquipmnetCode = ledenEquipmentEmpowerMapper.getEquipmentEmpowerByEquipmnetCode(tempEquipment.getEquipmentCode());
         for (LedenEquipmentEmpower ledenEquipmentEmpower :
