@@ -2,10 +2,8 @@ package com.zhouyi.business.core.model;
 
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.context.annotation.Description;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**

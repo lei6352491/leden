@@ -1428,4 +1428,8 @@
         </set>
         where ryjcxxcjbh=#{personCode}
     </update>
+
+    <select id="selectCollectNumber" resultType="int">
+        select count(*) from leden_collect_person where CJSJ &gt;= #{startDate} and CJSJ &lt; #{endDate}
+    </select>
 </mapper>
