@@ -3,6 +3,7 @@ package com.zhouyi.business.core.service;
 import com.zhouyi.business.core.model.LedenCollectPerson;
 import com.zhouyi.business.core.model.PersonResult;
 import com.zhouyi.business.core.model.Response;
+import com.zhouyi.business.core.model.months.MonthStatistical;
 import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
 
@@ -54,4 +55,11 @@ public interface LedenCollectPersonService {
      * @param ledenCollectPerson
      */
     void updatePersonByUserCode(LedenCollectPerson ledenCollectPerson);
+
+
+    /**
+     * 获取本月采集数量
+     * @return
+     */
+    List<MonthStatistical> getMonthStatistical();
 }

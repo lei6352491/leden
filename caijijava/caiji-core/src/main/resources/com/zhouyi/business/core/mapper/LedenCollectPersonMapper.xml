@@ -1432,4 +1432,14 @@
     <select id="selectCollectNumber" resultType="int">
         select count(*) from leden_collect_person where CJSJ &gt;= #{startDate} and CJSJ &lt; #{endDate}
     </select>
+
+
+
+    <select id="getMonthStatistical" resultType="com.zhouyi.business.core.model.months.MonthStatistical">
+        select ds.d day,count(p.ryjcxxcjbh) count from (
+        select to_char(to_date(#{time},'yyyy-mm')+level -1,'yyyy-mm-dd') d from dual
+        connect by level &lt;= to_number(to_char(last_day(to_date(#{time},'yyyy-mm')),'dd'))) ds
+        left join leden_collect_person p on ds.d=to_char(p.create_datetime,'yyyy-mm-dd')
+        group by ds.d  order by d
+    </select>
 </mapper>

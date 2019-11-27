@@ -2,10 +2,14 @@ package com.zhouyi.business.controller;
 
 import com.zhouyi.business.core.model.WeekCollectData;
 import com.zhouyi.business.core.model.YearCollectData;
+import com.zhouyi.business.core.model.months.MonthStatistical;
+import com.zhouyi.business.core.service.LedenCollectPersonService;
 import com.zhouyi.business.core.service.StatisticsCollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author 杜承旭
@@ -21,6 +25,8 @@ public class StatisticsCollectController {
 
     @Autowired
     private StatisticsCollectService statisticsCollectService;
+    @Autowired
+    private LedenCollectPersonService ledenCollectPersonService;
 
     /**
      * 查看该周每天采集量
@@ -37,4 +43,15 @@ public class StatisticsCollectController {
     public YearCollectData selectYearCollectData(){
         return statisticsCollectService.selectYearCollectData();
     }
+
+
+    @RequestMapping(value = "/month")
+    public List<MonthStatistical> selectMonthCollectData(){
+       return  ledenCollectPersonService.getMonthStatistical();
+    }
+
+
+
+
+
 }

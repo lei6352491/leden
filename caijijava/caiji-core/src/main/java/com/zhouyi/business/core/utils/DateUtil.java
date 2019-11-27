@@ -87,4 +87,29 @@ public class DateUtil {
 //		int d=getTimeDiff("10:00","11:00");
 //		System.out.println(d);
 //	}
+
+
+	/**
+	 * 获取当月的天数
+	 * @return 当月的天数
+	 */
+	public static int getCurrentMonthDay() {
+		Calendar a = Calendar.getInstance();
+		a.set(Calendar.DATE, 1);
+		a.roll(Calendar.DATE, -1);
+		int maxDate = a.get(Calendar.DATE);
+		return maxDate;
+	}
+
+
+	/**
+	 * 获取当前的年和月
+ 	 * @return
+	 */
+	public static String getYearAndMonth(){
+		Calendar calendar=Calendar.getInstance();
+		int year=calendar.get(Calendar.YEAR);
+		int month=calendar.get(Calendar.MONTH)+1;
+		return year+"-"+month;
+	}
 }

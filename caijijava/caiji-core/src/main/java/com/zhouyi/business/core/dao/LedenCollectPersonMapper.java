@@ -2,6 +2,7 @@ package com.zhouyi.business.core.dao;
 
 import com.zhouyi.business.core.model.LedenCollectPerson;
 import com.zhouyi.business.core.model.PersonResult;
+import com.zhouyi.business.core.model.months.MonthStatistical;
 import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
@@ -74,4 +75,11 @@ public interface LedenCollectPersonMapper extends BaseMapper<LedenConllectPerson
     //获取时间段采集人数
     int selectCollectNumber(@Param("startDate")Date startDate,@Param("endDate")Date endDate);
 
+
+    /**
+     * 根据指定月份查询数据
+     * @param time
+     * @return
+     */
+    List<MonthStatistical> getMonthStatistical(@Param("time") String time);
 }
