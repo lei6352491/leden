@@ -6,6 +6,7 @@ import com.zhouyi.business.core.dao.LedenUploadPacketMapper;
 import com.zhouyi.business.core.exception.AuthenticationException;
 import com.zhouyi.business.core.exception.CollectionException;
 import com.zhouyi.business.core.model.*;
+import com.zhouyi.business.core.model.provincecomprehensive.DataStatus;
 import com.zhouyi.business.core.service.*;
 import com.zhouyi.business.utils.JsoupParseXmlUtils;
 import com.zhouyi.business.utils.XMLParamUtils;
@@ -82,6 +83,8 @@ public class CollectTimingTask {
 
     @Autowired
     private LedenCollectProcessMapper ledenCollectProcessMapper;
+    @Autowired
+    private UploadProvinceComponent uploadProvinceComponent;
 
     private XMLParamUtils xmlParamUtils = new XMLParamUtils();
 
@@ -619,6 +622,8 @@ public class CollectTimingTask {
 
     @Scheduled(cron = "0/30 * * * * ?")
     public void searchDataStatus(){
+        DataStatus uploadSuccessData = ledenUploadLogMapper.getUploadSuccessData();
+        uploadProvinceComponent.getDataUploadStatus(uploadSuccessData);
 
     }
 }

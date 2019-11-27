@@ -6,8 +6,10 @@ import com.zhouyi.business.core.dao.LedenCollectDnaMapper;
 import com.zhouyi.business.core.dao.LedenCollectPersonMapper;
 import com.zhouyi.business.core.dao.LedenUploadLogMapper;
 import com.zhouyi.business.core.model.LedenCollectDna;
+import com.zhouyi.business.core.model.provincecomprehensive.DataStatus;
 import com.zhouyi.business.core.utils.HttpUtil;
 import com.zhouyi.business.core.vo.ResponseVo;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -18,8 +20,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: first
@@ -185,12 +186,45 @@ public class UploadProvinceComponent {
 
     /**
      * 查询上传状态借口
-     * @param rybh 被查询人的人员编号
+     * @param dataStatus 被查询人的人员编号和id
      * @return 响应的结果实体
      */
-    public ResponseVo getDataUploadStatus(String rybh){
+    public void getDataUploadStatus(DataStatus dataStatus){
         String targetInterface=joinCompleteInterface(dataUploadStatus);
-        return null;
+
+        //封装条件
+        Map<String,String> params=new HashMap<String, String>(){{put("userName",user);put("passWord",password);put("rybh",dataStatus.getRybh());}};
+
+        //调用省综接口
+        try {
+            ResponseVo responseVo = HttpUtil.sendPostByform(targetInterface, params);
+            if(responseVo.isOk()){
+                //调用成功
+                String resultJson = responseVo.getData();
+                Map<String,String> result=(Map)JSON.parseObject(resultJson);
+                DataReportComponent.UPLOAD_STATUS resultEnum=null;
+                if(result.get("status1").equals("1")){
+                    resultEnum= DataReportComponent.UPLOAD_STATUS.RESOLVE_SUCCESS;
+                    //数据包已解析
+                }else{
+                    //解析失败
+                    resultEnum= DataReportComponent.UPLOAD_STATUS.RESOLVE_FAIL;
+                }
+                ledenUploadLogMapper.updateUploadLogByPersonCode(
+                        dataStatus.getPkId(),
+                        resultEnum.getValue(),
+                        resultEnum.getName()
+                );
+            }else{
+                //调用失败
+                log.error("调用查询数据状态接口失败:"+responseVo.getStatus());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error("查询数据状态失败"+e.getMessage());
+
+        }
     }
 
 
@@ -207,4 +241,23 @@ public class UploadProvinceComponent {
         stringBuffer.append(targetInterface);
         return stringBuffer.toString();
     }
+
+
+
+
+
+    List names=new ArrayList();
+    public void test(List<Student> students){
+        for (Student student : students) {
+            names.add(student.name);
+            if(student.children!=null){
+                //如果还有子集合,继续调用自己
+                test(student.children);
+            }
+        }
+    }
+}
+class Student{
+    String name;
+    List<Student> children;
 }
