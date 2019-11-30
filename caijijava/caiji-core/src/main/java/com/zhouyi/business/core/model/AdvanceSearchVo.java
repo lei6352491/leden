@@ -50,6 +50,8 @@ public class AdvanceSearchVo implements Serializable {
     private String status;
     @ApiModelProperty(value = "是否遍历下级？0：1")
     private String round;
+    @ApiModelProperty(value = "采集原因")
+    private String cjxxyydm;
 
     private Date cjsj;
 

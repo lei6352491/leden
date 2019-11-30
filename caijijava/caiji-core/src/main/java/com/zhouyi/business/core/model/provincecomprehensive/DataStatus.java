@@ -1,6 +1,7 @@
 package com.zhouyi.business.core.model.provincecomprehensive;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @Author: first
@@ -8,6 +9,7 @@ import lombok.Data;
  * @Description: 查询数据状态类
 **/
 @Data
+@ToString
 public class DataStatus {
 
     private String pkId;

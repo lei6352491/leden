@@ -134,6 +134,7 @@ public class CollectTimingTask {
 
             for (LedenUploadPacket ledenUploadPacket : list) {
                 logger.info("DatType的值为:"+ledenUploadPacket.getDataType());
+                logger.info(ledenUploadPacket.getNodeSign()+"正在为解析");
                 if ("PERSON".equals(ledenUploadPacket.getDataType())) {
 
                     try {
@@ -166,9 +167,7 @@ public class CollectTimingTask {
                     } catch (Exception E) {
 
                         logger.info("解析失败2");
-
                         E.printStackTrace();
-
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         flag = false;
                         updateUploadPacket(ledenUploadPacket);
@@ -590,7 +589,9 @@ public class CollectTimingTask {
 
                 ledenUploadLogMapper.insertUploadLog(ledenUploadLog);
 
-
+            }else{
+               setResolveResult(zipUploadPacket,"2","解析失败");
+               updateUploadPacket(zipUploadPacket);
             }
         } else {
 
@@ -623,7 +624,13 @@ public class CollectTimingTask {
     @Scheduled(cron = "0/30 * * * * ?")
     public void searchDataStatus(){
         DataStatus uploadSuccessData = ledenUploadLogMapper.getUploadSuccessData();
+        if(uploadSuccessData!=null){
+            logger.info("查询"+uploadSuccessData.getRybh()+"的解析状态信息");
+            logger.info(uploadSuccessData.toString());
+        }else{
+            logger.info("没有待查询的人员信息");
+            return;
+        }
         uploadProvinceComponent.getDataUploadStatus(uploadSuccessData);
-
     }
 }

@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.List;
 @ApiModel(value = "报表数据模型")
 @Data
 @NoArgsConstructor
+@ToString
 public class ReportDto {
     @ApiModelProperty(value = "部门编码")
     private String unitCode;

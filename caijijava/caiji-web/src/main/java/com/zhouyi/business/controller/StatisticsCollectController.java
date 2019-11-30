@@ -6,6 +6,7 @@ import com.zhouyi.business.core.model.months.MonthStatistical;
 import com.zhouyi.business.core.service.LedenCollectPersonService;
 import com.zhouyi.business.core.service.StatisticsCollectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,23 +32,23 @@ public class StatisticsCollectController {
     /**
      * 查看该周每天采集量
      * */
-    @RequestMapping(value = "/week")
-    public WeekCollectData selectWeekCollectData(){
-        return statisticsCollectService.selectWeekCollectData();
+    @RequestMapping(value = "/week/{unitCode}")
+    public WeekCollectData selectWeekCollectData(@PathVariable String unitCode){
+        return statisticsCollectService.selectWeekCollectData(unitCode);
     }
 
     /**
      * 查看该年每月采集量
      * */
-    @RequestMapping(value = "/year")
-    public YearCollectData selectYearCollectData(){
-        return statisticsCollectService.selectYearCollectData();
+    @RequestMapping(value = "/year/{unitCode}")
+    public YearCollectData selectYearCollectData(@PathVariable String unitCode){
+        return statisticsCollectService.selectYearCollectData(unitCode);
     }
 
 
-    @RequestMapping(value = "/month")
-    public List<MonthStatistical> selectMonthCollectData(){
-       return  ledenCollectPersonService.getMonthStatistical();
+    @RequestMapping(value = "/month/{unitCode}")
+    public List<MonthStatistical> selectMonthCollectData(@PathVariable String unitCode){
+       return  ledenCollectPersonService.getMonthStatistical(unitCode);
     }
 
 

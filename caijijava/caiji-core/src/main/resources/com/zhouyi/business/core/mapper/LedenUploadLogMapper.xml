@@ -195,10 +195,11 @@
 
     <select id="getUploadSuccessData" resultType="com.zhouyi.business.core.model.provincecomprehensive.DataStatus">
        select d.* from (
-       select ryjcxxcjbh rybh,pkId,ROWNUM r from leden_upload_log
+       select p.jzrybh rybh,pk_Id pkId,ROWNUM r from leden_upload_log
+       left join leden_collect_person p on leden_upload_log.ryjcxxcjbh=p.ryjcxxcjbh
         where upload_status='4'
         order by upload_datetime desc
-       ) where r=1
+       ) d where r=1
     </select>
 
 

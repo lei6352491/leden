@@ -3,6 +3,7 @@ package com.zhouyi.business.core.service;
 import com.zhouyi.business.core.dao.LedenCollectPersonMapper;
 import com.zhouyi.business.core.model.WeekCollectData;
 import com.zhouyi.business.core.model.YearCollectData;
+import com.zhouyi.business.core.utils.UnitUtil;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,9 @@ public class StatisticsCollectServiceImpl implements StatisticsCollectService{
      * 获取该星期的每天的采集量
      * */
     @Override
-    public WeekCollectData selectWeekCollectData() {
+    public WeekCollectData selectWeekCollectData(String unitCode) {
+        //获取模糊匹配的单位编码
+        String newUnitCode= UnitUtil.getUnitHead(unitCode,2);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
@@ -42,14 +45,15 @@ public class StatisticsCollectServiceImpl implements StatisticsCollectService{
         //获取该星期中每天凌晨的时间对象和现在时间对象
         List<Date> dateList = weekOfDay(weekDay);
         //查询本周每天的采集人数
-        return selectDailyCollectNumber(dateList);
+        return selectDailyCollectNumber(dateList,newUnitCode);
     }
 
     /**
      * 获取该年的每月采集量
      * */
     @Override
-    public YearCollectData selectYearCollectData() {
+    public YearCollectData selectYearCollectData(String unitCode) {
+        String newUnitCode=UnitUtil.getUnitHead(unitCode,2);
         //获取当前月份
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -61,18 +65,18 @@ public class StatisticsCollectServiceImpl implements StatisticsCollectService{
         //获取该年中每月1号凌晨的时间对象和现在时间对象
         List<Date> list = yearOfMonth(year, month);
         //查询今年每月的采集量
-        return selectMonthlyCollectNumber(list);
+        return selectMonthlyCollectNumber(list,newUnitCode);
     }
 
     /**
      * 查询今年每月的采集量
      * */
-    private YearCollectData selectMonthlyCollectNumber(List<Date> list){
+    private YearCollectData selectMonthlyCollectNumber(List<Date> list,String unitCode){
         ArrayList<Integer> collectNumberList = new ArrayList<>();
         for (int i = 1;i < list.size();i++){
             Date startDate = list.get(i - 1);
             Date endDate = list.get(i);
-            int collectNumber = ledenCollectPersonMapper.selectCollectNumber(startDate, endDate);
+            int collectNumber = ledenCollectPersonMapper.selectCollectNumber(startDate, endDate,unitCode);
             collectNumberList.add(collectNumber);
         }
         //填充数据集合
@@ -115,14 +119,14 @@ public class StatisticsCollectServiceImpl implements StatisticsCollectService{
     /**
      * 查询本周每天的采集人数
      * */
-    private WeekCollectData selectDailyCollectNumber(List<Date> list){
+    private WeekCollectData selectDailyCollectNumber(List<Date> list,String unitCode){
         ArrayList<Integer> collectNumberList = new ArrayList<>();
         for (int i = 1;i < list.size();i++){
             //取出每天的时间间隔对象
             Date beforeDawnDate = list.get(i - 1);
             Date theNextMorning  = list.get(i);
             //获取这天的采集人数
-            int collectNumber = ledenCollectPersonMapper.selectCollectNumber(beforeDawnDate, theNextMorning);
+            int collectNumber = ledenCollectPersonMapper.selectCollectNumber(beforeDawnDate, theNextMorning,unitCode);
             collectNumberList.add(collectNumber);
         }
         //填充数据集合

@@ -12,10 +12,7 @@ import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.model.enums.AuthoirtyEnum;
 import com.zhouyi.business.core.model.months.MonthStatistical;
 import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardPerson;
-import com.zhouyi.business.core.utils.DateUtil;
-import com.zhouyi.business.core.utils.ResponseUtil;
-import com.zhouyi.business.core.utils.SecurityUtil;
-import com.zhouyi.business.core.utils.XmlParseUtil;
+import com.zhouyi.business.core.utils.*;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
 import com.zhouyi.business.core.vo.xml.LedenCollectPersonXml;
@@ -153,9 +150,10 @@ public class LedenCollectPersonServiceImpl implements LedenCollectPersonService 
     }
 
     @Override
-    public List<MonthStatistical> getMonthStatistical() {
+    public List<MonthStatistical> getMonthStatistical(String unitCode) {
+        String newUnitCode= UnitUtil.getUnitHead(unitCode,2);
         String nowTime= DateUtil.getYearAndMonth();
-        List<MonthStatistical> monthStatistical = ledenCollectPersonMapper.getMonthStatistical(nowTime);
+        List<MonthStatistical> monthStatistical = ledenCollectPersonMapper.getMonthStatistical(nowTime,newUnitCode);
         return monthStatistical;
     }
 
