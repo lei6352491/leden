@@ -632,5 +632,10 @@ public class CollectTimingTask {
             return;
         }
         uploadProvinceComponent.getDataUploadStatus(uploadSuccessData);
+
+        //修改解析时间
+        ledenUploadLogMapper.updateResolveByPkId(uploadSuccessData.getPkId(),new Date());
+
+
     }
 }

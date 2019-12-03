@@ -7,6 +7,7 @@ import com.zhouyi.business.core.vo.LedenUploadLogVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -51,4 +52,14 @@ public interface LedenUploadLogMapper extends BuffBaseMapper<LedenUploadLog, Led
      * @return 上传成功数据的人员编号
      */
     DataStatus getUploadSuccessData();
+
+
+    /**
+     * 修改解析时间
+     * @param pkId
+     * @param resolveDatetime
+     * @return
+     */
+    int updateResolveByPkId(@Param("pkId")String pkId,
+                            @Param("resoveDatetime")Date resolveDatetime);
 }

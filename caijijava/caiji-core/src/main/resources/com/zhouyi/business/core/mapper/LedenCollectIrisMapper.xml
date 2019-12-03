@@ -349,4 +349,32 @@
     <select id="listDataByConditions" resultMap="standardIrisResultMapNew">
          select * from leden_collect_iris where ryjcxxcjbh=#{personCode}
   </select>
+
+
+    <resultMap id="commonsResultMap" type="com.zhouyi.business.core.model.xinzhen.IrisCommons">
+        <result column="create_user_id" property="userId"/>
+        <result column="user_unit_code" property="userDept"/>
+        <result column="unit_name" property="userDeptname"/>
+        <result column="sbcsdm" property="sbcsdm"/>
+        <result column="hmcjsbxhdm" property="hmcjsbxhdm"/>
+        <result column="sbbh" property="sbbh"/>
+        <result column="CHAMBER_TYPE" property="cjcd"/>
+        <result column="UNIT_LONGITUDE" property="jd"/>
+        <result column="UNIT_LATITUDE" property="wd"/>
+        <result column="cjbh" property="cjbh"/>
+        <result column="user_name" property="cjrXm"/>
+        <result column="USER_IDCARDNO" property="cjrGmsfhm"/>
+        <result column="left_data" property="hmzpZy"/>
+        <result column="right_data" property="hmzpYy"/>
+        <result column="hmzpYy" property="cjtphs"/>
+        <result column="left_score" property="zyXxzlpf"/>
+        <result column="right_score" property="yyXxzlpf"/>
+        <result column="RYLBDM" property="bcjrRylb"/>
+        <result column="cjbz" property="cjbz"/>
+
+    </resultMap>
+
+
+
+
 </mapper>
