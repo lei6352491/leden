@@ -76,7 +76,7 @@ public class UploadRunnable implements Runnable {
         try {
             log.info("正在打包压缩" + personCode + "的数据");
             //1.更新上传状态
-            ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.PACKING.getValue(), personCode, DataReportComponent.UPLOAD_STATUS.PACKING.getName());
+            ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.PACKING.getValue(), uploadLogPkId, DataReportComponent.UPLOAD_STATUS.PACKING.getName());
             log.info("封装数据ing");
             //3.封装数据
             MIS mis = dataReportComponent.getMappedData(personCode, equipmentCode,isGetLog,uploadLogPkId);
@@ -89,7 +89,7 @@ public class UploadRunnable implements Runnable {
             //5.上传
             uploadProvinceComponent.pushZipToFtp(equipmentCode, fileLocation);
             //6.修改状态
-            ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOADING.getValue(), personCode, "正在上传");
+            ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOADING.getValue(), uploadLogPkId, "正在上传");
             //7.通知省厅
             String s = uploadProvinceComponent.uploadData(mis.getPersonInfo().getPersonId(),
                     equipmentCode, new StringBuffer("/").append(equipmentCode).append("/").append(mis.getPersonInfo().getPersonId()).append(".zip").toString());
@@ -98,22 +98,22 @@ public class UploadRunnable implements Runnable {
                 String key = result.get("status").toString();
                 switch (key) {
                     case "1":
-                        ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOADED.getValue(), personCode, "已上传");
+                        ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOADED.getValue(), uploadLogPkId, "已上传");
                         break;
                     default:
-                        ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOAD_LOSE.getValue(), personCode, result.get("value").toString());
+                        ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOAD_LOSE.getValue(), uploadLogPkId, result.get("value").toString());
                         break;
 
                 }
             }else{
-                ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOAD_LOSE.getValue(),personCode,"通知省厅失败");
+                ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOAD_LOSE.getValue(),uploadLogPkId,"通知省厅失败");
             }
 
         } catch (Exception e) {
 
             e.printStackTrace();
             //如果报错则记录报错信息到数据库
-            ledenUploadLogService.uploadLogStatusByPersonCode(2, personCode, "上传失败");
+            ledenUploadLogService.uploadLogStatusByPersonCode(2, uploadLogPkId, "上传失败");
         }
 
 

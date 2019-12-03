@@ -133,7 +133,7 @@ public class LedenUploadPacketController {
             ServletOutputStream outputStream = response.getOutputStream();
             response.reset();
             response.setHeader("Content-Type","application/octet-stream");
-            response.setHeader("Content-Disposition","attachment;filename=details." + ledenUploadPacket.getFileSuffix());
+            response.setHeader("Content-Disposition","attachment;filename="+ledenUploadPacket.getRyjcxxcjbh()+"-"+System.currentTimeMillis() +"."+ ledenUploadPacket.getFileSuffix());
             byte[] buffer=new byte[2048];
             int len=0;
             while((len=bufferedInputStream.read(buffer))!=-1){

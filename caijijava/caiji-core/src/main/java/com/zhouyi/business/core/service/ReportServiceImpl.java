@@ -5,6 +5,7 @@ import com.zhouyi.business.core.model.CollectInfo;
 import com.zhouyi.business.core.model.ReportDto;
 import com.zhouyi.business.core.model.cmodes.ReportCondition;
 import com.zhouyi.business.core.utils.CalendarUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.*;
  * @Version 1.0
  **/
 @Service
+@Slf4j
 public class ReportServiceImpl implements ReportService {
 
     @Autowired
@@ -77,12 +79,20 @@ public class ReportServiceImpl implements ReportService {
         LinkedList<ReportDto> reportDtos= reportMapper.listReportInfoByConditions(conditions);
         //查询出上级部门的采集信息并添加到首条数据
         conditions.put("upper",conditions.get("unitCode")) ;
-        reportDtos.addFirst(reportMapper.listReportInfoByConditions(conditions).get(0));
+        ReportDto reportDto=reportMapper.listReportInfoByConditions(conditions).get(0);
+        log.info("查询本级单位的数据为:"+reportDto);
+
+//        conditions.put("upper",true);
+        reportDtos.addFirst(reportDto);
         return reportDtos;
     }
 
 
-    //封装标题
+    /**
+     * 封装标题
+     * @param rowHeader
+     * @param titleColumns
+     */
     private void packaingRowHeader(HSSFRow rowHeader,String[] titleColumns){
        for(int i=0;i<titleColumns.length;i++){
            HSSFCell cell = rowHeader.createCell(i);
@@ -90,7 +100,12 @@ public class ReportServiceImpl implements ReportService {
        }
 
     }
-    //封装数据
+
+    /**
+     * 封装数据
+     * @param sheet
+     * @param data
+     */
     private void packagingData(HSSFSheet sheet,List<ReportDto> data){
         for(int i=1;i<data.size();i++){
             //创建一行

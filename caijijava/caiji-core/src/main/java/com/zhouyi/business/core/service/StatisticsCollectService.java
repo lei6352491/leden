@@ -12,8 +12,8 @@ import com.zhouyi.business.core.model.YearCollectData;
  **/
 public interface StatisticsCollectService {
 
-    WeekCollectData selectWeekCollectData();
+    WeekCollectData selectWeekCollectData(String unitCode);
 
-    YearCollectData selectYearCollectData();
+    YearCollectData selectYearCollectData(String unitCode);
 
 }

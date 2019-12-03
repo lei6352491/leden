@@ -2,10 +2,12 @@ package com.zhouyi.business.core.dao;
 
 import com.zhouyi.business.core.model.LedenUploadLog;
 import com.zhouyi.business.core.model.LedenUploadPacket;
+import com.zhouyi.business.core.model.provincecomprehensive.DataStatus;
 import com.zhouyi.business.core.vo.LedenUploadLogVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +32,7 @@ public interface LedenUploadLogMapper extends BuffBaseMapper<LedenUploadLog, Led
      * @param resolveInfo 解析结果信息
      * @return
      */
-    int updateUploadLogByPersonCode(@Param("personCode")String personCode,
+    int updateUploadLogByPersonCode(@Param("pkId")String pkId,
                                     @Param("status")int status,
                                     @Param("resolveInfo")String resolveInfo);
 
@@ -49,5 +51,15 @@ public interface LedenUploadLogMapper extends BuffBaseMapper<LedenUploadLog, Led
      * 查询出上传成功状态的数据
      * @return 上传成功数据的人员编号
      */
-    String getUploadSuccessData();
+    DataStatus getUploadSuccessData();
+
+
+    /**
+     * 修改解析时间
+     * @param pkId
+     * @param resolveDatetime
+     * @return
+     */
+    int updateResolveByPkId(@Param("pkId")String pkId,
+                            @Param("resoveDatetime")Date resolveDatetime);
 }

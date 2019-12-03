@@ -516,6 +516,9 @@
                     <if test="stopDate != null">
                         and p.csrq &lt;= #{stopDate}
                     </if>
+                    <if test="cjxxyydm!=null">
+                        and p.cjxxyydm=#{cjxxyydm}
+                    </if>
 
                 </where>
                 order by p.cjsj desc)

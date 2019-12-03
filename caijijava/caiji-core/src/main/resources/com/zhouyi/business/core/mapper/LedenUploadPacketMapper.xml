@@ -19,8 +19,14 @@
     PK_ID, UPLOAD_LOG_ID, NODE_SIGN, FILE_SERVER, FILE_LOCATION, FILE_SUFFIX, FILE_SIZE, 
     FILE_MD5, RESOLVE_STATUS, RESOLVE_RESULT_INFO, RESOLVE_DATETIME
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+
+
+    <resultMap id="thisMap" type="com.zhouyi.business.core.model.LedenUploadPacket" extends="BaseResultMap">
+        <result column="ryjcxxcjbh" property="ryjcxxcjbh"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" resultMap="thisMap" parameterType="java.lang.String">
         select
+        ryjcxxcjbh,
         <include refid="Base_Column_List"/>
         from LEDEN_UPLOAD_PACKET
         where PK_ID = #{pkId,jdbcType=VARCHAR}
@@ -203,11 +209,14 @@
         <result column="RESOLVE_DATETIME" property="resolveDatetime"/>
         <result column="NODE_NAME" property="nodeName"/>
         <result column="EQUIPMENT_CODE" property="equipmentCode"/>
+        <result property="ryjcxxcjbh" column="rybh"/>
+
     </resultMap>
 
     <select id="selectDataById" parameterType="list" resultMap="selectDataByIdMap">
         select
-        a.PK_ID,a.FILE_SERVER,a.RESOLVE_STATUS,a.FILE_SUFFIX,a.FILE_SIZE,a.RESOLVE_RESULT_INFO,a.RESOLVE_DATETIME,n.NODE_NAME,p.*
+        a.ryjcxxcjbh
+        rybh,a.PK_ID,a.FILE_SERVER,a.RESOLVE_STATUS,a.FILE_SUFFIX,a.FILE_SIZE,a.RESOLVE_RESULT_INFO,a.RESOLVE_DATETIME,n.NODE_NAME,p.*
         from
         leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
         left join leden_collect_process s on s.collect_node_id = n.node_code

@@ -30,6 +30,16 @@ public class LedenUploadLog implements Serializable {
 
     private Integer isGetCode;
 
+    private Date resolveDatetime;
+
+    public Date getResolveDatetime() {
+        return resolveDatetime;
+    }
+
+    public void setResolveDatetime(Date resolveDatetime) {
+        this.resolveDatetime = resolveDatetime;
+    }
+
     public Integer getIsGetCode() {
         return isGetCode;
     }

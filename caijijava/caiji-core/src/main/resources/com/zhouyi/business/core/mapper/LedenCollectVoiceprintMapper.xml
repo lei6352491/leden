@@ -496,14 +496,11 @@
   <select id="getVoiceByPersonCode" parameterType="string" resultMap="standardVoiceprintResultMap">
     select
         v.*,
-        pa.parets_version as sbxh,
+        v.lysb as sbxh,
         d1.name as speakTypeName,
         d2.name as languageTypeName,
         d3.name as dialectName
      from leden_collect_voiceprint v
-     left join leden_collect_person p on p.ryjcxxcjbh=v.ryjcxxcjbh
-     left join leden_equipment e on e.equipment_code=p.equipment_code
-     left join leden_equipment_parets pa on e.pk_id=pa.equipment_pkId
      left join sys_dict_list d1 on d1.code=v.FYFSDM
     left join sys_dict_list d2 on d2.code=v.LYYZDM
     left join sys_dict_list d3 on d3.code=v.HYFYDM

@@ -183,7 +183,7 @@
 
     <update id="updateUploadLogByPersonCode">
         update LEDEN_UPLOAD_LOG set upload_status=#{status},upload_result_info=#{resolveInfo}
-        where ryjcxxcjbh=#{personCode}
+        where pk_id=#{pkId}
     </update>
 
 
@@ -192,13 +192,20 @@
     </update>
 
 
-    <select id="getUploadSuccessData" resultType="string">
+
+    <select id="getUploadSuccessData" resultType="com.zhouyi.business.core.model.provincecomprehensive.DataStatus">
        select d.* from (
-       select ryjcxxcjbh,ROWNUM r from leden_upload_log
+       select p.jzrybh rybh,pk_Id pkId,ROWNUM r from leden_upload_log
+       left join leden_collect_person p on leden_upload_log.ryjcxxcjbh=p.ryjcxxcjbh
         where upload_status='4'
-        order by upload_datetime desc
-       ) where r=1
+        order by resolve_datetime desc
+       ) d where r=1
     </select>
+
+
+    <update id="updateResolveByPkId">
+        update leden_upload_log set resolve_datetime=#{resolveDatetime} where pk_id=#{pkId}
+    </update>
 
 
 </mapper>

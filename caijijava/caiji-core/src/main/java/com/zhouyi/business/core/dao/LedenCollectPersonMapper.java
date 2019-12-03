@@ -73,7 +73,7 @@ public interface LedenCollectPersonMapper extends BaseMapper<LedenConllectPerson
     int updatePersonByPersonCode(Map<String,Object> data);
 
     //获取时间段采集人数
-    int selectCollectNumber(@Param("startDate")Date startDate,@Param("endDate")Date endDate);
+    int selectCollectNumber(@Param("startDate")Date startDate,@Param("endDate")Date endDate,@Param("unitCode")String unitCode);
 
 
     /**
@@ -81,5 +81,5 @@ public interface LedenCollectPersonMapper extends BaseMapper<LedenConllectPerson
      * @param time
      * @return
      */
-    List<MonthStatistical> getMonthStatistical(@Param("time") String time);
+    List<MonthStatistical> getMonthStatistical(@Param("time") String time,@Param("unitCode")String unitCode);
 }

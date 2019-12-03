@@ -59,7 +59,8 @@ public interface LedenCollectPersonService {
 
     /**
      * 获取本月采集数量
+     * @param unitCode 单位编码
      * @return
      */
-    List<MonthStatistical> getMonthStatistical();
+    List<MonthStatistical> getMonthStatistical(String unitCode);
 }
