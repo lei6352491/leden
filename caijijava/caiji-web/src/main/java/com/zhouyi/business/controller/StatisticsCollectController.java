@@ -5,6 +5,10 @@ import com.zhouyi.business.core.model.YearCollectData;
 import com.zhouyi.business.core.model.months.MonthStatistical;
 import com.zhouyi.business.core.service.LedenCollectPersonService;
 import com.zhouyi.business.core.service.StatisticsCollectService;
+import com.zhouyi.business.core.utils.DateUtil;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +51,26 @@ public class StatisticsCollectController {
 
 
     @RequestMapping(value = "/month/{unitCode}")
-    public List<MonthStatistical> selectMonthCollectData(@PathVariable String unitCode){
-       return  ledenCollectPersonService.getMonthStatistical(unitCode);
+    public MonthEntity selectMonthCollectData(@PathVariable String unitCode){
+        //查询今年有多少天
+        int count= DateUtil.getCurrentMonthDay();
+        List<MonthStatistical> monthStatistical = ledenCollectPersonService.getMonthStatistical(unitCode);
+        MonthEntity monthEntity=new MonthEntity(monthStatistical,count);
+       return  monthEntity;
+    }
+
+
+    /**
+     * @Author: first
+     * @Date: 上午11:52 2019/12/3
+     * @Description: 封装月数据实体
+    **/
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static class MonthEntity{
+       private List<MonthStatistical> list;
+       private int count;
     }
 
 
