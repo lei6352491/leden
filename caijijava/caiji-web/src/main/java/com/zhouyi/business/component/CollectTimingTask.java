@@ -620,7 +620,7 @@ public class CollectTimingTask {
 
 
 
-    @Scheduled(cron = "0/30 * * * * ?")
+//    @Scheduled(cron = "0/30 * * * * ?")
     public void searchDataStatus(){
         DataStatus uploadSuccessData = ledenUploadLogMapper.getUploadSuccessData();
         if(uploadSuccessData!=null){
