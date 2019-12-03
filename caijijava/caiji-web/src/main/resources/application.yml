@@ -1,0 +1,129 @@
+spring:
+  datasource:
+    poolName: zhouyi-pool
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.1.152:1521:CAIJI
+    user: tiger
+    password: tiger
+
+    #driverClassName: com.mysql.jdbc.Driver
+    #url: jdbc:mysql://localhost:3306/zhouyi?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;failOverReadOnly=false
+    #user: root
+    #password:
+    autoCommit: false
+    minIdle: 5
+    maximumPoolSize: 20
+    connectionInitSql: select 1
+    testConnectionOnCheckout: false
+    testConnectionOnCheckin: true
+    idleConnectionTestPeriod: 30
+
+server:
+  context-path: /caijijava
+  port: 8060
+  tomcat:
+    max-http-header-size: -1
+mybatis:
+  mapperLocations: classpath*:com/zhouyi/business/core/mapper/*.xml
+
+myConfig:
+  downloadPath: f://
+  uploadPath: f://data/zhouyi-wx/files
+
+
+
+#配置JWT的密钥和签发人
+com:
+  jwt:
+    secret: a1b2c3d4
+    issuer: lianteng
+    #配置JWT信息置换的时间
+    retoken: 15*60*1000
+
+caijijava:
+  elasticsearch:
+    hostlist: ${eshostlist:192.168.1.152:9200} #多个结点中间用逗号分隔
+
+
+#定义数据集对应的类
+own:
+  #模型层路径
+  modelClassPath: com.zhouyi.business.core.model
+  #bcp文件路径
+  realPath: C:\Users\lenovo\Desktop\Bcp\20190621112602_C__Users_Administrator_Desktop_Backup
+
+file:
+  upload-location: /home/shenjun/uploads  #/home/shenjun/uploads
+  upload-location-temp: /home/shenjun/uploads/temp  #/home/shenjun/uploads/temp
+
+
+logging:
+  level:
+    com.zhouyi.business.core.mapper: debug
+multipart:
+  max-file-size: 100Mb
+  max-request-size: 100Mb
+
+
+finger:
+  dir: /home/leden/finger
+  ftp:
+    dir: /finger/old/
+    user: test
+    password: 123456
+    ip: 192.168.1.152
+    port: 21
+
+xmlParse:
+    ftp:
+      path: ftp://test:123456@192.168.1.152
+
+
+#山东省综平台的配置
+provinceComprehensive:
+  #山东平台的地址
+  ip: 10.48.21.54
+  port: 58888
+  ftp:
+    ip: 10.48.21.54
+    port: 21
+    targetDir: /
+    username: zc_sjsb
+    password: zc_sjsb
+  interfaces:
+    registry: /htmisWebService/register/postRegisterClient
+    dataNumber: /htmisWebService/person/postCreateId
+    dataUpload: /htmisWebService/comparison/postUploadData
+    getUploadStatus: /htmisWebService/person/getDataState
+#    idCardSearch: /htmisWebService/query/getCountrywideInfo
+  generate:
+    dir: /usr/local/temp/  #生成zip、xml、jgp临时路劲
+  upload:
+    user: lianteng
+    password: lianteng2018
+
+
+Script:
+  src:
+    host: 192.168.1.152
+    port: 22
+    user: root
+    password: 123456
+    cmd: sh /root/test.sh
+
+task:
+  uploadCron: 0/5 * * * * ?
+
+publicSecurity:
+  ip: 10.48.146.164
+  port: 20300
+  url: /xzxt-newdataexchange-web/query
+  provinceId: gab
+  serviceType: czrk
+
+criminal-investigation:
+  iris:
+    client_id: shenzhenlianteng
+    client_secret: shenzhenlianteng
+    version: 1.0
