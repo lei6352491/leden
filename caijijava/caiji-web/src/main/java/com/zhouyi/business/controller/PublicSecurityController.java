@@ -22,7 +22,7 @@ import java.util.Map;
 @Slf4j
 public class PublicSecurityController {
 
-    @Value("${pubicSecurity.provinceId}")
+    @Value("${publicSecurity.provinceId}")
     private String provinceId;
     @Value("${publicSecurity.serviceType}")
     private String serviceType;
