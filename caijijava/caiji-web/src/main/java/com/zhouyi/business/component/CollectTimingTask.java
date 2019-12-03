@@ -88,7 +88,7 @@ public class CollectTimingTask {
 
     private static final Logger logger = LoggerFactory.getLogger(CollectTimingTask.class);
 
-    @Scheduled(cron = "0/30 * * * * ?")
+//    @Scheduled(cron = "0/30 * * * * ?")
     @Transactional
     public void configureTasks() {
         analysisXmlFile();
@@ -617,7 +617,7 @@ public class CollectTimingTask {
 
 
 
-    @Scheduled(cron = "0/30 * * * * ?")
+//    @Scheduled(cron = "0/30 * * * * ?")
     public void searchDataStatus(){
 
     }
