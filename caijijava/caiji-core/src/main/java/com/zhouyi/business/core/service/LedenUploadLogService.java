@@ -33,4 +33,9 @@ public interface LedenUploadLogService extends BaseService<LedenUploadLog, Leden
      * 更新数据状态
      */
     void updateDataStatus();
+
+    /**
+     * 多条件查询上传信息列表
+     * */
+    Response selectList(LedenUploadLog ledenUploadLog);
 }

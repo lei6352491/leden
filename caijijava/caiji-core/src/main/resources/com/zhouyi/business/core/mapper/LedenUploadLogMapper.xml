@@ -11,6 +11,7 @@
         <result column="UPLOAD_STATUS" property="uploadStatus" jdbcType="VARCHAR"/>
         <result column="UPLOAD_RESULT_INFO" property="uploadResultInfo" jdbcType="VARCHAR"/>
         <result column="UPLOAD_DATETIME" property="uploadDatetime" jdbcType="TIMESTAMP"/>
+        <result column="RESOVLE_DATETIME" property="resolveDatetime" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
     PK_ID, EQUIPMENT_ID, NODE_SIGN, IS_EMPOWER, UPLOAD_IP, RYJCXXCJBH, UPLOAD_STATUS, 
@@ -207,5 +208,73 @@
         update leden_upload_log set resolve_datetime=#{resolveDatetime} where pk_id=#{pkId}
     </update>
 
+    <resultMap id="selectAllMap" type="com.zhouyi.business.core.model.LedenUploadLogResult" extends="BaseResultMap">
+        <id column="PK_ID" property="pkId" jdbcType="VARCHAR"/>
+        <result column="EQUIPMENT_ID" property="equipmentId" jdbcType="VARCHAR"/>
+        <result column="NODE_SIGN" property="nodeSign" jdbcType="VARCHAR"/>
+        <result column="IS_EMPOWER" property="isEmpower" jdbcType="VARCHAR"/>
+        <result column="UPLOAD_IP" property="uploadIp" jdbcType="VARCHAR"/>
+        <result column="UPLOAD_STATUS" property="uploadStatus" jdbcType="VARCHAR"/>
+        <result column="UPLOAD_RESULT_INFO" property="uploadResultInfo" jdbcType="VARCHAR"/>
+        <result column="UPLOAD_DATETIME" property="uploadDatetime" jdbcType="TIMESTAMP"/>
+        <result column="RESOVLE_DATETIME" property="resolveDatetime" jdbcType="TIMESTAMP"/>
+
+        <result column="RYJCXXCJBH" property="ryjcxxcjbh" jdbcType="VARCHAR"/>
+        <result column="JZRYBH" property="jzrybh" jdbcType="VARCHAR"/>
+        <result column="CJXXYYDM" property="cjxxyydm" jdbcType="VARCHAR"/>
+        <result column="XM" property="xm" jdbcType="VARCHAR"/>
+        <result column="XMHYPY" property="xmhypy" jdbcType="VARCHAR"/>
+        <result column="GMSFHM" property="gmsfhm" jdbcType="VARCHAR"/>
+        <result column="CYZJDM" property="cyzjdm" jdbcType="VARCHAR"/>
+        <result column="ZJHM" property="zjhm" jdbcType="VARCHAR"/>
+        <result column="XBDM" property="xbdm" jdbcType="VARCHAR"/>
+        <result column="CSRQ" property="csrq" jdbcType="TIMESTAMP"/>
+        <result column="CYM" property="cym" jdbcType="VARCHAR"/>
+        <result column="WWXM" property="wwxm" jdbcType="VARCHAR"/>
+        <result column="BMCH" property="bmch" jdbcType="VARCHAR"/>
+        <result column="GJDM" property="gjdm" jdbcType="VARCHAR"/>
+        <result column="MZDM" property="mzdm" jdbcType="VARCHAR"/>
+        <result column="JGSSXDM" property="jgssxdm" jdbcType="VARCHAR"/>
+        <result column="CSDSSXDM" property="csdssxdm" jdbcType="VARCHAR"/>
+        <result column="CSDXZ" property="csdxz" jdbcType="VARCHAR"/>
+        <result column="HJDSSXDM" property="hjdssxdm" jdbcType="VARCHAR"/>
+        <result column="HJDXZ" property="hjdxz" jdbcType="VARCHAR"/>
+        <result column="ZZMMDM" property="zzmmdm" jdbcType="VARCHAR"/>
+        <result column="HYZKDM" property="hyzkdm" jdbcType="VARCHAR"/>
+        <result column="XLDM" property="xldm" jdbcType="VARCHAR"/>
+        <result column="GRSFDM" property="grsfdm" jdbcType="VARCHAR"/>
+        <result column="RYLBDM" property="rylbdm" jdbcType="VARCHAR"/>
+        <result column="XZDQHDM" property="xzdqhdm" jdbcType="VARCHAR"/>
+        <result column="XZDXZ" property="xzdxz" jdbcType="VARCHAR"/>
+        <result column="AJLBDM" property="ajlbdm" jdbcType="VARCHAR"/>
+        <result column="CJRXM" property="cjrxm" jdbcType="VARCHAR"/>
+        <result column="CJDWDM" property="cjdwdm" jdbcType="VARCHAR"/>
+        <result column="CJDWMC" property="cjdwmc" jdbcType="VARCHAR"/>
+        <result column="CJSJ" property="cjsj" jdbcType="TIMESTAMP"/>
+        <result column="TSSFDM" property="tssfdm" jdbcType="VARCHAR"/>
+        <result column="ZJXYDM" property="zjxydm" jdbcType="VARCHAR"/>
+        <result column="COLLECT_CATEGORY_ID" property="collectCategoryId" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="SCHEDULE" property="schedule" jdbcType="VARCHAR"/>
+        <result column="TASK_ID" property="taskId" jdbcType="VARCHAR"/>
+        <result column="EQUIPMENT_CODE" property="equipmentCode" jdbcType="VARCHAR"/>
+        <result column="DELETAG" property="deletag" jdbcType="VARCHAR"/>
+        <result column="ANNEX" property="annex" jdbcType="VARCHAR"/>
+        <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_USER_ID" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="selectAll" parameterType="com.zhouyi.business.core.model.LedenUploadLogRequest" resultMap="selectAllMap">
+      select * from LEDEN_UPLOAD_LOG t left join LEDEN_COLLECT_PERSON p on t.ryjcxxcjbh = p.ryjcxxcjbh
+        <where>
+            <if test=""></if>
+            <if test=""></if>
+            <if test=""></if>
+            <if test=""></if>
+            <if test=""></if>
+        </where>
+    </select>
 
 </mapper>

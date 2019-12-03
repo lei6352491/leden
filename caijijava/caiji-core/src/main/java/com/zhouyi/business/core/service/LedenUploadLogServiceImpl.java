@@ -115,6 +115,15 @@ public class LedenUploadLogServiceImpl
     }
 
     /**
+     * 多条件查询上传信息列表
+     * */
+    @Override
+    public Response selectList(LedenUploadLog ledenUploadLog) {
+        List<LedenUploadLog> list = ledenUploadLogMapper.selectAll();
+        return null;
+    }
+
+    /**
      * 生成上传服务主键
      */
     private String selectNextPrimaryKey(String startStr,String unitCode, Integer count) {
