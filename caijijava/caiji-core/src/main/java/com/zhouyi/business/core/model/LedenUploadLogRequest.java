@@ -23,4 +23,6 @@ public class LedenUploadLogRequest {
     private Date startDate;
     private Date endDate;
 
+    private Integer page;
+    private Integer size;
 }

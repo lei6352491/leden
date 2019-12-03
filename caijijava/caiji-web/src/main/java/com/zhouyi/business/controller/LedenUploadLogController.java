@@ -1,6 +1,6 @@
 package com.zhouyi.business.controller;
 
-import com.zhouyi.business.core.model.LedenUploadLog;
+import com.zhouyi.business.core.model.LedenUploadLogRequest;
 import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.service.LedenUploadLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class LedenUploadLogController {
     private LedenUploadLogService ledenUploadLogService;
 
     @RequestMapping(value = "/selectList")
-    public Response selectList(@RequestBody LedenUploadLog ledenUploadLog){
-        return ledenUploadLogService.selectList(ledenUploadLog);
+    public Response selectList(@RequestBody LedenUploadLogRequest ledenUploadLogRequest){
+        return ledenUploadLogService.selectList(ledenUploadLogRequest);
     }
 }

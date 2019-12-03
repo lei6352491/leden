@@ -1,6 +1,8 @@
 package com.zhouyi.business.core.dao;
 
 import com.zhouyi.business.core.model.LedenUploadLog;
+import com.zhouyi.business.core.model.LedenUploadLogRequest;
+import com.zhouyi.business.core.model.LedenUploadLogResult;
 import com.zhouyi.business.core.model.LedenUploadPacket;
 import com.zhouyi.business.core.model.provincecomprehensive.DataStatus;
 import com.zhouyi.business.core.vo.LedenUploadLogVo;
@@ -13,6 +15,8 @@ import java.util.Map;
 
 @Mapper
 public interface LedenUploadLogMapper extends BuffBaseMapper<LedenUploadLog, LedenUploadLogVo>{
+
+    List<LedenUploadLogResult> selectList(LedenUploadLogRequest ledenUploadLogRequest);
 
     LedenUploadLog selectLedenUploadLogByNewTime(String equipmentId);
 

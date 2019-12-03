@@ -1,9 +1,11 @@
 package com.zhouyi.business.core.service;
 
 import com.alibaba.fastjson.JSON;
+import com.zhouyi.business.core.common.ReturnCode;
 import com.zhouyi.business.core.dao.LedenUploadLogMapper;
 import com.zhouyi.business.core.dao.LedenUploadPacketMapper;
 import com.zhouyi.business.core.model.*;
+import com.zhouyi.business.core.utils.ResponseUtil;
 import com.zhouyi.business.core.vo.LedenUploadLogVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -118,9 +120,13 @@ public class LedenUploadLogServiceImpl
      * 多条件查询上传信息列表
      * */
     @Override
-    public Response selectList(LedenUploadLog ledenUploadLog) {
-        List<LedenUploadLog> list = ledenUploadLogMapper.selectAll();
-        return null;
+    public Response selectList(LedenUploadLogRequest ledenUploadLogRequest) {
+        if (ledenUploadLogRequest.getPage() == null || ledenUploadLogRequest.getPage() < 1)
+            ledenUploadLogRequest.setPage(1);
+        if (ledenUploadLogRequest.getSize() == null || ledenUploadLogRequest.getSize() < 1)
+            ledenUploadLogRequest.setSize(20);
+        List<LedenUploadLogResult> ledenUploadLogResults = ledenUploadLogMapper.selectList(ledenUploadLogRequest);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,ledenUploadLogResults);
     }
 
     /**

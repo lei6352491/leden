@@ -2,6 +2,7 @@ package com.zhouyi.business.core.service;
 
 import com.zhouyi.business.core.model.Head;
 import com.zhouyi.business.core.model.LedenUploadLog;
+import com.zhouyi.business.core.model.LedenUploadLogRequest;
 import com.zhouyi.business.core.model.Response;
 import com.zhouyi.business.core.vo.LedenUploadLogVo;
 
@@ -37,5 +38,5 @@ public interface LedenUploadLogService extends BaseService<LedenUploadLog, Leden
     /**
      * 多条件查询上传信息列表
      * */
-    Response selectList(LedenUploadLog ledenUploadLog);
+    Response selectList(LedenUploadLogRequest ledenUploadLogRequest);
 }
