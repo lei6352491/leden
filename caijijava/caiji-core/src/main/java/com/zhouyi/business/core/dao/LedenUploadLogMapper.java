@@ -66,4 +66,8 @@ public interface LedenUploadLogMapper extends BuffBaseMapper<LedenUploadLog, Led
      */
     int updateResolveByPkId(@Param("pkId")String pkId,
                             @Param("resoveDatetime")Date resolveDatetime);
+
+    Integer selectListCount(LedenUploadLogRequest ledenUploadLogRequest);
+
+    LedenUploadLogResult findOne(@Param(value = "pkId") String id);
 }

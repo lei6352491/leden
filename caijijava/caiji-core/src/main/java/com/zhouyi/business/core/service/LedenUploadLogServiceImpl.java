@@ -126,7 +126,17 @@ public class LedenUploadLogServiceImpl
         if (ledenUploadLogRequest.getSize() == null || ledenUploadLogRequest.getSize() < 1)
             ledenUploadLogRequest.setSize(20);
         List<LedenUploadLogResult> ledenUploadLogResults = ledenUploadLogMapper.selectList(ledenUploadLogRequest);
-        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,ledenUploadLogResults);
+        Integer total = ledenUploadLogMapper.selectListCount(ledenUploadLogRequest);
+        Map<String,Object> map = new HashMap<>();
+        map.put("list",ledenUploadLogResults);
+        map.put("tatol",total);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,map);
+    }
+
+    @Override
+    public Response findOne(String id) {
+        LedenUploadLogResult ledenUploadLogResult = ledenUploadLogMapper.findOne(id);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,ledenUploadLogResult);
     }
 
     /**
