@@ -36,6 +36,16 @@ public class LedenConllectPersonVo2 extends LedenCollectPerson implements Serial
 
     private String dataType;
 
+    private String resolveStatus;
+
+    public String getResolveStatus() {
+        return resolveStatus;
+    }
+
+    public void setResolveStatus(String resolveStatus) {
+        this.resolveStatus = resolveStatus;
+    }
+
     public String getDataType() {
         return dataType;
     }

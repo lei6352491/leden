@@ -59,6 +59,11 @@ public class LedenUploadPacketServiceImpl
         return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,strings);
     }
 
+    @Override
+    public Response findOne(String id){
+        UploadPacketResult uploadPacketResult = ledenUploadPacketMapper.findOne(id);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,uploadPacketResult);
+    }
 
     /**
      * 多条件查询数据包列表

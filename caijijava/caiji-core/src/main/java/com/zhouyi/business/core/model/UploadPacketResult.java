@@ -28,5 +28,6 @@ public class UploadPacketResult {
     private String cjdwmc;
     private Date cjsj;
     private String dataType;
+    private String resolveStatusInfo;
 
 }

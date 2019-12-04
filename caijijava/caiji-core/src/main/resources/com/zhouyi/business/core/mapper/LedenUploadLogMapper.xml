@@ -273,22 +273,22 @@
           from LEDEN_UPLOAD_LOG t left join LEDEN_COLLECT_PERSON p on t.ryjcxxcjbh = p.ryjcxxcjbh
             <where>
                 <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
-                    t.RYJCXXCJBH = #{ryjcxxcjbh}
+                    and t.RYJCXXCJBH = #{ryjcxxcjbh}
                 </if>
                 <if test="jzrybh != null and jzrybh != ''">
-                    p.JZRYBH = #{jzrybh}
+                    and p.JZRYBH = #{jzrybh}
                 </if>
                 <if test="cjdwdm != null and cjdwdm != ''">
-                    p.CJDWDM = #{cjdwdm}
+                    and p.CJDWDM = #{cjdwdm}
                 </if>
                 <if test="uploadStatus != null and uploadStatus != ''">
-                    t.UPLOAD_STATUS = #{uploadStatus}
+                    and t.UPLOAD_STATUS = #{uploadStatus}
                 </if>
                 <if test="startDate != null">
-                    t.UPLOAD_DATETIME &gt;= #{startDate}
+                    and t.UPLOAD_DATETIME &gt;= #{startDate}
                 </if>
                 <if test="endDate != null">
-                    t.UPLOAD_DATETIME &lt;= #{endDate}
+                    and t.UPLOAD_DATETIME &lt;= #{endDate}
                 </if>
             </where>
             order by t.UPLOAD_DATETIME desc ) m) mm
@@ -300,22 +300,22 @@
         from LEDEN_UPLOAD_LOG t left join LEDEN_COLLECT_PERSON p on t.ryjcxxcjbh = p.ryjcxxcjbh
         <where>
             <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
-                t.RYJCXXCJBH = #{ryjcxxcjbh}
+                and t.RYJCXXCJBH = #{ryjcxxcjbh}
             </if>
             <if test="jzrybh != null and jzrybh != ''">
-                p.JZRYBH = #{jzrybh}
+                and p.JZRYBH = #{jzrybh}
             </if>
             <if test="cjdwdm != null and cjdwdm != ''">
-                p.CJDWDM = #{cjdwdm}
+                and p.CJDWDM = #{cjdwdm}
             </if>
             <if test="uploadStatus != null and uploadStatus != ''">
-                t.UPLOAD_STATUS = #{uploadStatus}
+                and t.UPLOAD_STATUS = #{uploadStatus}
             </if>
             <if test="startDate != null">
-                t.UPLOAD_DATETIME &gt;= #{startDate}
+                and t.UPLOAD_DATETIME &gt;= #{startDate}
             </if>
             <if test="endDate != null">
-                t.UPLOAD_DATETIME &lt;= #{endDate}
+                and t.UPLOAD_DATETIME &lt;= #{endDate}
             </if>
         </where>
     </select>

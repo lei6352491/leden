@@ -63,11 +63,22 @@
         <result column="CJSJ" property="cjsj"/>
         <result column="DATA_TYPE" property="dataType"/>
     </resultMap>
+    
+    <resultMap id="selectDataListMap2" type="com.zhouyi.business.core.model.UploadPacketResult" extends="selectDataListMap">
+        <result column="RESOLVE_RESULT_INFO" property="resolveStatusInfo"/>
+    </resultMap>
 
     <select id="selectFileSuffixList" resultType="string">
     select distinct FILE_SUFFIX from leden_upload_packet
   </select>
 
+    <select id="findOne" resultMap="selectDataListMap2">
+        select * from leden_upload_packet a
+        left join leden_collect_node n on a.node_sign = n.node_code
+        left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
+        where a.PK_ID = #{id}
+    </select>
+    
     <select id="selectDataList" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
             resultMap="selectDataListMap">
         select tt.* from
@@ -98,6 +109,9 @@
             </if>
             <if test="dateEnd != null">
                 and p.CJSJ &lt;= #{dateEnd}
+            </if>
+            <if test="resolveStatus != null and resolveStatus != ''">
+                and a.RESOLVE_STATUS = #{resolveStatus}
             </if>
         </where>
         order by p.CJSJ desc) t) tt
@@ -167,6 +181,9 @@
             </if>
             <if test="dateEnd != null">
                 and p.CJSJ &lt;= #{dateEnd}
+            </if>
+            <if test="resolveStatus != null and resolveStatus != ''">
+                and a.RESOLVE_STATUS = #{resolveStatus}
             </if>
         </where>
     </select>

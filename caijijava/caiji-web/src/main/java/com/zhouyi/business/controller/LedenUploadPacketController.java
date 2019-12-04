@@ -32,6 +32,11 @@ public class LedenUploadPacketController {
     @Autowired
     private LedenUploadPacketService ledenUploadPacketService;
 
+    @RequestMapping(value = "/findOne/{id}")
+    public Response findOne(@PathVariable(value = "id")String id){
+        return ledenUploadPacketService.findOne(id);
+    }
+
     @RequestMapping(value = "/selectList")
     public Response<UploadPacketResult> selectDataList(@RequestBody LedenConllectPersonVo2 ledenConllectPersonVo2){
         return ledenUploadPacketService.selectDataList(ledenConllectPersonVo2);

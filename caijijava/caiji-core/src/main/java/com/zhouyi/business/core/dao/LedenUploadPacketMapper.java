@@ -6,6 +6,7 @@ import com.zhouyi.business.core.model.UploadPacketResult;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
 import com.zhouyi.business.core.vo.LedenUploadPacketVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -33,4 +34,6 @@ public interface LedenUploadPacketMapper extends BuffBaseMapper<LedenUploadPacke
     List<String> selectFileSuffixList();
 
     List<String> selectDataTypeList();
+
+    UploadPacketResult findOne(@Param("id")String id);
 }

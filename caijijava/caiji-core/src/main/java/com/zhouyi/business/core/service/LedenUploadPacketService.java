@@ -25,4 +25,6 @@ public interface LedenUploadPacketService extends BaseService<LedenUploadPacket,
     Response<String> selectDataTypeList();
 
     InputStream downloadPacketList(List<String> list);
+
+    Response findOne(String id);
 }
