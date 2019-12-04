@@ -35,7 +35,7 @@ public class LedenCollectDrugtestServiceImpl
             ledenCollectDrugtest.setPkId(UUID.randomUUID().toString().replace("-",""));
             //保存之前删除原有信息
             ledenCollectDrugtestMapper.deleteDrugtestByPersonId(ledenCollectDrugtest.getRyjcxxcjbh());
-            this.saveData(ledenCollectDrugtest);
+            this.resoveSaveData(ledenCollectDrugtest);
         }
        return ResponseUtil.getResponseInfo(true);
     }

@@ -99,7 +99,7 @@ public class XMLParseController {
         //校验head是否有权限保存数据
         boolean boo = ledenCollectIrisService.checkHead(head);
         if (boo) {
-            Response<Object> response = ledenCollectIrisService.saveMapToRepository(data, head.getUserUnitCode(),ryjcxxcjbh);
+            Response<Object> response = ledenCollectIrisService.saveMapToRepository(data, head.getUserUnitCode(),ryjcxxcjbh,null);
             return response;
         } else {
             return ResponseUtil.returnError(ReturnCode.ERROR_06);
@@ -120,7 +120,7 @@ public class XMLParseController {
         boolean boo = ledenCollectVoiceprintService.checkHead(head);
         if (boo) {
 
-            Response<Object> response = ledenCollectVoiceprintService.saveMapToRepository(data, head.getUserUnitCode());
+            Response<Object> response = ledenCollectVoiceprintService.saveMapToRepository(data, head.getUserUnitCode(),null);
             //解析完成添加采集过程
 
 

@@ -91,8 +91,7 @@ public class CollectTimingTask {
 
     private static final Logger logger = LoggerFactory.getLogger(CollectTimingTask.class);
 
-//    @Scheduled(cron = "0/30 * * * * ?")
-    @Transactional
+    @Scheduled(cron = "0/30 * * * * ?")
     public void configureTasks() {
         analysisXmlFile();
     }
@@ -100,8 +99,14 @@ public class CollectTimingTask {
 
     private void setResolveResult(LedenUploadPacket resolveResult, String status, String message) {
         resolveResult.setResolveStatus(status);
-        resolveResult.setCreateDatetime(new Date());
-        resolveResult.setResolveResultInfo(message);
+        resolveResult.setResolveDatetime(new Date());
+        String newMessage="";
+        try {
+             newMessage = message.substring(0, 2000);
+        } catch (Exception e) {
+            newMessage=message;
+        }
+        resolveResult.setResolveResultInfo(newMessage);
 
     }
 
@@ -133,15 +138,14 @@ public class CollectTimingTask {
 
 
             for (LedenUploadPacket ledenUploadPacket : list) {
-                logger.info("DatType的值为:"+ledenUploadPacket.getDataType());
-                logger.info(ledenUploadPacket.getNodeSign()+"正在为解析");
+                logger.info("DatType的值为:" + ledenUploadPacket.getDataType());
+                logger.info(ledenUploadPacket.getNodeSign() + "正在为解析");
                 if ("PERSON".equals(ledenUploadPacket.getDataType())) {
 
                     try {
-                        logger.info("-------------"+strings.contains("000000000001"));
+                        logger.info("-------------" + strings.contains("000000000001"));
                         if (!strings.contains("000000000001")) {
                             setResolveResult(ledenUploadPacket, "2", "未授权");
-                            updateUploadPacket(ledenUploadPacket);
                             logger.info("人员信息解析未授权");
                             break;
                         } else {
@@ -154,14 +158,16 @@ public class CollectTimingTask {
                             //添加采集过程
                             LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000001");
                             ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
-                            updateUploadPacket(ledenUploadPacket);
                         }
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
                     } catch (AuthenticationException e) {
                         logger.info("解析人员信息失败1");
                         e.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                         flag = false;
                         break;
                     } catch (Exception E) {
@@ -170,7 +176,8 @@ public class CollectTimingTask {
                         E.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                         break;
                     }
                     continue;
@@ -188,7 +195,8 @@ public class CollectTimingTask {
                             LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000002");
                             ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                         }
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
 
                     } catch (AuthenticationException e) {
@@ -196,12 +204,14 @@ public class CollectTimingTask {
                         setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
 
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     } catch (Exception E) {
                         E.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
 
                     continue;
@@ -215,7 +225,7 @@ public class CollectTimingTask {
 
                             flagFinger = false;
                         } else {
-                            ledenCollectFingerService.inputFingersByXml(ledenUploadPacket.getFileLocation(),"0000");
+                            ledenCollectFingerService.inputFingersByXml(ledenUploadPacket.getFileLocation(), "0000");
                             setResolveResult(ledenUploadPacket, "1", "解析成功");
                             //删除数据库中该编号该节点的采集过程
                             ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000003");
@@ -223,7 +233,8 @@ public class CollectTimingTask {
                             LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000003");
                             ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                         }
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
 
                     } catch (Exception E) {
@@ -231,7 +242,8 @@ public class CollectTimingTask {
                         E.printStackTrace();
                         flag = false;
                         flagFinger = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
                     continue;
                 }
@@ -240,7 +252,7 @@ public class CollectTimingTask {
                         if (!strings.contains("000000000003")) {
                             setResolveResult(ledenUploadPacket, "2", "未授权");
                         } else {
-                            ledenCollectFingerService.inputFingersByXml(ledenUploadPacket.getFileLocation(),"xxxx");
+                            ledenCollectFingerService.inputFingersByXml(ledenUploadPacket.getFileLocation(), "xxxx");
                             setResolveResult(ledenUploadPacket, "1", "解析成功");
                             //删除数据库中该编号该节点的采集过程
                             ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000003");
@@ -249,12 +261,13 @@ public class CollectTimingTask {
                             ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                         }
 
-                        updateUploadPacket(ledenUploadPacket);
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     } catch (Exception E) {
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         E.printStackTrace();
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
                     continue;
                 }
@@ -274,18 +287,20 @@ public class CollectTimingTask {
                             ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                         }
 
-                        updateUploadPacket(ledenUploadPacket);
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
                     } catch (AuthenticationException e) {
                         e.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     } catch (Exception E) {
                         E.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
                     continue;
                 }
@@ -303,19 +318,22 @@ public class CollectTimingTask {
                             ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                         }
 
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
 
                     } catch (AuthenticationException e) {
                         e.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     } catch (Exception E) {
                         E.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
                     continue;
                 }
@@ -335,20 +353,22 @@ public class CollectTimingTask {
                             ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                         }
 
-                        updateUploadPacket(ledenUploadPacket);
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
                     } catch (AuthenticationException e) {
                         e.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
 
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     } catch (Exception E) {
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         E.printStackTrace();
 
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
                     continue;
                 }
@@ -364,7 +384,7 @@ public class CollectTimingTask {
                             //校验head是否有权限保存数据
                             boolean boo2 = ledenCollectVoiceprintService.checkHead(head);
                             if (boo2) {
-                                ledenCollectVoiceprintService.saveMapToRepository(data, head.getUserUnitCode());
+                                ledenCollectVoiceprintService.saveMapToRepository(data, head.getUserUnitCode(), head.getUserCode());
                                 setResolveResult(ledenUploadPacket, "1", "解析成功");
 
                                 //删除数据库中该编号该节点的采集过程
@@ -379,15 +399,16 @@ public class CollectTimingTask {
 
                         }
 
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
 
                     } catch (Exception E) {
                         E.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
-
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
                     continue;
                 }
@@ -406,19 +427,22 @@ public class CollectTimingTask {
                             ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                         }
 
-                        updateUploadPacket(ledenUploadPacket);
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
+
                     } catch (AuthenticationException e) {
                         setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
                         e.printStackTrace();
 
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     } catch (Exception E) {
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         E.printStackTrace();
 
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
                     continue;
                 }
@@ -435,9 +459,8 @@ public class CollectTimingTask {
                             //校验head是否有权限保存数据
                             boolean boo2 = ledenCollectIrisService.checkHead(head);
                             if (boo2) {
-                                ledenCollectIrisService.saveMapToRepository(data, head.getUserUnitCode(), ryjcxxcjbh);
-                                ledenUploadPacket.setResolveResultInfo("解析成功");
-
+                                ledenCollectIrisService.saveMapToRepository(data, head.getUserUnitCode(), ryjcxxcjbh, head.getUserCode());
+                                setResolveResult(ledenUploadPacket, "1", "解析成功");
                                 //删除数据库中该编号该节点的采集过程
                                 ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000009");
                                 //添加采集过程
@@ -448,15 +471,18 @@ public class CollectTimingTask {
                                 flag = false;
                             }
                         }
-                        updateUploadPacket(ledenUploadPacket);
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
 
                     } catch (Exception E) {
                         E.printStackTrace();
-                        setResolveResult(ledenUploadPacket, "2", E.getMessage());
-
+                        setResolveResult(ledenUploadPacket, "2", E.toString());
+                        System.out.println("-------------------------------------");
+                        System.out.println(E.toString().length());
+                        System.out.println("-------------------------------------");
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
+
                     }
                     continue;
                 }
@@ -468,26 +494,28 @@ public class CollectTimingTask {
                         } else {
                             ledenCollectGoodsService.inputGoodsByXml(ledenUploadPacket.getFileLocation());
                             ledenUploadPacket.setResolveResultInfo("解析成功");
-                            updateUploadPacket(ledenUploadPacket);
 
+                            setResolveResult(ledenUploadPacket, "1", "解析成功");
                             //删除数据库中该编号该节点的采集过程
                             ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000010");
                             //添加采集过程
                             LedenCollectProcess ledenCollectProcess = getLedenCollectProcess(ledenUploadPacket, 1, "000000000010");
                             ledenCollectProcessMapper.insertSelective(ledenCollectProcess);
                         }
-                        updateUploadPacket(ledenUploadPacket);
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
                     } catch (AuthenticationException e) {
                         setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
                         e.printStackTrace();
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     } catch (Exception E) {
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         E.printStackTrace();
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
                     continue;
                 }
@@ -497,7 +525,6 @@ public class CollectTimingTask {
                             setResolveResult(ledenUploadPacket, "2", "未授权");
 
                         } else {
-                            updateUploadPacket(ledenUploadPacket);
                             Map map = xmlParamUtils.parseXmlToMap(ledenUploadPacket.getFileLocation(), LedenCollectDrugtest.class, null);
                             Head head = (Head) map.get("head");
                             List data = (List) map.get("data");
@@ -517,14 +544,15 @@ public class CollectTimingTask {
                             }
                         }
 
-                        updateUploadPacket(ledenUploadPacket);
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
                     } catch (Exception E) {
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         E.printStackTrace();
 
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
                     continue;
                 }
@@ -556,16 +584,15 @@ public class CollectTimingTask {
                                 flag = false;
                             }
                         }
-
-                        updateUploadPacket(ledenUploadPacket);
-
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
                     } catch (Exception E) {
                         E.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
 
                         flag = false;
-                        updateUploadPacket(ledenUploadPacket);
+
+                        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
 
                 }
@@ -575,9 +602,8 @@ public class CollectTimingTask {
             //如果解析完成并且上报至省综平台
             logger.info("人员编号:" + zipUploadPacket.getRyjcxxcjbh() + "的flag:" + flag + "\n");
             if (flag) {
-                logger.info("更改ZIP的状态为成功"+flag);
+                logger.info("更改ZIP的状态为成功" + flag);
                 setResolveResult(zipUploadPacket, "1", "解析成功");
-                updateUploadPacket(zipUploadPacket);
                 LedenUploadLog ledenUploadLog = new LedenUploadLog();
 
 
@@ -589,23 +615,25 @@ public class CollectTimingTask {
 
                 ledenUploadLogMapper.insertUploadLog(ledenUploadLog);
 
-            }else{
-               setResolveResult(zipUploadPacket,"2","解析失败");
-               updateUploadPacket(zipUploadPacket);
+            } else {
+                setResolveResult(zipUploadPacket, "2", "解析失败");
             }
+
+
+            ledenUploadPacketMapper.updateByPrimaryKey(zipUploadPacket);
         } else {
 
             logger.error("未获取到解析队列，等待下次执行");
         }
     }
 
-    private void updateUploadPacket(LedenUploadPacket ledenUploadPacket) {
-        LedenUploadPacket ledenUploadPacket1 = ledenUploadPacketMapper.selectByPrimaryKey(ledenUploadPacket.getPkId());
-        ledenUploadPacket1.setResolveStatus("1");
-        ledenUploadPacket1.setResolveDatetime(new Date());
-        ledenUploadPacket1.setResolveResultInfo(ledenUploadPacket.getResolveResultInfo());
-        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket1);
-    }
+//    private void updateUploadPacket(LedenUploadPacket ledenUploadPacket) {
+//        LedenUploadPacket ledenUploadPacket1 = ledenUploadPacketMapper.selectByPrimaryKey(ledenUploadPacket.getPkId());
+//        ledenUploadPacket1.setResolveStatus("1");
+//        ledenUploadPacket1.setResolveDatetime(new Date());
+//        ledenUploadPacket1.setResolveResultInfo(ledenUploadPacket.getResolveResultInfo());
+//        ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket1);
+//    }
 
     private LedenCollectProcess getLedenCollectProcess(LedenUploadPacket ledenUploadPacket, int stauts, String nodeCode) {
         LedenCollectProcess ledenCollectProcess = new LedenCollectProcess();
@@ -620,22 +648,23 @@ public class CollectTimingTask {
     }
 
 
-
-//    @Scheduled(cron = "0/30 * * * * ?")
-    public void searchDataStatus(){
+    @Scheduled(cron = "0/30 * * * * ?")
+    public void searchDataStatus() {
         DataStatus uploadSuccessData = ledenUploadLogMapper.getUploadSuccessData();
-        if(uploadSuccessData!=null){
-            logger.info("查询"+uploadSuccessData.getRybh()+"的解析状态信息");
+        if (uploadSuccessData != null) {
+            logger.info("查询" + uploadSuccessData.getRybh() + "的解析状态信息");
             logger.info(uploadSuccessData.toString());
-        }else{
+        } else {
             logger.info("没有待查询的人员信息");
             return;
         }
         uploadProvinceComponent.getDataUploadStatus(uploadSuccessData);
 
         //修改解析时间
-        ledenUploadLogMapper.updateResolveByPkId(uploadSuccessData.getPkId(),new Date());
+        ledenUploadLogMapper.updateResolveByPkId(uploadSuccessData.getPkId(), new Date());
 
 
     }
+
+
 }

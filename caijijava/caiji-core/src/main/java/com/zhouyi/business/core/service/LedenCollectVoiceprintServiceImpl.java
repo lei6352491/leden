@@ -30,16 +30,18 @@ public class LedenCollectVoiceprintServiceImpl
 
     @Override
     @Transactional
-    public Response<Object> saveMapToRepository(List list, String userUnitCode) {
+    public Response<Object> saveMapToRepository(List list, String userUnitCode,String userCode) {
         for (Object object : list) {
             if (list == null) {
                 return ResponseUtil.returnError(ReturnCode.ERROR_14);
             }
             LedenCollectVoiceprint ledenCollectVoiceprint = (LedenCollectVoiceprint) object;
             ledenCollectVoiceprint.setPkId(UUID.randomUUID().toString().replace("-", ""));
+            ledenCollectVoiceprint.setCreateUserId(userCode);
+            ledenCollectVoiceprint.setCreateDatetime(new Date());
             //删除原有数据
             ledenCollectVoiceprintMapper.deleteVoiceprintByPersonId(ledenCollectVoiceprint.getRyjcxxcjbh());
-            this.saveData(ledenCollectVoiceprint);
+            this.resoveSaveData(ledenCollectVoiceprint);
         }
         return ResponseUtil.getResponseInfo(true);
     }

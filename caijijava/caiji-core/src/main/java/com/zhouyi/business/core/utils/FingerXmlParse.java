@@ -273,14 +273,14 @@ public class FingerXmlParse {
                 field = targetClass.getDeclaredField(node_properties);
             } catch (NoSuchFieldException e) {
                 //如果没有该字段则记录跳过
-                logger.info("系统不存在字段:" + node_properties);
+                logger.warn("系统不存在字段:" + node_properties);
                 continue;
             }
 
             field.setAccessible(true);
             if (field.getType() == String.class) {
                 //直接封装数据
-                logger.info("字段:" + field.getName() + ":" + node.getStringValue()); field.set(resultObject, node.getStringValue());
+                logger.warn("字段:" + field.getName() + ":" + node.getStringValue()); field.set(resultObject, node.getStringValue());
             } else if (field.getType() == byte[].class) {
                 //如果是图片数据
                 field.set(resultObject, node.getStringValue().getBytes());

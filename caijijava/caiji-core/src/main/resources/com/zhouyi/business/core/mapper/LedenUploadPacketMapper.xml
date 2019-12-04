@@ -84,13 +84,13 @@
         select tt.* from
         (select rownum rn,t.* from
         (select
-        a.PK_ID,p.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,p.EQUIPMENT_CODE,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,a.DATA_TYPE
+        a.PK_ID,a.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,a.EQUIPMENT_ID,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,a.DATA_TYPE
         from
         leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
         left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
         <where>
             <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
-                and p.RYJCXXCJBH = #{ryjcxxcjbh}
+                and a.RYJCXXCJBH = #{ryjcxxcjbh}
             </if>
             <if test="cjrxm != null and cjrxm != ''">
                 and p.CJRXM like concat('%',concat(#{cjrxm},'%'))
@@ -117,6 +117,8 @@
         order by p.CJSJ desc) t) tt
         where tt.rn &gt;= #{startNo} and tt.rn &lt; #{endNo}
     </select>
+
+
 
     <select id="selectDataList2" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
             resultMap="selectDataListMap">

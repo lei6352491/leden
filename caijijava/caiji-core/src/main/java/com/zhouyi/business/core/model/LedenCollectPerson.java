@@ -85,7 +85,7 @@ public class LedenCollectPerson implements Serializable {
 
     private String equipmentCode;
 
-    private String deletag;
+    private String deletag="0";
 
     private String annex;
 

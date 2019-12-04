@@ -192,4 +192,10 @@ public class BaseServiceImpl<T,V> implements BaseService<T,V> {
         return true;
     }
 
+
+    @Override
+    public int resoveSaveData(T t) {
+        return   buffBaseMapper.insertSelective(t);
+    }
+
 }

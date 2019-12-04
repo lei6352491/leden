@@ -158,11 +158,12 @@
 
 
     <sql id="condition_filter_column">
-    ryjcxxcjbh,equipment_id,is_get_code
+    ryjcxxcjbh,equipment_id,is_get_code,pk_id
   </sql>
 
     <resultMap id="listBaseMap" type="com.zhouyi.business.core.model.LedenUploadLog" extends="BaseResultMap">
         <result column="is_get_code" property="isGetCode"/>
+        <result column="pk_id" property="pkId"/>
     </resultMap>
 
     <select id="listUploadLogByConditions" resultMap="listBaseMap">

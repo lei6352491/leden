@@ -14,7 +14,7 @@ import java.util.Map;
 public interface LedenCollectVoiceprintService
         extends BaseService<LedenCollectVoiceprint, LedenCollectVoiceprintVo>{
 
-    Response<Object> saveMapToRepository(List list, String userUnitCode);
+    Response<Object> saveMapToRepository(List list, String userUnitCode,String userCode);
 
     Response<LedenCollectVoiceprint> selectVoicePrintByPersonCode(String id);
 
