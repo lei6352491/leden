@@ -39,4 +39,6 @@ public interface LedenUploadLogService extends BaseService<LedenUploadLog, Leden
      * 多条件查询上传信息列表
      * */
     Response selectList(LedenUploadLogRequest ledenUploadLogRequest);
+
+    Response findOne(String id);
 }

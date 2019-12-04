@@ -296,4 +296,34 @@
         where rn &gt;= (#{page} -1) * #{size} + 1 and rn &lt; #{page} * #{size} + 1
     </select>
 
+    <select id="selectListCount" parameterType="com.zhouyi.business.core.model.LedenUploadLogRequest" resultType="int">
+        select count(*)
+        from LEDEN_UPLOAD_LOG t left join LEDEN_COLLECT_PERSON p on t.ryjcxxcjbh = p.ryjcxxcjbh
+        <where>
+            <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
+                t.RYJCXXCJBH = #{ryjcxxcjbh}
+            </if>
+            <if test="jzrybh != null and jzrybh != ''">
+                p.JZRYBH = #{jzrybh}
+            </if>
+            <if test="cjdwdm != null and cjdwdm != ''">
+                p.CJDWDM = #{cjdwdm}
+            </if>
+            <if test="uploadStatus != null and uploadStatus != ''">
+                t.UPLOAD_STATUS = #{uploadStatus}
+            </if>
+            <if test="startDate != null">
+                t.UPLOAD_DATETIME &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                t.UPLOAD_DATETIME &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="findOne" resultMap="selectAllMap">
+        select t.PK_ID,t.EQUIPMENT_ID,t.NODE_SIGN,t.IS_EMPOWER,t.UPLOAD_IP,t.UPLOAD_STATUS,t.UPLOAD_RESULT_INFO,t.UPLOAD_DATETIME,p.*
+        from LEDEN_UPLOAD_LOG t left join LEDEN_COLLECT_PERSON p on t.ryjcxxcjbh = p.ryjcxxcjbh where t.PK_ID = #{pkId}
+    </select>
+
 </mapper>
