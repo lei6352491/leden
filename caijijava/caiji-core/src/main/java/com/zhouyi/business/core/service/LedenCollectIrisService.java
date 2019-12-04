@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface LedenCollectIrisService extends BaseService<LedenCollectIris, LedenCollectIrisVo> {
 
-    Response<Object> saveMapToRepository(List list,String userUnitCode,String ryjcxxcjbh);
+    Response<Object> saveMapToRepository(List list,String userUnitCode,String ryjcxxcjbh,String userCode);
 
     Response<List<LedenCollectIris>> selectIrisByPersonCode(String id);
 

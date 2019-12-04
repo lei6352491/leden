@@ -32,7 +32,7 @@ public class FileStoreUtils {
     private LedenUploadPacketService ledenUploadPacketService;
 
     public void automaticSavaData
-            (String equipmentCode, String personCode, String nodeCode, String fileType, String path, String status,String dataType){
+            (String equipmentCode, String personCode, String nodeCode, String fileType, String path, String status,String dataType, String unitCode){
 
         LedenUploadPacket ledenUploadPacket = new LedenUploadPacket();
         ledenUploadPacket.setPkId(UUID.randomUUID().toString().replace("-", ""));
@@ -76,7 +76,8 @@ public class FileStoreUtils {
                 (path+"/bak/" + packetNamePath + ".zip");
         ledenUploadPacket.setFileSuffix("zip");
         ledenUploadPacket.setCreateDatetime(new Date());
-        ledenUploadPacket.setResolveStatus("0");
+        //等所有队列插入成功后改成1
+        ledenUploadPacket.setResolveStatus("3");
         URL url = null;
         try {
             url = new URL(ledenUploadPacket.getFileLocation());

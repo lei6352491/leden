@@ -40,7 +40,7 @@ public class LedenCollectBankcardServiceImpl
             //设置银行卡主键主键
             ledenCollectBankcard.setPkid(UUID.randomUUID().toString().replace("-",""));
             //保存银行卡信息
-            this.saveData(ledenCollectBankcard);
+            this.resoveSaveData(ledenCollectBankcard);
             //保存该张银行卡的交易记录信息
             for (Object objectChild : ledenCollectBankcard.getList()){
                 LedenCollectBRecord ledenCollectBRecord = (LedenCollectBRecord)objectChild;

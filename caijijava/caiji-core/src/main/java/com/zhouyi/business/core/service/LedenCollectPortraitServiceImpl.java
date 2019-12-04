@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Encoder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class LedenCollectPortraitServiceImpl
@@ -70,6 +67,7 @@ public class LedenCollectPortraitServiceImpl
             BeanUtils.copyProperties(ledenCollectPortraitXml, ledenCollectPortrait);
             ledenCollectPortrait.setPkId(UUID.randomUUID().toString().substring(0, 32));
             ledenCollectPortrait.setCreateUserId(XmlParseUtil.userCodeThreadLocal.get().toString());
+            ledenCollectPortrait.setCreateDatetime(new Date());
             data.add(ledenCollectPortrait);
         }
         XmlParseUtil.userCodeThreadLocal.remove();

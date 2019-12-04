@@ -11,4 +11,9 @@ public class ExceptionCast {
     public static void cast(Response response){
         throw new CollectionException(response);
     }
+
+
+
+
+
 }

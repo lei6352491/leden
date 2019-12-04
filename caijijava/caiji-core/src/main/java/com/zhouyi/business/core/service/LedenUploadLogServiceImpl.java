@@ -98,7 +98,7 @@ public class LedenUploadLogServiceImpl
 
         Integer[] uploadStatus=status;
 
-        List<LedenUploadLog> array = ledenUploadLogMapper.listUploadLogByConditions(Arrays.asList(uploadStatus));;
+        List<LedenUploadLog> array = ledenUploadLogMapper.listUploadLogByConditions(Arrays.asList(uploadStatus));
 
         return array;
     }

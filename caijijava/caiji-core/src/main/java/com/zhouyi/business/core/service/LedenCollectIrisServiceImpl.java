@@ -27,7 +27,7 @@ public class LedenCollectIrisServiceImpl
 
     @Override
     @Transactional
-    public Response<Object> saveMapToRepository(List list,String userUnitCode,String ryjcxxcjbh) {
+    public Response<Object> saveMapToRepository(List list,String userUnitCode,String ryjcxxcjbh,String userCode) {
         if (list == null){
             return ResponseUtil.returnError(ReturnCode.ERROR_14);
         }
@@ -46,7 +46,9 @@ public class LedenCollectIrisServiceImpl
             LedenCollectIris ledenCollectIris = (LedenCollectIris)object;
             ledenCollectIris.setPkId(UUID.randomUUID().toString().replace("-",""));
             ledenCollectIris.setRyjcxxcjbh(ryjcxxcjbh);
-            this.saveData(ledenCollectIris);
+            ledenCollectIris.setCreateDatetime(new Date());
+            ledenCollectIris.setCreateUserId(userCode);
+            this.resoveSaveData(ledenCollectIris);
         }
         return ResponseUtil.getResponseInfo(true);
     }

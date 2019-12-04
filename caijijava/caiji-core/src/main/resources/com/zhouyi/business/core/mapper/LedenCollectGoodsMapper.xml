@@ -284,17 +284,18 @@
         SYS_DICT_LIST d on g.WPYSDM = d.code and d.sign = 'DICT_YS'
 
         <where>
+            <if test="ryjcxxcjbh!=null and ryjcxxcjbh!=''">
+                and ryjcxxcjbh=#{ryjcxxcjbh}
+            </if>
             <if test="start!=null and start!=''">
-                ROWNUM &lt;= #{end}
+                and ROWNUM &lt;= #{end}
             </if>
         </where>
 
         ) collectGoods
 
         <where>
-            <if test="ryjcxxcjbh!=null and ryjcxxcjbh!=''">
-                and ryjcxxcjbh=#{ryjcxxcjbh}
-            </if>
+
             <if test="wpbh!=null and wpbh!=''">
                 and wpbh=#{wpbh}
             </if>

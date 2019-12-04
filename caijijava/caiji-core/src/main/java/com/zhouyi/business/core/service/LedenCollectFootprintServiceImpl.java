@@ -66,9 +66,10 @@ public class LedenCollectFootprintServiceImpl implements LedenCollectFootprintSe
             ledenCollectFootprints.add(ledenCollectFootprint);
             ledenCollectFootprint.setCreateDatetime(new Date());
         }
-        //清除原有数据
-        ledenCollectFootprintMapper.deleteFootPrintByPersonId(ledenCollectFootprints.get(0).getRyjcxxcjbh());
+
         if (ledenCollectFootprints != null && ledenCollectFootprints.size() > 0) {
+            //清除原有数据
+            ledenCollectFootprintMapper.deleteFootPrintByPersonId(ledenCollectFootprints.get(0).getRyjcxxcjbh());
             ledenCollectFootprintMapper.insertFootPrints(ledenCollectFootprints);
         }
         return true;

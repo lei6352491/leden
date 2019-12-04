@@ -521,7 +521,7 @@
                     </if>
 
                 </where>
-                order by p.cjsj desc)
+                order by p.create_datetime desc)
             csl)
         where rn &gt;= ((#{pNo} - 1) * #{pSize}) + 1 and rn &lt; ((#{pNo} - 1) * #{pSize}) + 1 + #{pSize}
     </select>

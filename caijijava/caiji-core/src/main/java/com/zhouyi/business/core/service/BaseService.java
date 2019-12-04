@@ -20,4 +20,10 @@ public interface BaseService<T,V> {
 
     boolean checkHead(Head head);
 
+
+    int resoveSaveData(T t);
+
+
+
+
 }
