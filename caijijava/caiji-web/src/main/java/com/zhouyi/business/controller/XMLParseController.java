@@ -198,7 +198,7 @@ public class XMLParseController {
 
 
 //                存储zip数据包信息
-                fileStoreUtils.automaticSavaPacket(uploadFileMessage.getEquipmentCode(),ryjcxxcjbh,uploadFileMessage.getDataBrief().getUploadPacket(),"000000000000",path);
+                fileStoreUtils.automaticSavaPacket(uploadFileMessage.getEquipmentCode(),ryjcxxcjbh,uploadFileMessage.getDataBrief().getUploadPacket(),"000000000000",path, headBean.getUserUnitCode());
 
 
                 logger.info("zip入库成功");
