@@ -49,9 +49,7 @@ public class LedenCollectPortraitServiceImpl
         LedenCollectPortraitVo ledenCollectPortraitVo = (LedenCollectPortraitVo) XmlParseUtil.parseXml(path, LedenCollectPortraitVo.class);
 
         //进行授权验证
-        if (!securityUtil.repairpermissions(ledenCollectPortraitVo.head, AuthoirtyEnum.PORTRAIT)) {
-            throw new AuthenticationException(ReturnCode.ERROR_1037);
-        }
+        securityUtil.repairpermissions(ledenCollectPortraitVo.head, AuthoirtyEnum.PORTRAIT);
 
         //获取xml数据集合
         List<LedenCollectPortraitXml> xmlDatas = ledenCollectPortraitVo.data;

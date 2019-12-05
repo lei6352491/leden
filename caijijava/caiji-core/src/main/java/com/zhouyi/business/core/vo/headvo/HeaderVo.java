@@ -7,6 +7,7 @@ package com.zhouyi.business.core.vo.headvo;
  * @date 2019/7/1 9:28
  * @Version 1.0
  **/
+
 public class HeaderVo {
 
     public String EQUIPMENT_CODE;

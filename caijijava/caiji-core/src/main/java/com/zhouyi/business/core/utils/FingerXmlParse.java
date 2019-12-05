@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import sun.misc.BASE64Decoder;
 
 import javax.annotation.PostConstruct;
@@ -115,11 +116,13 @@ public class FingerXmlParse {
             headerVo.setUSER_CODE(packageHeadVo.getUserCode());
             headerVo.setUSER_UNIT_CODE(packageHeadVo.getUserUnitCode());
             headerVo.setEQUIPMENT_CODE(packageHeadVo.getEquipmentCode());
-            //校验头部信息
-            boolean flag=securityUtil.repairpermissions(headerVo,AuthoirtyEnum.FINGERPLAM);
-            if(!flag){
-                throw new AuthenticationException(ReturnCode.ERROR_1037);
+
+            if(!StringUtils.isEmpty(headerVo)){
+                //校验头部信息
+                securityUtil.repairpermissions(headerVo,AuthoirtyEnum.FINGERPLAM);
             }
+
+
 
 
             //解析指纹数据包
@@ -189,7 +192,7 @@ public class FingerXmlParse {
             throw new AuthenticationException(e.getReturnCode());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new XmlParseException("未知错误:" + e.getMessage());
+            throw new XmlParseException("未知错误");
         }
         return null;
     }
@@ -254,9 +257,6 @@ public class FingerXmlParse {
         }
         T resultObject = null;
         if (targetClass.isMemberClass()) {
-            System.out.println("该类的构造方法有" + targetClass.getConstructors().length);
-            System.out.println("查看构造方法:" + targetClass.getConstructors()[0]);
-            System.out.println("使用该构造初始化一个内部类:" + targetClass.getConstructors()[0]);
             if (targetClass.getDeclaringClass() != null) {
                 //实例化外部对象
                 Class<?> outClass = targetClass.getDeclaringClass();
@@ -348,7 +348,10 @@ public class FingerXmlParse {
 
                     Field createDateTimeField = extractFieldAndSetAccess(clazz, "createDatetime");
                     try {
-                        Date date = new SimpleDateFormat("yyyymmddHHMMss").parse(collectTime);
+                        Date date = new Date();
+                        if(collectTime!=null){
+                            date = new SimpleDateFormat("yyyymmddHHMMss").parse(collectTime);
+                        }
                         createDateTimeField.set(x, date);
                     } catch (ParseException e) {
                         logger.error("奈印时间错误:" + e.getMessage() + ",使用系统默认值");

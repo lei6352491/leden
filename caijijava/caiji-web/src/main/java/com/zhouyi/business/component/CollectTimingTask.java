@@ -13,6 +13,7 @@ import com.zhouyi.business.core.utils.SecurityUtil;
 import com.zhouyi.business.core.vo.headvo.HeaderVo;
 import com.zhouyi.business.utils.JsoupParseXmlUtils;
 import com.zhouyi.business.utils.XMLParamUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import java.util.UUID;
  * @Version 1.0
  **/
 
+@Slf4j
 @Component
 public class CollectTimingTask {
 
@@ -131,6 +133,7 @@ public class CollectTimingTask {
 
             logger.info("正在解析：" + zipUploadPacket.getRyjcxxcjbh() + "的数据包");
 
+            boolean originalPic=false;
 
             //查询该设备的所有授权节点
             List<String> strings = ledenEquipmentEmpowerService.searchEmpwerdNodeSign(zipUploadPacket.getEquipmentId());
@@ -230,6 +233,7 @@ public class CollectTimingTask {
                         }
 
                         ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
+                        originalPic=true;
 
 
                     } catch (Exception E) {
@@ -242,7 +246,8 @@ public class CollectTimingTask {
                     }
                     continue;
                 }
-                if ("FINGERPLAMWSQ".equals(ledenUploadPacket.getDataType()) && flagFinger) {
+                if ("FINGERPLAMWSQ".equals(ledenUploadPacket.getDataType()) && flagFinger&&originalPic) {
+
                     try {
                         if (!strings.contains("000000000003")) {
                             setResolveResult(ledenUploadPacket, "2", "未授权");
@@ -375,6 +380,8 @@ public class CollectTimingTask {
                         } else {
                             Map map = xmlParamUtils.parseXmlToMap(ledenUploadPacket.getFileLocation(), LedenCollectVoiceprint.class, null);
                             Head head = (Head) map.get("head");
+                            log.info("声纹的头部数据为"+head.toString());
+
 
                             HeaderVo headerVo=new HeaderVo();
                             headerVo.setUSER_CODE(head.getUserCode());
@@ -533,6 +540,7 @@ public class CollectTimingTask {
                         } else {
                             Map map = xmlParamUtils.parseXmlToMap(ledenUploadPacket.getFileLocation(), LedenCollectDrugtest.class, null);
                             Head head = (Head) map.get("head");
+                            log.info("吸毒检测头部数据:"+head.toString());
                             List data = (List) map.get("data");
 
                             HeaderVo headerVo=new HeaderVo();

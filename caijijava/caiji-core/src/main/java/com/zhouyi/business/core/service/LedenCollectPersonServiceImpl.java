@@ -55,9 +55,8 @@ public class LedenCollectPersonServiceImpl implements LedenCollectPersonService 
         LedenConllectPersonVo ledenConllectPersonVo=(LedenConllectPersonVo) XmlParseUtil.parseXml(path,LedenConllectPersonVo.class);
 
         //检验头部数据
-        if(securityUtil.repairpermissions(ledenConllectPersonVo.head, AuthoirtyEnum.PERSON)==false){
-            throw new AuthenticationException(ReturnCode.ERROR_1037);
-        }
+        securityUtil.repairpermissions(ledenConllectPersonVo.head, AuthoirtyEnum.PERSON);
+
 
 
         //进行数据转换

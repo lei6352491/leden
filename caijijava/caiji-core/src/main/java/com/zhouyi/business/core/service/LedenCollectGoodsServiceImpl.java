@@ -7,8 +7,10 @@ import com.zhouyi.business.core.exception.AuthenticationException;
 import com.zhouyi.business.core.exception.BusinessException;
 import com.zhouyi.business.core.exception.XmlParseException;
 import com.zhouyi.business.core.model.*;
+import com.zhouyi.business.core.model.enums.AuthoirtyEnum;
 import com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardGoods;
 import com.zhouyi.business.core.utils.MapUtils;
+import com.zhouyi.business.core.utils.SecurityUtil;
 import com.zhouyi.business.core.utils.XmlParseUtil;
 import com.zhouyi.business.core.vo.LedenCollectGoodsVo;
 import com.zhouyi.business.core.vo.xml.LedenCollectGPhotoXml;
@@ -51,6 +53,8 @@ public class LedenCollectGoodsServiceImpl implements LedenCollectGoodsService {
     private LedenCollectGBicycleMapper ledenCollectGBicycleMapper;
     @Autowired
     private LedenCollectGCurrencyMapper ledenCollectGCurrencyMapper;
+    @Autowired
+    private SecurityUtil securityUtil;
 
 
     /**
@@ -65,6 +69,9 @@ public class LedenCollectGoodsServiceImpl implements LedenCollectGoodsService {
 
 
         LedenCollectGoodsVo goodsVo = (LedenCollectGoodsVo) XmlParseUtil.parseXml(path, LedenCollectGoodsVo.class);
+        boolean repairpermissions = securityUtil.repairpermissions(goodsVo.getHead(), AuthoirtyEnum.GOODS);
+
+
         //获取其中的随声物品数据列表
         List<LedenCollectGoodsXml> goodsXmls = goodsVo.getData();
 

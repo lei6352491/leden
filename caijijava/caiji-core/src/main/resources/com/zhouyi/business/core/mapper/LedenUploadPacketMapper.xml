@@ -415,5 +415,6 @@
 
     <select id="selectTaskResolveByRyjcxxcjbh" resultMap="BaseResultMap">
     select * from leden_upload_packet where resolve_status in (0,2) and ryjcxxcjbh=#{_parameter} and data_type!='zip'
+    order by node_sign
   </select>
 </mapper>

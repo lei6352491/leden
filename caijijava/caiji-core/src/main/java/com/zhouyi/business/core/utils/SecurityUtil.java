@@ -68,8 +68,7 @@ public class SecurityUtil {
                 equipmentEmpowerByEquipmnetCode) {
             if (ledenEquipmentEmpower.getNodeSign().equals(authoirtyNode.getNodeSign())&&ledenEquipmentEmpower.getDeletag().equals("0")){
                 //如果授权信息为0则表示有权限
-                flag=true;
-                break;
+                throw new AuthenticationException(ReturnCode.ERROR_1053);
             }
         }
 
@@ -91,7 +90,7 @@ public class SecurityUtil {
 //                throw new AuthenticationException(ReturnCode.ERROR_1035);
 //            }
 //        }
-        return flag;
+        return true;
     }
 
 
