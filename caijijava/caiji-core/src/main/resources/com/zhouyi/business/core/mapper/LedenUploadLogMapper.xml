@@ -200,7 +200,7 @@
        select p.jzrybh rybh,pk_Id pkId,ROWNUM r from leden_upload_log
        left join leden_collect_person p on leden_upload_log.ryjcxxcjbh=p.ryjcxxcjbh
         where upload_status='4'
-        order by RESOVLE_DATETIME desc
+        order by RESOLVE_DATETIME desc
        ) d where r=1
     </select>
 

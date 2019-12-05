@@ -182,6 +182,8 @@ public class BaseServiceImpl<T, V> implements BaseService<T, V> {
         SysUnit sysUnit = sysUnitMapper.selectByPrimaryKey(head.getUserUnitCode());
         if (sysUnit == null)
             ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_12));
+        if(!sysUnit.getUnitCode().equals(head.getUserUnitCode()))
+            ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_1037));
         if (StringUtils.isEmpty(head.getEquipmentCode()))
             ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_11));
         LedenEquipment ledenEquipment = new LedenEquipment();

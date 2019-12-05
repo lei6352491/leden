@@ -59,9 +59,9 @@ public class SecurityUtil {
         if(tempEquipment==null){
             throw new AuthenticationException(ReturnCode.ERROR_1038);
         }
-        else if(!tempEquipment.getUnitCode().equals(sysUser.getUserUnitCode())){
-            throw new AuthenticationException(ReturnCode.ERROR_1046);
-        }
+//        else if(!tempEquipment.getUnitCode().equals(sysUser.getUserUnitCode())){
+//            throw new AuthenticationException(ReturnCode.ERROR_1046);
+//        }
         //授权信息通过
         boolean empowerFlag=false;
         List<LedenEquipmentEmpower> equipmentEmpowerByEquipmnetCode = ledenEquipmentEmpowerMapper.getEquipmentEmpowerByEquipmnetCode(tempEquipment.getEquipmentCode());
