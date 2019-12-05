@@ -73,14 +73,12 @@
   </select>
 
     <select id="findOne" resultMap="selectDataListMap2">
-        select a.PK_ID,a.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,a.EQUIPMENT_ID,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,a.DATA_TYPE,a.RESOLVE_RESULT_INFO
+        select a.PK_ID,a.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,a.EQUIPMENT_ID equipment_code,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,a.DATA_TYPE,a.RESOLVE_RESULT_INFO
         from leden_upload_packet a
         left join leden_collect_node n on a.node_sign = n.node_code
         left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
         where a.PK_ID = #{id}
     </select>
-
-
 
     <resultMap id="thisResultMap" type="com.zhouyi.business.core.vo.LedenConllectPersonVo2">
 
