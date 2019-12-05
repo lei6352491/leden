@@ -72,14 +72,16 @@ public class LedenCollectFingerServiceImpl
     @Override
     @Transactional
     public Boolean inputFingersByXml(String path,String compressionAlgorithm) throws XMLParseException, AuthenticationException {
-        FingerAndPalm fingerAndPalm = FingerXmlParse.parseFptx(path);
+        FingerAndPalm fingerAndPalm = FingerXmlParse.parseFptx(path,compressionAlgorithm);
         //指纹数据
         List<? extends LedenCollectFinger> fingers = fingerAndPalm.getFingers();
 
 
         if(fingers!=null&&fingers.size()>0){
+
             //删除原有的指纹数据
             String ryjcxxcjbh = fingers.get(0).getRyjcxxcjbh();
+            logger.info("第一条数据为："+fingers.get(0).toString());
             ledenCollectFingerMapper.deleteByPersonCode(ryjcxxcjbh,compressionAlgorithm);
             fingers.forEach(x->x.setPkId(UUID.randomUUID().toString().replace("-","")));
             ledenCollectFingerMapper.insertFingers(fingers);

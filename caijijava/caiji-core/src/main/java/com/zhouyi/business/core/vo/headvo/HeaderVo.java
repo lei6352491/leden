@@ -1,5 +1,7 @@
 package com.zhouyi.business.core.vo.headvo;
 
+import lombok.ToString;
+
 /**
  * @author 李秸康
  * @ClassNmae: HeaderVo
@@ -8,6 +10,7 @@ package com.zhouyi.business.core.vo.headvo;
  * @Version 1.0
  **/
 
+@ToString
 public class HeaderVo {
 
     public String EQUIPMENT_CODE;

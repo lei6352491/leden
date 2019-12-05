@@ -63,33 +63,21 @@ public class SecurityUtil {
             throw new AuthenticationException(ReturnCode.ERROR_1046);
         }
         //授权信息通过
+        boolean empowerFlag=false;
         List<LedenEquipmentEmpower> equipmentEmpowerByEquipmnetCode = ledenEquipmentEmpowerMapper.getEquipmentEmpowerByEquipmnetCode(tempEquipment.getEquipmentCode());
         for (LedenEquipmentEmpower ledenEquipmentEmpower :
                 equipmentEmpowerByEquipmnetCode) {
-            if (ledenEquipmentEmpower.getNodeSign().equals(authoirtyNode.getNodeSign())&&ledenEquipmentEmpower.getDeletag().equals("0")){
+            if (!ledenEquipmentEmpower.getNodeSign().equals(authoirtyNode.getNodeSign())&&ledenEquipmentEmpower.getDeletag().equals("0")){
                 //如果授权信息为0则表示有权限
-                throw new AuthenticationException(ReturnCode.ERROR_1053);
+                empowerFlag=true;
             }
         }
 
 
-        //判断是否为指纹头部信息
-//        if(headerVo instanceof PackageHeadVo){
-//            PackageHeadVo packageHeadVo=(PackageHeadVo)headerVo;
-            /*
-            验证指纹头信息
-            1.验证身份证
-            2.验证发送单位代码
-            3.验证指纹评分
-             */
-//            if(!sysUser.getUserIdcardno().equals(packageHeadVo.getFsrGmsfhm())||!sysUser.getUserName().equals(packageHeadVo.getFsrXm())) {
-//                throw new AuthenticationException(ReturnCode.ERROR_1033);
-//            }else if(!sysUser.getUserUnitCode().equals(packageHeadVo.getFsdwGajgjgdm())){
-//                throw new AuthenticationException(ReturnCode.ERROR_1034);
-//            }else if(packageHeadVo.getNfiqScore().length()!=87){
-//                throw new AuthenticationException(ReturnCode.ERROR_1035);
-//            }
-//        }
+        if(!empowerFlag){
+            throw new AuthenticationException(ReturnCode.ERROR_1053);
+        }
+
         return true;
     }
 

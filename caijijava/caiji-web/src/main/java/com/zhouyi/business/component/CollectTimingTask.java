@@ -133,7 +133,6 @@ public class CollectTimingTask {
 
             logger.info("正在解析：" + zipUploadPacket.getRyjcxxcjbh() + "的数据包");
 
-            boolean originalPic=false;
 
             //查询该设备的所有授权节点
             List<String> strings = ledenEquipmentEmpowerService.searchEmpwerdNodeSign(zipUploadPacket.getEquipmentId());
@@ -216,6 +215,7 @@ public class CollectTimingTask {
                 }
                 if ("FINGERPLAMBMP".equals(ledenUploadPacket.getDataType())) {
 
+                    log.info("正在解析原图数据");
                     try {
 
                         if (!strings.contains("000000000003")) {
@@ -233,7 +233,6 @@ public class CollectTimingTask {
                         }
 
                         ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
-                        originalPic=true;
 
 
                     } catch (Exception E) {
@@ -244,10 +243,13 @@ public class CollectTimingTask {
 
                         ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
-                    continue;
-                }
-                if ("FINGERPLAMWSQ".equals(ledenUploadPacket.getDataType()) && flagFinger&&originalPic) {
 
+                    log.info("原图数据解析完毕");
+                    continue;
+
+                }
+                if ("FINGERPLAMWSQ".equals(ledenUploadPacket.getDataType()) && flagFinger) {
+                    log.info("正在解析压缩图数据");
                     try {
                         if (!strings.contains("000000000003")) {
                             setResolveResult(ledenUploadPacket, "2", "未授权");
@@ -269,6 +271,8 @@ public class CollectTimingTask {
 
                         ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                     }
+
+                    log.info("压缩图数据解析完毕");
                     continue;
                 }
                 if ("SIGNALEMENT".equals(ledenUploadPacket.getDataType())) {
