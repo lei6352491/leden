@@ -49,10 +49,8 @@ public class LedenCollectFootprintServiceImpl implements LedenCollectFootprintSe
 
         LedenCollectFootprintVo ledenCollectFootprintVo = (LedenCollectFootprintVo) XmlParseUtil.parseXml(path, LedenCollectFootprintVo.class);
         //进行头部信息校验
-        boolean flag = securityUtil.repairpermissions(ledenCollectFootprintVo.head, AuthoirtyEnum.FOOTPRINT);
-        if (!flag) {
-            throw new AuthenticationException(ReturnCode.ERROR_1037);
-        }
+        securityUtil.repairpermissions(ledenCollectFootprintVo.head, AuthoirtyEnum.FOOTPRINT);
+
 
         List<LedenCollectFootprint> ledenCollectFootprints = new ArrayList<>();
 

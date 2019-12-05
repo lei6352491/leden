@@ -13,10 +13,10 @@ public enum  AuthoirtyEnum {
     FINGERPLAM("000000000003","fingerPlam"), //指纹信息
     PHONEINFO("000000000012","phoneInfo"), //手机信息
     BANKCARD("000000000013","bankCard"), //银行卡信息
-    HANDWRITING("000000000007","handWriting"), //笔记信息
-    VOICEPRINT("108","voicePrint"), //声纹信息
+    HANDWRITING("000000000008","handWriting"), //笔记信息
+    VOICEPRINT("000000000007","voicePrint"), //声纹信息
     SIGNALEMENT("000000000004","signalement"), //特征信息
-    DRUGTEST("111","drugtest"), //药物信息
+    DRUGTEST("000000000011","drugtest"), //药物信息
     FOOTPRINT("000000000006","footPrint"), //足迹信息
     IRISINFO("000000000009","irisiInfo"), //虹膜信息
     GOODS("000000000010","goods"), //随身物品信息

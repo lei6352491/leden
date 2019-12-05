@@ -12,6 +12,7 @@ import javax.management.modelmbean.XMLParseException;
 import com.zhouyi.business.core.common.ReturnCode;
 import com.zhouyi.business.core.config.FtpConfig;
 import com.zhouyi.business.core.dao.*;
+import com.zhouyi.business.core.exception.AuthenticationException;
 import com.zhouyi.business.core.model.*;
 import com.zhouyi.business.core.utils.MathUtil;
 import com.zhouyi.business.core.utils.ResponseUtil;
@@ -70,7 +71,7 @@ public class LedenCollectFingerServiceImpl
      **/
     @Override
     @Transactional
-    public Boolean inputFingersByXml(String path,String compressionAlgorithm) throws XMLParseException {
+    public Boolean inputFingersByXml(String path,String compressionAlgorithm) throws XMLParseException, AuthenticationException {
         FingerAndPalm fingerAndPalm = FingerXmlParse.parseFptx(path);
         //指纹数据
         List<? extends LedenCollectFinger> fingers = fingerAndPalm.getFingers();

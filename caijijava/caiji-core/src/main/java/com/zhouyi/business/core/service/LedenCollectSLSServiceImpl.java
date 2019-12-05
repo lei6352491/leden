@@ -57,10 +57,8 @@ public class LedenCollectSLSServiceImpl implements LedenCollectSLSService {
         //获取解析的数据
         LedenCollectSLSVo ledenCollectSLSVo = (LedenCollectSLSVo) XmlParseUtil.parseXml(path, LedenCollectSLSVo.class);
         //进行头部校验
-        boolean flag = securityUtil.repairpermissions(ledenCollectSLSVo.head, AuthoirtyEnum.SIGNALEMENT);
-        if (!flag) {
-            throw new AuthenticationException(ReturnCode.ERROR_1037);
-        }
+       securityUtil.repairpermissions(ledenCollectSLSVo.head, AuthoirtyEnum.SIGNALEMENT);
+
 
 
         //创建身高/足长/体重对象

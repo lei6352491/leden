@@ -1,7 +1,10 @@
 package com.zhouyi.business.core.model;
 
+import lombok.ToString;
+
 import java.io.Serializable;
 
+@ToString
 public class Head implements Serializable {
 
     private String userUnitCode;

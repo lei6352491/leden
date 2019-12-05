@@ -48,9 +48,7 @@ public class LedenCollectHandWritingServiceImpl implements LedenCollectHandWriti
         LedenCollectHandWritingVo ledenCollectHandWritingVo=(LedenCollectHandWritingVo) XmlParseUtil.parseXml(path,LedenCollectHandWritingVo.class);
 
         //进行头部数据验证
-        boolean flag=securityUtil.repairpermissions(ledenCollectHandWritingVo.head, AuthoirtyEnum.HANDWRITING);
-        if(!flag)
-            throw new AuthenticationException(ReturnCode.ERROR_1037);
+       securityUtil.repairpermissions(ledenCollectHandWritingVo.head, AuthoirtyEnum.HANDWRITING);
 
         //复制属性
         LedenCollectHandwriting ledenCollectHandwriting=new LedenCollectHandwriting();

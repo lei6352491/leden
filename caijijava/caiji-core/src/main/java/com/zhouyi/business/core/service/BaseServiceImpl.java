@@ -19,10 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BaseServiceImpl<T,V> implements BaseService<T,V> {
+public class BaseServiceImpl<T, V> implements BaseService<T, V> {
 
     @Autowired
-    private BuffBaseMapper<T,V> buffBaseMapper;
+    private BuffBaseMapper<T, V> buffBaseMapper;
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -37,7 +37,7 @@ public class BaseServiceImpl<T,V> implements BaseService<T,V> {
 
     private Field[] fields;
 
-    public BaseServiceImpl(){
+    public BaseServiceImpl() {
         //获取父类的Class对象
         Class clazz = this.getClass();
         //通过子类的Class对象获取参数化类型
@@ -59,10 +59,10 @@ public class BaseServiceImpl<T,V> implements BaseService<T,V> {
         T t = buffBaseMapper.selectByPrimaryKey(id);
         //根据业务需求查询关联表信息
 
-        if (t == null){
+        if (t == null) {
             ExceptionCast.cast(ResponseUtil.getResponseInfo(false));
         }
-        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,t);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, t);
     }
 
     @Override
@@ -72,25 +72,25 @@ public class BaseServiceImpl<T,V> implements BaseService<T,V> {
         Integer size = null;
 
         //设置默认情况下的分页参数
-        for (Field field : fields){
-            if (field != null){
+        for (Field field : fields) {
+            if (field != null) {
                 field.setAccessible(true);
-                if (field.getName().equals("page")){
+                if (field.getName().equals("page")) {
                     try {
                         page = (Integer) field.get(v);
-                        if (page == null || page < 1){
-                            field.set(v,1);
+                        if (page == null || page < 1) {
+                            field.set(v, 1);
                             page = (Integer) field.get(v);
                         }
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
                 }
-                if (field.getName().equals("size")){
+                if (field.getName().equals("size")) {
                     try {
                         size = (Integer) field.get(v);
-                        if (size == null || size < 1){
-                            field.set(v,20);
+                        if (size == null || size < 1) {
+                            field.set(v, 20);
                             size = (Integer) field.get(v);
                         }
                     } catch (Exception e1) {
@@ -103,19 +103,19 @@ public class BaseServiceImpl<T,V> implements BaseService<T,V> {
         Integer startNo = (page - 1) * size + 1;
         Integer endNo = startNo + size;
 
-        for (Field field : fields){
-            if (field != null){
+        for (Field field : fields) {
+            if (field != null) {
                 field.setAccessible(true);
-                if (field.getName().equals("startNo")){
+                if (field.getName().equals("startNo")) {
                     try {
-                        field.set(v,startNo);
+                        field.set(v, startNo);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
                 }
-                if (field.getName().equals("endNo")){
+                if (field.getName().equals("endNo")) {
                     try {
-                        field.set(v,endNo);
+                        field.set(v, endNo);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -126,18 +126,18 @@ public class BaseServiceImpl<T,V> implements BaseService<T,V> {
         List<T> list = buffBaseMapper.selectByModel((T) v);
         int total = buffBaseMapper.findTotal(v);
         HashMap<String, Object> map = new HashMap<>();
-        map.put("total",total);
-        map.put("list",list);
-        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,map);
+        map.put("total", total);
+        map.put("list", list);
+        return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, map);
     }
 
     @Override
     @Transactional
     public Response saveData(T t) {
         //buffBaseMapper.insertSelective(t);
-        try{
+        try {
             buffBaseMapper.insertSelective(t);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_01));
 
@@ -148,9 +148,9 @@ public class BaseServiceImpl<T,V> implements BaseService<T,V> {
     @Override
     @Transactional
     public Response updateData(T t) {
-        try{
+        try {
             buffBaseMapper.updateByPrimaryKeySelective(t);
-        }catch (Exception e){
+        } catch (Exception e) {
             ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_1015));
         }
         return ResponseUtil.getResponseInfo(true);
@@ -159,9 +159,9 @@ public class BaseServiceImpl<T,V> implements BaseService<T,V> {
     @Override
     @Transactional
     public Response deleteData(String id) {
-        try{
+        try {
             buffBaseMapper.deleteByPrimaryKey(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             ExceptionCast.cast(ResponseUtil.returnError(ReturnCode.ERROR_05));
         }
         return ResponseUtil.getResponseInfo(true);
@@ -195,7 +195,7 @@ public class BaseServiceImpl<T,V> implements BaseService<T,V> {
 
     @Override
     public int resoveSaveData(T t) {
-        return   buffBaseMapper.insertSelective(t);
+        return buffBaseMapper.insertSelective(t);
     }
 
 }

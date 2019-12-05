@@ -50,9 +50,8 @@ public class LedenCollectDNAServiceImpl implements LedenCollectDNAService {
     public Boolean inputDNAByXml(String path) throws AuthenticationException, XmlParseException {
         LedenCollectDNAVo dNANo= (LedenCollectDNAVo) XmlParseUtil.parseXml(path,LedenCollectDNAVo.class);
         //进行头部数据校验
-        boolean flag=securityUtil.repairpermissions(dNANo.head, AuthoirtyEnum.DNAINFO);
-        if(!flag)
-            throw new AuthenticationException(ReturnCode.ERROR_1037);
+       securityUtil.repairpermissions(dNANo.head, AuthoirtyEnum.DNAINFO);
+
 
         //数据转换
         LedenCollectDna ledenCollectDna=new LedenCollectDna();

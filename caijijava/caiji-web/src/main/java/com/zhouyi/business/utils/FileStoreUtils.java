@@ -42,6 +42,7 @@ public class FileStoreUtils {
         ledenUploadPacket.setResolveStatus(status);
         ledenUploadPacket.setEquipmentId(equipmentCode);
         ledenUploadPacket.setRyjcxxcjbh(personCode);
+        ledenUploadPacket.setCjdwdm(unitCode);
         ledenUploadPacket.setCreateDatetime(new Date());
         ledenUploadPacket.setDataType(dataType);
         try {
@@ -63,21 +64,21 @@ public class FileStoreUtils {
      * @param nodeCode
      * @param path
      */
-    public void automaticSavaPacket(String equipmentCode,String personCode,String packetNamePath,String nodeCode,String path){
+    public void automaticSavaPacket(String equipmentCode,String personCode,String packetNamePath,String nodeCode,String path,String userUnitCode){
         //补全数据包信息
-
         LedenUploadPacket ledenUploadPacket = new LedenUploadPacket();
         ledenUploadPacket.setPkId(UUID.randomUUID().toString().replace("-", ""));
         ledenUploadPacket.setNodeSign(nodeCode);
         ledenUploadPacket.setDataType("ZIP");
         ledenUploadPacket.setRyjcxxcjbh(personCode);
         ledenUploadPacket.setEquipmentId(equipmentCode);
+        ledenUploadPacket.setCjdwdm(userUnitCode);
         ledenUploadPacket.setFileLocation
                 (path+"/bak/" + packetNamePath + ".zip");
         ledenUploadPacket.setFileSuffix("zip");
         ledenUploadPacket.setCreateDatetime(new Date());
         //等所有队列插入成功后改成1
-        ledenUploadPacket.setResolveStatus("3");
+        ledenUploadPacket.setResolveStatus("0");
         URL url = null;
         try {
             url = new URL(ledenUploadPacket.getFileLocation());
