@@ -319,6 +319,9 @@
             <if test="resolveDatetime != null">
                 RESOLVE_DATETIME,
             </if>
+            <if test="cjdwdm!=null">
+                cjdwdm,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="pkId != null">
@@ -356,6 +359,9 @@
             </if>
             <if test="resolveDatetime != null">
                 #{resolveDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cjdwdm!=null">
+                #{cjdwdm}
             </if>
         </trim>
     </insert>

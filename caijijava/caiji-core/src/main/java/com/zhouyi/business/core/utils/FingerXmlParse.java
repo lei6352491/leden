@@ -62,18 +62,17 @@ public class FingerXmlParse {
      * @param path
      * @return
      */
-    public static FingerAndPalm parseFptx(String path) throws XMLParseException, AuthenticationException {
+    public static FingerAndPalm parseFptx(String path,String method) throws XMLParseException, AuthenticationException {
         FingerAndPalm fingerAndPalm = new FingerAndPalm();
         SAXReader saxReader = new SAXReader();
         saxReader.setEncoding("GB2312");
         try {
             Document document = null;
             String path2 = path.substring(0, 3);
-            if (path2.equalsIgnoreCase("ftp")) {
+            if (path2.equalsIgnoreCase("ftp"))
                 document = saxReader.read(path);
-            } else {
+            else
                 document = saxReader.read(new ByteArrayInputStream(path.getBytes("GBK")));
-            }
 
             //获取根节点
             Element packageElement = document.getRootElement();
@@ -103,25 +102,25 @@ public class FingerXmlParse {
                 }
 
                 targetField.setAccessible(true);
-                if (targetField.getType() != Date.class) {
+                if (targetField.getType() != Date.class)
                     targetField.set(packageHeadVo, node.getStringValue());
-                } else {
+                else
                     targetField.set(packageHeadVo, new SimpleDateFormat("yyyyMMddHHmmss").parse(node.getStringValue()));
-                }
             }
 
 
-
+            logger.info(packageHeadVo.toString());
             HeaderVo headerVo=new HeaderVo();
             headerVo.setUSER_CODE(packageHeadVo.getUserCode());
             headerVo.setUSER_UNIT_CODE(packageHeadVo.getUserUnitCode());
             headerVo.setEQUIPMENT_CODE(packageHeadVo.getEquipmentCode());
 
-            if(!StringUtils.isEmpty(headerVo)){
+
+
+            if("0000".equals(method)){
                 //校验头部信息
                 securityUtil.repairpermissions(headerVo,AuthoirtyEnum.FINGERPLAM);
             }
-
 
 
 
@@ -141,6 +140,7 @@ public class FingerXmlParse {
             //解析掌纹信息
             List<LedenCollectPalm> palmss = packageDataEntityList(fingerPrintPackageElement.element("palms"), LedenCollectPalm.class);
 
+            logger.info("采集到掌纹数据:"+palmss.size()+"条");
             //解析四指信息
             List<LedenCollectFourfinger> fourprintMsgs = packageDataEntityList(fingerPrintPackageElement.element("fourprints"), LedenCollectFourfinger.class);
 
@@ -158,15 +158,18 @@ public class FingerXmlParse {
             String jzrybh = desciptiveMsg.getJzrybh();
             //采集时间
             String nysj = collectInfoMsg.getNysj();
-
             //采集人
-            String collectPerson = packageHeadVo.getUserCode();
+            String collectPerson="";
+            if("0000".equals(method)){
+                collectPerson=packageHeadVo.getUserCode();
+            }
 
             //给所有数据集合封装公共信息：人员编号、采集人、采集时间、
-            List<List<?>> printList = Arrays.asList(fingers, palmss, fourprintMsgs, fullplams, phalanges);
-            printList.forEach(x -> {
-                packageCommonsInfo(x, rybh, collectPerson, nysj);
-            });
+            List<List<?>> printList= Arrays.asList(fingers,palmss,fourprintMsgs,fullplams,phalanges);
+
+            for (List<?> objects : printList) {
+                packageCommonsInfo(objects,rybh,collectPerson,nysj);
+            }
 
 
             fingerAndPalm.setFingers(fingers);
@@ -192,7 +195,7 @@ public class FingerXmlParse {
             throw new AuthenticationException(e.getReturnCode());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new XmlParseException("未知错误");
+            throw new XmlParseException("未知错误:" + e.getMessage());
         }
         return null;
     }
@@ -207,7 +210,6 @@ public class FingerXmlParse {
         private String nyryGmsfhm;
         private String nyryLxdh;
         private String nysj;
-
         public FingerXmlParse getOutClass() {
             return FingerXmlParse.this;
         }
@@ -252,11 +254,16 @@ public class FingerXmlParse {
     private static <T> T packageEntityData(Element element, Class<T> targetClass) throws NoSuchFieldException, IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
 
         if (element == null) {
+            logger.info("采集数据中缺少数据节点：" + targetClass.getSimpleName());
             return null;
         } else if (element.elements().size() == 0) {
+            logger.info(targetClass.getSimpleName() + "数据节点中子节点为0");
         }
         T resultObject = null;
         if (targetClass.isMemberClass()) {
+            System.out.println("该类的构造方法有" + targetClass.getConstructors().length);
+            System.out.println("查看构造方法:" + targetClass.getConstructors()[0]);
+            System.out.println("使用该构造初始化一个内部类:" + targetClass.getConstructors()[0]);
             if (targetClass.getDeclaringClass() != null) {
                 //实例化外部对象
                 Class<?> outClass = targetClass.getDeclaringClass();
@@ -278,12 +285,14 @@ public class FingerXmlParse {
                 field = targetClass.getDeclaredField(node_properties);
             } catch (NoSuchFieldException e) {
                 //如果没有该字段则记录跳过
+                logger.info("系统不存在字段:" + node_properties);
                 continue;
             }
 
             field.setAccessible(true);
             if (field.getType() == String.class) {
                 //直接封装数据
+                logger.info("字段:" + field.getName() + ":" + node.getStringValue()); field.set(resultObject, node.getStringValue());
             } else if (field.getType() == byte[].class) {
                 //如果是图片数据
                 field.set(resultObject, node.getStringValue().getBytes());
@@ -313,8 +322,10 @@ public class FingerXmlParse {
 
         List<T> targetDataList = new ArrayList<>();
         if (element == null) {
+            logger.info("采集数据中缺少数据节点：" + targetClass.getSimpleName());
             return targetDataList;
         } else if (element.elements().size() == 0) {
+            logger.info(targetClass.getSimpleName() + "数据节点中子节点为0");
         }
         Iterator iterator = element.elementIterator();
         while (iterator.hasNext()) {
@@ -328,37 +339,34 @@ public class FingerXmlParse {
 
     /**
      * 封装公共属性
-     *
-     * @param list         被封装的数据集合
-     * @param cjrybh       人员编号
+     * @param list 被封装的数据集合
+     * @param cjrybh 人员编号
      * @param createUserId 创建人/采集人
-     * @param collectTime  采集时间
+     * @param collectTime 采集时间
      */
-    private static void packageCommonsInfo(List list, String cjrybh, String createUserId, String collectTime) {
+    private static void packageCommonsInfo(List list,String cjrybh,String createUserId,String collectTime){
         final Class clazz;
-        if (list.size() > 0) {
-            clazz = list.get(0).getClass();
-            list.stream().anyMatch(x -> {
+        if(list.size()>0){
+            clazz=list.get(0).getClass();
+            list.stream().anyMatch(x->{
                 try {
-                    Field personNumberField = extractFieldAndSetAccess(clazz, "ryjcxxcjbh");
-                    personNumberField.set(x, cjrybh);
+                    Field personNumberField = extractFieldAndSetAccess(clazz,"ryjcxxcjbh");
+                    personNumberField.set(x,cjrybh);
 
-                    Field createUserIdField = extractFieldAndSetAccess(clazz, "createUserId");
-                    createUserIdField.set(x, createUserId);
+                    Field createUserIdField=extractFieldAndSetAccess(clazz,"createUserId");
+                    createUserIdField.set(x,createUserId);
 
-                    Field createDateTimeField = extractFieldAndSetAccess(clazz, "createDatetime");
+                    Field createDateTimeField=extractFieldAndSetAccess(clazz,"createDatetime");
                     try {
-                        Date date = new Date();
-                        if(collectTime!=null){
-                            date = new SimpleDateFormat("yyyymmddHHMMss").parse(collectTime);
-                        }
-                        createDateTimeField.set(x, date);
+                        Date date=new SimpleDateFormat("yyyymmddHHMMss").parse(collectTime);
+                        createDateTimeField.set(x,date);
                     } catch (ParseException e) {
-                        logger.error("奈印时间错误:" + e.getMessage() + ",使用系统默认值");
-                        createDateTimeField.set(x, new Date());
+                        logger.error("奈印时间错误:"+e.getMessage()+",使用系统默认值");
+                        createDateTimeField.set(x,new Date());
                     }
                     return false;
                 } catch (IllegalAccessException e) {
+                    logger.error("字段不允许访问:"+e.getMessage());
                     return true;
                 }
             });
@@ -369,21 +377,20 @@ public class FingerXmlParse {
 
     /**
      * 提取字段并设置访问权限
-     *
-     * @param clazz     待提取字段的类的类型
+     * @param clazz 待提取字段的类的类型
      * @param fieldName 字段的名称
      * @return 授权后的字段
      */
-    public static Field extractFieldAndSetAccess(Class clazz, String fieldName) {
+    public static Field extractFieldAndSetAccess(Class clazz,String fieldName){
         try {
-            Field targetField = clazz.getDeclaredField(fieldName);
+            Field targetField=clazz.getDeclaredField(fieldName);
             targetField.setAccessible(true);
             return targetField;
         } catch (NoSuchFieldException e) {
+            logger.error(clazz.getSimpleName()+"不存在字段："+fieldName+",封装数据失败");
             return null;
         }
 
     }
 
 }
-

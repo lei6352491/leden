@@ -20,7 +20,8 @@ public enum  AuthoirtyEnum {
     FOOTPRINT("000000000006","footPrint"), //足迹信息
     IRISINFO("000000000009","irisiInfo"), //虹膜信息
     GOODS("000000000010","goods"), //随身物品信息
-    DNAINFO("000000000005","dnaInfo"); //DNA信息
+    DNAINFO("000000000005","dnaInfo"), //DNA信息
+    HEAD("xxxx","zip");
 
     private String nodeSign;
     private String nodeName;
