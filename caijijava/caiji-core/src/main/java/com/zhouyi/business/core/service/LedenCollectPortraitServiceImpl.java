@@ -32,7 +32,7 @@ public class LedenCollectPortraitServiceImpl
     @Autowired
     private SecurityUtil securityUtil;
 
-    private Logger logger= LoggerFactory.getLogger(LedenCollectPortraitServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(LedenCollectPortraitServiceImpl.class);
 
     /**
      * @param
@@ -49,8 +49,9 @@ public class LedenCollectPortraitServiceImpl
         LedenCollectPortraitVo ledenCollectPortraitVo = (LedenCollectPortraitVo) XmlParseUtil.parseXml(path, LedenCollectPortraitVo.class);
 
         //进行授权验证
-        /*if (!securityUtil.repairpermissions(ledenCollectPortraitVo.head, AuthoirtyEnum.PORTRAIT))
-            throw new AuthenticationException(ReturnCode.ERROR_1037);*/
+        if (!securityUtil.repairpermissions(ledenCollectPortraitVo.head, AuthoirtyEnum.PORTRAIT)) {
+            throw new AuthenticationException(ReturnCode.ERROR_1037);
+        }
 
         //获取xml数据集合
         List<LedenCollectPortraitXml> xmlDatas = ledenCollectPortraitVo.data;
@@ -72,9 +73,9 @@ public class LedenCollectPortraitServiceImpl
         }
         XmlParseUtil.userCodeThreadLocal.remove();
 
-        logger.info("采集的人像数据数量为："+data.size());
+        logger.info("采集的人像数据数量为：" + data.size());
         //删除原来的人像数据
-        if(data!=null && data.size()>0){
+        if (data != null && data.size() > 0) {
             ledenCollectPortraitMapper.deletePortraitByPerson(data.get(0).getRyjcxxcjbh());
             ledenCollectPortraitMapper.insertLedenCollectPortraits(data);
         }
@@ -84,13 +85,13 @@ public class LedenCollectPortraitServiceImpl
 
     /**
      * 根据人员编号查询人像信息
-     * */
+     */
     @Override
     public Response selectPortraitByPersonCode(String id) {
         List<LedenCollectPortrait> ledenCollectPortraits = ledenCollectPortraitMapper.selectPortraitByPersonCode(id);
-        if (ledenCollectPortraits != null && ledenCollectPortraits.size() > 1){
-            for (LedenCollectPortrait ledenCollectPortrait : ledenCollectPortraits){
-                if (ledenCollectPortrait.getRxtxsj() != null){
+        if (ledenCollectPortraits != null && ledenCollectPortraits.size() > 1) {
+            for (LedenCollectPortrait ledenCollectPortrait : ledenCollectPortraits) {
+                if (ledenCollectPortrait.getRxtxsj() != null) {
                     byte[] rxtxsj = ledenCollectPortrait.getRxtxsj();
                     ledenCollectPortrait.setRxtp(new String(rxtxsj));
                     ledenCollectPortrait.setRxtxsj(null);
@@ -119,7 +120,7 @@ public class LedenCollectPortraitServiceImpl
                 }
                 count ++;
             }*/
-            return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS,ledenCollectPortraits);
+            return ResponseUtil.getResponseInfo(ReturnCode.SUCCESS, ledenCollectPortraits);
         }
         return ResponseUtil.returnError(ReturnCode.ERROR_05);
     }

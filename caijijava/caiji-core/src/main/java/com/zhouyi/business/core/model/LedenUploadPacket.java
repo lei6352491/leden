@@ -49,8 +49,5 @@ public class LedenUploadPacket implements Serializable {
 
     private String cjdwdm;
 
-
-
-
     private static final long serialVersionUID = 1L;
 }

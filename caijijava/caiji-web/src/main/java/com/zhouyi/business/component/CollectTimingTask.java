@@ -6,8 +6,11 @@ import com.zhouyi.business.core.dao.LedenUploadPacketMapper;
 import com.zhouyi.business.core.exception.AuthenticationException;
 import com.zhouyi.business.core.exception.CollectionException;
 import com.zhouyi.business.core.model.*;
+import com.zhouyi.business.core.model.enums.AuthoirtyEnum;
 import com.zhouyi.business.core.model.provincecomprehensive.DataStatus;
 import com.zhouyi.business.core.service.*;
+import com.zhouyi.business.core.utils.SecurityUtil;
+import com.zhouyi.business.core.vo.headvo.HeaderVo;
 import com.zhouyi.business.utils.JsoupParseXmlUtils;
 import com.zhouyi.business.utils.XMLParamUtils;
 import org.slf4j.Logger;
@@ -41,6 +44,8 @@ public class CollectTimingTask {
     private LedenEquipmentEmpowerService ledenEquipmentEmpowerService;
     @Autowired
     private LedenUploadPacketMapper ledenUploadPacketMapper;
+    @Autowired
+    private SecurityUtil securityUtil;
 
     @Autowired
     private LedenCollectPersonService ledenCollectPersonService;
@@ -138,20 +143,14 @@ public class CollectTimingTask {
 
 
             for (LedenUploadPacket ledenUploadPacket : list) {
-                logger.info("DatType的值为:" + ledenUploadPacket.getDataType());
-                logger.info(ledenUploadPacket.getNodeSign() + "正在为解析");
                 if ("PERSON".equals(ledenUploadPacket.getDataType())) {
 
                     try {
-                        logger.info("-------------" + strings.contains("000000000001"));
                         if (!strings.contains("000000000001")) {
                             setResolveResult(ledenUploadPacket, "2", "未授权");
-                            logger.info("人员信息解析未授权");
                             break;
                         } else {
-                            logger.info("正在解析人员信息");
                             ledenCollectPersonService.insertCollectPersonByXml(ledenUploadPacket.getFileLocation());
-
                             setResolveResult(ledenUploadPacket, "1", "解析成功");
                             //删除数据库中该编号该节点的采集过程
                             ledenCollectProcessMapper.deleteProcessByPersonCodeAndNodeCode(ledenUploadPacket.getRyjcxxcjbh(), "000000000001");
@@ -163,20 +162,16 @@ public class CollectTimingTask {
                         ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
 
                     } catch (AuthenticationException e) {
-                        logger.info("解析人员信息失败1");
-                        e.printStackTrace();
+//                        e.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", e.getReturnCode().getMsg());
 
                         ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                         flag = false;
                         break;
                     } catch (Exception E) {
-
-                        logger.info("解析失败2");
                         E.printStackTrace();
                         setResolveResult(ledenUploadPacket, "2", E.getMessage());
                         flag = false;
-
                         ledenUploadPacketMapper.updateByPrimaryKey(ledenUploadPacket);
                         break;
                     }
@@ -380,9 +375,15 @@ public class CollectTimingTask {
                         } else {
                             Map map = xmlParamUtils.parseXmlToMap(ledenUploadPacket.getFileLocation(), LedenCollectVoiceprint.class, null);
                             Head head = (Head) map.get("head");
+
+                            HeaderVo headerVo=new HeaderVo();
+                            headerVo.setUSER_CODE(head.getUserCode());
+                            headerVo.setUSER_UNIT_CODE(head.getUserUnitCode());
+                            headerVo.setEQUIPMENT_CODE(head.getEquipmentCode());
+
                             List data = (List) map.get("data");
                             //校验head是否有权限保存数据
-                            boolean boo2 = ledenCollectVoiceprintService.checkHead(head);
+                            boolean boo2 = securityUtil.repairpermissions(headerVo, AuthoirtyEnum.VOICEPRINT);
                             if (boo2) {
                                 ledenCollectVoiceprintService.saveMapToRepository(data, head.getUserUnitCode(), head.getUserCode());
                                 setResolveResult(ledenUploadPacket, "1", "解析成功");
@@ -456,8 +457,13 @@ public class CollectTimingTask {
                             Head head = (Head) map.get("head");
                             List data = (List) map.get("data");
                             String ryjcxxcjbh = (String) map.get("ryjcxxcjbh");
+
+                            HeaderVo headerVo=new HeaderVo();
+                            headerVo.setUSER_CODE(head.getUserCode());
+                            headerVo.setUSER_UNIT_CODE(head.getUserUnitCode());
+                            headerVo.setEQUIPMENT_CODE(head.getEquipmentCode());
                             //校验head是否有权限保存数据
-                            boolean boo2 = ledenCollectIrisService.checkHead(head);
+                            boolean boo2 = securityUtil.repairpermissions(headerVo,AuthoirtyEnum.IRISINFO);
                             if (boo2) {
                                 ledenCollectIrisService.saveMapToRepository(data, head.getUserUnitCode(), ryjcxxcjbh, head.getUserCode());
                                 setResolveResult(ledenUploadPacket, "1", "解析成功");
@@ -528,7 +534,13 @@ public class CollectTimingTask {
                             Map map = xmlParamUtils.parseXmlToMap(ledenUploadPacket.getFileLocation(), LedenCollectDrugtest.class, null);
                             Head head = (Head) map.get("head");
                             List data = (List) map.get("data");
-                            boolean boo2 = ledenCollectDrugtestService.checkHead(head);
+
+                            HeaderVo headerVo=new HeaderVo();
+                            headerVo.setUSER_CODE(head.getUserCode());
+                            headerVo.setUSER_UNIT_CODE(head.getUserUnitCode());
+                            headerVo.setEQUIPMENT_CODE(head.getEquipmentCode());
+
+                            boolean boo2 = securityUtil.repairpermissions(headerVo,AuthoirtyEnum.DRUGTEST);
                             if (boo2) {
                                 ledenCollectDrugtestService.saveMapToRepository(data, head.getUserUnitCode());
                                 setResolveResult(ledenUploadPacket, "1", "解析成功");
@@ -568,8 +580,13 @@ public class CollectTimingTask {
                             Map map = JsoupParseXmlUtils.jsoupParseXml(ledenUploadPacket.getFileLocation(), LedenCollectBankcard.class, LedenCollectBRecord.class);
                             Head head = (Head) map.get("head");
                             List data = (List) map.get("data");
+                            HeaderVo headerVo=new HeaderVo();
+                            headerVo.setUSER_CODE(head.getUserCode());
+                            headerVo.setUSER_UNIT_CODE(head.getUserUnitCode());
+                            headerVo.setEQUIPMENT_CODE(head.getEquipmentCode());
+
+                            boolean boo2 = securityUtil.repairpermissions(headerVo,AuthoirtyEnum.BANKCARD);
                             //校验head是否有权限保存数据
-                            boolean boo2 = ledenCollectBankcardService.checkHead(head);
                             if (boo2) {
                                 ledenCollectBankcardService.saveMapToRepository(data, head.getUserUnitCode());
                                 setResolveResult(ledenUploadPacket, "1", "解析成功");
@@ -600,12 +617,9 @@ public class CollectTimingTask {
 
 
             //如果解析完成并且上报至省综平台
-            logger.info("人员编号:" + zipUploadPacket.getRyjcxxcjbh() + "的flag:" + flag + "\n");
             if (flag) {
-                logger.info("更改ZIP的状态为成功" + flag);
                 setResolveResult(zipUploadPacket, "1", "解析成功");
                 LedenUploadLog ledenUploadLog = new LedenUploadLog();
-
 
                 ledenUploadLog.setEquipmentId(zipUploadPacket.getEquipmentId());
                 ledenUploadLog.setRyjcxxcjbh(zipUploadPacket.getRyjcxxcjbh());
@@ -642,8 +656,6 @@ public class CollectTimingTask {
         ledenCollectProcess.setCollectDate(ledenUploadPacket.getCreateDatetime());
         ledenCollectProcess.setCollectStatus((short) stauts);
         ledenCollectProcess.setCollectNodeId(nodeCode);
-
-
         return ledenCollectProcess;
     }
 
@@ -653,7 +665,6 @@ public class CollectTimingTask {
         DataStatus uploadSuccessData = ledenUploadLogMapper.getUploadSuccessData();
         if (uploadSuccessData != null) {
             logger.info("查询" + uploadSuccessData.getRybh() + "的解析状态信息");
-            logger.info(uploadSuccessData.toString());
         } else {
             logger.info("没有待查询的人员信息");
             return;

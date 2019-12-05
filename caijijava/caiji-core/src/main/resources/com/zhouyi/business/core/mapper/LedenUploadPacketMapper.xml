@@ -78,43 +78,49 @@
         left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
         where a.PK_ID = #{id}
     </select>
-    
+
+
+
+    <resultMap id="thisResultMap" type="com.zhouyi.business.core.vo.LedenConllectPersonVo2">
+
+    </resultMap>
     <select id="selectDataList" parameterType="com.zhouyi.business.core.vo.LedenConllectPersonVo2"
             resultMap="selectDataListMap">
         select tt.* from
         (select rownum rn,t.* from
         (select
-        a.PK_ID,a.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,a.EQUIPMENT_ID,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,p.CJDWMC,p.CJSJ,a.DATA_TYPE
+        a.PK_ID,a.RYJCXXCJBH,a.RESOLVE_STATUS,n.NODE_NAME,a.EQUIPMENT_ID equipment_code,a.FILE_SUFFIX,a.FILE_SIZE,p.CJRXM,u.unit_name cjdwmc,a.create_datetime cjsj,a.DATA_TYPE
         from
         leden_upload_packet a left join leden_collect_node n on a.node_sign = n.node_code
         left join leden_collect_person p on p.ryjcxxcjbh = a.ryjcxxcjbh
+        left join sys_unit u on a.cjdwdm=u.unit_code
         <where>
             <if test="ryjcxxcjbh != null and ryjcxxcjbh != ''">
-                and a.RYJCXXCJBH = #{ryjcxxcjbh}
+                and a.RYJCXXCJBH like concat('%',concat(#{ryjcxxcjbh},'%'))
             </if>
             <if test="cjrxm != null and cjrxm != ''">
                 and p.CJRXM like concat('%',concat(#{cjrxm},'%'))
             </if>
             <if test="cjdwdm != null and cjdwdm != ''">
-                and p.CJDWDM = #{cjdwdm}
+                and a.CJDWDM = #{cjdwdm}
             </if>
             <if test="cjdwmc != null and cjdwmc != ''">
-                and p.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
+                and a.CJDWMC like concat('%',concat(#{cjdwmc},'%'))
             </if>
             <if test="dataType != null and dataType != ''">
                 and a.DATA_TYPE = #{dataType}
             </if>
             <if test="dateStart != null">
-                and p.CJSJ &gt;= #{dateStart}
+                and a.create_datetime &gt;= #{dateStart}
             </if>
             <if test="dateEnd != null">
-                and p.CJSJ &lt;= #{dateEnd}
+                and a.create_datetime &lt;= #{dateEnd}
             </if>
             <if test="resolveStatus != null and resolveStatus != ''">
                 and a.RESOLVE_STATUS = #{resolveStatus}
             </if>
         </where>
-        order by p.CJSJ desc) t) tt
+        order by a.create_datetime desc) t) tt
         where tt.rn &gt;= #{startNo} and tt.rn &lt; #{endNo}
     </select>
 
