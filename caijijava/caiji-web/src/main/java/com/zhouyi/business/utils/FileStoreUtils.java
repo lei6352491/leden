@@ -64,7 +64,7 @@ public class FileStoreUtils {
      * @param nodeCode
      * @param path
      */
-    public void automaticSavaPacket(String equipmentCode,String personCode,String packetNamePath,String nodeCode,String path){
+    public void automaticSavaPacket(String equipmentCode,String personCode,String packetNamePath,String nodeCode,String path,String userUnitCode){
         //补全数据包信息
         LedenUploadPacket ledenUploadPacket = new LedenUploadPacket();
         ledenUploadPacket.setPkId(UUID.randomUUID().toString().replace("-", ""));
@@ -72,6 +72,7 @@ public class FileStoreUtils {
         ledenUploadPacket.setDataType("ZIP");
         ledenUploadPacket.setRyjcxxcjbh(personCode);
         ledenUploadPacket.setEquipmentId(equipmentCode);
+        ledenUploadPacket.setCjdwdm(userUnitCode);
         ledenUploadPacket.setFileLocation
                 (path+"/bak/" + packetNamePath + ".zip");
         ledenUploadPacket.setFileSuffix("zip");
