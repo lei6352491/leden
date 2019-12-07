@@ -142,7 +142,7 @@ public class DataReportComponent {
         //2.获取指纹信息
         data = ledenCollectFingerService.listFingerByConditions(personCode, "0000");
         //指纹
-        if (data != null) {
+        if (data != null&&data.size()>0) {
             log.info("指纹数据条数为：" + data.size());
             final int[] i={1};
             final int[] j={1};
@@ -170,7 +170,7 @@ public class DataReportComponent {
 
         //3.获取掌纹信息
         data = ledenCollectPalmService.listPalmsByPersonCode(personCode);
-        if (data != null) {
+        if (data != null&&data.size()>0) {
             log.info("掌纹数据:" + data.size());
             data.forEach(x -> {
                 fileNameBuffer.append(newPersonCode);
@@ -197,7 +197,7 @@ public class DataReportComponent {
 
         //4.获取人像信息
         data = ledenCollectPortraitService.listPortraitsByPersonCode(personCode);
-        if (data != null) {
+        if (data != null&&data.size()>0) {
             log.info("人像数据:" + data.size());
             data.forEach(x -> {
                 fileNameBuffer.append(newPersonCode);
@@ -221,7 +221,7 @@ public class DataReportComponent {
 
         //5.获取足记信息
         data = ledenCollectFootprintService.listFootPrintByPersonCode(personCode);
-        if (data != null) {
+        if (data != null&&data.size()>0) {
             log.info("足记信息:" + data.size());
             data.forEach(x -> {
                 fileNameBuffer.append(newPersonCode);
@@ -240,7 +240,7 @@ public class DataReportComponent {
         }
             //10.获取笔记数据
             data = ledenCollectHandWritingService.listHandWritingByPersonCode(personCode);
-            if (data != null) {
+            if (data != null&&data.size()>0) {
                 log.info("笔记:" + data.size());
                 fileNameBuffer.append(newPersonCode);
                 fileNameBuffer.append("_PEN.jpg");
@@ -251,7 +251,7 @@ public class DataReportComponent {
 
             //2.生成随身物品信息
             data = ledenCollectGoodsService.listGoodsByPersonCode(personCode);
-            if (data != null) {
+            if (data != null&&data.size()>0) {
                 StandardGoods standardGood = null;
                 log.info("随身物品信息：" + data.size());
                 for (int i = 0; i < data.size(); i++) {
@@ -277,7 +277,7 @@ public class DataReportComponent {
 
             //3.生成体貌特征信息
             data = ledenCollectSignService.listSignsByPersonCode(personCode);
-            if (data != null) {
+            if (data != null&&data.size()>0) {
                 StandardSign standardSign = null;
                 log.info("体貌特征数量为:" + data.size());
                 for (int i = 0; i < data.size(); i++) {
@@ -296,7 +296,7 @@ public class DataReportComponent {
 
             //虹膜信息
             data = ledenCollectIrisService.listIrisByPersonCode(personCode);
-            if (data != null) {
+            if (data != null&&data.size()>0) {
                 for (Object x : data) {
                     fileNameBuffer.append(newPersonCode);
                     switch (((StandardIris) x).getHmywdm()) {

@@ -206,15 +206,30 @@ public class UploadProvinceComponent {
                 if(result.get("status1").equals("1")){
                     resultEnum= DataReportComponent.UPLOAD_STATUS.RESOLVE_SUCCESS;
                     //数据包已解析
+                    ledenUploadLogMapper.updateUploadLogByPersonCode(
+                            dataStatus.getPkId(),
+                            resultEnum.getValue(),
+                            resultEnum.getName()
+                    );
+                }else if("0".equals(result.get("status1"))){
+                    DataReportComponent.UPLOAD_STATUS uploaded = DataReportComponent.UPLOAD_STATUS.UPLOADED;
+                    //数据包已解析
+                    ledenUploadLogMapper.updateUploadLogByPersonCode(
+                            dataStatus.getPkId(),
+                            uploaded.getValue(),
+                            result.toString()
+
+                    );
                 }else{
                     //解析失败
                     resultEnum= DataReportComponent.UPLOAD_STATUS.RESOLVE_FAIL;
+                    ledenUploadLogMapper.updateUploadLogByPersonCode(
+                            dataStatus.getPkId(),
+                            resultEnum.getValue(),
+                            result.toString()
+                    );
                 }
-                ledenUploadLogMapper.updateUploadLogByPersonCode(
-                        dataStatus.getPkId(),
-                        resultEnum.getValue(),
-                        resultEnum.getName()
-                );
+
             }else{
                 //调用失败
                 log.error("调用查询数据状态接口失败:"+responseVo.getStatus());

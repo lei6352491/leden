@@ -1,5 +1,6 @@
 package com.zhouyi.business.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.zhouyi.business.core.utils.HttpUtil;
 import com.zhouyi.business.core.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ public class PublicSecurityController {
      * @return
      */
     @RequestMapping("/public_security/person")
-    public String transitData(@RequestParam String targetIDCard,
+    public Map transitData(@RequestParam String targetIDCard,
                               @RequestParam String userId,
                               @RequestParam String unitCode,
                               @RequestParam String userIDCard,
@@ -67,7 +68,7 @@ public class PublicSecurityController {
         //调用接口
         try {
             ResponseVo responseVo = HttpUtil.sendPostByform(url.toString(), params);
-            return responseVo.data;
+            return (Map)JSON.parse(responseVo.data);
         } catch (IOException e) {
             log.error("网络异常");
             e.printStackTrace();

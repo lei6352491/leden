@@ -552,6 +552,11 @@ public class CollectTimingTask {
                             headerVo.setUSER_UNIT_CODE(head.getUserUnitCode());
                             headerVo.setEQUIPMENT_CODE(head.getEquipmentCode());
 
+                            data.forEach(x->{
+                                ((LedenCollectDrugtest)x).setCreateUserId(head.getUserCode());
+                                ((LedenCollectDrugtest)x).setCreateDatetime(new Date());
+                            });
+
                             boolean boo2 = securityUtil.repairpermissions(headerVo,AuthoirtyEnum.DRUGTEST);
                             if (boo2) {
                                 ledenCollectDrugtestService.saveMapToRepository(data, head.getUserUnitCode());

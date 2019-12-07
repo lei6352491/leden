@@ -93,9 +93,10 @@ public class UploadRunnable implements Runnable {
             //7.通知省厅
             String s = uploadProvinceComponent.uploadData(mis.getPersonInfo().getPersonId(),
                     equipmentCode, new StringBuffer("/").append(equipmentCode).append("/").append(mis.getPersonInfo().getPersonId()).append(".zip").toString());
+            log.info(s);
             if (s != null) {
                 Map result = (Map) JSON.parse(s);
-                String key = result.get("status1").toString();
+                String key = result.get("status").toString();
                 switch (key) {
                     case "1":
                         ledenUploadLogService.uploadLogStatusByPersonCode(DataReportComponent.UPLOAD_STATUS.UPLOADED.getValue(), uploadLogPkId, "已上传");

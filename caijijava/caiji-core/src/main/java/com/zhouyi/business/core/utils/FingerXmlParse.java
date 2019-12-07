@@ -261,9 +261,6 @@ public class FingerXmlParse {
         }
         T resultObject = null;
         if (targetClass.isMemberClass()) {
-            System.out.println("该类的构造方法有" + targetClass.getConstructors().length);
-            System.out.println("查看构造方法:" + targetClass.getConstructors()[0]);
-            System.out.println("使用该构造初始化一个内部类:" + targetClass.getConstructors()[0]);
             if (targetClass.getDeclaringClass() != null) {
                 //实例化外部对象
                 Class<?> outClass = targetClass.getDeclaringClass();
@@ -357,13 +354,7 @@ public class FingerXmlParse {
                     createUserIdField.set(x,createUserId);
 
                     Field createDateTimeField=extractFieldAndSetAccess(clazz,"createDatetime");
-                    try {
-                        Date date=new SimpleDateFormat("yyyymmddHHMMss").parse(collectTime);
-                        createDateTimeField.set(x,date);
-                    } catch (ParseException e) {
-                        logger.error("奈印时间错误:"+e.getMessage()+",使用系统默认值");
-                        createDateTimeField.set(x,new Date());
-                    }
+                    createDateTimeField.set(x,new Date());
                     return false;
                 } catch (IllegalAccessException e) {
                     logger.error("字段不允许访问:"+e.getMessage());

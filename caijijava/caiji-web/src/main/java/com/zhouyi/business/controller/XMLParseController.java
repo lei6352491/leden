@@ -14,6 +14,7 @@ import com.zhouyi.business.utils.FileStoreUtils;
 import com.zhouyi.business.utils.JsoupParseXmlUtils;
 import com.zhouyi.business.utils.XMLParamUtils;
 import io.swagger.annotations.Api;
+import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+@ToString
 @RestController
 @RequestMapping(value = "/collectWebService")
 @Api(hidden = true)
@@ -203,10 +205,6 @@ public class XMLParseController {
                     String ryjcxxcjbh = uploadFileMessage.getDataBrief().getUploadPacket().substring(0, indexOf);
 
 
-//                存储zip数据包信息
-                    fileStoreUtils.automaticSavaPacket(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, uploadFileMessage.getDataBrief().getUploadPacket(), "000000000000", path, headerVo.getUSER_UNIT_CODE());
-
-
                     logger.info("zip入库成功");
                     //2.解析数据
                     //获取文件名，用于拼接文件路劲
@@ -302,6 +300,11 @@ public class XMLParseController {
 
                     }
 
+
+                    //存储zip数据包信息
+                    fileStoreUtils.automaticSavaPacket(uploadFileMessage.getEquipmentCode(), ryjcxxcjbh, uploadFileMessage.getDataBrief().getUploadPacket(), "000000000000", path, headerVo.getUSER_UNIT_CODE());
+
+
                     return ResponseUtil.returnError(ReturnCode.SUCCESS);
                 } else {
                     return ResponseUtil.returnError(ReturnCode.ERROR_1128);
@@ -344,5 +347,6 @@ public class XMLParseController {
         }
         return null;
     }
+
 
 }
