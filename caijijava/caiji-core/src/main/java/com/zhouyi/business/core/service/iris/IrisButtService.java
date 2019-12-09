@@ -29,4 +29,12 @@ public interface IrisButtService {
      * @return
      */
     IrisComparsion irisCheck(String rybh);
+
+    /**
+     * 获取代码信息
+     * @return
+     */
+    String getCodeMessage(String codeType,String pId);
+
+
 }

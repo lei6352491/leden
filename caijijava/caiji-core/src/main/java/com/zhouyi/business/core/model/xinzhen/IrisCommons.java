@@ -13,15 +13,18 @@ import java.util.Date;
  **/
 @Data
 public class IrisCommons extends IdSecretVersion {
-    static {
-       setYwfssj();
-    }
+
 
     /**
      * 请求任务号
      * 规则：HMBD-12 位请求方公安机关机构代码-18 位设备厂商代码-8 位请求日期-8 位日流水号
      */
     private String request_id;
+
+    public void setRequest_id(String request_id) {
+        this.request_id = request_id;
+        setYwfssj();
+    }
 
     /**
      * 业务发生时间
@@ -162,7 +165,7 @@ public class IrisCommons extends IdSecretVersion {
     /**
      * 设置业务发生时间
      */
-    private static void setYwfssj() {
+    private void setYwfssj() {
         this.ywfssj = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     }
 }

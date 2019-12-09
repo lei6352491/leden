@@ -36,5 +36,10 @@ public class IrisButtController {
     public IrisComparsion irisComparsion(String rybh){
        return irisButtService.irisCheck(rybh);
     }
+    
 
+    @RequestMapping(value = "/iris/getCodeMsg")
+    public Object getCodeMessage(String codeType,String pId){
+        return irisButtService.getCodeMessage(codeType,pId);
+    }
 }
