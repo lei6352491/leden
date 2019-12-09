@@ -12,6 +12,7 @@ import lombok.ToString;
 public class IrisCommonsSecond extends IrisCommons {
    private String zjbz="0";
    private String lrbz="1";
+   private String bcjr_zjlxdm;
    private String bcjr_zjhm;
    private String bcjr_xm;
    private String bcjr_xb;
