@@ -13,6 +13,9 @@ import java.util.Date;
  **/
 @Data
 public class IrisCommons extends IdSecretVersion {
+    static {
+       setYwfssj();
+    }
 
     /**
      * 请求任务号
@@ -159,7 +162,7 @@ public class IrisCommons extends IdSecretVersion {
     /**
      * 设置业务发生时间
      */
-    public void setYwfssj() {
+    private static void setYwfssj() {
         this.ywfssj = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     }
 }
