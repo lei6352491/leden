@@ -396,7 +396,7 @@
         left join leden_collect_iris iris on iris.ryjcxxcjbh=person.ryjcxxcjbh
         left join sys_user us on person.CREATE_USER_ID=us.user_code
         left join sys_unit unit on person.CJDWDM=unit.unit_code
-        left join (select unit_code,CHAMBER_TYPE from leden_equipment) equipment on unit.unit_code=equipment.unit_code
+        left join (select unit_code,CHAMBER_TYPE from leden_equipment group by unit_code, CHAMBER_TYPE) equipment on unit.unit_code=equipment.unit_code
         where person.ryjcxxcjbh=#{rybh} and iris.hmywdm='0'
     </sql>
     <sql id="Commons_Fields_Second">
