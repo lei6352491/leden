@@ -8,18 +8,18 @@ import lombok.Data;
  * @Description: 虹膜比对实体
 **/
 @Data
-public class IrisComparsion extends IrisCommons{
+public class IrisComparsion extends IrisCommonsSecond{
 
     /**
      * 签发机关
      */
-    private String bcjrQfjg;
+    private String bcjr_qfjg;
 
 
     /**
      * 有效日期
      */
-    private String bcjrYxqx;
+    private String bcjr_yxqx;
 
 
 }

@@ -12,10 +12,10 @@ public class IdSecret {
    /**
     * 请求方id
     */
-   private String clientId;
+   private String client_id;
 
    /**
     * 请求方秘钥
     */
-   private String clientSecret;
+   private String client_secret;
 }

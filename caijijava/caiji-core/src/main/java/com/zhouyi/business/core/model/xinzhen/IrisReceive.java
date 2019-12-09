@@ -1,6 +1,7 @@
 package com.zhouyi.business.core.model.xinzhen;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @Author: first
@@ -8,24 +9,25 @@ import lombok.Data;
  * @Description: 虹膜接收服务实体
 **/
 @Data
-public class IrisReceive extends IrisCommons{
+@ToString(callSuper = true)
+public class IrisReceive extends IrisCommonsSecond{
 
     /**
      * 被采集人的人员类别
      */
-    private String bcjrRylb;
+    private String bcjr_rylb;
 
 
     /**
      * 签发机关
      */
-    private String bcjrZjqfjg;
+    private String bcjr_zjqfjg;
 
 
     /**
      * 有效期限
      */
-    private String bcjrZjyxqx;
+    private String bcjr_zjyxqx;
 
 
     /**

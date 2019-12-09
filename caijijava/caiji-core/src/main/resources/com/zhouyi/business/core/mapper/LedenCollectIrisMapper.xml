@@ -339,7 +339,8 @@
         <result column="sbcsdm2" property="sbcsdm"/>
     </resultMap>
 
-    <resultMap id="standardIrisResultMapNew" type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris"
+    <resultMap id="standardIrisResultMapNew"
+               type="com.zhouyi.business.core.model.provincecomprehensive.pojo.StandardIris"
                extends="BaseResultMap">
         <result column="HMCJSBXHDM" property="hmcjsbxhdm"/>
         <result column="sbbh" property="sbbh"/>
@@ -351,10 +352,22 @@
   </select>
 
 
+    <sql id="Commons_Fields">
+        person.create_user_id,user_unit_code,unit_name,sbcsdm,hmcjsbxhdm,sbbh,
+        CHAMBER_TYPE,UNIT_LONGITUDE,UNIT_LATITUDE,cjbh,
+        user_name,USER_IDCARDNO,hmcjhs,
+        (select XXZLDF from leden_collect_iris where ryjcxxcjbh=iris.ryjcxxcjbh and hmywdm='0') left_score,
+        (select XXZLDF from leden_collect_iris where ryjcxxcjbh=iris.ryjcxxcjbh and hmywdm='1') right_score
+        ,iris.RYJCXXCJBH,
+        (select 0 from dual) hmywdm_left,
+        (select 1 from dual) hmywdm_right
+    </sql>
+
+
     <resultMap id="commonsResultMap" type="com.zhouyi.business.core.model.xinzhen.IrisCommons">
-        <result column="create_user_id" property="userId"/>
-        <result column="user_unit_code" property="userDept"/>
-        <result column="unit_name" property="userDeptname"/>
+        <result column="create_user_id" property="user_id"/>
+        <result column="user_unit_code" property="user_dept"/>
+        <result column="unit_name" property="user_deptname"/>
         <result column="sbcsdm" property="sbcsdm"/>
         <result column="hmcjsbxhdm" property="hmcjsbxhdm"/>
         <result column="sbbh" property="sbbh"/>
@@ -362,19 +375,90 @@
         <result column="UNIT_LONGITUDE" property="jd"/>
         <result column="UNIT_LATITUDE" property="wd"/>
         <result column="cjbh" property="cjbh"/>
-        <result column="user_name" property="cjrXm"/>
-        <result column="USER_IDCARDNO" property="cjrGmsfhm"/>
-        <result column="left_data" property="hmzpZy"/>
-        <result column="right_data" property="hmzpYy"/>
-        <result column="hmzpYy" property="cjtphs"/>
-        <result column="left_score" property="zyXxzlpf"/>
-        <result column="right_score" property="yyXxzlpf"/>
-        <result column="RYLBDM" property="bcjrRylb"/>
-        <result column="cjbz" property="cjbz"/>
+        <result column="user_name" property="cjr_xm"/>
+        <result column="USER_IDCARDNO" property="cjr_gmsfhm"/>
+        <result column="hmcjhs" property="cjtphs"/>
+        <result column="left_score" property="zy_xxzlpf"/>
+        <result column="right_score" property="yy_xxzlpf"/>
 
+        <association property="hmzp_zy" select="getIrisData"
+                     column="{ryjcxxcjbh=ryjcxxcjbh,hmywdm=hmywdm_left}"></association>
+        <association property="hmzp_yy" select="getIrisData"
+                     column="{ryjcxxcjbh=ryjcxxcjbh,hmywdm=hmywdm_right}"></association>
+    </resultMap>
+    <!--    查询虹膜数据-->
+    <select id="getIrisData" resultType="_byte" parameterType="java.util.HashMap">
+        select hmsj from leden_collect_iris where RYJCXXCJBH=#{ryjcxxcjbh} and  hmywdm=#{hmywdm}
+    </select>
+
+    <sql id="Commons_Search_SQL">
+        leden_collect_person person
+        left join leden_collect_iris iris on iris.ryjcxxcjbh=person.ryjcxxcjbh
+        left join sys_user us on person.CREATE_USER_ID=us.user_code
+        left join sys_unit unit on person.CJDWDM=unit.unit_code
+        left join leden_equipment equipment on unit.unit_code=equipment.unit_code
+        where person.ryjcxxcjbh=#{_parameter}
+    </sql>
+    <sql id="Commons_Fields_Second">
+        CYZJDM,ZJHM,XM,XBDM,MZDM,GJDM,CSRQ,HJDXZ,XZDXZ,lxdh,JDXP
+    </sql>
+
+    <!--    第二个公共部分-->
+    <resultMap id="Second_Commons_resultMap" type="com.zhouyi.business.core.model.xinzhen.IrisCommonsSecond"
+               extends="commonsResultMap">
+        <result column="CYZJDM" property="bcjr_zjlxdm"/>
+        <result column="ZJHM" property="bcjr_zjhm"/>
+        <result column="XM" property="bcjr_xm"/>
+        <result column="XBDM" property="bcjr_xb"/>
+        <result column="MZDM" property="bcjr_mz"/>
+        <result column="GJDM" property="bcjr_gj"/>
+        <result column="CSRQ" property="bcjr_csrq"/>
+        <result column="HJDXZ" property="bcjr_hjdz"/>
+        <result column="XZDXZ" property="bcjr_jzdz"/>
+        <result column="lxdh" property="bcjr_sjhm1"/>
+        <result column="JDXP" property="zjzp"/>
     </resultMap>
 
 
+    <!--    第一个接口——虹膜采集服务-->
+    <resultMap id="Iris_Collect_ResultMap" type="com.zhouyi.business.core.model.xinzhen.IrisReceive"
+               extends="Second_Commons_resultMap">
+        <result column="RYLBDM" property="bcjr_rylb"/>
+        <result column="annex" property="cjbz"/>
+    </resultMap>
+
+
+    <select id="irisCollectSearch" resultMap="Iris_Collect_ResultMap">
+        select
+        <include refid="Commons_Fields"></include>,
+        <include refid="Commons_Fields_Second"></include>
+        ,rylbdm,iris.ANNEX
+        from
+        <include refid="Commons_Search_SQL"></include>
+    </select>
+
+
+    <!--    //第二个接口-->
+    <select id="selectCommons" resultMap="commonsResultMap">
+        select
+        <include refid="Commons_Fields"></include>
+        from
+        <include refid="Commons_Search_SQL"></include>
+    </select>
+
+
+    <!--    第三个接口-虹膜查验服务-->
+    <resultMap id="Iris_Comparseion_ResultMap" type="com.zhouyi.business.core.model.xinzhen.IrisComparsion"
+               extends="Second_Commons_resultMap">
+    </resultMap>
+    <select id="irisComparsionSearch" resultMap="Iris_Comparseion_ResultMap">
+        select
+        <include refid="Commons_Fields"></include>,
+        <include refid="Commons_Fields_Second"></include>
+        ,rylbdm,iris.ANNEX
+        from
+        <include refid="Commons_Search_SQL"></include>
+    </select>
 
 
 </mapper>

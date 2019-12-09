@@ -65,6 +65,7 @@
     </select>
 
 
+
     <resultMap id="nodeResultMap" type="com.zhouyi.business.core.model.CollectInfo">
         <result column="collectNum" property="collectNum"/>
         <result column="node_name" property="nodeName"/>
@@ -85,11 +86,12 @@
             and pc.collect_date>=#{startDate} and pc.collect_date&lt;=#{endDate}
         </if>
         group by pc.collect_node_id
-
-
         ) info
         on info.collect_node_id=n.node_code) snd order by nodecode
 
     </select>
+
+
+
 
 </mapper>

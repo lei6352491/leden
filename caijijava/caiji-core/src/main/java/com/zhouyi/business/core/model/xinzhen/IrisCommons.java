@@ -1,6 +1,7 @@
 package com.zhouyi.business.core.model.xinzhen;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +18,7 @@ public class IrisCommons extends IdSecretVersion {
      * 请求任务号
      * 规则：HMBD-12 位请求方公安机关机构代码-18 位设备厂商代码-8 位请求日期-8 位日流水号
      */
-    private String requestId;
+    private String request_id;
 
     /**
      * 业务发生时间
@@ -28,19 +29,19 @@ public class IrisCommons extends IdSecretVersion {
     /**
      * 用户id
      */
-    private String userId;
+    private String user_id;
 
 
     /**
      * 用户部门代码
      */
-    private String userDept;
+    private String user_dept;
 
 
     /**
      * 用户部门名称
      */
-    private String userDeptname;
+    private String user_deptname;
 
     /**
      * 设备厂商代码
@@ -91,13 +92,13 @@ public class IrisCommons extends IdSecretVersion {
     /**
      * 采集人姓名
      */
-    private String cjrXm;
+    private String cjr_xm;
 
 
     /**
      * 用户公民身份号码
      */
-    private String cjrGmsfhm;
+    private String cjr_gmsfhm;
 
     /**
      * 强制采集标志
@@ -126,13 +127,15 @@ public class IrisCommons extends IdSecretVersion {
     /**
      * 虹膜左眼照片
      */
-    private byte hmzpZy;
+    @ToString.Exclude
+    private byte[] hmzp_zy;
 
 
     /**
      * 虹膜右眼代码
      */
-    private byte hmzpYy;
+    @ToString.Exclude
+    private byte[] hmzp_yy;
 
 
     /**
@@ -145,12 +148,12 @@ public class IrisCommons extends IdSecretVersion {
      * 左眼虹膜照片信息质量评分。3 位数值型字符串,根据左右眼采集
      * 代码选择填写
      */
-    private String zyXxzlpf;
+    private String zy_xxzlpf;
 
     /**
      * 右眼虹膜照片信息质量评分
      */
-    private String yyXxzlpf;
+    private String yy_xxzlpf;
 
 
     /**

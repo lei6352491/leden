@@ -2,6 +2,9 @@ package com.zhouyi.business.core.dao;
 
 
 import com.zhouyi.business.core.model.LedenCollectIris;
+import com.zhouyi.business.core.model.xinzhen.IrisCommons;
+import com.zhouyi.business.core.model.xinzhen.IrisComparsion;
+import com.zhouyi.business.core.model.xinzhen.IrisReceive;
 import com.zhouyi.business.core.vo.LedenCollectIrisVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +17,13 @@ public interface LedenCollectIrisMapper
     List<LedenCollectIris> selectDataByPersonCode(String id);
 
     int deleteDataByPersonCode(String id);
+
+
+    IrisReceive irisCollectSearch(String rybh);
+
+    IrisCommons selectCommons(String rybh);
+
+    IrisComparsion irisComparsionSearch(String rybh);
 
 
 }
