@@ -387,7 +387,7 @@
                      column="{ryjcxxcjbh=ryjcxxcjbh,hmywdm=hmywdm_right}"></association>
     </resultMap>
     <!--    查询虹膜数据-->
-    <select id="getIrisData" resultType="_byte" parameterType="java.util.HashMap">
+    <select id="getIrisData" resultType="byte" parameterType="java.util.HashMap">
         select hmsj from leden_collect_iris where RYJCXXCJBH=#{ryjcxxcjbh} and  hmywdm=#{hmywdm}
     </select>
 
