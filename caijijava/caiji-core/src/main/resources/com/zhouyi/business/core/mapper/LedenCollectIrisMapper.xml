@@ -359,8 +359,9 @@
         (select XXZLDF from leden_collect_iris where ryjcxxcjbh=iris.ryjcxxcjbh and hmywdm='0') left_score,
         (select XXZLDF from leden_collect_iris where ryjcxxcjbh=iris.ryjcxxcjbh and hmywdm='1') right_score
         ,iris.RYJCXXCJBH,
-        (select 0 from dual) hmywdm_left,
-        (select 1 from dual) hmywdm_right
+        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{ryjcxxcjbh} and  hmywdm='0' ) hmzp_zy,
+        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{ryjcxxcjbh} and  hmywdm='1' ) hmzp_yy
+
     </sql>
 
 
@@ -381,10 +382,10 @@
         <result column="left_score" property="zy_xxzlpf"/>
         <result column="right_score" property="yy_xxzlpf"/>
 
-        <association property="hmzp_zy" select="getIrisData"
-                     column="{ryjcxxcjbh=ryjcxxcjbh,hmywdm=hmywdm_left}"></association>
-        <association property="hmzp_yy" select="getIrisData"
-                     column="{ryjcxxcjbh=ryjcxxcjbh,hmywdm=hmywdm_right}"></association>
+<!--        <association property="hmzp_zy" select="getIrisData"-->
+<!--                     column="{ryjcxxcjbh=ryjcxxcjbh,hmywdm=hmywdm_left}"></association>-->
+<!--        <association property="hmzp_yy" select="getIrisData"-->
+<!--                     column="{ryjcxxcjbh=ryjcxxcjbh,hmywdm=hmywdm_right}"></association>-->
     </resultMap>
     <!--    查询虹膜数据-->
     <select id="getIrisData" resultType="_byte[]" parameterType="java.util.HashMap">
