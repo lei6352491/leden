@@ -7,6 +7,7 @@ import com.zhouyi.business.core.model.xinzhen.IrisComparsion;
 import com.zhouyi.business.core.model.xinzhen.IrisReceive;
 import com.zhouyi.business.core.vo.LedenCollectIrisVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,11 +20,11 @@ public interface LedenCollectIrisMapper
     int deleteDataByPersonCode(String id);
 
 
-    IrisReceive irisCollectSearch(String rybh);
+    IrisReceive irisCollectSearch(@Param(value = "rybh") String rybh);
 
-    IrisCommons selectCommons(String rybh);
+    IrisCommons selectCommons(@Param(value="rybh") String rybh);
 
-    IrisComparsion irisComparsionSearch(String rybh);
+    IrisComparsion irisComparsionSearch(@Param(value = "rybh") String rybh);
 
 
 }

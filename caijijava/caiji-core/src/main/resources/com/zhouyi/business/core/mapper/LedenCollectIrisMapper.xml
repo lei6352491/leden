@@ -359,9 +359,8 @@
         (select XXZLDF from leden_collect_iris where ryjcxxcjbh=iris.ryjcxxcjbh and hmywdm='0') left_score,
         (select XXZLDF from leden_collect_iris where ryjcxxcjbh=iris.ryjcxxcjbh and hmywdm='1') right_score
         ,iris.RYJCXXCJBH,
-        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{ryjcxxcjbh} and  hmywdm='0' ) hmzp_zy,
-        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{ryjcxxcjbh} and  hmywdm='1' ) hmzp_yy
-
+        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{rybh} and  hmywdm='0' ) hmzp_zy,
+        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{rybh} and  hmywdm='1' ) hmzp_yy
     </sql>
 
 
@@ -397,8 +396,8 @@
         left join leden_collect_iris iris on iris.ryjcxxcjbh=person.ryjcxxcjbh
         left join sys_user us on person.CREATE_USER_ID=us.user_code
         left join sys_unit unit on person.CJDWDM=unit.unit_code
-        left join leden_equipment equipment on unit.unit_code=equipment.unit_code
-        where person.ryjcxxcjbh=#{_parameter}
+        left join (select unit_code,CHAMBER_TYPE from leden_equipment) equipment on unit.unit_code=equipment.unit_code
+        where person.ryjcxxcjbh=#{rybh} and iris.hmywdm='0'
     </sql>
     <sql id="Commons_Fields_Second">
         CYZJDM,ZJHM,XM,XBDM,MZDM,GJDM,CSRQ,HJDXZ,XZDXZ,lxdh,JDXP
