@@ -128,8 +128,8 @@ criminal-investigation:
     client_secret: shenzhenlianteng
     version: 1.0
   interfaces:
-    iris_collect_interface: xxxxx/xxx
-    iris_examine_interface: xxxxx/xxx
-    iris_check_interface: xxxx/xxxx
-    getCodeMessage_interface: xxxx/xxxx
+    iris_collect_interface: http://api.xz.xz.ga/iris/regIris
+    iris_examine_interface: http://api.xz.xz.ga/iris/irisInspection
+    iris_check_interface: http://api.xz.xz.ga/iris/irisCheck
+    getCodeMessage_interface: http://api.xz.xz.ga/common/codeTree/que
 
