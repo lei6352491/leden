@@ -1,8 +1,10 @@
 package com.zhouyi.business.core.vo;
 
+import lombok.ToString;
 import org.apache.http.HttpStatus;
 
 
+@ToString
 public class ResponseVo {
 
 	public int status;
