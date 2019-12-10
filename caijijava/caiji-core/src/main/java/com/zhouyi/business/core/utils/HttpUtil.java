@@ -107,7 +107,7 @@ public class HttpUtil {
         httpPost.setEntity(httpEntity);
 
         LOGGER.info(httpEntity.toString());
-        // 请求
+        // 请getClient求
         HttpResponse response = getClient().execute(httpPost);
 
         if (response == null) {
@@ -120,11 +120,11 @@ public class HttpUtil {
         // 返回结果处理
         ResponseVo responseVo = new ResponseVo();
 
-        log.info("调用结果:" + response);
 
         responseVo.setStatus(response.getStatusLine().getStatusCode());
         responseVo.setData(EntityUtils.toString(response.getEntity(), "UTF-8"));
 
+        log.info("调用结果:" + responseVo);
 
         return responseVo;
     }
