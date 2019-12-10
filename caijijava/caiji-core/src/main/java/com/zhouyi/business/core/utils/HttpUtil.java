@@ -328,7 +328,6 @@ public class HttpUtil {
         }
         log.info("传入参数:");
         NameValuePair[] nameValuePairs = new NameValuePair[data.size()];
-        data.forEach(x -> System.out.println(x));
         postMethod.setRequestBody(data.toArray(nameValuePairs));
         org.apache.commons.httpclient.HttpClient httpClient = new org.apache.commons.httpclient.HttpClient();
         int response = httpClient.executeMethod(postMethod);
