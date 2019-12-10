@@ -120,6 +120,8 @@ public class HttpUtil {
         // 返回结果处理
         ResponseVo responseVo = new ResponseVo();
 
+        log.info("调用结果:" + response);
+
         responseVo.setStatus(response.getStatusLine().getStatusCode());
         responseVo.setData(EntityUtils.toString(response.getEntity(), "UTF-8"));
 
@@ -273,8 +275,8 @@ public class HttpUtil {
 
             httpEntity = new StringEntity(data.toJSONString());
             httpEntity.setContentEncoding("utf-8");
-//			httpEntity.setContentType("application/json");
-            httpEntity.setContentType("application/x-www-form-urlencoded");
+			httpEntity.setContentType("application/json");
+//            httpEntity.setContentType("application/x-www-form-urlencoded");
         }
 
 

@@ -53,8 +53,8 @@ public class IrisButtServiceImpl implements IrisButtService{
         //调用接口
 
         try {
-            HttpUtil.sendPostByform(irisCollectInterface,JSON.parseObject(JSONObject.toJSONString(irisReceive),Map.class));
-        } catch (IOException e) {
+            HttpUtil.sendPostByJson(irisCollectInterface,JSON.parseObject(JSONObject.toJSONString(irisReceive),Map.class));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return irisReceive;
