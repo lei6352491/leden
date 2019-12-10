@@ -168,4 +168,9 @@ public class IrisCommons extends IdSecretVersion {
     private void setYwfssj() {
         this.ywfssj = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     }
+
+    public void setUser_deptname(String user_deptname) {
+        this.user_deptname = user_deptname;
+        this.dzmc=user_deptname;
+    }
 }

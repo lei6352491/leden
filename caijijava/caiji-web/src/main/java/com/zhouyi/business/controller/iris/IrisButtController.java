@@ -26,20 +26,26 @@ public class IrisButtController {
     }
 
 
+
     @RequestMapping(value = "/iris/examine")
     public IrisCommons irisExamine(String rybh){
        return irisButtService.irisExamine(rybh);
     }
 
 
+
     @RequestMapping(value = "/iris/check")
     public IrisComparsion irisComparsion(String rybh){
        return irisButtService.irisCheck(rybh);
     }
-    
+
+
 
     @RequestMapping(value = "/iris/getCodeMsg")
     public Object getCodeMessage(String codeType,String pId){
         return irisButtService.getCodeMessage(codeType,pId);
     }
+
+
+
 }

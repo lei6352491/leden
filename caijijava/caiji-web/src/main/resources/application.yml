@@ -76,8 +76,8 @@ finger:
     port: 21
 
 xmlParse:
-    ftp:
-      path: ftp://test:123456@192.168.1.152
+  ftp:
+    path: ftp://test:123456@192.168.1.152
 
 
 #山东省综平台的配置
@@ -96,7 +96,7 @@ provinceComprehensive:
     dataNumber: /htmisWebService/person/postCreateId
     dataUpload: /htmisWebService/comparison/postUploadData
     getUploadStatus: /htmisWebService/person/getDataState
-#    idCardSearch: /htmisWebService/query/getCountrywideInfo
+  #    idCardSearch: /htmisWebService/query/getCountrywideInfo
   generate:
     dir: /usr/local/temp/  #生成zip、xml、jgp临时路劲
   upload:
@@ -127,3 +127,9 @@ criminal-investigation:
     client_id: shenzhenlianteng
     client_secret: shenzhenlianteng
     version: 1.0
+  interfaces:
+    iris_collect_interface: xxxxx/xxx
+    iris_examine_interface: xxxxx/xxx
+    iris_check_interface: xxxx/xxxx
+    getCodeMessage_interface: xxxx/xxxx
+
