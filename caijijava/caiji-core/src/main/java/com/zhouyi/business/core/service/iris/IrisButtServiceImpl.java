@@ -114,7 +114,7 @@ public class IrisButtServiceImpl implements IrisButtService{
      * @return
      */
     private String generatorRequestId(String equipmentVendorCode,String unitCode){
-        StringBuffer requestId=new StringBuffer("HMCJ-");
+        StringBuffer requestId=new StringBuffer("HMCJ-").append(unitCode);
         requestId.append(equipmentVendorCode).append(new SimpleDateFormat("yyyyMMdd").format(new Date()))
                 .append(MathUtil.generateRandomCode(8));
         return requestId.toString();
