@@ -49,7 +49,7 @@ public class IrisButtServiceImpl implements IrisButtService{
     public IrisReceive irisCollect(String rybh) {
         IrisReceive irisReceive = ledenCollectIrisMapper.irisCollectSearch(rybh);
         BeanUtils.copyProperties(idSecretVersion,irisReceive);
-        setRequestId(irisReceive);
+        setRequestId(irisReceive,irisReceive.getUser_dept());
         //调用接口
 
         try {
@@ -63,7 +63,7 @@ public class IrisButtServiceImpl implements IrisButtService{
     @Override
     public IrisCommons irisExamine(String rybh) {
         IrisCommons irisCommons = ledenCollectIrisMapper.selectCommons(rybh);
-        setRequestId(irisCommons);
+        setRequestId(irisCommons,irisCommons.getUser_dept());
         try {
             HttpUtil.sendPostByform(irisExamineInterface,JSON.parseObject(JSONObject.toJSONString(irisCommons),Map.class));
         } catch (IOException e) {
@@ -75,7 +75,7 @@ public class IrisButtServiceImpl implements IrisButtService{
     @Override
     public IrisComparsion irisCheck(String rybh) {
         IrisComparsion irisComparsion = ledenCollectIrisMapper.irisComparsionSearch(rybh);
-        setRequestId(irisComparsion);
+        setRequestId(irisComparsion,irisComparsion.getUser_dept());
 
         try {
             HttpUtil.sendPostByform(irisCheckInterface,JSON.parseObject(JSONObject.toJSONString(irisComparsion),Map.class));
@@ -104,8 +104,8 @@ public class IrisButtServiceImpl implements IrisButtService{
         return responseVo.getData();
     }
 
-    private void setRequestId(IrisCommons irisCommons){
-        irisCommons.setRequest_id(generatorRequestId(irisCommons.getSbcsdm()));
+    private void setRequestId(IrisCommons irisCommons,String unitCode){
+        irisCommons.setRequest_id(generatorRequestId(irisCommons.getSbcsdm(),unitCode));
     }
 
     /**
@@ -113,8 +113,8 @@ public class IrisButtServiceImpl implements IrisButtService{
      * @param equipmentVendorCode
      * @return
      */
-    private String generatorRequestId(String equipmentVendorCode){
-        StringBuffer requestId=new StringBuffer("HMCJ-12");
+    private String generatorRequestId(String equipmentVendorCode,String unitCode){
+        StringBuffer requestId=new StringBuffer("HMCJ-");
         requestId.append(equipmentVendorCode).append(new SimpleDateFormat("yyyyMMdd").format(new Date()))
                 .append(MathUtil.generateRandomCode(8));
         return requestId.toString();
