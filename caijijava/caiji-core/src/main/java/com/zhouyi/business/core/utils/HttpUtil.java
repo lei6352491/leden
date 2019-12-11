@@ -105,7 +105,6 @@ public class HttpUtil {
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setEntity(httpEntity);
-
         LOGGER.info(httpEntity.toString());
         // 请getClient求
         HttpResponse response = getClient().execute(httpPost);
@@ -274,7 +273,7 @@ public class HttpUtil {
             }
 
             httpEntity = new StringEntity(data.toJSONString());
-            httpEntity.setContentEncoding("utf-8");
+//            httpEntity.setContentEncoding("utf-8");
 			httpEntity.setContentType("application/json");
 //            httpEntity.setContentType("application/x-www-form-urlencoded");
         }
