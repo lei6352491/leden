@@ -21,7 +21,7 @@ public class MathUtil {
      */
     public static String generateRandomCode(int length){
         StringBuffer randomCode=new StringBuffer();
-        for (int i=1;i<length;i++){
+        for (int i=1;i<=length;i++){
             randomCode.append(random.nextInt(10));
         }
         return randomCode.toString();
