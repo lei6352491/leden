@@ -275,7 +275,7 @@ public class HttpUtil {
                 data.put(parameName, params.get(parameName));
             }
 
-            httpEntity = new StringEntity(data.toJSONString());
+            httpEntity = new StringEntity(data.toJSONString(),Charset.forName("unicode"));
 			httpEntity.setContentType("application/json");
 			httpEntity.setContentEncoding("UNICODE");
 
