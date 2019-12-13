@@ -39,6 +39,6 @@ public class IrisCommonsSecond extends IrisCommons {
    }
 
    public void setBcjr_csrq(String bcjr_csrq) {
-      this.bcjr_csrq = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(bcjr_csrq);
+      this.bcjr_csrq = bcjr_csrq.substring(bcjr_csrq.indexOf(" "));
    }
 }
