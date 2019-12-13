@@ -3,6 +3,8 @@ package com.zhouyi.business.core.model.xinzhen;
 import lombok.Data;
 import lombok.ToString;
 
+import java.text.SimpleDateFormat;
+
 /**
  * @Author: first
  * @Date: 下午3:10 2019/12/9
@@ -34,5 +36,9 @@ public class IrisCommonsSecond extends IrisCommons {
       if(zjzp!=null&&zjzp.length>0){
          this.zjbz="1";
       }
+   }
+
+   public void setBcjr_csrq(String bcjr_csrq) {
+      this.bcjr_csrq = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(bcjr_csrq);
    }
 }
