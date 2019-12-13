@@ -3,6 +3,7 @@ package com.zhouyi.business.core.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -104,6 +106,7 @@ public class HttpUtil {
         LOGGER.info("HttpUtil sendPost method invoke url is :" + url + "|<- params ->|" + httpEntity == null ? httpEntity.toString() : null);
 
         HttpPost httpPost = new HttpPost(url);
+        httpPost.setHeader("Accept","application/json");
         httpPost.setEntity(httpEntity);
         LOGGER.info(httpEntity.toString());
         // 请getClient求
@@ -272,9 +275,10 @@ public class HttpUtil {
                 data.put(parameName, params.get(parameName));
             }
 
-            httpEntity = new StringEntity(data.toJSONString(),"UTF-8");
+            httpEntity = new StringEntity(data.toJSONString(), Charset.forName("utf-8"));
 //            httpEntity.setContentEncoding("utf-8");
 			httpEntity.setContentType("application/json;charset=UTF-8");
+
 //            httpEntity.setContentType("application/x-www-form-urlencoded");
         }
 
