@@ -274,7 +274,7 @@ public class HttpUtil {
 
             httpEntity = new StringEntity(data.toJSONString());
 //            httpEntity.setContentEncoding("utf-8");
-			httpEntity.setContentType("application/json");
+			httpEntity.setContentType("application/json;charset=UTF-8");
 //            httpEntity.setContentType("application/x-www-form-urlencoded");
         }
 
