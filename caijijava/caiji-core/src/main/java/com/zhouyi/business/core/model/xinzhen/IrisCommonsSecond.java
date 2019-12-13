@@ -39,6 +39,6 @@ public class IrisCommonsSecond extends IrisCommons {
    }
 
    public void setBcjr_csrq(String bcjr_csrq) {
-      this.bcjr_csrq = bcjr_csrq.substring(bcjr_csrq.indexOf(" "));
+      this.bcjr_csrq = bcjr_csrq.substring(0,bcjr_csrq.indexOf(" "));
    }
 }
