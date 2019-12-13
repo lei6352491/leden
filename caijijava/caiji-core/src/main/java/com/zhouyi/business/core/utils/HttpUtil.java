@@ -275,9 +275,9 @@ public class HttpUtil {
                 data.put(parameName, params.get(parameName));
             }
 
-            httpEntity = new StringEntity(data.toJSONString(), Charset.forName("utf-8"));
+            httpEntity = new StringEntity(data.toJSONString(), Charset.forName("gbk"));
 //            httpEntity.setContentEncoding("utf-8");
-			httpEntity.setContentType("application/json;charset=UTF-8");
+			httpEntity.setContentType("application/json;charset=gbk");
 
 //            httpEntity.setContentType("application/x-www-form-urlencoded");
         }
