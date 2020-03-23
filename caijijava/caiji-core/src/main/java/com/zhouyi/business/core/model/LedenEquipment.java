@@ -42,6 +42,16 @@ public class LedenEquipment implements Serializable {
 
     private String unitName;
 
+    private String provinceNumber;
+
+    public String getProvinceNumber() {
+        return provinceNumber;
+    }
+
+    public void setProvinceNumber(String provinceNumber) {
+        this.provinceNumber = provinceNumber;
+    }
+
     /**
      * 省综编码
      */

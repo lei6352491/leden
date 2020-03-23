@@ -275,9 +275,9 @@ public class HttpUtil {
                 data.put(parameName, params.get(parameName));
             }
 
-            httpEntity = new StringEntity(data.toJSONString(),Charset.forName("ISO-8859-1"));
+            httpEntity = new StringEntity(data.toJSONString(),"UTF-8");
+            httpEntity.setContentEncoding("UTF-8");
 			httpEntity.setContentType("application/json");
-			httpEntity.setContentEncoding("ISO-8859-1");
 
         }
 

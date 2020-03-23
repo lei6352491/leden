@@ -8,6 +8,8 @@ import com.zhouyi.business.core.model.xinzhen.*;
 import com.zhouyi.business.core.utils.HttpUtil;
 import com.zhouyi.business.core.utils.MathUtil;
 import com.zhouyi.business.core.vo.ResponseVo;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,9 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: first
@@ -49,9 +49,25 @@ public class IrisButtServiceImpl implements IrisButtService{
     public IrisReceive irisCollect(String rybh) {
         IrisReceive irisReceive = ledenCollectIrisMapper.irisCollectSearch(rybh);
         BeanUtils.copyProperties(idSecretVersion,irisReceive);
+
+        irisReceive.setCjcd("11");
+        irisReceive.setUser_dept("370321230000");
+        irisReceive.setCjr_xm("李秸康");
+        irisReceive.setDzmc("果里派出所");
+        irisReceive.setUser_deptname("果里派出所");
+        irisReceive.setBcjr_xm("沈卫国");
+        irisReceive.setBcjr_hjdz("中国北京");
+        irisReceive.setBcjr_jzdz("中国北京");
+        irisReceive.setUser_id("430602199809205534");
+        irisReceive.setCjr_gmsfhm("430602199809205534");
+
+
+
         setRequestId(irisReceive,irisReceive.getUser_dept());
         //调用接口
 
+        irisReceive.setHmzp_zy_byte(null);
+        irisReceive.setHmzp_zy_byte(null);
         try {
             HttpUtil.sendPostByJson(irisCollectInterface,JSON.parseObject(JSONObject.toJSONString(irisReceive),Map.class));
         } catch (Exception e) {
@@ -121,4 +137,6 @@ public class IrisButtServiceImpl implements IrisButtService{
         return requestId.toString();
 
     }
+
+
 }

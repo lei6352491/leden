@@ -163,6 +163,8 @@ public class LedenEquipmentServiceImpl implements LedenEquipmentService {
         }
         LedenEquipment ledenEquipment=new LedenEquipment();
         BeanUtils.copyProperties(ledenEquipmentvo,ledenEquipment);
+        ledenEquipment.setProvinceNumber(ledenEquipmentvo.getProvincialEquipmentCode());
+        ledenEquipment.setProvincialEquipmentCode(ledenEquipmentvo.getProvincialEquipmentCode());
         ledenEquipment.setCreateDatetime(new Date());
 
         StringBuffer equipCodeBuffer=new StringBuffer();

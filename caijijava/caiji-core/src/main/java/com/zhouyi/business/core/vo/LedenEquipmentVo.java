@@ -72,6 +72,16 @@ public class LedenEquipmentVo implements Serializable {
     @ApiModelProperty(value = "更新时间(不传)")
     private Date updateDatetime;
 
+    private String provinceNumber;
+
+
+    public String getProvinceNumber() {
+        return provinceNumber;
+    }
+
+    public void setProvinceNumber(String provinceNumber) {
+        this.provinceNumber = provinceNumber;
+    }
 
     private String provincialEquipmentCode;
 

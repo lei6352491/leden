@@ -3,7 +3,7 @@ spring:
     poolName: zhouyi-pool
     type: com.mchange.v2.c3p0.ComboPooledDataSource
     driverClassName: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@192.168.1.152:1521:CAIJI
+    url: jdbc:oracle:thin:@192.168.1.153:1521:orcl
     user: tiger
     password: tiger
 
@@ -70,14 +70,14 @@ finger:
   dir: /home/leden/finger
   ftp:
     dir: /finger/old/
-    user: test
-    password: 123456
-    ip: 192.168.1.152
+    user: admin
+    password: adminlt
+    ip: 192.168.1.153
     port: 21
 
 xmlParse:
   ftp:
-    path: ftp://test:123456@192.168.1.152
+    path: ftp://admin:adminlt@192.168.1.153
 
 
 #山东省综平台的配置
@@ -102,11 +102,12 @@ provinceComprehensive:
   upload:
     user: lianteng
     password: lianteng2018
+  open-registration: true #如果为false则需要手动将省厅的编号存入数据库
 
 
 Script:
   src:
-    host: 192.168.1.152
+    host: 192.168.1.153
     port: 22
     user: root
     password: 123456
@@ -128,8 +129,8 @@ criminal-investigation:
     client_secret: shenzhenlianteng
     version: 1.0
   interfaces:
-    iris_collect_interface: http://122.49.35.37:43980/iris/regIris
-    iris_examine_interface: http://122.49.35.37:43980/iris/irisInspection
-    iris_check_interface: http://122.49.35.37:43980/iris/irisCheck
-    getCodeMessage_interface: http://122.49.35.37:43980/common/codeTree/que
+    iris_collect_interface: http://39.104.107.195:8888/iris/regIris
+    iris_examine_interface: http://39.104.107.195:8888/iris/irisInspection
+    iris_check_interface: http://39.104.107.195:8888/iris/irisCheck
+    getCodeMessage_interface: http://39.104.107.195:8888/common/codeTree/que
 

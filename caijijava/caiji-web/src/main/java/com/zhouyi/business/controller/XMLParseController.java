@@ -310,6 +310,7 @@ public class XMLParseController {
                     return ResponseUtil.returnError(ReturnCode.ERROR_1128);
                 }
             } else {
+                logger.info("权限验证失败");
                 return ResponseUtil.returnError(ReturnCode.ERROR_1027);
             }
         } catch (AuthenticationException e) {

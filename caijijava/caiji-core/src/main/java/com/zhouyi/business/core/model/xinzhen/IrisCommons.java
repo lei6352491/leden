@@ -2,6 +2,7 @@ package com.zhouyi.business.core.model.xinzhen;
 
 import lombok.Data;
 import lombok.ToString;
+import sun.misc.BASE64Encoder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -80,13 +81,13 @@ public class IrisCommons extends IdSecretVersion {
     /**
      * 经度
      */
-    private String jd;
+    private String jd="";
 
 
     /**
      * 纬度
      */
-    private String wd;
+    private String wd="";
 
 
     /**
@@ -109,40 +110,25 @@ public class IrisCommons extends IdSecretVersion {
     /**
      * 强制采集标志
      */
-    private String qzcjbz="0";
+    private String qzcjbz = "0";
 
 
     /**
      * 左右眼采集代码
      */
-    private String zyycjdm="3";
+    private String zyycjdm = "3";
 
 
     /**
      * 左眼缺失情况代码
      */
-    private String zyqsqkdm="0";
+    private String zyqsqkdm = "0";
 
 
     /**
      * 右眼确实情况代码
      */
-    private String yyqsqkdm="0";
-
-
-    /**
-     * 虹膜左眼照片
-     */
-    @ToString.Exclude
-    private byte[] hmzp_zy;
-
-
-    /**
-     * 虹膜右眼代码
-     */
-    @ToString.Exclude
-    private byte[] hmzp_yy;
-
+    private String yyqsqkdm = "0";
 
     /**
      * 采集耗时
@@ -163,6 +149,45 @@ public class IrisCommons extends IdSecretVersion {
 
 
     /**
+     * 虹膜左眼照片
+     */
+    @ToString.Exclude
+    private byte[] hmzp_zy_byte;
+
+
+    /**
+     * 虹膜右眼代码
+     */
+    @ToString.Exclude
+    private byte[] hmzp_yy_byte;
+
+
+    /**
+     * 虹膜左眼base64
+     */
+    private String hmzp_zy;
+
+    /**
+     * 虹膜右眼base64
+     */
+    private String hmzp_yy;
+
+
+    public void setHmzp_zy_byte(byte[] hmzp_zy_byte) {
+        this.hmzp_zy_byte = hmzp_zy_byte;
+        if (hmzp_zy_byte != null) {
+            this.hmzp_zy = new BASE64Encoder().encode(hmzp_zy_byte);
+        }
+    }
+
+    public void setHmzp_yy_byte(byte[] hmzp_yy_byte) {
+        this.hmzp_yy_byte = hmzp_yy_byte;
+        if (hmzp_yy_byte != null) {
+            this.hmzp_yy = new BASE64Encoder().encode(hmzp_yy_byte);
+        }
+    }
+
+    /**
      * 设置业务发生时间
      */
     private void setYwfssj() {
@@ -171,6 +196,6 @@ public class IrisCommons extends IdSecretVersion {
 
     public void setUser_deptname(String user_deptname) {
         this.user_deptname = user_deptname;
-        this.dzmc=user_deptname;
+        this.dzmc = user_deptname;
     }
 }

@@ -62,6 +62,9 @@ public class LedenEquipmentController {
 
     @Autowired
     private ProvinceFtpUtil provinceFtpUtil;
+
+    @Value("${provinceComprehensive.open-registration}")
+    private boolean open_registration;
     /**
      * 分页获取设备信息
      * @param ledenEquipmentDto
@@ -155,10 +158,27 @@ public class LedenEquipmentController {
      */
     @ApiOperation(value = "接入注册")
     @RequestMapping(value = "/applyRegisterClient", method = RequestMethod.POST)
-    public Response<String> collectNodeRegister(@RequestBody LedenEquipmentVo ledenEquipmentVo) throws Exception {
+    public Response<String> collectNodeRegister(@RequestBody LedenEquipmentVo ledenEquipmentVo){
         ledenEquipmentVo.setPkId(UUID.randomUUID().toString().substring(0, 32));
+
+        //先定义临时编号
+        String provinceNumber="";
         //向省厅发起注册
-        String provinceNumber = postRegisterClient(ledenEquipmentVo.getUnitCode(), ledenEquipmentVo.getEquipmentIp(), ledenEquipmentVo.getEquipmentMac());
+        if(open_registration){
+            //开启想省综注册
+            try {
+                provinceNumber = postRegisterClient(ledenEquipmentVo.getUnitCode(), ledenEquipmentVo.getEquipmentIp(), ledenEquipmentVo.getEquipmentMac());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseUtil.ntrError(e.getMessage());
+
+            }
+        }else{
+            logger.info("当前向省综注册为关闭状态,并且接收到的省综编号为:"+ledenEquipmentVo.getProvinceNumber());
+            //关闭向省综注册(表示该设备已经注册过了,该设备向本平台注册时会携带省综编号)
+            provinceNumber=ledenEquipmentVo.getProvinceNumber();
+        }
+        logger.info("编号为:"+provinceNumber);
         if(provinceNumber!=null&&!"".equals(provinceNumber)){
             ledenEquipmentVo.setProvincialEquipmentCode(provinceNumber);
             String equipmentCode = ledenEquipmentService.collectNodeRegister(ledenEquipmentVo);

@@ -202,6 +202,9 @@
       <if test="updateDatetime != null" >
         UPDATE_DATETIME,
       </if>
+      <if test="provincialEquipmentCode!=null">
+        PROVINCIAL_EQUIPMENT_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{pkId},
@@ -255,6 +258,9 @@
       </if>
       <if test="updateDatetime != null" >
         #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provincialEquipmentCode!=null">
+        #{provincialEquipmentCode}
       </if>
     </trim>
   </insert>

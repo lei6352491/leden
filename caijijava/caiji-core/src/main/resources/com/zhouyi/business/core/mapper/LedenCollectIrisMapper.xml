@@ -359,8 +359,8 @@
         (select XXZLDF from leden_collect_iris where ryjcxxcjbh=iris.ryjcxxcjbh and hmywdm='0') left_score,
         (select XXZLDF from leden_collect_iris where ryjcxxcjbh=iris.ryjcxxcjbh and hmywdm='1') right_score
         ,iris.RYJCXXCJBH,
-        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{rybh} and  hmywdm='0' ) hmzp_zy,
-        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{rybh} and  hmywdm='1' ) hmzp_yy
+        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{rybh} and  hmywdm='0' ) hmzp_zy_byte,
+        (select hmsj from leden_collect_iris where RYJCXXCJBH=#{rybh} and  hmywdm='1' ) hmzp_yy_byte
     </sql>
 
 

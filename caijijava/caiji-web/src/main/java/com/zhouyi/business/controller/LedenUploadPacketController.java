@@ -6,6 +6,7 @@ import com.zhouyi.business.core.model.*;
 import com.zhouyi.business.core.service.LedenUploadPacketService;
 import com.zhouyi.business.core.utils.ResponseUtil;
 import com.zhouyi.business.core.vo.LedenConllectPersonVo2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import java.util.Date;
  **/
 @RestController
 @RequestMapping(value = "/api/uploadPacket")
+@Slf4j
 public class LedenUploadPacketController {
 
     @Autowired
@@ -130,11 +132,13 @@ public class LedenUploadPacketController {
         URL url = new URL(ledenUploadPacket.getFileLocation());
         FtpURLConnection ftpURLConnection = new FtpURLConnection(url);
         ftpURLConnection.connect();
+        log.info("ftp连接已打开\n");
         InputStream inputStream = ftpURLConnection.getInputStream();
         BufferedInputStream bufferedInputStream = null;
         try {
             bufferedInputStream = new BufferedInputStream(inputStream);
 
+            log.info("文件缓冲区中数据量大小为:"+bufferedInputStream.available());
             ServletOutputStream outputStream = response.getOutputStream();
             response.reset();
             response.setHeader("Content-Type","application/octet-stream");
