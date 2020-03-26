@@ -22,6 +22,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -334,6 +335,9 @@ public class HttpUtil {
         NameValuePair[] nameValuePairs = new NameValuePair[data.size()];
         postMethod.setRequestBody(data.toArray(nameValuePairs));
         org.apache.commons.httpclient.HttpClient httpClient = new org.apache.commons.httpclient.HttpClient();
+        //设置连接3000毫秒
+        httpClient.setConnectionTimeout(3000);
+
         int response = httpClient.executeMethod(postMethod);
         log.info("调用结果:" + response);
 
